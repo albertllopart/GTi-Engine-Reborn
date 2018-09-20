@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleAudio.h"
+#include <list>
+
 
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
@@ -53,12 +55,13 @@ bool ModuleAudio::CleanUp()
 	{
 		Mix_FreeMusic(music);
 	}
+	//std change
 
-	p2List_item<Mix_Chunk*>* item;
+	std::list<Mix_Chunk*>::iterator* item;
 
-	for(item = fx.getFirst(); item != NULL; item = item->next)
+	for(item = fx.begin(); item != NULL; item = item++)
 	{
-		Mix_FreeChunk(item->data);
+		Mix_FreeChunk(item->_Ptr->_Myval);
 	}
 
 	fx.clear();

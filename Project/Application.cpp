@@ -27,12 +27,12 @@ Application::Application()
 
 Application::~Application()
 {
-	p2List_item<Module*>* item = list_modules.getLast();
+	std::vector<Module*>::iterator item = list_modules.back();
 
 	while(item != NULL)
 	{
-		delete item->data;
-		item = item->prev;
+		delete item->_Ptr;
+		item = item--;
 	}
 }
 
@@ -41,17 +41,17 @@ bool Application::Init()
 	bool ret = true;
 
 	// Call Init() in all modules
-	p2List_item<Module*>* item = list_modules.getFirst();
-
+	std::vector<Module*>::iterator* item = list_modules.begin();
+	
 	while(item != NULL && ret == true)
 	{
 		ret = item->data->Init();
-		item = item->next;
+		item = item->next;//++
 	}
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
-	item = list_modules.getFirst();
+	item = list_modules.begin();
 
 	while(item != NULL && ret == true)
 	{
@@ -81,7 +81,7 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	
-	p2List_item<Module*>* item = list_modules.getFirst();
+	std::vector<Module*> item = list_modules.begin();
 	
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
@@ -112,11 +112,11 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
-	p2List_item<Module*>* item = list_modules.getLast();
+	std::vector<Module*> item = list_modules.back();
 
 	while(item != NULL && ret == true)
 	{
-		ret = item->data->CleanUp();
+		ret = item->data->CleanUp();//needs tweak
 		item = item->prev;
 	}
 	return ret;
@@ -124,5 +124,5 @@ bool Application::CleanUp()
 
 void Application::AddModule(Module* mod)
 {
-	list_modules.add(mod);
+	list_modules.push_back(mod);
 }
