@@ -22,6 +22,9 @@
     <Filter Include="Sources\MathGeoLib">
       <UniqueIdentifier>{3421c205-835d-46ad-9dab-faf394cc395f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\PCG">
+      <UniqueIdentifier>{bd1ec4ef-4529-4c00-9a50-3c7178001527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -282,6 +285,15 @@
     <ClInclude Include="MathGeoLib\Time\Clock.h">
       <Filter>Sources\MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="pcg-c-0.94\extras\entropy.h">
+      <Filter>Sources\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg-c-0.94\extras\pcg_spinlock.h">
+      <Filter>Sources\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg-c-0.94\include\pcg_variants.h">
+      <Filter>Sources\PCG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -439,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\Time\Clock.cpp">
       <Filter>Sources\MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="pcg-c-0.94\extras\entropy.c">
+      <Filter>Sources\PCG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
