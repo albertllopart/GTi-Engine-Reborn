@@ -1,7 +1,8 @@
 
 #pragma once
-#include "glmath.h"
 #include "Color.h"
+#include "MathGeoLib/Math/float4x4.h"
+#include "MathGeoLib/Math/float3.h"
 
 enum PrimitiveTypes
 {
@@ -22,14 +23,14 @@ public:
 	virtual void	Render() const;
 	virtual void	InnerRender() const;
 	void			SetPos(float x, float y, float z);
-	void			SetRotation(float angle, const vec3 &u);
+	void			SetRotation(float angle, const float3 &u);
 	void			Scale(float x, float y, float z);
 	PrimitiveTypes	GetType() const;
 
 public:
 	
 	Color color;
-	mat4x4 transform;
+	float4x4 transform;
 	bool axis,wire;
 
 protected:
@@ -37,33 +38,33 @@ protected:
 };
 
 // ============================================
-class Cube : public Primitive
+class pCube : public Primitive
 {
 public :
-	Cube();
-	Cube(float sizeX, float sizeY, float sizeZ);
+	pCube();
+	pCube(float sizeX, float sizeY, float sizeZ);
 	void InnerRender() const;
 public:
-	vec3 size;
+	float3 size;
 };
 
 // ============================================
-class Sphere : public Primitive
+class pSphere : public Primitive
 {
 public:
-	Sphere();
-	Sphere(float radius);
+	pSphere();
+	pSphere(float radius);
 	void InnerRender() const;
 public:
 	float radius;
 };
 
 // ============================================
-class Cylinder : public Primitive
+class pCylinder : public Primitive
 {
 public:
-	Cylinder();
-	Cylinder(float radius, float height);
+	pCylinder();
+	pCylinder(float radius, float height);
 	void InnerRender() const;
 public:
 	float radius;
@@ -71,25 +72,25 @@ public:
 };
 
 // ============================================
-class Line : public Primitive
+class pLine : public Primitive
 {
 public:
-	Line();
-	Line(float x, float y, float z);
+	pLine();
+	pLine(float x, float y, float z);
 	void InnerRender() const;
 public:
-	vec3 origin;
-	vec3 destination;
+	float3 origin;
+	float3 destination;
 };
 
 // ============================================
-class Plane : public Primitive
+class pPlane : public Primitive
 {
 public:
-	Plane();
-	Plane(float x, float y, float z, float d);
+	pPlane();
+	pPlane(float x, float y, float z, float d);
 	void InnerRender() const;
 public:
-	vec3 normal;
+	float3 normal;
 	float constant;
 };

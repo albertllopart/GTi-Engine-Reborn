@@ -15,7 +15,7 @@
 /** @file Clock.cpp
 	@brief */
 
-#if defined(__unix__) || defined(__EMSCRIPTEN__) || defined(ANDROID) || defined(__APPLE__) || defined (__CYGWIN__)
+#if defined(__unix__) || defined(__native_client__) || defined(EMSCRIPTEN) || defined(ANDROID) || defined(__APPLE__) || defined (__CYGWIN__)
 #include <time.h>
 #include <errno.h>
 #include <string.h>
@@ -26,7 +26,7 @@
 #include <windows.h>
 #endif
 
-#ifdef __EMSCRIPTEN__
+#ifdef EMSCRIPTEN
 #include <emscripten.h>
 #endif
 
@@ -35,13 +35,14 @@
 #endif
 
 #include "Clock.h"
+#include <time.h>
 #include "../Math/myassert.h"
 #include "../Math/assume.h"
 
 MATH_BEGIN_NAMESPACE
 
 #ifdef WIN32
-u64 Clock::ddwTimerFrequency;
+LARGE_INTEGER Clock::ddwTimerFrequency;
 #endif
 
 #ifdef __APPLE__
@@ -58,10 +59,11 @@ void Clock::InitClockData()
 		appStartTime = Tick();
 
 #ifdef WIN32
-	if (!QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&ddwTimerFrequency)))
+	if (!QueryPerformanceFrequency(&ddwTimerFrequency))
 	{
 		LOGE("The system doesn't support high-resolution timers!");
-		ddwTimerFrequency = (u64)-1;
+		ddwTimerFrequency.HighPart = (unsigned long)-1;
+		ddwTimerFrequency.LowPart = (unsigned long)-1;
 	}
 
 	if (appStartTime == 0)
@@ -99,17 +101,17 @@ Clock::Clock()
 void Clock::Sleep(int milliseconds)
 {
 #ifdef WIN8RT
-#pragma warning(Clock::Sleep has not been implemented!)
+#pragma WARNING(Clock::Sleep has not been implemented!)
 #elif defined(WIN32)
 	::Sleep(milliseconds);
-#elif !defined(__EMSCRIPTEN__)
+#elif !defined(__native_client__) && !defined(EMSCRIPTEN)
 	// http://linux.die.net/man/2/nanosleep
 	//timespec ts;
 	//ts.tv_sec = milliseconds / 1000;
 	//ts.tv_nsec = (milliseconds - ts.tv_sec * 1000) * 1000 * 1000;
 	//int ret = nanosleep(&ts, NULL);
 	//if (ret == -1)
-	//	LOGI("nanosleep returned -1! Reason: %s(%d).", strerror(errno), (int)errno);
+		//LOGI("nanosleep returned -1! Reason: %s(%d).", strerror(errno), (int)errno);
 #else
 #warning Clock::Sleep has not been implemented!
 #endif
@@ -216,7 +218,7 @@ tick_t Clock::ApplicationStartupTick()
 */
 unsigned long Clock::Time()
 {
-	return (unsigned long)((Tick() - appStartTime) * 1000 / Clock::TicksPerSec());
+	return (unsigned long)(Tick() - appStartTime);
 }
 
 tick_t Clock::Tick()
@@ -225,16 +227,11 @@ tick_t Clock::Tick()
 	struct timespec res;
 	clock_gettime(CLOCK_REALTIME, &res);
 	return 1000000000ULL*res.tv_sec + (tick_t)res.tv_nsec;
-#elif defined(__EMSCRIPTEN__)
-
-#ifdef MATH_TICK_IS_FLOAT
-	return (tick_t)emscripten_get_now();
-#else
+#elif defined(EMSCRIPTEN)
 	// emscripten_get_now() returns a wallclock time as a float in milliseconds (1e-3).
 	// scale it to microseconds (1e-6) and return as a tick.
 	return (tick_t)(((double)emscripten_get_now()) * 1e3);
-#endif
-
+//	return (tick_t)clock();
 #elif defined(WIN32)
 	LARGE_INTEGER ddwTimer;
 	BOOL success = QueryPerformanceCounter(&ddwTimer);
@@ -273,16 +270,11 @@ tick_t Clock::TicksPerSec()
 {
 #if defined(ANDROID)
 	return 1000000000ULL; // 1e9 == nanoseconds.
-#elif defined(__EMSCRIPTEN__)
-
-#ifdef MATH_TICK_IS_FLOAT
-	return (tick_t)1000.0;
-#else
+#elif defined(EMSCRIPTEN)
 	return 1000000ULL; // 1e6 == microseconds.
-#endif
-
+//	return CLOCKS_PER_SEC;
 #elif defined(WIN32)
-	return ddwTimerFrequency;
+	return ddwTimerFrequency.QuadPart;
 #elif defined(__APPLE__)
 	return ticksPerSecond;
 #elif defined(_POSIX_MONOTONIC_CLOCK)
@@ -294,21 +286,21 @@ tick_t Clock::TicksPerSec()
 #endif
 }
 
-//unsigned long long Clock::Rdtsc()
-//{
-//#if defined(_MSC_VER) && !defined(WIN8PHONE)
-//	return __rdtsc();
-//#elif defined(__x86_64__)
-//	unsigned hi, lo;
-//	__asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
-//	return ((unsigned long long)lo) | (((unsigned long long)hi) << 32);
-//#elif defined(__i386__) || defined(__X86__) || defined(_X86_)
-//	unsigned long long int x;
-//	__asm__ volatile ("rdtsc" : "=A" (x));
-//	return x;
-//#else
-//	return Clock::Tick();
-//#endif
-//}
+/*unsigned long long Clock::Rdtsc()
+{
+#if defined(_MSC_VER) && !defined(WIN8PHONE)
+	return __rdtsc();
+#elif defined(__x86_64__)
+	unsigned hi, lo;
+	__asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
+	return ((unsigned long long)lo) | (((unsigned long long)hi) << 32);
+#elif defined(__i386__) || defined(__X86__) || defined(_X86_)
+	unsigned long long int x;
+	__asm__ volatile ("rdtsc" : "=A" (x));
+	return x;
+#else
+	return Clock::Tick();
+#endif
+}*/
 
 MATH_END_NAMESPACE
