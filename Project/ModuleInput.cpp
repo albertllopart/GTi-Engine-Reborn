@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleRNG.h"
 
 #define MAX_KEYS 300
 
@@ -116,6 +117,12 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	if(quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;
+
+	if (keyboard[SDL_SCANCODE_0] == KEY_DOWN)
+	{
+		float random = App->rng->RandomFloat();
+		LOG("random = %f", random);
+	}
 
 	return UPDATE_CONTINUE;
 }

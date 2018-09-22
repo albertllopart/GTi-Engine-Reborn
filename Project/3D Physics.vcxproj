@@ -86,6 +86,9 @@
     <ClInclude Include="ImGui\stb_textedit.h" />
     <ClInclude Include="ImGui\stb_truetype.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MathGeoLib\Algorithm\GJK.h" />
+    <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
+    <ClInclude Include="MathGeoLib\Algorithm\SAT.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB2D.h" />
     <ClInclude Include="MathGeoLib\Geometry\Capsule.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleImGui.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
+    <ClInclude Include="ModuleRNG.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -174,6 +178,8 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MathGeoLib\Algorithm\GJK.cpp" />
+    <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Capsule.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Circle.cpp" />
@@ -214,6 +220,7 @@
     <ClCompile Include="ModuleImGui.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
+    <ClCompile Include="ModuleRNG.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="pcg-c-0.94\extras\entropy.c" />
     <ClCompile Include="Primitive.cpp" />

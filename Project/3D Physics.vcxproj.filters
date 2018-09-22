@@ -25,6 +25,9 @@
     <Filter Include="Sources\PCG">
       <UniqueIdentifier>{bd1ec4ef-4529-4c00-9a50-3c7178001527}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\MathGeoLib\Random LCG">
+      <UniqueIdentifier>{55fc0b38-f5a7-446d-9448-164990e231fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -294,6 +297,18 @@
     <ClInclude Include="pcg-c-0.94\include\pcg_variants.h">
       <Filter>Sources\PCG</Filter>
     </ClInclude>
+    <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h">
+      <Filter>Sources\MathGeoLib\Random LCG</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Algorithm\GJK.h">
+      <Filter>Sources\MathGeoLib\Random LCG</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\Algorithm\SAT.h">
+      <Filter>Sources\MathGeoLib\Random LCG</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRNG.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -454,6 +469,15 @@
     </ClCompile>
     <ClCompile Include="pcg-c-0.94\extras\entropy.c">
       <Filter>Sources\PCG</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp">
+      <Filter>Sources\MathGeoLib\Random LCG</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\Algorithm\GJK.cpp">
+      <Filter>Sources\MathGeoLib\Random LCG</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleRNG.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
