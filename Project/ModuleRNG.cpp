@@ -19,6 +19,15 @@ bool ModuleRNG::Init()
 	return ret;
 }
 
+bool ModuleRNG::Start()
+{
+	random_pSphere = new pSphere();
+	random_pSphere->SetPos(0, 0, 0);
+
+	random_pCylinder = new pCylinder();
+	random_pCylinder->SetPos(0, 0, 0);
+}
+
 // Called before quitting
 bool ModuleRNG::CleanUp()
 {

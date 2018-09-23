@@ -1,9 +1,10 @@
-
 #include "Globals.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Primitive.h"
+
 #include "MathGeoLib/Math/TransformOps.h"
+#include "MathGeoLib/Math/MathConstants.h"
 
 
 // ------------------------------------------------------------
@@ -20,7 +21,8 @@ PrimitiveTypes Primitive::GetType() const
 void Primitive::Render() const
 {
 	glPushMatrix();
-	//glMultMatrixf(transform.M);
+	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
+
 	// GEOLIB
 	if(axis == true)
 	{
@@ -85,6 +87,7 @@ void Primitive::SetPos(float x, float y, float z)
 {
 	// GEOLIB
 	//transform.translate(x, y, z);
+	transform = float4x4::Translate(x, y, z).ToFloat4x4() * transform;
 }
 
 // ------------------------------------------------------------
@@ -92,6 +95,7 @@ void Primitive::SetRotation(float angle, const float3 &u)
 {
 	// GEOLIB
 	//transform.rotate(angle, u);
+	transform = float4x4::RotateAxisAngle(u, angle) * transform;
 }
 
 // ------------------------------------------------------------
@@ -99,6 +103,7 @@ void Primitive::Scale(float x, float y, float z)
 {
 	// GEOLIB
 	//transform.scale(x, y, z);
+	transform = float4x4::Scale(x, y, z).ToFloat4x4() * transform;
 }
 
 // CUBE ============================================

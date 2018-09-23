@@ -5,6 +5,8 @@
 #include "pcg-c-0.94/include/pcg_variants.h"
 #include <list>
 
+#include "Primitive.h"
+
 class ModuleRNG : public Module
 {
 public:
@@ -13,6 +15,7 @@ public:
 	~ModuleRNG();
 
 	bool Init();
+	bool Start();
 	bool CleanUp();
 
 	float RandomFloat();
@@ -22,6 +25,11 @@ private:
 
 	pcg32_random_t floatseed;
 	pcg_state_setseq_64 intbound;
+
+	//primitives
+	pSphere* random_pSphere;
+	pCylinder* random_pCylinder;
+	
 };
 
 #endif // __ModuleRNG_H__
