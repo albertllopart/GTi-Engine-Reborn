@@ -27,15 +27,16 @@ bool ModuleRNG::CleanUp()
 	return true;
 }
 
-float ModuleRNG::RandomFloat() const
+float ModuleRNG::RandomFloat()
 {
-	pcg32_random_t myrng;
-	return ldexp(pcg32_random_r(&myrng), -32);
+	return ldexp(pcg32_random_r(&floatseed), -32);
 }
 
-int ModuleRNG::RandomInt(int min, int max) const
+int ModuleRNG::RandomInt(int min, int max)
 {
-	return 1;
+	uint bound = max - min + 1;
+
+	return pcg32_boundedrand_r(&intbound, bound);
 }
 
 

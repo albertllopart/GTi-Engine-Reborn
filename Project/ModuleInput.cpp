@@ -120,8 +120,14 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	if (keyboard[SDL_SCANCODE_0] == KEY_DOWN)
 	{
+		int random = App->rng->RandomInt(0, 3);
+		LOG("random int = %i", random);
+	}
+
+	if (keyboard[SDL_SCANCODE_9] == KEY_DOWN)
+	{
 		float random = App->rng->RandomFloat();
-		LOG("random = %f", random);
+		LOG("random float = %f", random);
 	}
 
 	return UPDATE_CONTINUE;

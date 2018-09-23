@@ -15,12 +15,13 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	float RandomFloat() const;
-	int RandomInt(int min, int max) const;
+	float RandomFloat();
+	int RandomInt(int min, int max);
 
 private:
 
-	
+	pcg32_random_t floatseed;
+	pcg_state_setseq_64 intbound;
 };
 
 #endif // __ModuleRNG_H__
