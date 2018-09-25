@@ -35,6 +35,9 @@ private:
 	float lastMs = 0;
 	std::list<Module*> list_modules;
 
+	int capped_ms;
+	int max_fps = 60;
+
 public:
 
 	Application();
@@ -46,6 +49,7 @@ public:
 
 	float GetFPS();
 	float GetMs();
+	int* GetMaxFPS();
 
 private:
 

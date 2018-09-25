@@ -113,6 +113,10 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		ImGui::Text("Options");
 		if (ImGui::CollapsingHeader("Application"))
 		{
+		
+			ImGui::InputText("App Name", "GTi-Engine", 30);
+			ImGui::InputText("Organization", "UPC CITM", 30);
+			ImGui::SliderInt("Max FPS", App->GetMaxFPS(), 0, 300);
 
 			PerformanceGraphCalc(App->GetFPS(), App->GetMs());
 			char title[25];

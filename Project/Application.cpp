@@ -54,6 +54,7 @@ bool Application::Init()
 	}
 	
 	ms_timer.Start();
+	capped_ms = 1000 / max_fps;
 	return ret;
 }
 
@@ -62,6 +63,9 @@ void Application::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
 	ms_timer.Start();
+
+	if (max_fps > 0)
+		capped_ms = 1000 / max_fps;
 }
 
 // ---------------------------------------------
@@ -70,6 +74,12 @@ void Application::FinishUpdate()
 	dt = (float)ms_timer.Read() / 1000.0f - dt;
 	lastFPS = 1.0f / dt;
 	lastMs = (float)ms_timer.Read();
+
+	if (capped_ms > 0 && lastMs < capped_ms)
+	{
+		SDL_Delay(capped_ms - lastMs);
+		LOG("We waited for %d milliseconds", capped_ms - lastMs);
+	}
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -125,10 +135,15 @@ void Application::AddModule(Module* mod)
 
 float Application::GetFPS()
 {
-	return lastFPS;
+	return lastFPS * -1;
 }
 
 float Application::GetMs()
 {
 	return lastMs;
-} 	
+} 
+
+int* Application::GetMaxFPS()
+{
+	return &max_fps;
+}
