@@ -169,13 +169,10 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				App->window->SetFullDesktop(App->window->fulldesktop);
 
 		}
-		if (ImGui::CollapsingHeader("File System"))
-		{
-
-		}
+		
 		if (ImGui::CollapsingHeader("Hardware"))
 		{
-
+			ImGui::Text("SDL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "2.0.4");
 		}
 	}
 	ImGui::End();
