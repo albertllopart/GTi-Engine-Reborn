@@ -31,6 +31,8 @@ private:
 
 	Timer	ms_timer;
 	float	dt;
+	float lastFPS = 0;
+	float lastMs = 0;
 	std::list<Module*> list_modules;
 
 public:
@@ -42,9 +44,13 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	float GetFPS();
+	float GetMs();
+
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
 };

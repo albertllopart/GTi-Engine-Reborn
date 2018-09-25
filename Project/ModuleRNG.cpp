@@ -26,6 +26,8 @@ bool ModuleRNG::Start()
 
 	random_pCylinder = new pCylinder();
 	random_pCylinder->SetPos(0, 0, 0);
+
+	return true;
 }
 
 // Called before quitting

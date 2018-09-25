@@ -16,8 +16,23 @@ public:
 	update_status Update(float dt);
 	update_status PreUpdate(float dt);
 
-	bool demo = false;
+	void ShowConfigurationMenu(bool* opened = NULL);
+	void PerformanceGraphCalc(float fps, float ms);
 public:
+
+	bool demo = false;
+	bool showconsole = false;
+	bool config_menu = false;
+	bool fullscreen;
+	bool fulldesktop;
+	bool borderless;
+	int winWidth;
+	int winHeight;
+	float brightness;
+
+	std::vector<float> FPSvec;
+	std::vector<float> MSvec;
+
 
 };
 

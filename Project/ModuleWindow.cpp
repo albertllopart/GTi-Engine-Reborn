@@ -97,3 +97,47 @@ SDL_Window * ModuleWindow::GetWindowPtr()
 {
 	return window;
 }
+
+void ModuleWindow::SetFullscreen(bool fullscreen)
+{
+	Uint32 flags;
+	if (fullscreen)
+	{
+		flags |= SDL_WINDOW_FULLSCREEN;
+	}
+	SDL_SetWindowFullscreen(window, flags);
+}
+
+void ModuleWindow::ResizeWindow(int width, int height)
+{
+	this->width = width;
+	this->height = height;
+	SDL_SetWindowSize(window, width, height);
+}
+
+void ModuleWindow::SetBrightness(float value)
+{
+	SDL_SetWindowBrightness(window, value);
+}
+
+void ModuleWindow::SetBorderless(bool borderless)
+{
+	if (borderless)
+	{
+		SDL_SetWindowBordered(window, SDL_FALSE);
+	}
+	else
+	{
+		SDL_SetWindowBordered(window, SDL_TRUE);
+	}
+}
+
+void ModuleWindow::SetFullDesktop(bool fullDesktop)
+{
+	Uint32 flags;
+	if (fullDesktop == true)
+	{
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
+	SDL_SetWindowFullscreen(window, flags);
+}

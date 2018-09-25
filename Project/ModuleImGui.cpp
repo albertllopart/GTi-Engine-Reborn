@@ -8,6 +8,10 @@
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
 
+#define MAX_FPS_CAP 60
+
+
+
 ModuleImGui::ModuleImGui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -32,18 +36,58 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Quit"))
+			{
+				return UPDATE_STOP;
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Console"))
+			{
+				showconsole = !showconsole;
+			}
+			if (ImGui::MenuItem("Configuration"))
+			{
+				config_menu = !config_menu;
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			if (ImGui::MenuItem("ImGui Demo"))
+			{
+				demo = !demo;
+			}
+			if (ImGui::MenuItem("Documentation"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/albertllopart/GTi-Engine-Reborn/blob/master/README.md", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::MenuItem("Latest Release"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/albertllopart/GTi-Engine-Reborn/releases", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::MenuItem("Report a bug"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/albertllopart/GTi-Engine-Reborn/issues", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 
-	if (ImGui::Button("Open Demo", ImVec2(100, 30)))
+	if (config_menu)
 	{
-		demo = true;
+		ShowConfigurationMenu();
 	}
-	if (ImGui::Button("Close Demo", ImVec2(100, 30)))
+	if (showconsole)
 	{
-		demo = false;
-	}
-	if (ImGui::Button("Close program", ImVec2(100, 30)))
-	{
-		return UPDATE_STOP;
+
 	}
 	if (demo)
 	{
@@ -58,4 +102,84 @@ bool ModuleImGui::CleanUp()
 	LOG("Unloading Intro scene");
 	ImGui_ImplSdlGL3_Shutdown();
 	return true;
+}
+
+void ModuleImGui::ShowConfigurationMenu(bool* opened)
+{
+	if (ImGui::Begin("Configuration"))
+	{
+
+		ImGui::PushItemWidth(-140);                                 
+		ImGui::Text("Options");
+		if (ImGui::CollapsingHeader("Application"))
+		{
+
+			PerformanceGraphCalc(App->GetFPS(), App->GetMs());
+			char title[25];
+			sprintf_s(title, 25, "Framerate %.1f", FPSvec[FPSvec.size() - 1]);
+			ImGui::PlotHistogram("##framerate", &FPSvec[0], FPSvec.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+			sprintf_s(title, 25, "Milliseconds %0.1f", MSvec[MSvec.size() - 1]);
+			ImGui::PlotHistogram("##milliseconds", &MSvec[0], MSvec.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+		}
+		if (ImGui::CollapsingHeader("Window"))
+		{
+			if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f, "%.2f"))
+			{
+				App->window->SetBrightness(brightness);
+			}
+			if (ImGui::SliderInt("Width", &winWidth, 1, 1920))
+			{
+				App->window->ResizeWindow(winWidth, winHeight);
+			}
+			if (ImGui::SliderInt("Height", &winHeight, 1, 1080))
+			{
+				App->window->ResizeWindow(winWidth, winHeight);
+			}
+
+		}
+		if (ImGui::CollapsingHeader("File System"))
+		{
+
+		}
+		if (ImGui::CollapsingHeader("Input"))
+		{
+
+		}
+		if (ImGui::CollapsingHeader("Hardware"))
+		{
+
+		}
+	}
+	ImGui::End();
+}
+
+void ModuleImGui::PerformanceGraphCalc(float fps, float ms)
+{
+	if (FPSvec.size() >= MAX_FPS_CAP)
+	{
+		for (int i = 0; i < MAX_FPS_CAP - 2; i++)
+		{
+			FPSvec[i] = FPSvec[i + 1];
+		}
+		FPSvec[MAX_FPS_CAP - 1] = fps;
+	}
+	else
+	{
+		FPSvec.push_back(fps);
+	}
+
+	////////////////////////////////
+
+	if (MSvec.size() >= MAX_FPS_CAP)
+	{
+		for (int i = 0; i < MAX_FPS_CAP - 2; i++)
+		{
+			MSvec[i] = MSvec[i + 1];
+		}
+		MSvec[MAX_FPS_CAP - 1] = ms;
+	}
+	else
+	{
+		MSvec.push_back(ms);
+	}
 }
