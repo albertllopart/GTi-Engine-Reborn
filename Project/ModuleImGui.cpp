@@ -149,6 +149,13 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			if (ImGui::Checkbox("Resizable", &App->window->resizable))
 				App->window->SetResizable(App->window->resizable);
 
+			if (ImGui::Checkbox("Borderless", &App->window->borderless))
+				App->window->SetBorderless(App->window->borderless);
+
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Full Desktop", &App->window->fulldesktop))
+				App->window->SetFullDesktop(App->window->fulldesktop);
+
 		}
 		if (ImGui::CollapsingHeader("File System"))
 		{
