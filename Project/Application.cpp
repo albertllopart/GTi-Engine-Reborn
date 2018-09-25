@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "parson/parson.h"
 
 Application::Application()
 {
@@ -41,6 +42,19 @@ bool Application::Init()
 
 	// Call Init() in all modules
 
+	// First Json test
+	JSON_Value * config_file = json_parse_file("config.json");
+	JSON_Object * config;
+	JSON_Object* config_node;
+
+
+	if (config_file != nullptr)
+	{
+		// Read variables from config.json
+		config = json_value_get_object(config_file);
+		config_node = json_object_get_object(config, "Application");
+		max_fps = json_object_get_number(config_node, "Max FPS");
+	}
 	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
 	{
 		ret = (*item)->Init();
@@ -123,6 +137,28 @@ bool Application::CleanUp()
 	for (std::list<Module*>::const_reverse_iterator item = list_modules.rbegin(); item != list_modules.rend() && ret; ++item)
 	{
 		ret = (*item)->CleanUp();
+	}
+
+	return ret;
+}
+
+bool Application::SaveConfig()
+{
+	bool ret = false;
+
+	LOG("SAVING CONFIG TO FILE -----------------------")
+
+	JSON_Value* config_file = json_parse_file("config.json");
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	if (config_file != nullptr)
+	{
+		ret = true;
+
+		config = json_value_get_object(config_file);
+		config_node = json_object_get_object(config, "Application");
+		json_object_set_number(config_node, "Max FPS", max_fps); // asigning max fps value
 	}
 
 	return ret;

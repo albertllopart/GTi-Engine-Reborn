@@ -40,6 +40,10 @@ update_status ModuleImGui::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Save"))
+			{
+				App->SaveConfig();
+			}
 			if (ImGui::MenuItem("Quit"))
 			{
 				return UPDATE_STOP;

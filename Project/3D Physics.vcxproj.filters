@@ -28,6 +28,9 @@
     <Filter Include="Sources\MathGeoLib\Random LCG">
       <UniqueIdentifier>{55fc0b38-f5a7-446d-9448-164990e231fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Parson">
+      <UniqueIdentifier>{93cd5c5c-02a1-4c56-a6df-15e4b93d15c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -309,6 +312,9 @@
     <ClInclude Include="ModuleRNG.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="parson\parson.h">
+      <Filter>Sources\Parson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -478,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="ModuleRNG.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="parson\parson.c">
+      <Filter>Sources\Parson</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
