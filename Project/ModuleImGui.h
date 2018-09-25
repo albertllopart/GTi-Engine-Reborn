@@ -18,11 +18,13 @@ public:
 
 	void ShowConfigurationMenu(bool* opened = NULL);
 	void PerformanceGraphCalc(float fps, float ms);
+	void AboutWindow();
 public:
 
 	bool demo = false;
 	bool showconsole = false;
 	bool config_menu = false;
+	bool about = false;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;

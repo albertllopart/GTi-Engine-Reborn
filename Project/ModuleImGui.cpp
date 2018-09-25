@@ -80,7 +80,15 @@ update_status ModuleImGui::Update(float dt)
 			{
 				ShellExecuteA(NULL, "open", "https://github.com/albertllopart/GTi-Engine-Reborn/issues", NULL, NULL, SW_SHOWNORMAL);
 			}
+			if (ImGui::MenuItem("About"))
+			{
+				about = !about;
+			}
 			ImGui::EndMenu();
+		}
+		if (about)
+		{
+			AboutWindow();
 		}
 		ImGui::EndMainMenuBar();
 	}
@@ -165,10 +173,6 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		{
 
 		}
-		if (ImGui::CollapsingHeader("Input"))
-		{
-
-		}
 		if (ImGui::CollapsingHeader("Hardware"))
 		{
 
@@ -206,4 +210,40 @@ void ModuleImGui::PerformanceGraphCalc(float fps, float ms)
 	{
 		MSvec.push_back(ms);
 	}
+}
+
+void ModuleImGui::AboutWindow()
+{
+	ImGui::Begin("About");
+	ImGui::Text("GTi Engine");
+	ImGui::Text("A game engine developed by Albert Llopart & Marc Fabian");
+
+	if (ImGui::CollapsingHeader("Libraries used"))
+	{
+		if (ImGui::MenuItem("SDL 2.0.4"))
+		{
+			ShellExecuteA(NULL, "open", "https://www.libsdl.org/index.php", NULL, NULL, SW_SHOWNORMAL);
+		}
+		if (ImGui::MenuItem("MathGeoLib 1.3"))
+		{
+			ShellExecuteA(NULL, "open", "http://clb.demon.fi/MathGeoLib/nightly/", NULL, NULL, SW_SHOWNORMAL);
+		}
+		if (ImGui::MenuItem("ImGui 1.51"))
+		{
+			ShellExecuteA(NULL, "open", "https://github.com/ocornut/imgui", NULL, NULL, SW_SHOWNORMAL);
+		}
+		if (ImGui::MenuItem("OpenGl 3.1"))
+		{
+			ShellExecuteA(NULL, "open", "https://www.opengl.org/", NULL, NULL, SW_SHOWNORMAL);
+		}
+	}
+	if (ImGui::CollapsingHeader("License"))
+	{
+		if (ImGui::MenuItem("License MIT"))
+		{
+			ShellExecuteA(NULL, "open", "https://github.com/xDragan/GTi-Engine/blob/master/LICENSE", NULL, NULL, SW_SHOWNORMAL);
+		}
+	}
+	ImGui::End();
+	
 }
