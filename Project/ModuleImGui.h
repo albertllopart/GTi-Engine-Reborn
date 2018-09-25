@@ -23,12 +23,6 @@ public:
 	bool demo = false;
 	bool showconsole = false;
 	bool config_menu = false;
-	bool fullscreen;
-	bool fulldesktop;
-	bool borderless;
-	int winWidth;
-	int winHeight;
-	float brightness;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;

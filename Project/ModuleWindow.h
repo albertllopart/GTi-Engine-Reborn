@@ -20,6 +20,7 @@ public:
 	SDL_Window* GetWindowPtr();
 	void SetTitle(const char* title);
 	void SetFullscreen(bool fullscreen);
+	void SetResizable(bool resizable);
 	void ResizeWindow(int width, int height);
 	void SetBrightness(float value);
 	void SetBorderless(bool borderless);
@@ -34,6 +35,12 @@ public:
 
 	int width;
 	int height;
+
+	bool fullscreen = false;
+	bool fulldesktop = false;
+	bool borderless = false;
+	bool resizable = false;
+	float brightness = 1.0f;
 
 };
 

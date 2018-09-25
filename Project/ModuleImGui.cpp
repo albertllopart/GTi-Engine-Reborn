@@ -127,18 +127,27 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		}
 		if (ImGui::CollapsingHeader("Window"))
 		{
-			if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f, "%.2f"))
+			if (ImGui::SliderFloat("Brightness", &App->window->brightness, 0.0f, 1.0f, "%.2f"))
 			{
-				App->window->SetBrightness(brightness);
+				App->window->SetBrightness(App->window->brightness);
 			}
-			if (ImGui::SliderInt("Width", &winWidth, 1, 1920))
+			if (ImGui::SliderInt("Width", &App->window->width, 1, 1920))
 			{
-				App->window->ResizeWindow(winWidth, winHeight);
+				if (App->window->resizable)
+					App->window->ResizeWindow(App->window->width, App->window->height);
 			}
-			if (ImGui::SliderInt("Height", &winHeight, 1, 1080))
+			if (ImGui::SliderInt("Height", &App->window->height, 1, 1080))
 			{
-				App->window->ResizeWindow(winWidth, winHeight);
+				if (App->window->resizable)
+					App->window->ResizeWindow(App->window->width, App->window->height);
 			}
+
+			if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
+				App->window->SetFullscreen(App->window->fullscreen);
+
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Resizable", &App->window->resizable))
+				App->window->SetResizable(App->window->resizable);
 
 		}
 		if (ImGui::CollapsingHeader("File System"))
