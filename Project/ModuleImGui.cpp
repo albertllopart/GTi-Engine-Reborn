@@ -6,6 +6,7 @@
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
 
+
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
 
 #define MAX_FPS_CAP 60
@@ -24,6 +25,7 @@ bool ModuleImGui::Start()
 	LOG("Starting glew & ImGui");
 	glewInit();
 	ImGui_ImplSdlGL3_Init(App->window->GetWindowPtr());
+	
 
 	return true;
 }
@@ -36,6 +38,10 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+	{
+		AddConsoleLog("Shinny Mewtoo appeared!");
+	}
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -99,7 +105,7 @@ update_status ModuleImGui::Update(float dt)
 	}
 	if (showconsole)
 	{
-
+		ShowConsole();
 	}
 	if (demo)
 	{
@@ -118,6 +124,7 @@ bool ModuleImGui::CleanUp()
 
 void ModuleImGui::ShowConfigurationMenu(bool* opened)
 {
+
 	if (ImGui::Begin("Configuration"))
 	{
 
@@ -125,11 +132,9 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		ImGui::Text("Options");
 		if (ImGui::CollapsingHeader("Application"))
 		{
-		
-			ImGui::InputText("App Name", "GTi-Engine", 30);
-			ImGui::InputText("Organization", "UPC CITM", 30);
+			ImGui::InputText("App Name", TITLE, 20);
+			ImGui::InputText("Organization", "UPC CITM", 20);
 			ImGui::SliderInt("Max FPS", App->GetMaxFPS(), 0, 300);
-
 			PerformanceGraphCalc(App->GetFPS(), App->GetMs());
 			char title[25];
 			sprintf_s(title, 25, "Framerate %.1f", FPSvec[FPSvec.size() - 1]);
@@ -176,6 +181,30 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		}
 	}
 	ImGui::End();
+}
+
+void ModuleImGui::ShowConsole()
+{
+	if (ImGui::Begin("Console"))
+	{
+		if (ImGui::Button("Clear"))
+		{
+			consoleLogs.clear();
+		}
+		for (int i = consoleLogs.size() - 1; i >= 0; i--)
+		{
+			std::string s = consoleLogs[i];
+			ImGui::Text("%s", consoleLogs[i].c_str());
+		}
+	}
+
+	ImGui::End();
+}
+
+void ModuleImGui::AddConsoleLog(const char * add)
+{
+	std::string log = add;
+	consoleLogs.push_back(log);
 }
 
 void ModuleImGui::PerformanceGraphCalc(float fps, float ms)

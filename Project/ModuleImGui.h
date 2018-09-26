@@ -17,6 +17,8 @@ public:
 	update_status PreUpdate(float dt);
 
 	void ShowConfigurationMenu(bool* opened = NULL);
+	void ShowConsole();
+	void AddConsoleLog(const char* add);
 	void PerformanceGraphCalc(float fps, float ms);
 	void AboutWindow();
 public:
@@ -28,7 +30,7 @@ public:
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;
-
+	std::vector<std::string> consoleLogs;
 
 };
 
