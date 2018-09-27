@@ -5,8 +5,9 @@
 #include "ImGui\imgui_impl_sdl_gl3.h"
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
-
+#include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
+#include <gl/GLU.h>
 
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
@@ -180,7 +181,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		
 		if (ImGui::CollapsingHeader("Hardware"))
 		{
-			SDL_version version;
+		/*	SDL_version version;
 			SDL_GetVersion(&version);
 			ImGui::Text("SDL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i.%i.%i", version.major, version.minor, version.patch);
 			ImGui::Separator();
@@ -200,7 +201,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			ImGui::Text("VRAM Budget:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", budget / 1024.0f);
 			ImGui::Text("VRAM Usage:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", (budget / 1024.0f) - (available / 1024.0f));
 			ImGui::Text("VRAM Available:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", available / 1024.0f);
-			ImGui::Text("VRAM Reserved:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", reserved / 1024.0f);
+			ImGui::Text("VRAM Reserved:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", reserved / 1024.0f);*/
 		}
 	}
 	ImGui::End();
