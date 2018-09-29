@@ -21,6 +21,9 @@ public:
 	void AddConsoleLog(const char* add);
 	void PerformanceGraphCalc(float fps, float ms);
 	void AboutWindow();
+
+	std::vector<float> GetFramerateVec() const;
+
 public:
 
 	bool demo = false;

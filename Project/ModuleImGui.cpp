@@ -5,8 +5,9 @@
 #include "ImGui\imgui_impl_sdl_gl3.h"
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
-
+#include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
+#include <gl/GLU.h>
 
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
@@ -139,8 +140,8 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			ImGui::SliderInt("Max FPS", App->GetMaxFPS(), 0, 300);
 			PerformanceGraphCalc(App->GetFPS(), App->GetMs());
 			char title[25];
-			sprintf_s(title, 25, "Framerate %.1f", FPSvec[FPSvec.size() - 1]);
-			ImGui::PlotHistogram("##framerate", &FPSvec[0], FPSvec.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+			sprintf_s(title, 25, "Framerate %.1f", FPSvec.back());
+			ImGui::PlotHistogram("##framerate", &FPSvec.front(), FPSvec.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 			sprintf_s(title, 25, "Milliseconds %0.1f", MSvec[MSvec.size() - 1]);
 			ImGui::PlotHistogram("##milliseconds", &MSvec[0], MSvec.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 		}
@@ -294,4 +295,9 @@ void ModuleImGui::AboutWindow()
 	}
 	ImGui::End();
 	
+}
+
+std::vector<float> ModuleImGui::GetFramerateVec() const
+{
+	return FPSvec;
 }
