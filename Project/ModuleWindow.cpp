@@ -6,7 +6,6 @@ ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, s
 {
 	window = NULL;
 	screen_surface = NULL;
-	name = "Window";
 }
 
 // Destructor

@@ -1,8 +1,5 @@
 #ifndef __MODULE__
 #define __MODULE__
-#include "parson/parson.h"
-#include <string>
-
 
 class Application;
 
@@ -13,7 +10,6 @@ private :
 
 public:
 	Application* App;
-	std::string name;
 
 	Module(Application* parent, bool start_enabled = true) : App(parent)
 	{}
@@ -21,7 +17,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init()
+	virtual bool Init() 
 	{
 		return true; 
 	}

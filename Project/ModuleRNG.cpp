@@ -4,9 +4,7 @@
 #include <list>
 
 ModuleRNG::ModuleRNG(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-	name = "Random";
-}
+{}
 
 // Destructor
 ModuleRNG::~ModuleRNG()

@@ -5,9 +5,8 @@
 #include "ImGui\imgui_impl_sdl_gl3.h"
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
-//#include "SDL/include/SDL_opengl.h"
+
 #include <gl/GL.h>
-//#include <gl/GLU.h>
 
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
@@ -18,7 +17,6 @@
 
 ModuleImGui::ModuleImGui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name = "ImGui";
 }
 
 ModuleImGui::~ModuleImGui()
@@ -187,7 +185,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			ImGui::Separator();
 			ImGui::Text("CPUs:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", SDL_GetCPUCount()); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "(Cache: %ikb)", SDL_GetCPUCacheLineSize());
 			ImGui::Text("System RAM:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fGb", SDL_GetSystemRAM() / 1024.0f);
-			ImGui::Text("Caps:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s%s%s%s%s%s%s%s%s%s%s", (SDL_Has3DNow()) ? "3DNow, " : "", (SDL_HasAVX()) ? "AVX, " : "", (SDL_HasAVX2()) ? "AVX2, " : "", (SDL_HasAltiVec()) ? "AltiVec, " : "", (SDL_HasMMX()) ? "MMX, " : "", (SDL_HasRDTSC()) ? "RDTSC, " : "", (SDL_HasSSE()) ? "SSE, " : "", (SDL_HasSSE2()) ? "SSE2, " : "", (SDL_HasSSE3()) ? "SSE3, " : "", (SDL_HasSSE41()) ? "SSE41, " : "", (SDL_HasSSE42()) ? "SSE42 " : "");
+			//ImGui::Text("Caps:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s%s%s%s%s%s%s%s%s%s%s", (SDL_Has3DNow()) ? "3DNow, " : "", (SDL_HasAVX()) ? "AVX, " : "", (SDL_HasAVX2()) ? "AVX2, " : "", (SDL_HasAltiVec()) ? "AltiVec, " : "", (SDL_HasMMX()) ? "MMX, " : "", (SDL_HasRDTSC()) ? "RDTSC, " : "", (SDL_HasSSE()) ? "SSE, " : "", (SDL_HasSSE2()) ? "SSE2, " : "", (SDL_HasSSE3()) ? "SSE3, " : "", (SDL_HasSSE41()) ? "SSE41, " : "", (SDL_HasSSE42()) ? "SSE42 " : "");
 			ImGui::Separator();
 			ImGui::Text("GPU:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_RENDERER));
 			ImGui::Text("Brand:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VENDOR));
