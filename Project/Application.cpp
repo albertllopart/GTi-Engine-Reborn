@@ -43,26 +43,28 @@ bool Application::Init()
 	// Call Init() in all modules
 
 	// First Json test
-	JSON_Value * config_file = json_parse_file("config.json");
-	JSON_Object * config;
-	JSON_Object* config_node;
+	//JSON_Value * config_file = json_parse_file("config.json");
+	//JSON_Object * config = json_value_get_object(config_file);
+	//JSON_Object* config_node;
 
 
-	if (config_file != nullptr)
-	{
-		// Read variables from config.json
-		config = json_value_get_object(config_file);
-		config_node = json_object_get_object(config, "Application");
-		max_fps = json_object_get_number(config_node, "Max FPS");
-	}
+	//if (config_file != nullptr)
+	//{
+	//	config_node = json_object_get_object(config, "Application");
+	//	max_fps = json_object_get_number(config_node, "Max FPS");
+	//}
 
 
-	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
-	{
-		ret = (*item)->Init(json_object_dotget_object(config, (*item)->name.c_str()));
-	}
+	//for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; item++)
+	//{
+	//	//if (item != NULL)
+	//	//{
+	//		ret = (*item)->Init(json_object_dotget_object(config, (*item)->name.c_str()));
+	//	//}	
+	//}
 
 	// After all Init calls we call Start() in all modules
+
 	LOG("Application Start --------------");
 	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
 	{

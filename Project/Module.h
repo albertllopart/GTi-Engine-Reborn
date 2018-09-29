@@ -21,7 +21,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init(JSON_Object* data = nullptr)
+	virtual bool Init()
 	{
 		return true; 
 	}
