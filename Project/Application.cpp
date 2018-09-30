@@ -53,11 +53,13 @@ bool Application::Init()
 		// Read variables from config.json
 		config = json_value_get_object(config_file);
 		config_node = json_object_get_object(config, "Application");
+
 		max_fps = json_object_get_number(config_node, "Max FPS");
 	}
 	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
 	{
-		ret = (*item)->Init();
+		config_node = json_object_get_object(config, (*item)->name);
+		ret = (*item)->Init(config_node);
 	}
 
 	// After all Init calls we call Start() in all modules

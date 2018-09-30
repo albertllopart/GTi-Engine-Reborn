@@ -6,6 +6,7 @@ class Application;
 class Module
 {
 private :
+
 	bool enabled;
 
 public:
@@ -17,7 +18,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init() 
+	virtual bool Init(JSON_Object* node) 
 	{
 		return true; 
 	}
@@ -46,6 +47,10 @@ public:
 	{ 
 		return true; 
 	}
+
+public:
+
+	char* name = nullptr;
 
 };
 

@@ -14,7 +14,7 @@ public:
 
 	virtual ~ModuleWindow();
 
-	bool Init();
+	bool Init(JSON_Object* node);
 	bool CleanUp();
 
 	SDL_Window* GetWindowPtr();

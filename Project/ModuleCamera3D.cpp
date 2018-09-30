@@ -12,6 +12,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = float3(0.0f, 0.0f, 5.0f);
 	Reference = float3(0.0f, 0.0f, 0.0f);
+
+	name = "Camera";
 }
 
 ModuleCamera3D::~ModuleCamera3D()

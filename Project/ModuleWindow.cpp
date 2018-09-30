@@ -1,11 +1,14 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "parson/parson.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	window = NULL;
 	screen_surface = NULL;
+
+	name = "Window";
 }
 
 // Destructor
@@ -14,7 +17,7 @@ ModuleWindow::~ModuleWindow()
 }
 
 // Called before render is available
-bool ModuleWindow::Init()
+bool ModuleWindow::Init(JSON_Object* node)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -27,9 +30,9 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
+		int width = json_object_get_number(node, "width") * json_object_get_number(node, "size");
 		this->width = width;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		int height = json_object_get_number(node, "height") * json_object_get_number(node, "size");
 		this->height = height;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
@@ -37,31 +40,31 @@ bool ModuleWindow::Init()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(WIN_FULLSCREEN == true)
+		if(json_object_get_boolean(node, "fullscreen") == true)
 		{
 			fullscreen = true;
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if(json_object_get_boolean(node, "resizable") == true)
 		{
 			resizable = true;
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(WIN_BORDERLESS == true)
+		if(json_object_get_boolean(node, "borderless") == true)
 		{
 			borderless = true;
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if(json_object_get_boolean(node, "fulldesktop") == true)
 		{
 			fulldesktop = true;
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(json_object_get_string(node, "title"), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{
