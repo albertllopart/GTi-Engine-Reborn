@@ -50,6 +50,11 @@ public:
 		return true; 
 	}
 
+	virtual void Save(JSON_Object* node)
+	{};
+	virtual void Load(JSON_Object* node)
+	{};
+
 public:
 
 	char* name = nullptr;

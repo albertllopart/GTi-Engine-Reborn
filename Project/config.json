@@ -1,45 +1,25 @@
 {
-  "Application": {
-    "Max FPS": 60
-  },
-
-  "Window": {
-    "width": 1280,
-    "height": 1024,
-    "size": 1,
-
-    "fullscreen": false,
-    "resizable": true,
-    "borderless": false,
-    "fulldesktop": false,
-
-    "vsync": true,
-
-    "title": "GTi Engine"
-  },
-
-  "Camera": {
-
-  },
-
-  "Input": {
-
-  },
-
-  "Audio": {
-
-  },
-
-  "Imgui": {
-
-  },
-
-  "Rng": {
-
-  },
-
-  "Render": {
-    "width": 1280,
-    "height": 1024
-  }
+    "Application": {
+        "Max FPS": 60
+    },
+    "Window": {
+        "width": 1425,
+        "height": 870,
+        "size": 1,
+        "fullscreen": false,
+        "resizable": true,
+        "borderless": true,
+        "fulldesktop": false,
+        "vsync": true,
+        "title": "GTi Engine"
+    },
+    "Camera": {},
+    "Input": {},
+    "Audio": {},
+    "Imgui": {},
+    "Rng": {},
+    "Render": {
+        "width": 1280,
+        "height": 1024
+    }
 }

@@ -51,7 +51,7 @@ update_status ModuleImGui::Update(float dt)
 		{
 			if (ImGui::MenuItem("Save"))
 			{
-				App->SaveConfig();
+				App->Save();
 			}
 			if (ImGui::MenuItem("Quit"))
 			{

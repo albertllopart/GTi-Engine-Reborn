@@ -20,6 +20,9 @@ public:
 
 	void OnResize(int width, int height);
 
+	void Save(JSON_Object* node);
+	void Load(JSON_Object* node);
+
 public:
 
 	Light lights[MAX_LIGHTS];

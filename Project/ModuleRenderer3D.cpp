@@ -153,3 +153,13 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+void ModuleRenderer3D::Save(JSON_Object* node)
+{
+
+}
+
+void ModuleRenderer3D::Load(JSON_Object* node)
+{
+
+}

@@ -162,3 +162,30 @@ void ModuleWindow::SetFullDesktop(bool fullDesktop)
 	}
 	SDL_SetWindowFullscreen(window, flags);
 }
+
+void ModuleWindow::Save(JSON_Object* node)
+{
+	LOG("-> Saving Window Module...")
+
+	json_object_set_number(node, "width", width);
+	json_object_set_number(node, "height", height);
+
+	json_object_set_boolean(node, "fullscreen", fullscreen);
+	json_object_set_boolean(node, "resizable", resizable);
+	json_object_set_boolean(node, "borderless", borderless);
+	json_object_set_boolean(node, "fulldesktop", fulldesktop);
+
+}
+
+void ModuleWindow::Load(JSON_Object* node)
+{
+	LOG("-> Loading Window Module...")
+
+	width = json_object_get_number(node, "width");
+	height = json_object_get_number(node, "height");
+				
+	fullscreen = json_object_get_boolean(node, "fullscreen"); SetFullscreen(fullscreen);
+	resizable = json_object_get_boolean(node, "resizable"); SetResizable(resizable);
+	borderless = json_object_get_boolean(node, "borderless"); SetBorderless(borderless);
+	fulldesktop = json_object_get_boolean(node, "fulldesktop"); SetFullDesktop(fulldesktop);
+}

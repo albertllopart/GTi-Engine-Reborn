@@ -26,6 +26,9 @@ public:
 	void SetBorderless(bool borderless);
 	void SetFullDesktop(bool fullDesktop);
 
+	void Save(JSON_Object* node);
+	void Load(JSON_Object* node);
+
 public:
 	//render window
 	SDL_Window* window;

@@ -133,6 +133,17 @@ update_status ModuleInput::PreUpdate(float dt)
 		LOG("random float = %f", random);
 	}
 
+	//save load
+	if (keyboard[SDL_SCANCODE_F5] == KEY_DOWN)
+	{
+		App->Save();
+	}
+
+	if (keyboard[SDL_SCANCODE_F6] == KEY_DOWN)
+	{
+		App->Load();
+	}
+
 	return UPDATE_CONTINUE;
 }
 

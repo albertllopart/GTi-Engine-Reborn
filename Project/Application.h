@@ -35,7 +35,11 @@ private:
 	std::list<Module*> list_modules;
 
 	int capped_ms;
-	int max_fps = 60;
+	mutable int max_fps = 60;
+
+	//load save
+	mutable bool want_to_save = false;
+	mutable bool want_to_load = false;
 
 public:
 
@@ -45,17 +49,22 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
-	bool SaveConfig();
 
 	float GetFPS();
 	float GetMs();
 	int* GetMaxFPS();
 	
+	void Save();
+	void Load();
 
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
+	//load save
+	void SaveEngine() const;
+	void LoadEngine() const;
 
 };

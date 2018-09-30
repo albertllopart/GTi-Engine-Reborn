@@ -129,6 +129,12 @@ update_status Application::Update()
 	}
 
 	FinishUpdate();
+
+	if (want_to_save)
+		SaveEngine();
+	if (want_to_load)
+		LoadEngine();
+
 	return ret;
 }
 
@@ -144,9 +150,18 @@ bool Application::CleanUp()
 	return ret;
 }
 
-bool Application::SaveConfig()
+void Application::Save()
 {
-	bool ret = false;
+	want_to_save = true;
+}
+
+void Application::Load()
+{
+	want_to_load = true;
+}
+
+void Application::SaveEngine() const
+{
 
 	LOG("SAVING CONFIG TO FILE -----------------------")
 
@@ -156,14 +171,46 @@ bool Application::SaveConfig()
 
 	if (config_file != nullptr)
 	{
-		ret = true;
-
 		config = json_value_get_object(config_file);
 		config_node = json_object_get_object(config, "Application");
+
 		json_object_set_number(config_node, "Max FPS", max_fps); // asigning max fps value
 	}
 
-	return ret;
+	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); ++item)
+	{
+		config_node = json_object_get_object(config, (*item)->name);
+		(*item)->Save(config_node);
+	}
+
+	json_serialize_to_file_pretty(config_file, "config.json");
+
+	want_to_save = false;
+}
+
+void Application::LoadEngine() const
+{
+	LOG("LOADING CONFIG TO FILE -----------------------")
+
+	JSON_Value* config_file = json_parse_file("config.json");
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	if (config_file != nullptr)
+	{
+		config = json_value_get_object(config_file);
+		config_node = json_object_get_object(config, "Application");
+
+		max_fps = json_object_get_number(config_node, "Max FPS");
+	}
+
+	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); ++item)
+	{
+		config_node = json_object_get_object(config, (*item)->name);
+		(*item)->Load(config_node);
+	}
+
+	want_to_load = false;
 }
 
 void Application::AddModule(Module* mod)
