@@ -155,6 +155,7 @@
     <ClInclude Include="ModuleImGui.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="ModuleRNG.h" />
+    <ClInclude Include="ModuleSceneEditor.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleRNG.cpp" />
+    <ClCompile Include="ModuleSceneEditor.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="parson\parson.c" />
     <ClCompile Include="pcg-c-0.94\extras\entropy.c" />

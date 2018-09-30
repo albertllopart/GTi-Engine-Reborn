@@ -10,6 +10,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleImGui.h"
 #include "ModuleRNG.h"
+#include "ModuleSceneEditor.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -25,6 +26,7 @@ public:
 	ModuleCamera3D* camera;
 	ModuleImGui* imgui;
 	ModuleRNG* rng;
+	ModuleSceneEditor* editor;
 
 private:
 

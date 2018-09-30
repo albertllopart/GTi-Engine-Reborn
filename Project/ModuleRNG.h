@@ -18,6 +18,8 @@ public:
 	bool Start();
 	bool CleanUp();
 
+	update_status Update(float dt);
+
 	float RandomFloat();
 	int RandomInt(int min, int max);
 

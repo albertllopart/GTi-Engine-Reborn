@@ -8,7 +8,7 @@
         "size": 1,
         "fullscreen": false,
         "resizable": true,
-        "borderless": true,
+        "borderless": false,
         "fulldesktop": false,
         "vsync": true,
         "title": "GTi Engine"

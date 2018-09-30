@@ -6,8 +6,9 @@
 #include <gl/GLU.h>
 #include "parson/parson.h"
 
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+
+#pragma comment (lib, "glu32.lib")    
+#pragma comment (lib, "opengl32.lib") 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,6 +25,15 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
 	
+	//Setting up gl attributes
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
 	if(context == NULL)
@@ -91,16 +101,36 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		if (depthTest)
+		{
+			glEnable(GL_DEPTH_TEST); //important for 3d depth perception
+		}
+		if (cullFace)
+		{
+			glEnable(GL_CULL_FACE); //GL_CULL_FACE is to be enabled for performance reasons, as it easily removes half of the triangles to draw, normally without visual artifacts if your geometry is watertight
+		}
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+		if (lighting)
+		{
+			glEnable(GL_LIGHTING); //If enabled, use the current lighting parameters to compute the vertex color. Otherwise, simply associate the current color with each vertex
+		}
+		if (colorMaterial)
+		{
+			glEnable(GL_COLOR_MATERIAL); //If enabled, have ambient and diffuse material parameters track the current color.
+		}
+		if (texture2D)
+		{
+			glEnable(GL_TEXTURE_2D); // If enabled, two-dimensional texturing is performed for the active texture unit
+		}
 	}
 
 	// Projection matrix for
 	OnResize(json_object_get_number(node, "width"), json_object_get_number(node, "height"));
 
+
+	//RIC
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	return ret;
 }
 
@@ -147,11 +177,29 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// GEOLIB
-	//ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	//glLoadMatrixf(&ProjectionMatrix);
+	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	glLoadMatrixf((GLfloat*)ProjectionMatrix.ptr());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+float4x4 ModuleRenderer3D::perspective(float fovy, float aspect, float n, float f)
+{
+	float4x4 Perspective;
+
+	float coty = 1.0f / tan(fovy * math::pi / 360.0f);
+
+	Perspective = Perspective.zero;
+
+	Perspective.v[0][0] = coty / aspect;
+	Perspective.v[1][1] = coty;
+	Perspective.v[2][2] = (n + f) / (n - f);
+	Perspective.v[2][3] = -1.0f;
+	Perspective.v[3][2] = 2.0f * n * f / (n - f);
+
+	return Perspective;
+
 }
 
 void ModuleRenderer3D::Save(JSON_Object* node)
@@ -162,4 +210,62 @@ void ModuleRenderer3D::Save(JSON_Object* node)
 void ModuleRenderer3D::Load(JSON_Object* node)
 {
 
+}
+
+void ModuleRenderer3D::SetDepthTest()
+{
+	if (depthTest)
+	{
+		glEnable(GL_DEPTH_TEST);
+	}
+	else
+	{
+		glDisable(GL_DEPTH_TEST);
+	}
+}
+void ModuleRenderer3D::SetCullFace()
+{
+	if (cullFace)
+	{
+		glEnable(GL_CULL_FACE);
+	}
+	else
+	{
+		glDisable(GL_CULL_FACE);
+	}
+}
+void ModuleRenderer3D::SetLighting()
+{
+	if (lighting)
+	{
+		glEnable(GL_LIGHTING);
+	}
+	else
+	{
+		glDisable(GL_LIGHTING);
+	}
+}
+
+void ModuleRenderer3D::SetColorMaterial()
+{
+	if (colorMaterial)
+	{
+		glEnable(GL_COLOR_MATERIAL);
+	}
+	else
+	{
+		glDisable(GL_COLOR_MATERIAL);
+	}
+}
+
+void ModuleRenderer3D::SetTexture2D()
+{
+	if (texture2D)
+	{
+		glEnable(GL_TEXTURE_2D);
+	}
+	else
+	{
+		glDisable(GL_TEXTURE_2D);
+	}
 }

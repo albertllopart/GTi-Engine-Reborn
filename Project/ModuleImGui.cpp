@@ -187,6 +187,8 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			SDL_version version;
 			SDL_GetVersion(&version);
 			ImGui::Text("SDL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i.%i.%i", version.major, version.minor, version.patch);
+			ImGui::Text("OpenGL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VERSION));
+			ImGui::Text("GLSL:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 			ImGui::Separator();
 			ImGui::Text("CPUs:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", SDL_GetCPUCount()); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "(Cache: %ikb)", SDL_GetCPUCacheLineSize());
 			ImGui::Text("System RAM:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fGb", SDL_GetSystemRAM() / 1024.0f);
@@ -205,6 +207,30 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			ImGui::Text("VRAM Usage:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", (budget / 1024.0f) - (available / 1024.0f));
 			ImGui::Text("VRAM Available:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", available / 1024.0f);
 			ImGui::Text("VRAM Reserved:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", reserved / 1024.0f);
+		}
+		if (ImGui::CollapsingHeader("Render"))
+		{
+			ImGui::Checkbox("Wireframe Mode", &wframe);
+			if (ImGui::Checkbox("Depth Test", &App->renderer3D->depthTest))
+			{
+				App->renderer3D->SetDepthTest();
+			}
+			if (ImGui::Checkbox("Cull Face", &App->renderer3D->cullFace))
+			{
+				App->renderer3D->SetCullFace();
+			}
+			if (ImGui::Checkbox("Lighting", &App->renderer3D->lighting))
+			{
+				App->renderer3D->SetLighting();
+			}
+			if (ImGui::Checkbox("Color Material", &App->renderer3D->colorMaterial))
+			{
+				App->renderer3D->SetColorMaterial();
+			}
+			if (ImGui::Checkbox("2D Textures", &App->renderer3D->texture2D))
+			{
+				App->renderer3D->SetTexture2D();
+			}
 		}
 	}
 	ImGui::End();

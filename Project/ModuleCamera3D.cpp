@@ -62,7 +62,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		// Mouse motion ----------------
 		// COMENTED DUE CHANGE BETWEEN GLMATH AND MATHGEOLIB CONVERSION
-		/*if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
 			int dx = -App->input->GetMouseXMotion();
 			int dy = -App->input->GetMouseYMotion();
@@ -75,27 +75,29 @@ update_status ModuleCamera3D::Update(float dt)
 			{
 				float DeltaX = (float)dx * Sensitivity;
 
-				X = rotate(X, DeltaX, float3(0.0f, 1.0f, 0.0f)); 
-				Y = rotate(Y, DeltaX, float3(0.0f, 1.0f, 0.0f));
-				Z = rotate(Z, DeltaX, float3(0.0f, 1.0f, 0.0f));
+				math::float3x3 rotationMatrix = math::float3x3::RotateY(DeltaX);
+				X = rotationMatrix * X;
+				Y = rotationMatrix * Y;
+				Z = rotationMatrix * Z;
 			}
 
 			if (dy != 0)
 			{
 				float DeltaY = (float)dy * Sensitivity;
 
-				Y = rotate(Y, DeltaY, X);
-				Z = rotate(Z, DeltaY, X);
+				math::float3x3 rotationMatrix = math::float3x3::RotateAxisAngle(X, DeltaY);
+				Y = rotationMatrix * Y;
+				Z = rotationMatrix * Z;
 
 				if (Y.y < 0.0f)
 				{
-					Z = float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-					Y = cross(Z, X);
+					Z = math::float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+					Y = math::Cross(Z, X);
 				}
 			}
 
 			Position = Reference + Z * Position.Length();
-		}*/
+		}
 
 	// Recalculate matrix -------------
 	

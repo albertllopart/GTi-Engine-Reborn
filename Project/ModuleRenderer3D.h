@@ -20,8 +20,20 @@ public:
 
 	void OnResize(int width, int height);
 
+	float4x4 perspective(float fovy, float aspect, float n, float f);
+
 	void Save(JSON_Object* node);
 	void Load(JSON_Object* node);
+
+	void SetDepthTest();
+
+	void SetCullFace();
+
+	void SetLighting();
+
+	void SetColorMaterial();
+
+	void SetTexture2D();
 
 public:
 
@@ -29,4 +41,10 @@ public:
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+
+	bool depthTest;
+	bool cullFace;
+	bool lighting;
+	bool colorMaterial;
+	bool texture2D;
 };
