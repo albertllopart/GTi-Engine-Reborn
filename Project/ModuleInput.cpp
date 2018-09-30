@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRNG.h"
+#include "parson/parson.h"
 
 #define MAX_KEYS 300
 
@@ -21,7 +22,7 @@ ModuleInput::~ModuleInput()
 }
 
 // Called before render is available
-bool ModuleInput::Init()
+bool ModuleInput::Init(JSON_Object* node)
 {
 	LOG("Init SDL input event system");
 	bool ret = true;

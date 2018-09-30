@@ -14,7 +14,7 @@ public:
 	ModuleRNG(Application* app, bool start_enabled = true);
 	~ModuleRNG();
 
-	bool Init();
+	bool Init(JSON_Object* node);
 	bool Start();
 	bool CleanUp();
 

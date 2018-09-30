@@ -1,6 +1,8 @@
 #ifndef __MODULE__
 #define __MODULE__
 
+#include "parson/parson.h"
+
 class Application;
 
 class Module

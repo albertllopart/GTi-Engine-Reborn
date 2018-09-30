@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleAudio.h"
+#include "parson/parson.h"
+
 #include <list>
 
 
@@ -16,7 +18,7 @@ ModuleAudio::~ModuleAudio()
 {}
 
 // Called before render is available
-bool ModuleAudio::Init()
+bool ModuleAudio::Init(JSON_Object* node)
 {
 	LOG("Loading Audio Mixer");
 	bool ret = true;

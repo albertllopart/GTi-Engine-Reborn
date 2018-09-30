@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRNG.h"
+#include "parson/parson.h"
+
 #include <list>
 
 ModuleRNG::ModuleRNG(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -13,7 +15,7 @@ ModuleRNG::~ModuleRNG()
 {}
 
 // Called before render is available
-bool ModuleRNG::Init()
+bool ModuleRNG::Init(JSON_Object* node)
 {
 	LOG("Loading RNG");
 	bool ret = true;
