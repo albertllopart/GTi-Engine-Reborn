@@ -26,6 +26,7 @@ ModuleImGui::~ModuleImGui()
 bool ModuleImGui::Start()
 {
 	LOG("Starting glew & ImGui");
+	AddConsoleLog("Starting glew & ImGui");
 	glewInit();
 	ImGui_ImplSdlGL3_Init(App->window->GetWindowPtr());
 	
@@ -124,7 +125,8 @@ update_status ModuleImGui::Update(float dt)
 
 bool ModuleImGui::CleanUp()
 {
-	LOG("Unloading Intro scene");
+	LOG("Unloading ImGui Module");
+	AddConsoleLog("Unloading ImGui Module");
 	ImGui_ImplSdlGL3_Shutdown();
 	return true;
 }

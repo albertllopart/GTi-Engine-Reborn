@@ -25,12 +25,14 @@ ModuleInput::~ModuleInput()
 bool ModuleInput::Init(JSON_Object* node)
 {
 	LOG("Init SDL input event system");
+	App->imgui->AddConsoleLog("Init SDL input event system");
 	bool ret = true;
 	SDL_Init(0);
 
 	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+		App->imgui->AddConsoleLog(("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError()));
 		ret = false;
 	}
 
@@ -125,12 +127,14 @@ update_status ModuleInput::PreUpdate(float dt)
 	{
 		int random = App->rng->RandomInt(0, 3);
 		LOG("random int = %i", random);
+		//App->imgui->AddConsoleLog(("random int = %i", random));
 	}
 
 	if (keyboard[SDL_SCANCODE_9] == KEY_DOWN)
 	{
 		float random = App->rng->RandomFloat();
 		LOG("random float = %f", random);
+		//App->imgui->AddConsoleLog(("random float = %f", random));
 	}
 
 	//save load
@@ -152,6 +156,7 @@ update_status ModuleInput::PreUpdate(float dt)
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
+	App->imgui->AddConsoleLog("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }

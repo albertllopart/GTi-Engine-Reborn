@@ -20,11 +20,13 @@ ModuleWindow::~ModuleWindow()
 bool ModuleWindow::Init(JSON_Object* node)
 {
 	LOG("Init SDL window & surface");
+	App->imgui->AddConsoleLog("Init SDL window & surface");
 	bool ret = true;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		App->imgui->AddConsoleLog(("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError()));
 		ret = false;
 	}
 	else
@@ -69,6 +71,7 @@ bool ModuleWindow::Init(JSON_Object* node)
 		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			App->imgui->AddConsoleLog(("Window could not be created! SDL_Error: %s\n", SDL_GetError()));
 			ret = false;
 		}
 		else
@@ -85,6 +88,7 @@ bool ModuleWindow::Init(JSON_Object* node)
 bool ModuleWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
+	App->imgui->AddConsoleLog("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
 	if(window != NULL)
@@ -165,7 +169,8 @@ void ModuleWindow::SetFullDesktop(bool fullDesktop)
 
 void ModuleWindow::Save(JSON_Object* node)
 {
-	LOG("-> Saving Window Module...")
+	LOG("Saving Window Module...");
+	App->imgui->AddConsoleLog("Saving Window Module...");
 
 	json_object_set_number(node, "width", width);
 	json_object_set_number(node, "height", height);
@@ -179,7 +184,8 @@ void ModuleWindow::Save(JSON_Object* node)
 
 void ModuleWindow::Load(JSON_Object* node)
 {
-	LOG("-> Loading Window Module...")
+	LOG("Loading Window Module...");
+	App->imgui->AddConsoleLog("Loading Window Module...");
 
 	width = json_object_get_number(node, "width");
 	height = json_object_get_number(node, "height");

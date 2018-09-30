@@ -18,6 +18,7 @@ ModuleRNG::~ModuleRNG()
 bool ModuleRNG::Init(JSON_Object* node)
 {
 	LOG("Loading RNG");
+	App->imgui->AddConsoleLog("Loading RNG");
 	bool ret = true;
 
 	return ret;
@@ -38,6 +39,7 @@ bool ModuleRNG::Start()
 bool ModuleRNG::CleanUp()
 {
 	LOG("Freeing RNG");
+	App->imgui->AddConsoleLog("Freeing RNG");
 
 	return true;
 }
