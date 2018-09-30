@@ -49,11 +49,15 @@ update_status ModuleImGui::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Save"))
+			if (ImGui::MenuItem("Load (F6)"))
+			{
+				App->Load();
+			}
+			if (ImGui::MenuItem("Save (F5)"))
 			{
 				App->Save();
 			}
-			if (ImGui::MenuItem("Quit"))
+			if (ImGui::MenuItem("Quit (Alt + F4)"))
 			{
 				return UPDATE_STOP;
 			}
