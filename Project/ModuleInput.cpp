@@ -118,8 +118,8 @@ update_status ModuleInput::PreUpdate(float dt)
 		}
 	}
 
-	//if(quit == true || (keyboard[SDL_SCANCODE_LALT] == KEY_DOWN && keyboard[SDL_SCANCODE_F4] == KEY_DOWN))
-		//return UPDATE_STOP;
+	if(quit == true || (keyboard[SDL_SCANCODE_LALT] == KEY_DOWN && keyboard[SDL_SCANCODE_F4] == KEY_DOWN))
+		return UPDATE_STOP;
 
 	if (keyboard[SDL_SCANCODE_0] == KEY_DOWN)
 	{
