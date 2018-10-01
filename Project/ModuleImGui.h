@@ -30,6 +30,7 @@ public:
 	bool showconsole = false;
 	bool config_menu = false;
 	bool about = false;
+	bool wframe = false;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;
