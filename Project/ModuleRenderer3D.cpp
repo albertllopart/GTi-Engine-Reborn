@@ -133,7 +133,16 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	OnResize(json_object_get_number(node, "width"), json_object_get_number(node, "height"));
 
 
-	//RIC
+
+
+	//uint my_id = 0;
+	//float *vertices;
+	//glGenBuffers(1, (GLuint*) &(my_id));
+	//glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6 * 3, vertices, GL_STATIC_DRAW);
+
+
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	return ret;
@@ -147,6 +156,36 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
+
+	glLoadIdentity();
+	//glLineWidth(2.0f);
+
+	//glBegin(GL_TRIANGLES);
+	//glVertex3f(0.0f, 1.0f, 0.0f);
+	//glVertex3f(0.0f, 0.0f, 0.0f);		//FRONT FACE
+	//glVertex3f(1.0f, 0.0f, 0.0f);
+	//															
+	//glVertex3f(0.0f, 1.0f, 0.0f);
+	//glVertex3f(1.0f, 0.0f, 0.0f);		//FRONT FACE
+	//glVertex3f(1.0f, 1.0f, 0.0f);
+
+	//glVertex3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(0.0f, 1.0f, 0.0f);		//TOP FACE
+	//glVertex3f(1.0f, 1.0f, 0.0f);
+
+	//glVertex3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(1.0f, 1.0f, 0.0f);		//TOP FACE
+	//glVertex3f(1.0f, 1.0f, 1.0f);
+
+	//glVertex3f(1.0f, 1.0f, 0.0f);
+	//glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
+	//glVertex3f(1.0f, 0.0f, 1.0f);
+
+
+	////glRotatef(0.1f, 1.0f, 1.0f, 0.0f);
+	//glEnd();
+
+	glLineWidth(1.0f);
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
@@ -174,6 +213,8 @@ bool ModuleRenderer3D::CleanUp()
 
 	return true;
 }
+
+
 
 
 void ModuleRenderer3D::OnResize(int width, int height)

@@ -13,26 +13,22 @@ public:
 	ModuleRenderer3D(Application* app, bool start_enabled = true);
 	~ModuleRenderer3D();
 
-	bool Init(JSON_Object* node);
+	
 	update_status PreUpdate(float dt);
 	update_status PostUpdate(float dt);
-	bool CleanUp();
 
+	bool Init(JSON_Object* node);
+	bool CleanUp();
 	void OnResize(int width, int height);
 
 	float4x4 perspective(float fovy, float aspect, float n, float f);
 
 	void Save(JSON_Object* node);
 	void Load(JSON_Object* node);
-
 	void SetDepthTest();
-
 	void SetCullFace();
-
 	void SetLighting();
-
 	void SetColorMaterial();
-
 	void SetTexture2D();
 
 public:
