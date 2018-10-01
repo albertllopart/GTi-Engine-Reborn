@@ -181,6 +181,14 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	//glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
 	//glVertex3f(1.0f, 0.0f, 1.0f);
 
+	//glVertex3f(1.0f, 1.0f, 1.0f);
+	//glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
+	//glVertex3f(1.0f, 0.0f, 1.0f);
+
+	//glVertex3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(0.0f, 0.0f, 1.0f);		//LEFT FACE
+	//glVertex3f(0.0f, 0.0f, 0.0f);
+
 
 	////glRotatef(0.1f, 1.0f, 1.0f, 0.0f);
 	//glEnd();
