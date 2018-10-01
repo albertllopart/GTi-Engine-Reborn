@@ -212,7 +212,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 		}
 		if (ImGui::CollapsingHeader("Render"))
 		{
-			ImGui::Checkbox("Wireframe Mode", &wframe);
+			ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wframe);
 			if (ImGui::Checkbox("Depth Test", &App->renderer3D->depthTest))
 			{
 				App->renderer3D->SetDepthTest();

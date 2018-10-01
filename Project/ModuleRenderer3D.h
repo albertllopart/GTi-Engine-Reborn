@@ -42,6 +42,7 @@ public:
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
+	bool wframe;
 	bool depthTest;
 	bool cullFace;
 	bool lighting;
