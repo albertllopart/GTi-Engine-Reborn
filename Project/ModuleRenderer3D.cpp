@@ -158,40 +158,60 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
 	glLoadIdentity();
-	//glLineWidth(2.0f);
+	glLineWidth(2.0f);
 
-	//glBegin(GL_TRIANGLES);
-	//glVertex3f(0.0f, 1.0f, 0.0f);
-	//glVertex3f(0.0f, 0.0f, 0.0f);		//FRONT FACE
-	//glVertex3f(1.0f, 0.0f, 0.0f);
-	//															
-	//glVertex3f(0.0f, 1.0f, 0.0f);
-	//glVertex3f(1.0f, 0.0f, 0.0f);		//FRONT FACE
-	//glVertex3f(1.0f, 1.0f, 0.0f);
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);		//FRONT FACE
+	glVertex3f(1.0f, 0.0f, 0.0f);
+																
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);		//FRONT FACE
+	glVertex3f(1.0f, 1.0f, 0.0f);
 
-	//glVertex3f(0.0f, 1.0f, 1.0f);
-	//glVertex3f(0.0f, 1.0f, 0.0f);		//TOP FACE
-	//glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);		//TOP FACE
+	glVertex3f(1.0f, 1.0f, 0.0f);
 
-	//glVertex3f(0.0f, 1.0f, 1.0f);
-	//glVertex3f(1.0f, 1.0f, 0.0f);		//TOP FACE
-	//glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);		//TOP FACE
+	glVertex3f(1.0f, 1.0f, 1.0f);
 
-	//glVertex3f(1.0f, 1.0f, 0.0f);
-	//glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
-	//glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
+	glVertex3f(1.0f, 0.0f, 1.0f);
 
-	//glVertex3f(1.0f, 1.0f, 1.0f);
-	//glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
-	//glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
+	glVertex3f(1.0f, 0.0f, 1.0f);
 
-	//glVertex3f(0.0f, 1.0f, 1.0f);
-	//glVertex3f(0.0f, 0.0f, 1.0f);		//LEFT FACE
-	//glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);		//LEFT FACE
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);		//LEFT FACE
+	glVertex3f(0.0f, 1.0f, 0.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);		//BACK FACE
+	glVertex3f(0.0f, 0.0f, 1.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);		//BACK FACE
+	glVertex3f(0.0f, 1.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);		//BOTTOM FACE
+	glVertex3f(1.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);		//BOTTOM FACE
+	glVertex3f(1.0f, 0.0f, 0.0f);
 
 
-	////glRotatef(0.1f, 1.0f, 1.0f, 0.0f);
-	//glEnd();
+	glRotatef(0.1f, 1.0f, 1.0f, 0.0f);
+	glEnd();
 
 	glLineWidth(1.0f);
 
@@ -207,6 +227,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	App->editor->Draw();
+	App->imgui->Draw();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }

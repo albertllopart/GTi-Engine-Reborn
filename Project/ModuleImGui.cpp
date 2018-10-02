@@ -329,6 +329,11 @@ void ModuleImGui::AboutWindow()
 	
 }
 
+void ModuleImGui::Draw()const
+{
+	ImGui::Render();
+}
+
 std::vector<float> ModuleImGui::GetFramerateVec() const
 {
 	return FPSvec;

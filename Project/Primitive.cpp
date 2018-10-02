@@ -1,8 +1,8 @@
 #include "Globals.h"
+#include "Glew/include/glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Primitive.h"
-
 #include "MathGeoLib/Math/TransformOps.h"
 #include "MathGeoLib/Math/MathConstants.h"
 
@@ -268,7 +268,7 @@ void pPlane::InnerRender() const
 {
 	glLineWidth(1.0f);
 
-	glBegin(GL_QUADS);
+	glBegin(GL_LINES);
 
 	float d = 200.0f;
 

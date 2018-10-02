@@ -15,6 +15,7 @@ public:
 
 	bool Init(JSON_Object* data = nullptr);
 	bool CleanUp(JSON_Object* data = nullptr);
+	bool Start();
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);

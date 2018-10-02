@@ -21,9 +21,9 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
-	AddModule(imgui);
 	AddModule(rng);
 	AddModule(editor);
+	AddModule(imgui);
 
 	// Renderer last!
 	AddModule(renderer3D);

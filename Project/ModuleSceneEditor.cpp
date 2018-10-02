@@ -26,6 +26,12 @@ bool ModuleSceneEditor::CleanUp(JSON_Object* data)
 	return true;
 }
 
+bool ModuleSceneEditor::Start()
+{
+	App->camera->Move(float3(0, 1, 0));
+	return true;
+}
+
 update_status ModuleSceneEditor::PreUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
@@ -38,6 +44,7 @@ update_status ModuleSceneEditor::Update(float dt)
 
 update_status ModuleSceneEditor::PostUpdate(float dt)
 {
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -47,6 +54,10 @@ void ModuleSceneEditor::Draw()
 	{
 		(*it)->Render();
 	}
+
+	pPlane p(0, 0, 0, 100);
+	p.color = White;
+	p.Render();
 
 }
 void ModuleSceneEditor::SetToWireframe(bool wframe)
