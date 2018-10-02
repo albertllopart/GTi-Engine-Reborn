@@ -37,30 +37,28 @@ protected:
 	PrimitiveTypes type;
 };
 
-// =============VERTEX ARRAY====================
+// ==============VERTEX CUBE===========
 class pCube : public Primitive
 {
 public :
 	pCube();
-	pCube(float3 position, float3 size = float3(1.f,1.f,1.f));
+	pCube(float3 position, float3 size = float3(1.f, 1.f, 1.f));
 	void InnerRender() const;
 public:
 	float3 size;
-	uint my_id = 0; //vertex id
+	uint my_id;
 };
-
-// ==============INDICES=====================
+// ==============INDEX CUBE===========
 class pCube2 : public Primitive
 {
 public:
 	pCube2();
-	pCube2(float3 position, float3 size);
+	pCube2(float3 position, float3 size = float3(1.f,1.f,1.f));
 	void InnerRender() const;
 public:
 	float3 size;
-	uint my_id = 0;	//indices id
+	uint my_id;
 };
-
 // ============================================
 class pSphere : public Primitive
 {
