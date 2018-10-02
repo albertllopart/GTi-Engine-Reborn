@@ -28,7 +28,8 @@ bool ModuleSceneEditor::CleanUp(JSON_Object* data)
 
 bool ModuleSceneEditor::Start()
 {
-	App->camera->Move(float3(0, 1, 0));
+	App->camera->Move(float3(0.0, 10.0, 0.0));
+	App->camera->LookAt(float3(0.0, 0.0, 0.0));
 	return true;
 }
 

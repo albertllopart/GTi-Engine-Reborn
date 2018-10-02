@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MODULE_RENDERER_3D_H__
+#define __MODULE_RENDERER_3D_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "Light.h"
@@ -35,13 +37,15 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-	float3x3 NormalMatrix;
-	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	math::float3x3 NormalMatrix;
+	math::float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
 	bool wframe;
-	bool depthTest;
-	bool cullFace;
-	bool lighting;
-	bool colorMaterial;
-	bool texture2D;
+	bool depthTest = true;
+	bool cullFace = true;
+	bool lighting = true;
+	bool colorMaterial = true;
+	bool texture2D = true;
 };
+
+#endif

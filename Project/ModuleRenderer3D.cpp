@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+
+#include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -25,15 +27,6 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	LOG("Creating 3D Renderer context");
 	App->imgui->AddConsoleLog("Creating 3D Renderer context");
 	bool ret = true;
-	
-	//Setting up gl attributes
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -99,6 +92,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
 		lights[0].SetPos(0.0f, 0.0f, 2.5f);
 		lights[0].Init();
+		lights[0].Active(true);
 		
 		GLfloat MaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
@@ -106,27 +100,10 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		if (depthTest)
-		{
-			glEnable(GL_DEPTH_TEST); //important for 3d depth perception
-		}
-		if (cullFace)
-		{
-			glEnable(GL_CULL_FACE); //GL_CULL_FACE is to be enabled for performance reasons, as it easily removes half of the triangles to draw, normally without visual artifacts if your geometry is watertight
-		}
-		lights[0].Active(true);
-		if (lighting)
-		{
-			glEnable(GL_LIGHTING); //If enabled, use the current lighting parameters to compute the vertex color. Otherwise, simply associate the current color with each vertex
-		}
-		if (colorMaterial)
-		{
-			glEnable(GL_COLOR_MATERIAL); //If enabled, have ambient and diffuse material parameters track the current color.
-		}
-		if (texture2D)
-		{
-			glEnable(GL_TEXTURE_2D); // If enabled, two-dimensional texturing is performed for the active texture unit
-		}
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_COLOR_MATERIAL);
 	}
 
 	// Projection matrix for
@@ -143,8 +120,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 
 
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	
 	return ret;
 }
 
@@ -152,73 +128,15 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+	//glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
-	glLoadIdentity();
-	glLineWidth(2.0f);
-
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);		//FRONT FACE
-	glVertex3f(1.0f, 0.0f, 0.0f);
-																
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);		//FRONT FACE
-	glVertex3f(1.0f, 1.0f, 0.0f);
-
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);		//TOP FACE
-	glVertex3f(1.0f, 1.0f, 0.0f);
-
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);		//TOP FACE
-	glVertex3f(1.0f, 1.0f, 1.0f);
-
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
-	glVertex3f(1.0f, 0.0f, 1.0f);
-
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);		//RIGHT FACE
-	glVertex3f(1.0f, 0.0f, 1.0f);
-
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);		//LEFT FACE
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);		//LEFT FACE
-	glVertex3f(0.0f, 1.0f, 0.0f);
-
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);		//BACK FACE
-	glVertex3f(0.0f, 0.0f, 1.0f);
-
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);		//BACK FACE
-	glVertex3f(0.0f, 1.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);		//BOTTOM FACE
-	glVertex3f(1.0f, 0.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);		//BOTTOM FACE
-	glVertex3f(1.0f, 0.0f, 0.0f);
-
-
-	glRotatef(0.1f, 1.0f, 1.0f, 0.0f);
-	glEnd();
-
-	glLineWidth(1.0f);
-
-	// light 0 on cam pos
+	// Light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
-	for(uint i = 0; i < MAX_LIGHTS; ++i)
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
 	return UPDATE_CONTINUE;

@@ -6,14 +6,16 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 {
 	CalculateViewMatrix();
 
-	X = float3(1.0f, 0.0f, 0.0f);
-	Y = float3(0.0f, 1.0f, 0.0f);
-	Z = float3(0.0f, 0.0f, 1.0f);
+	X = math::float3(1.0f, 0.0f, 0.0f);
+	Y = math::float3(0.0f, 1.0f, 0.0f);
+	Z = math::float3(0.0f, 0.0f, 1.0f);
 
-	Position = float3(0.0f, 0.0f, 5.0f);
-	Reference = float3(0.0f, 0.0f, 0.0f);
+	Position = math::float3(0.0f, 0.0f, 5.0f);
+	Reference = math::float3(0.0f, 0.0f, 0.0f);
 
 	name = "Camera";
+
+	CalculateViewMatrix();
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -44,8 +46,8 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
-	float3 newPos(0,0,0);
-	float speed = 8.0f * dt;
+	math::float3 newPos(0.0f, 0.0f, 0.0f);
+	float speed = 3.0f * dt;
 	
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 	{
@@ -67,42 +69,42 @@ update_status ModuleCamera3D::Update(float dt)
 
 		// Mouse motion ----------------
 		// COMENTED DUE CHANGE BETWEEN GLMATH AND MATHGEOLIB CONVERSION
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.1f;
+
+		Position -= Reference;
+
+		if (dx != 0)
 		{
-			int dx = -App->input->GetMouseXMotion();
-			int dy = -App->input->GetMouseYMotion();
+			float DeltaX = (float)dx * Sensitivity;
 
-			float Sensitivity = 0.25f;
-
-			Position -= Reference;
-
-			if (dx != 0)
-			{
-				float DeltaX = (float)dx * Sensitivity;
-
-				math::float3x3 rotationMatrix = math::float3x3::RotateY(DeltaX);
-				X = rotationMatrix * X;
-				Y = rotationMatrix * Y;
-				Z = rotationMatrix * Z;
-			}
-
-			if (dy != 0)
-			{
-				float DeltaY = (float)dy * Sensitivity;
-
-				math::float3x3 rotationMatrix = math::float3x3::RotateAxisAngle(X, DeltaY);
-				Y = rotationMatrix * Y;
-				Z = rotationMatrix * Z;
-
-				if (Y.y < 0.0f)
-				{
-					Z = math::float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-					Y = math::Cross(Z, X);
-				}
-			}
-
-			Position = Reference + Z * Position.Length();
+			math::float3x3 rotationMatrix = math::float3x3::RotateY(DeltaX);
+			X = rotationMatrix * X;
+			Y = rotationMatrix * Y;
+			Z = rotationMatrix * Z;
 		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * Sensitivity;
+
+			math::float3x3 rotationMatrix = math::float3x3::RotateAxisAngle(X, DeltaY);
+			Y = rotationMatrix * Y;
+			Z = rotationMatrix * Z;
+
+			if (Y.y < 0.0f)
+			{
+				Z = math::float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = math::Cross(Z, X);
+			}
+		}
+
+		Position = Reference + Z * Position.Length();
+	}
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -118,7 +120,7 @@ void ModuleCamera3D::Look(const float3 &Position, const float3 &Reference, bool 
 	this->Reference = Reference;
 	// GEOLIB
 	Z = (Position - Reference).Normalized();
-	X = math::Cross(float3(0.0f, 1.0f, 0.0f), Z).Normalized();
+	X = math::Cross(math::float3(0.0f, 1.0f, 0.0f), Z).Normalized();
 	Y = math::Cross(Z, X);
 
 	if(!RotateAroundReference)
@@ -136,7 +138,7 @@ void ModuleCamera3D::LookAt( const float3 &Spot)
 	Reference = Spot;
 	// GEOLIB
 	Z = (Position - Reference).Normalized();
-	X = math::Cross(float3(0.0f, 1.0f, 0.0f), Z).Normalized();
+	X = math::Cross(math::float3(0.0f, 1.0f, 0.0f), Z).Normalized();
 	Y = math::Cross(Z, X);
 
 	CalculateViewMatrix();
@@ -162,6 +164,6 @@ float* ModuleCamera3D::GetViewMatrix()
 void ModuleCamera3D::CalculateViewMatrix()
 {
 	// GEOLIB
-	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f);
+	ViewMatrix = math::float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f);
 	ViewMatrixInverse = ViewMatrix.Inverted();
 }

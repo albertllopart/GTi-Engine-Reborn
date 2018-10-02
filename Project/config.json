@@ -3,8 +3,8 @@
         "Max FPS": 60
     },
     "Window": {
-        "width": 1425,
-        "height": 870,
+        "width": 1280,
+        "height": 1024,
         "size": 1,
         "fullscreen": false,
         "resizable": true,

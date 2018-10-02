@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MODULE_CAMERA_3D_H__
+#define __MODULE_CAMERA_3D_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/Math/float3.h"
@@ -26,9 +28,11 @@ private:
 
 public:
 	
-	float3 X, Y, Z, Position, Reference;
+	math::float3 X, Y, Z, Position, Reference;
 
 private:
 
-	float4x4 ViewMatrix, ViewMatrixInverse;
+	math::float4x4 ViewMatrix, ViewMatrixInverse;
 };
+
+#endif

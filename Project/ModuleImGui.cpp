@@ -167,6 +167,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				if (App->window->resizable)
 					App->window->ResizeWindow(App->window->width, App->window->height);
 			}
+			App->renderer3D->OnResize(App->window->width, App->window->height);
 
 			if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
 				App->window->SetFullscreen(App->window->fullscreen);
