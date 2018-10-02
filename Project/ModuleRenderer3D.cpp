@@ -8,9 +8,9 @@
 #include <gl/GLU.h>
 #include "parson/parson.h"
 
-
-#pragma comment (lib, "glu32.lib")    
 #pragma comment (lib, "opengl32.lib") 
+#pragma comment (lib, "glu32.lib")    
+#pragma comment (lib, "Glew/libx86/glew32.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,11 +24,20 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_Object* node)
 {
-	glewInit();
+
 	LOG("Creating 3D Renderer context");
 	App->imgui->AddConsoleLog("Creating 3D Renderer context");
 	bool ret = true;
 
+	glewExperimental = TRUE;
+
+	GLint GlewInitResult = glewInit();
+	if (GLEW_OK != GlewInitResult)
+	{
+		//printf("ERROR: %s\n", glewGetErrorString(GlewInitResult));
+		App->imgui->AddConsoleLog("GLEW ERROR");
+		ret = false;
+	}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
