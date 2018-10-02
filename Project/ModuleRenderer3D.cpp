@@ -133,6 +133,66 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
+
+	/////////
+	glLineWidth(2.0f);
+
+	glBegin(GL_TRIANGLES);
+	glColor3f(0.f,0.f,1.f); 
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);		
+	glVertex3f(0.0f, 1.0f, 0.0f);
+
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);		
+	glVertex3f(0.0f, 1.0f, 0.0f);
+
+	glColor3f(0.f, 1.f, 0.f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);		
+	glVertex3f(0.0f, 1.0f, 1.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);		
+	glVertex3f(0.0f, 1.0f, 1.0f);
+
+	glColor3f(1.f, 0.f, 0.f);			
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);	
+	glVertex3f(1.0f, 1.0f, 0.0f);	
+
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+
+	glColor3f(1.f, 0.f, 1.f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);		
+	glVertex3f(0.0f, 1.0f, 1.0f);
+
+	glColor3f(0.f, 1.f, 1.f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);	
+	glVertex3f(1.0f, 1.0f, 1.0f);
+
+	glColor3f(1.f, 1.f, 0.f);//bot
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);	
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glEnd();
 	// Light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
@@ -145,8 +205,9 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	App->editor->Draw();
 	App->imgui->Draw();
+	App->editor->Draw();
+
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }

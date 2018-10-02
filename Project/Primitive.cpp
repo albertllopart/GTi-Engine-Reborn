@@ -116,7 +116,6 @@ pCube::pCube(float3 position,float3 size) : Primitive(), size(size.x, size.y, si
 {
 	type = PrimitiveTypes::Primitive_Cube;
 
-	type = PrimitiveTypes::Primitive_Cube;
 
 	float cube[108] =
 	{
@@ -191,6 +190,7 @@ void pCube::InnerRender() const
 //INDICES CUBE=============================
 pCube2::pCube2()
 {
+
 }
 
 pCube2::pCube2(float3 position, float3 size )
@@ -199,6 +199,15 @@ pCube2::pCube2(float3 position, float3 size )
 
 void pCube2::InnerRender() const
 {
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 // SPHERE ============================================
