@@ -52,7 +52,6 @@ public:
 class pCube2 : public Primitive
 {
 public:
-	pCube2();
 	pCube2(float3 position, float3 size = float3(1.f,1.f,1.f));
 	void InnerRender() const;
 public:

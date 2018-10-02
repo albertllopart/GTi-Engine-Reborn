@@ -119,53 +119,53 @@ pCube::pCube(float3 position,float3 size) : Primitive(), size(size.x, size.y, si
 
 	float cube[108] =
 	{
-		-0.5f,  0.5f,  0.5f,	//A
-		 0.5f, -0.5f,  0.5f,	//B
-		 0.5f,  0.5f,  0.5f,	//C
+		-0.5f,  0.5f,  0.5f,	//A	0
+		 0.5f, -0.5f,  0.5f,	//B	1
+		 0.5f,  0.5f,  0.5f,	//C	2
 
-		-0.5f,  0.5f,  0.5f,	//A
-		-0.5f, -0.5f,  0.5f,	//D
-		 0.5f, -0.5f,  0.5f,	//B
+		-0.5f,  0.5f,  0.5f,	//A	0
+		-0.5f, -0.5f,  0.5f,	//D	3
+		 0.5f, -0.5f,  0.5f,	//B	1
 
-		 0.5f,  0.5f,  0.5f,	//C
-		 0.5f, -0.5f,  0.5f,	//B
-		 0.5f,  0.5f, -0.5f,	//E
+		 0.5f,  0.5f,  0.5f,	//C	2
+		 0.5f, -0.5f,  0.5f,	//B	1
+		 0.5f,  0.5f, -0.5f,	//E	4
 
-		 0.5f,  0.5f, -0.5f,	//E
-		 0.5f, -0.5f,  0.5f,	//B
-		 0.5f, -0.5f, -0.5f,	//F
+		 0.5f,  0.5f, -0.5f,	//E	4
+		 0.5f, -0.5f,  0.5f,	//B	1
+		 0.5f, -0.5f, -0.5f,	//F	7
 
-		-0.5f,  0.5f, -0.5f,	//G
-		-0.5f, -0.5f,  0.5f,	//H
-		-0.5f,  0.5f,  0.5f,	//A
+		-0.5f,  0.5f, -0.5f,	//G	8
+		-0.5f, -0.5f,  0.5f,	//D	3
+		-0.5f,  0.5f,  0.5f,	//A	0
 
 		-0.5f, -0.5f, -0.5f,	//H
 		-0.5f, -0.5f,  0.5f,	//D
-		-0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,	//G
 
-		 0.5f,  0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
+		 0.5f,  0.5f, -0.5f,	//E
+		 0.5f, -0.5f, -0.5f,	//F
+		-0.5f,  0.5f, -0.5f,	//G
 
-		 0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
+		 0.5f, -0.5f, -0.5f,	//F
+		-0.5f, -0.5f, -0.5f,	//H
+		-0.5f,  0.5f, -0.5f,	//G
 
-		 0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
+		 0.5f,  0.5f, -0.5f,	//E
+		-0.5f,  0.5f,  0.5f,	//A
+		 0.5f,  0.5f,  0.5f,	//C
 
-		-0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f,  0.5f,	//A
+		 0.5f,  0.5f, -0.5f,	//E
+		-0.5f,  0.5f, -0.5f,	//G
 
-		 0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f, -0.5f,
+		 0.5f, -0.5f,  0.5f,	//B
+		-0.5f, -0.5f,  0.5f,	//D
+		 0.5f, -0.5f, -0.5f,	//F
 
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f, -0.5f,	//H
+		 0.5f, -0.5f, -0.5f,	//F
+		-0.5f, -0.5f,  0.5f,	//D
 	};
 
 
@@ -174,7 +174,7 @@ pCube::pCube(float3 position,float3 size) : Primitive(), size(size.x, size.y, si
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 108, cube, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//SetPos(position.x, position.y, position.z);
+	SetPos(position.x, position.y, position.z);
 }
 
 void pCube::InnerRender() const
@@ -184,17 +184,40 @@ void pCube::InnerRender() const
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
 	glDrawArrays(GL_TRIANGLES, 0, 108);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 //INDICES CUBE=============================
-pCube2::pCube2()
-{
-
-}
-
 pCube2::pCube2(float3 position, float3 size )
 {
+	GLfloat vertices[24] = {
+						-0.5f,  0.5f,  0.5f,	//A	0
+						0.5f, -0.5f,  0.5f,		//B	1	
+						0.5f,  0.5f,  0.5f,		//C	2	
+						-0.5f, -0.5f,  0.5f,	//D	3
+						0.5f,  0.5f, -0.5f,		//E	4
+						0.5f, -0.5f, -0.5f,		//F	5	
+						-0.5f,  0.5f, -0.5f,	//G	6
+						-0.5f, -0.5f, -0.5f,	//H	7
+	};          
+	GLubyte indices[] = { 0,1,2, 2,3,0,  
+						 0,3,4, 4,5,0,
+						 0,5,6, 6,1,0,
+						 1,6,7, 7,2,1,
+						 7,4,3, 3,2,7,
+						 4,7,6, 6,5,4 };
+
+
+
+
+	glGenBuffers(1, &my_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * 36, indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+//http://www.songho.ca/opengl/gl_vertexarray.html
+
 }
 
 void pCube2::InnerRender() const
@@ -208,6 +231,7 @@ void pCube2::InnerRender() const
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
 }
 
 // SPHERE ============================================

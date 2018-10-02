@@ -24,9 +24,12 @@ public:
 	void SetToWireframe(bool wframe);
 	void AddCube(float3 size, float3 pos = float3(0, 0, 0));
 
+	void AddCube2(float3 size, float3 pos);
+
 private:
 
-	std::list<pCube*> cubes_list;
+	std::list<pCube*> cubes_list; //list of cubes mades  with vertex array
+	std::list<pCube2*> indcubes_list; //list of cubes mades  with indices
 
 	bool wframe;
 };
