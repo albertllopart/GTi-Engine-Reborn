@@ -27,7 +27,6 @@ bool ModuleImGui::Start()
 {
 	LOG("Starting glew & ImGui");
 	AddConsoleLog("Starting glew & ImGui");
-	glewInit();
 	ImGui_ImplSdlGL3_Init(App->window->GetWindowPtr());
 	
 

@@ -24,9 +24,11 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_Object* node)
 {
+	glewInit();
 	LOG("Creating 3D Renderer context");
 	App->imgui->AddConsoleLog("Creating 3D Renderer context");
 	bool ret = true;
+
 
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);

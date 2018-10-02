@@ -106,64 +106,96 @@ void Primitive::Scale(float x, float y, float z)
 	transform = float4x4::Scale(x, y, z).ToFloat4x4() * transform;
 }
 
-// CUBE ============================================
+// VERTEX CUBE============================================
 pCube::pCube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
-pCube::pCube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
+pCube::pCube(float3 position, float3 size) : Primitive(), size(size.x, size.y, size.z)
 {
 	type = PrimitiveTypes::Primitive_Cube;
+
+	float cube[108] =
+	{
+		-0.5f,  0.5f,  0.5f,	//A
+		 0.5f, -0.5f,  0.5f,	//B
+		 0.5f,  0.5f,  0.5f,	//C
+
+		-0.5f,  0.5f,  0.5f,	//A
+		-0.5f, -0.5f,  0.5f,	//D
+		 0.5f, -0.5f,  0.5f,	//B
+
+		 0.5f,  0.5f,  0.5f,	//C
+		 0.5f, -0.5f,  0.5f,	//B
+		 0.5f,  0.5f, -0.5f,	//E
+
+		 0.5f,  0.5f, -0.5f,	//E
+		 0.5f, -0.5f,  0.5f,	//B
+		 0.5f, -0.5f, -0.5f,	//F
+
+		-0.5f,  0.5f, -0.5f,	//G
+		-0.5f, -0.5f,  0.5f,	//H
+		-0.5f,  0.5f,  0.5f,	//A
+
+		-0.5f, -0.5f, -0.5f,	//H
+		-0.5f, -0.5f,  0.5f,	//D
+		-0.5f,  0.5f, -0.5f,
+
+		 0.5f,  0.5f, -0.5f,
+		 0.5f, -0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+
+		 0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+
+		 0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f,  0.5f,
+		 0.5f,  0.5f,  0.5f,
+
+		-0.5f,  0.5f,  0.5f,
+		 0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+
+		 0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+		 0.5f, -0.5f, -0.5f,
+
+		-0.5f, -0.5f, -0.5f,
+		 0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f,  0.5f,
+	};
+
+
+	glGenBuffers(1, (GLuint*) &my_id);
+	glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 108 , cube, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	SetPos(position.x, position.y, position.z);
 }
 
 void pCube::InnerRender() const
-{	
-	float sx = size.x * 0.5f;
-	float sy = size.y * 0.5f;
-	float sz = size.z * 0.5f;
-
-	glBegin(GL_QUADS);
-
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-sx, -sy, sz);
-	glVertex3f( sx, -sy, sz);
-	glVertex3f( sx,  sy, sz);
-	glVertex3f(-sx,  sy, sz);
-
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f( sx, -sy, -sz);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f(-sx,  sy, -sz);
-	glVertex3f( sx,  sy, -sz);
-
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(sx, -sy,  sz);
-	glVertex3f(sx, -sy, -sz);
-	glVertex3f(sx,  sy, -sz);
-	glVertex3f(sx,  sy,  sz);
-
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f(-sx, -sy,  sz);
-	glVertex3f(-sx,  sy,  sz);
-	glVertex3f(-sx,  sy, -sz);
-
-	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-sx, sy,  sz);
-	glVertex3f( sx, sy,  sz);
-	glVertex3f( sx, sy, -sz);
-	glVertex3f(-sx, sy, -sz);
-
-	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f( sx, -sy, -sz);
-	glVertex3f( sx, -sy,  sz);
-	glVertex3f(-sx, -sy,  sz);
-
-	glEnd();
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+// CUBE WITH INDIDES
+pCube2::pCube2()
+{
+	type = PrimitiveTypes::Primitive_Cube;
+}
+pCube2::pCube2(float3 position, float3 size)
+{
+}
+void pCube2::InnerRender() const
+{
+}
 // SPHERE ============================================
 pSphere::pSphere() : Primitive(), radius(1.0f)
 {
@@ -282,3 +314,5 @@ void pPlane::InnerRender() const
 
 	glEnd();
 }
+
+

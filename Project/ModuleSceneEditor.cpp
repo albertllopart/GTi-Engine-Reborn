@@ -30,6 +30,11 @@ bool ModuleSceneEditor::Start()
 {
 	App->camera->Move(float3(0.0, 10.0, 0.0));
 	App->camera->LookAt(float3(0.0, 0.0, 0.0));
+	
+	//pCube *vertex_cube = 
+
+	cubes_list.push_back(new pCube(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f)));
+
 	return true;
 }
 
@@ -61,6 +66,7 @@ void ModuleSceneEditor::Draw()
 	p.Render();
 
 }
+
 void ModuleSceneEditor::SetToWireframe(bool wframe)
 {
 	if (wframe == true)
