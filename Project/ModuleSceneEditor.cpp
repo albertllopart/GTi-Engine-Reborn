@@ -62,6 +62,7 @@ void ModuleSceneEditor::Draw()
 	p.Render();
 
 }
+
 void ModuleSceneEditor::SetToWireframe(bool wframe)
 {
 	if (wframe == true)
