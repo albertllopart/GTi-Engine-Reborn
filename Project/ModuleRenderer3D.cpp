@@ -4,13 +4,12 @@
 
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
-#include "parson/parson.h"
+
 
 
 #pragma comment (lib, "glu32.lib")    
 #pragma comment (lib, "opengl32.lib") 
+#pragma comment (lib, "Glew/libx86/glew32.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -109,18 +108,13 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	// Projection matrix for
 	OnResize(json_object_get_number(node, "width"), json_object_get_number(node, "height"));
 
+	GLint GlewInitResult = glewInit();
+	if (GLEW_OK != GlewInitResult)
+	{
+		LOG("ERROR: %s\n", glewGetErrorString(GlewInitResult));
+		return false;
+	}
 
-
-
-	//uint my_id = 0;
-	//float *vertices;
-	//glGenBuffers(1, (GLuint*) &(my_id));
-	//glBindBuffer(GL_ARRAY_BUFFER, my_id);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6 * 3, vertices, GL_STATIC_DRAW);
-
-
-
-	
 	return ret;
 }
 
@@ -135,64 +129,65 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 
 	/////////
-	glLineWidth(2.0f);
+	//glLineWidth(2.0f);
 
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.f,0.f,1.f); 
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 0.0f);
+	//glBegin(GL_TRIANGLES);
+	//glColor3f(0.f,0.f,1.f); 
+	//glVertex3f(1.0f, 0.0f, 0.0f);
+	//glVertex3f(0.0f, 0.0f, 0.0f);		
+	//glVertex3f(0.0f, 1.0f, 0.0f);
 
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 0.0f);
+	//glVertex3f(1.0f, 1.0f, 0.0f);
+	//glVertex3f(1.0f, 0.0f, 0.0f);		
+	//glVertex3f(0.0f, 1.0f, 0.0f);
 
-	glColor3f(0.f, 1.f, 0.f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	//glColor3f(0.f, 1.f, 0.f);
+	//glVertex3f(1.0f, 1.0f, 0.0f);
+	//glVertex3f(0.0f, 1.0f, 0.0f);		
+	//glVertex3f(0.0f, 1.0f, 1.0f);
 
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(1.0f, 1.0f, 1.0f);
+	//glVertex3f(1.0f, 1.0f, 0.0f);		
+	//glVertex3f(0.0f, 1.0f, 1.0f);
 
-	glColor3f(1.f, 0.f, 0.f);			
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);	
-	glVertex3f(1.0f, 1.0f, 0.0f);	
+	//glColor3f(1.f, 0.f, 0.f);			
+	//glVertex3f(1.0f, 0.0f, 1.0f);
+	//glVertex3f(1.0f, 0.0f, 0.0f);	
+	//glVertex3f(1.0f, 1.0f, 0.0f);	
 
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
+	//glVertex3f(1.0f, 0.0f, 1.0f);
+	//glVertex3f(1.0f, 1.0f, 0.0f);
+	//glVertex3f(1.0f, 1.0f, 1.0f);
 
-	glColor3f(1.f, 0.f, 1.f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	//glColor3f(1.f, 0.f, 1.f);
+	//glVertex3f(0.0f, 0.0f, 0.0f);
+	//glVertex3f(0.0f, 0.0f, 1.0f);
+	//glVertex3f(0.0f, 1.0f, 1.0f);
 
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(0.0f, 1.0f, 0.0f);
+	//glVertex3f(0.0f, 0.0f, 0.0f);		
+	//glVertex3f(0.0f, 1.0f, 1.0f);
 
-	glColor3f(0.f, 1.f, 1.f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
+	//glColor3f(0.f, 1.f, 1.f);
+	//glVertex3f(0.0f, 0.0f, 1.0f);
+	//glVertex3f(1.0f, 0.0f, 1.0f);
+	//glVertex3f(1.0f, 1.0f, 1.0f);
 
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);	
-	glVertex3f(1.0f, 1.0f, 1.0f);
+	//glVertex3f(0.0f, 1.0f, 1.0f);
+	//glVertex3f(0.0f, 0.0f, 1.0f);	
+	//glVertex3f(1.0f, 1.0f, 1.0f);
 
-	glColor3f(1.f, 1.f, 0.f);//bot
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
+	//glColor3f(1.f, 1.f, 0.f);//bot
+	//glVertex3f(1.0f, 0.0f, 1.0f);
+	//glVertex3f(0.0f, 0.0f, 1.0f);
+	//glVertex3f(0.0f, 0.0f, 0.0f);
 
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);	
-	glVertex3f(0.0f, 0.0f, 0.0f);
+	//glVertex3f(1.0f, 0.0f, 0.0f);
+	//glVertex3f(1.0f, 0.0f, 1.0f);	
+	//glVertex3f(0.0f, 0.0f, 0.0f);
 
-	glEnd();
+	//glEnd();
+
 	// Light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
