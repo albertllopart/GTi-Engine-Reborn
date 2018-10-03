@@ -133,8 +133,9 @@ bool ModuleImGui::CleanUp()
 
 void ModuleImGui::ShowConfigurationMenu(bool* opened)
 {
+	static bool testing = true;
 
-	if (ImGui::Begin("Configuration"))
+	if (ImGui::Begin("Configuration"), &testing)
 	{
 
 		ImGui::PushItemWidth(-140);                                 
@@ -151,6 +152,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			sprintf_s(title, 25, "Milliseconds %0.1f", MSvec[MSvec.size() - 1]);
 			ImGui::PlotHistogram("##milliseconds", &MSvec[0], MSvec.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 		}
+
 		if (ImGui::CollapsingHeader("Window"))
 		{
 			if (ImGui::SliderFloat("Brightness", &App->window->brightness, 0.0f, 1.0f, "%.2f"))
@@ -167,7 +169,6 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				if (App->window->resizable)
 					App->window->ResizeWindow(App->window->width, App->window->height);
 			}
-			App->renderer3D->OnResize(App->window->width, App->window->height);
 
 			if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
 				App->window->SetFullscreen(App->window->fullscreen);
@@ -241,16 +242,23 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 
 void ModuleImGui::ShowConsole()
 {
-	if (ImGui::Begin("Console"))
+	static bool show_console = true;
+
+	if (show_console)
 	{
-		if (ImGui::Button("Clear"))
+		ImGui::Begin("Console");
+
+		if (ImGui::CollapsingHeader("LOGs", &showconsole))
 		{
-			consoleLogs.clear();
-		}
-		for (int i = consoleLogs.size() - 1; i >= 0; i--)
-		{
-			std::string s = consoleLogs[i];
-			ImGui::Text("%s", consoleLogs[i].c_str());
+			if (ImGui::Button("Clear"))
+			{
+				consoleLogs.clear();
+			}
+			for (int i = consoleLogs.size() - 1; i >= 0; i--)
+			{
+				std::string s = consoleLogs[i];
+				ImGui::Text("%s", consoleLogs[i].c_str());
+			}
 		}
 	}
 

@@ -79,7 +79,6 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
-    <ClInclude Include="ImGui\imgui_impl_sdl.h" />
     <ClInclude Include="ImGui\imgui_impl_sdl_gl3.h" />
     <ClInclude Include="ImGui\imgui_internal.h" />
     <ClInclude Include="ImGui\stb_rect_pack.h" />

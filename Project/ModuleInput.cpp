@@ -91,9 +91,11 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_x_motion = mouse_y_motion = 0;
 
 	bool quit = false;
+
 	SDL_Event e;
 	while(SDL_PollEvent(&e))
 	{
+
 		switch(e.type)
 		{
 			case SDL_MOUSEWHEEL:

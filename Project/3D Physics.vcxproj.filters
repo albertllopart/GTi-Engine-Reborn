@@ -102,9 +102,6 @@
     <ClInclude Include="ImGui\imgui.h">
       <Filter>Sources\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_sdl.h">
-      <Filter>Sources\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_sdl_gl3.h">
       <Filter>Sources\ImGui</Filter>
     </ClInclude>
