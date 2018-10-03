@@ -136,8 +136,8 @@ pCube::pCube(float3 position,float3 size) : Primitive(), size(size.x, size.y, si
 
 		-0.5f, -0.5f, -0.5f,	//H
 		-0.5f, -0.5f,  0.5f,	//D
-		-0.5f,  0.5f, -0.5f,	//G
-
+		-0.5f,  0.5f, -0.5f,	//G						A B C D E F G H
+//														0 1 2 3 4 5 6 7				
 		 0.5f,  0.5f, -0.5f,	//E
 		 0.5f, -0.5f, -0.5f,	//F
 		-0.5f,  0.5f, -0.5f,	//G
@@ -184,32 +184,39 @@ void pCube::InnerRender() const
 }
 
 //INDICES CUBE=============================
-pCube2::pCube2(float3 position, float3 size )
+pCube2::pCube2(float3 position, float3 size)
 {
+	float3 coord = size / 2;
+
 	GLfloat vertices[24] = {
-						-0.5f,  0.5f,  0.5f,	//A	0
-						0.5f, -0.5f,  0.5f,		//B	1	
-						0.5f,  0.5f,  0.5f,		//C	2	
-						-0.5f, -0.5f,  0.5f,	//D	3
-						0.5f,  0.5f, -0.5f,		//E	4
-						0.5f, -0.5f, -0.5f,		//F	5	
-						-0.5f,  0.5f, -0.5f,	//G	6
-						-0.5f, -0.5f, -0.5f,	//H	7
-	};          
-	GLubyte indices[] = { 0,1,2, 2,3,0,  
-						 0,3,4, 4,5,0,
-						 0,5,6, 6,1,0,
-						 1,6,7, 7,2,1,
-						 7,4,3, 3,2,7,
-						 4,7,6, 6,5,4 };
-
-
-
+		-coord.x, -coord.y,  coord.z, //A 0
+		coord.x, -coord.y,  coord.z,  //B 1
+		-coord.x,  coord.y,  coord.z, //C 2
+		coord.x,  coord.y,  coord.z,  //D 3
+		-coord.x, -coord.y, -coord.z, //E 4
+		coord.x, -coord.y, -coord.z,  //F 5
+		-coord.x,  coord.y, -coord.z, //G 6
+		coord.x,  coord.y, -coord.z   //H 7
+	};
 
 	glGenBuffers(1, &my_id);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * 36, vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	GLubyte indices[] = { 0,1,2, 1,3,2,
+						  1,5,3, 5,7,3,
+						  5,4,7, 4,6,7,
+						  4,0,6, 0,2,6,
+						  2,3,6, 3,7,6,
+						  0,4,1, 1,4,5 };
+
+
+	glGenBuffers(1, &my_indices);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * 36, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
 //http://www.songho.ca/opengl/gl_vertexarray.html
 
@@ -223,7 +230,7 @@ void pCube2::InnerRender() const
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
+	glDrawElements(GL_TRIANGLES,36 , GL_UNSIGNED_BYTE, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 

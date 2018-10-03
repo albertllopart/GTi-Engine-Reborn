@@ -30,8 +30,8 @@ bool ModuleSceneEditor::Start()
 {
 	App->camera->Move(float3(0.0, 10.0, 0.0));
 	App->camera->LookAt(float3(0.0, 0.0, 0.0));
-	AddCube(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
-	//AddCube2(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
+	//AddCube(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
+	AddCube2(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
 
 	return true;
 }

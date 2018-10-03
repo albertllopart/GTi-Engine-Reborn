@@ -56,6 +56,7 @@ public:
 public:
 	float3 size;
 	uint my_id;
+	//uint my_vertex;
 	uint my_indices;
 };
 // ============================================
