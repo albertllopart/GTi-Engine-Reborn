@@ -41,7 +41,6 @@ protected:
 class pCube : public Primitive
 {
 public :
-	pCube();
 	pCube(float3 position, float3 size = float3(1.f, 1.f, 1.f));
 	void InnerRender() const;
 public:

@@ -31,7 +31,7 @@ bool ModuleSceneEditor::Start()
 	App->camera->Move(float3(0.0, 10.0, 0.0));
 	App->camera->LookAt(float3(0.0, 0.0, 0.0));
 	AddCube(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
-	AddCube2(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
+	//AddCube2(float3(1.f, 1.f, 1.f), float3(1.f, 1.f, 1.f));
 
 	return true;
 }
@@ -96,7 +96,7 @@ void ModuleSceneEditor::SetToWireframe(bool wframe)
 }
 void ModuleSceneEditor::AddCube(float3 size, float3 pos)
 {
-	pCube* cube = new pCube;
+	pCube* cube = new pCube(pos,size);
 	cube->size.Set(size.x, size.y, size.z);
 	cube->SetPos(pos.x, pos.y, pos.z);
 	cubes_list.push_back(cube);

@@ -107,11 +107,6 @@ void Primitive::Scale(float x, float y, float z)
 }
 
 // array CUBE ============================================
-pCube::pCube() : Primitive(), size(1.0f, 1.0f, 1.0f)
-{
-	type = PrimitiveTypes::Primitive_Cube;
-}
-
 pCube::pCube(float3 position,float3 size) : Primitive(), size(size.x, size.y, size.z)
 {
 	type = PrimitiveTypes::Primitive_Cube;
