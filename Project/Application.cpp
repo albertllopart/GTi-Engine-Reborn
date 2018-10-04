@@ -1,6 +1,9 @@
 #include "Application.h"
 #include "parson/parson.h"
 
+#include "Timer.h"
+#include "PerfTimer.h"
+
 Application::Application()
 {
 	window = new ModuleWindow(this);
@@ -56,6 +59,11 @@ bool Application::Init()
 		config_node = json_object_get_object(config, "Application");
 
 		max_fps = json_object_get_number(config_node, "Max FPS");
+
+		if (max_fps > 0)
+		{
+			capped_ms = 1000 / max_fps;
+		}
 	}
 	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
 	{
@@ -70,16 +78,16 @@ bool Application::Init()
 		ret = (*item)->Start();
 	}
 	
-	ms_timer.Start();
-	capped_ms = 1000 / max_fps;
+	frame_time.Start();
+	
 	return ret;
 }
 
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f;
-	ms_timer.Start();
+	dt = (float)frame_time.Read() / 1000.0f;
+	frame_time.Start();
 
 	if (max_fps > 0)
 		capped_ms = 1000 / max_fps;
@@ -88,13 +96,23 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f - dt;
+	dt = (float)frame_time.Read() / 1000.0f - dt;
 	lastFPS = 1.0f / dt;
-	lastMs = (float)ms_timer.Read();
+	lastMs = (float)frame_time.Read();
+
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	int last_frame_ms = frame_time.Read();
+	int frames_on_last_update = prev_last_sec_frame_count;
 
 	if (capped_ms > 0 && lastMs < capped_ms)
 	{
-		SDL_Delay(capped_ms - lastMs);
+		SDL_Delay(capped_ms - last_frame_ms);
 		LOG("We waited for %d milliseconds", capped_ms - lastMs);
 	}
 }

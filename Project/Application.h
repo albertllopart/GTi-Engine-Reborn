@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "Timer.h"
+#include "PerfTimer.h"
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
@@ -30,12 +31,22 @@ public:
 
 private:
 
-	Timer	ms_timer;
+	std::list<Module*> list_modules;
+
+	//timer related
+
+	Timer	frame_time;
+	Timer   last_sec_frame_time;
+	PerfTimer perftimer;
+
+	double frame_count = 0;
+	int last_sec_frame_count = 0;
+	int prev_last_sec_frame_count = 0;
+
 	float	dt;
 	float lastFPS = 0;
 	float lastMs = 0;
-	std::list<Module*> list_modules;
-
+	
 	int capped_ms;
 	mutable int max_fps = 60;
 
