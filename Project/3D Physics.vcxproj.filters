@@ -315,6 +315,9 @@
     <ClInclude Include="ModuleSceneEditor.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleImporter.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -489,6 +492,9 @@
       <Filter>Sources\Parson</Filter>
     </ClCompile>
     <ClCompile Include="ModuleSceneEditor.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleImporter.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>

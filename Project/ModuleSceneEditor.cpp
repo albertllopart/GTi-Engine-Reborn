@@ -62,6 +62,10 @@ void ModuleSceneEditor::Draw()
 	{
 		(*it)->Render();
 	}
+	for (std::list<Mesh*>::iterator it = mesh_list.begin(); it != mesh_list.end(); ++it)
+	{
+		App->renderer3D->Draw((**it));
+	}
 
 	pPlane p(0, 0, 0, 100);
 	p.color = White;
@@ -107,4 +111,9 @@ void ModuleSceneEditor::AddCube2(float3 size, float3 pos)
 	cube->size.Set(size.x, size.y, size.z);
 	cube->SetPos(pos.x, pos.y, pos.z);
 	indcubes_list.push_back(cube);
+}
+
+void ModuleSceneEditor::AddMesh(Mesh * model)
+{
+	mesh_list.push_back(model);
 }

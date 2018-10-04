@@ -219,7 +219,21 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
-
+void ModuleRenderer3D::Draw(Mesh toDraw)
+{
+	glPushMatrix();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	glBindBuffer(GL_ARRAY_BUFFER, toDraw.id_vertex);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, toDraw.id_index);
+	glDrawElements(GL_TRIANGLES, sizeof(GLuint) * toDraw.num_index, GL_UNSIGNED_SHORT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopMatrix();
+}
 
 
 void ModuleRenderer3D::OnResize(int width, int height)

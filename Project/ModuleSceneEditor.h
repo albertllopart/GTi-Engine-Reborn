@@ -6,6 +6,17 @@
 
 #include <list>
 
+struct Mesh
+{
+	uint id_index = 0; // index in VRAM
+	uint num_index = 0;
+	uint* index = nullptr;
+
+	uint id_vertex = 0; // unique vertex in VRAM
+	uint num_vertex = 0;
+	float* vertex = nullptr;
+};
+
 class ModuleSceneEditor : public Module
 {
 public:
@@ -22,14 +33,18 @@ public:
 
 	void Draw();
 	void SetToWireframe(bool wframe);
-	void AddCube(float3 size, float3 pos = float3(0, 0, 0));
 
+	void AddCube(float3 size, float3 pos = float3(0, 0, 0));
 	void AddCube2(float3 size, float3 pos);
+	void AddMesh(Mesh* model);
+
 
 private:
 
 	std::list<pCube*> cubes_list; //list of cubes mades  with vertex array
 	std::list<pCube2*> indcubes_list; //list of cubes mades  with indices
+	//scene meshes
+	std::list<Mesh*> mesh_list;
 
 	bool wframe;
 };

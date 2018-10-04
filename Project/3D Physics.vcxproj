@@ -152,6 +152,7 @@
     <ClInclude Include="MemLeaks.h" />
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleImGui.h" />
+    <ClInclude Include="ModuleImporter.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="ModuleRNG.h" />
     <ClInclude Include="ModuleSceneEditor.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />
     <ClCompile Include="ModuleImGui.cpp" />
+    <ClCompile Include="ModuleImporter.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleRNG.cpp" />
