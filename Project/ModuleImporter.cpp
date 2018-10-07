@@ -48,7 +48,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			aiMesh* newMesh = scene->mMeshes[i]; //aiMesh struct from assimp
 			Mesh* m = new Mesh; //our Mesh struct with all vertices and index
 			m->num_vertex = newMesh->mNumVertices; //we store the number of vertex of our mesh in "m"
-			m->vertex = new float[(m->num_vertex * 3)];//storing in "m", the vertices of our mesh 
+			m->vertex = new float[(m->num_vertex * 3)]; //storing in "m", the vertices of our mesh 
 			memcpy(m->vertex, newMesh->mVertices, sizeof(float)* m->num_vertex * 3); //
 			LOG("New mesh with %d vertexs", m->num_vertex);
 			glGenBuffers(1, (GLuint*)&m->id_vertex);
