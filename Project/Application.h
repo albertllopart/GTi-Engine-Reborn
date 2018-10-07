@@ -10,6 +10,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleImGui.h"
+#include "ModuleImporter.h"
 #include "ModuleRNG.h"
 #include "ModuleSceneEditor.h"
 #include <list>
@@ -28,6 +29,7 @@ public:
 	ModuleImGui* imgui;
 	ModuleRNG* rng;
 	ModuleSceneEditor* editor;
+	ModuleImporter* import;
 
 private:
 

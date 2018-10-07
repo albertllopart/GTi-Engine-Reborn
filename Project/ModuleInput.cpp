@@ -91,7 +91,7 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_x_motion = mouse_y_motion = 0;
 
 	bool quit = false;
-
+	char* file_dir = nullptr; //drag&drop
 	SDL_Event e;
 	while(SDL_PollEvent(&e))
 	{
@@ -114,11 +114,19 @@ update_status ModuleInput::PreUpdate(float dt)
 			quit = true;
 			break;
 
+			case SDL_DROPFILE:      //drop case
+				file_dir = e.drop.file;
+				// directory of the file
+				LOG("%s dropped on window.", file_dir);
+				App->import->LoadMesh(file_dir);
+				SDL_free(file_dir);    // we free memory
+				break;
+
 			case SDL_WINDOWEVENT:
-			{
+			
 				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
-			}
+			break;
 		}
 	}
 

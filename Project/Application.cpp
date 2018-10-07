@@ -12,6 +12,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	imgui = new ModuleImGui(this);
+	import = new ModuleImporter(this);
 	rng = new ModuleRNG(this);
 	editor = new ModuleSceneEditor(this);
 
@@ -26,6 +27,7 @@ Application::Application()
 	AddModule(audio);
 	AddModule(rng);
 	AddModule(editor);
+	AddModule(import);
 	AddModule(imgui);
 
 	// Renderer last!
