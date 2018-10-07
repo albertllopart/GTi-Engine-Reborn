@@ -88,6 +88,7 @@ class pLine : public Primitive
 public:
 	pLine();
 	pLine(float x, float y, float z);
+	pLine(float oX, float oY, float oZ, float dX, float dY, float dZ);
 	void InnerRender() const;
 public:
 	float3 origin;

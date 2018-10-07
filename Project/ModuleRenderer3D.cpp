@@ -244,9 +244,11 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 	//draw normals
 	if (show_normals)
 	{
-
-
-
+		for (int i = 0; i < to_draw->num_vertex; i += 3)
+		{
+			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
+			line.Render();
+		}
 	}
 }
 
