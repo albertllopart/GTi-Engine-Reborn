@@ -235,6 +235,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			{
 				App->renderer3D->SetTexture2D();
 			}
+			ImGui::Checkbox("Show Normals", &App->renderer3D->show_normals);
 		}
 	}
 	ImGui::End();

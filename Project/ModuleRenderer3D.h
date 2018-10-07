@@ -21,7 +21,9 @@ struct Mesh
 	uint num_vertex = 0;
 	float* vertex = nullptr;
 	//normals
+	uint id_normals = 0;
 	float* normals = nullptr;
+	
 
 };
 
@@ -38,7 +40,7 @@ public:
 
 	bool Init(JSON_Object* node);
 	bool CleanUp();
-	void Draw(Mesh toDraw);
+	void Draw(Mesh* toDraw);
 	void OnResize(int width, int height);
 
 	float4x4 perspective(float fovy, float aspect, float n, float f);
@@ -64,6 +66,7 @@ public:
 	bool lighting = true;
 	bool colorMaterial = true;
 	bool texture2D = true;
+	bool show_normals = false;
 };
 
 #endif

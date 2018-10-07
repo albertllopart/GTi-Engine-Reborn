@@ -63,7 +63,7 @@ void ModuleSceneEditor::Draw()
 	}
 	for (std::list<Mesh*>::iterator it = mesh_list.begin(); it != mesh_list.end(); ++it)
 	{
-		App->renderer3D->Draw((**it));
+		App->renderer3D->Draw((*it));
 	}
 
 	pPlane p(0, 0, 0, 100);

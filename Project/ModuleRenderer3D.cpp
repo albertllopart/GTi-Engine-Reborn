@@ -219,20 +219,35 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
-void ModuleRenderer3D::Draw(Mesh to_draw)
+void ModuleRenderer3D::Draw(Mesh* to_draw)
 {
 	glPushMatrix();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw.id_vertex);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw.id_index);
-	glDrawElements(GL_TRIANGLES, to_draw.num_index, GL_UNSIGNED_INT, NULL); //sizeof(GLuint) * to_draw.num_index, GL_UNSIGNED_INT
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL); //sizeof(GLuint) * to_draw.num_index, GL_UNSIGNED_INT
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();
+
+	if (to_draw->id_normals > 0)
+	{
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_normals);
+		glNormalPointer(GL_FLOAT, 0, NULL);
+	}
+
+	//draw normals
+	if (show_normals)
+	{
+
+
+
+	}
 }
 
 
