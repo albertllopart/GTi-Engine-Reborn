@@ -92,7 +92,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	bool quit = false;
 	char* file_dir = nullptr; //drag&drop
-	SDL_Event e;
+	SDL_Event e; // event for directory (mesh)
 	while(SDL_PollEvent(&e))
 	{
 

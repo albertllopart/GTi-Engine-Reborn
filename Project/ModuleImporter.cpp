@@ -58,7 +58,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			if (newMesh->HasFaces())
 			{
 				m->num_index = newMesh->mNumFaces * 3;
-				m->index = new uint[m->num_index]; // GLshort
+				m->index = new uint[m->num_index];
 				for (uint i = 0; i < newMesh->mNumFaces; ++i)
 				{
 					if (newMesh->mFaces[i].mNumIndices != 3)
@@ -67,23 +67,20 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 					}
 					else
 					{
-						memcpy(&m->index[i * 3], newMesh->mFaces[i].mIndices, 3 * sizeof(GLushort));
+						memcpy(&m->index[i * 3], newMesh->mFaces[i].mIndices, 3 * sizeof(uint));
 					}
 				}
-				glGenBuffers(1, &m->id_vertex);
-				glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(m->vertex), m->vertex, GL_STATIC_DRAW);
 
-				glGenBuffers(1, &m->id_index);
+				glGenBuffers(1, (GLuint*)&m->id_index); // 
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m->index), m->index, GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m->num_index, m->index, GL_STATIC_DRAW);
 			}
-			else
-			{
-				glGenBuffers(1, &m->id_vertex);
-				glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(m->vertex), m->vertex, GL_STATIC_DRAW);
-			}
+			//else
+			//{
+			//	glGenBuffers(1, &m->id_vertex);
+			//	glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
+			//	glBufferData(GL_ARRAY_BUFFER, sizeof(m->vertex), m->vertex, GL_STATIC_DRAW);
+			//}
 			App->editor->AddMesh(m);
 		}
 		aiReleaseImport(scene);
