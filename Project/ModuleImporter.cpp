@@ -75,6 +75,11 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m->num_index, m->index, GL_STATIC_DRAW);
 			}
+			if (newMesh->HasNormals())
+			{
+				m->normals = new float[m->num_vertex * 3];
+				memcpy(m->normals, newMesh->mNormals, sizeof(float)*m->num_vertex * 3);
+			}
 			//else
 			//{
 			//	glGenBuffers(1, &m->id_vertex);
