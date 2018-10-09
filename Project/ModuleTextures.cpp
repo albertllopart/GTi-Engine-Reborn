@@ -23,7 +23,6 @@ ModuleTextures::~ModuleTextures()
 
 bool ModuleTextures::Init(JSON_Object * data)
 {
-	ilutRenderer(ILUT_OPENGL);
 	ilInit();
 	iluInit();
 	ilutInit();

@@ -321,10 +321,10 @@ void pLine::InnerRender() const
 	glLineWidth(2.0f);
 
 	glBegin(GL_LINES);
-
+	glColor3f(color.x, color.y, color.z);
 	glVertex3f(origin.x, origin.y, origin.z);
 	glVertex3f(destination.x, destination.y, destination.z);
-
+	glColor3f(1, 1, 1);
 	glEnd();
 
 	glLineWidth(1.0f);
