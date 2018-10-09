@@ -9,10 +9,10 @@ ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Modu
 }
 ModuleSceneEditor::~ModuleSceneEditor()
 {
-	while (!cubes_list.empty())
+	while (!mesh_list.empty())
 	{
-		delete cubes_list.front();
-		cubes_list.pop_front();
+		delete mesh_list.front();
+		mesh_list.pop_front();
 	}
 }
 

@@ -258,6 +258,17 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_normals);
 		glNormalPointer(GL_FLOAT, 0, NULL);
 	}
+	if (to_draw->id_texcoord > 0) //WIP
+	{
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
+		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+	}
+
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	//draw normals
 	if (show_normals)

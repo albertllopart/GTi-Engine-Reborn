@@ -23,6 +23,9 @@ struct Mesh
 	//normals
 	uint id_normals = 0;
 	float* normals = nullptr;
+	//text coords
+	uint id_texcoord = 0; // id
+	float* texCoords = nullptr;
 	
 
 };

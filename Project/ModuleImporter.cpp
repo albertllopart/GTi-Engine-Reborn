@@ -84,6 +84,14 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_normals);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->normals,  GL_STATIC_DRAW);
 			}
+			if (newMesh->HasTextureCoords(0))
+			{
+				mesh->texCoords = new float[mesh->num_vertex * 3];
+				memcpy(mesh->texCoords, newMesh->mTextureCoords[0], sizeof(float) * mesh->num_vertex * 3);
+				glGenBuffers(1, (GLuint*) &(mesh->id_texcoord));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texcoord);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->texCoords, GL_STATIC_DRAW);
+			}
 
 
 			//else
