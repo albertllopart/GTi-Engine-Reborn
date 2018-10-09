@@ -63,6 +63,8 @@ public:
 	math::float3x3 NormalMatrix;
 	math::float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
+	uint lenna = 0;
+
 	bool wframe;
 	bool depthTest = true;
 	bool cullFace = true;

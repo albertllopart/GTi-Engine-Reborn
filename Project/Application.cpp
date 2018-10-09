@@ -15,6 +15,7 @@ Application::Application()
 	import = new ModuleImporter(this);
 	rng = new ModuleRNG(this);
 	editor = new ModuleSceneEditor(this);
+	textures = new ModuleTextures(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -27,6 +28,7 @@ Application::Application()
 	AddModule(audio);
 	AddModule(rng);
 	AddModule(editor);
+	AddModule(textures);
 	AddModule(import);
 	AddModule(imgui);
 
