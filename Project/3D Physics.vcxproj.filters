@@ -346,9 +346,6 @@
     <ClInclude Include="Globals.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleTextures.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -529,9 +526,6 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="PerfTimer.cpp" />
-    <ClCompile Include="ModuleTextures.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

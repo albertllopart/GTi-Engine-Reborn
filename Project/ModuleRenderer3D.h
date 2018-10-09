@@ -25,9 +25,7 @@ struct Mesh
 	float* normals = nullptr;
 	//text coords
 	uint id_texcoord = 0; // id
-	uint id_texture = 0;
 	float* texCoords = nullptr;
-	
 	
 
 };
@@ -64,8 +62,6 @@ public:
 	SDL_GLContext context;
 	math::float3x3 NormalMatrix;
 	math::float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-
-	uint load_image;
 
 	bool wframe;
 	bool depthTest = true;

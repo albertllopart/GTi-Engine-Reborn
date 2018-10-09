@@ -13,7 +13,6 @@
 #include "ModuleImporter.h"
 #include "ModuleRNG.h"
 #include "ModuleSceneEditor.h"
-#include "ModuleTextures.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -31,7 +30,6 @@ public:
 	ModuleRNG* rng;
 	ModuleSceneEditor* editor;
 	ModuleImporter* import;
-	ModuleTextures* textures;
 
 private:
 
