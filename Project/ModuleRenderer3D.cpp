@@ -2,20 +2,17 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "Glew/include/glew.h"
-#include "Devil\include\ilut.h"
-#include "Devil\include\il.h"
 #include "SDL\include\SDL_opengl.h"
 
 #pragma comment (lib, "glu32.lib")    
 #pragma comment (lib, "opengl32.lib") 
 #pragma comment (lib, "Glew/libx86/glew32.lib")
-#pragma comment( lib, "Devil/libx86/DevIL.lib" ) 
-#pragma comment( lib, "Devil/libx86/ILU.lib" )
-#pragma comment( lib, "Devil/libx86/ILUT.lib" ) 
+
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	name = "Render";
+	load_image = App->textures->ImportImage("lena.png");
 }
 
 // Destructor
@@ -128,32 +125,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
-
-	//checker
-	GLubyte checkImage[256][256][4];
-	for (int i = 0; i < 256; i++) {
-		for (int j = 0; j < 256; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}
 	
 	glLineWidth(2.0f);
-
-	glBegin(GL_TRIANGLES);
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, (GLuint*)&checkImage);
-	glBindTexture(GL_TEXTURE_2D, (GLuint)checkImage);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 	
 	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(1.0f, 0.0f, 0.0f);
@@ -241,18 +214,26 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::Draw(Mesh* to_draw)
 {
-	glPushMatrix();
+	/////////////////OPENGL VERTEX DRAW\\\\\\\\\\\\\\\\\\\\\\
+	//glPushMatrix();
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	//glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	/////////////////OPENGL TEXTURE DRAW\\\\\\\\\\\\\\\\\\\\\\
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
+	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+
+	glBindBuffer(GL_TEXTURE_2D, to_draw->id_texture);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
 	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL); //sizeof(GLuint) * to_draw.num_index, GL_UNSIGNED_INT
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();
+
 
 	if (to_draw->id_normals > 0)
 	{

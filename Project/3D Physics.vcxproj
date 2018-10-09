@@ -40,7 +40,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Game</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -164,6 +166,7 @@
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="ModuleRNG.h" />
     <ClInclude Include="ModuleSceneEditor.h" />
+    <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -234,6 +237,7 @@
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleRNG.cpp" />
     <ClCompile Include="ModuleSceneEditor.cpp" />
+    <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="parson\parson.c" />
     <ClCompile Include="pcg-c-0.94\extras\entropy.c" />

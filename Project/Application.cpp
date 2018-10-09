@@ -11,6 +11,7 @@ Application::Application()
 	audio = new ModuleAudio(this, true);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
+	textures = new ModuleTextures(this);
 	imgui = new ModuleImGui(this);
 	import = new ModuleImporter(this);
 	rng = new ModuleRNG(this);
@@ -26,6 +27,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(rng);
+	AddModule(textures);
 	AddModule(editor);
 	AddModule(import);
 	AddModule(imgui);
