@@ -1,15 +1,17 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
-
 #include "Glew/include/glew.h"
+#include "Devil\include\ilut.h"
+#include "Devil\include\il.h"
 #include "SDL\include\SDL_opengl.h"
-
-
 
 #pragma comment (lib, "glu32.lib")    
 #pragma comment (lib, "opengl32.lib") 
 #pragma comment (lib, "Glew/libx86/glew32.lib")
+#pragma comment( lib, "Devil/libx86/DevIL.lib" ) 
+#pragma comment( lib, "Devil/libx86/ILU.lib" )
+#pragma comment( lib, "Devil/libx86/ILUT.lib" ) 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {

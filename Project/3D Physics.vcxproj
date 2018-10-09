@@ -76,6 +76,14 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Devil\include\config.h" />
+    <ClInclude Include="Devil\include\devil_internal_exports.h" />
+    <ClInclude Include="Devil\include\il.h" />
+    <ClInclude Include="Devil\include\ilu.h" />
+    <ClInclude Include="Devil\include\ilut.h" />
+    <ClInclude Include="Devil\include\ilut_config.h" />
+    <ClInclude Include="Devil\include\ilu_region.h" />
+    <ClInclude Include="Devil\include\il_wrap.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
