@@ -115,7 +115,7 @@ void Application::FinishUpdate()
 	if (capped_ms > 0 && lastMs < capped_ms)
 	{
 		SDL_Delay(capped_ms - last_frame_ms);
-		LOG("We waited for %d milliseconds", capped_ms - lastMs);
+		//LOG("We waited for %d milliseconds", capped_ms - lastMs);
 	}
 }
 

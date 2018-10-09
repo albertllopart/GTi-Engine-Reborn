@@ -19,6 +19,7 @@ public:
 	void ShowConfigurationMenu(bool* opened = NULL);
 	void ShowConsole();
 	void AddConsoleLog(const char* add);
+	void AddConsoleLog(std::string add);
 	void PerformanceGraphCalc(float fps, float ms);
 	void AboutWindow();
 	void Draw()const;

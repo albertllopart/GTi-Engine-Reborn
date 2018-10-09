@@ -1,5 +1,6 @@
 #include "ModuleImporter.h"
 #include "Application.h"
+#include "ModuleImGui.h"
 
 #include "Assimp/include/cimport.h" 
 #include "Assimp/include/scene.h" 
@@ -9,7 +10,15 @@
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
-
+void AssimpCallback(const char* msg, char* userData)
+{
+	//LOG("%s", msg);
+	if (App != nullptr)
+	{
+		std::string log = msg;
+		App->imgui->AddConsoleLog(log);
+	}
+}
 
 ModuleImporter::ModuleImporter(Application * app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -22,10 +31,10 @@ ModuleImporter::~ModuleImporter()
 
 bool ModuleImporter::Init(JSON_Object* data)
 {
-
 	struct aiLogStream stream;
-	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	stream.callback = AssimpCallback;
 	aiAttachLogStream(&stream);
+
 	return true;
 }
 

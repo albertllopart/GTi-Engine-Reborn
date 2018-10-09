@@ -83,3 +83,5 @@ private:
 	void LoadEngine() const;
 
 };
+
+extern Application* App;

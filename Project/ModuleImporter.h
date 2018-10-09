@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include "Module.h"
 
+struct aiScene;
+
 class ModuleImporter : public Module
 {
 public:
@@ -13,6 +15,9 @@ public:
 	bool Init(JSON_Object* data);
 	bool CleanUp(JSON_Object* data = nullptr);
 	bool LoadMesh(const char* fullPath);
+
+private:
+
 };
 
 #endif //__ModuleImporter_H__

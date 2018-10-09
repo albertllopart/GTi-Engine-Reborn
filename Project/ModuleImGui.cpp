@@ -272,6 +272,11 @@ void ModuleImGui::AddConsoleLog(const char * add)
 	consoleLogs.push_back(log);
 }
 
+void ModuleImGui::AddConsoleLog(std::string add)
+{
+	consoleLogs.push_back(add);
+}
+
 void ModuleImGui::PerformanceGraphCalc(float fps, float ms)
 {
 	if (FPSvec.size() >= MAX_FPS_CAP)
