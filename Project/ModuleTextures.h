@@ -18,8 +18,4 @@ public:
 	void DeleteImage(uint id);
 };
 
-
-
-
-
 #endif // __MODULE_TEXTURES__

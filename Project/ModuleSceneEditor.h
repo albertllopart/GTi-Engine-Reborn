@@ -26,7 +26,7 @@ public:
 	void AddCube(float3 size, float3 pos = float3(0, 0, 0));
 	void AddCube2(float3 size, float3 pos);
 	void AddMesh(Mesh* model);
-
+	void LoadTexture2LastMesh(const char* path);
 
 private:
 
@@ -34,7 +34,5 @@ private:
 	std::list<pCube2*> indcubes_list; //list of cubes mades  with indices
 	//scene meshes
 	std::list<Mesh*> mesh_list;
-
-	bool wframe;
 };
 #endif 

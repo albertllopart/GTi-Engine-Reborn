@@ -95,11 +95,11 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			}
 			if (newMesh->HasTextureCoords(0))
 			{
-				mesh->texCoords = new float[mesh->num_vertex * 3];
-				memcpy(mesh->texCoords, newMesh->mTextureCoords[0], sizeof(float) * mesh->num_vertex * 3);
+				mesh->texCoords = new float[mesh->num_vertex * 2];
+				memcpy(mesh->texCoords, newMesh->mTextureCoords[0], sizeof(float) * mesh->num_vertex * 2);
 				glGenBuffers(1, (GLuint*) &(mesh->id_texcoord));
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texcoord);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->texCoords, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 2, mesh->texCoords, GL_STATIC_DRAW);
 			}
 
 

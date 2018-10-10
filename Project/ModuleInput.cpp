@@ -91,7 +91,7 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_x_motion = mouse_y_motion = 0;
 
 	bool quit = false;
-	char* file_dir = nullptr; //drag&drop
+	std::string file_dir; //drag&drop
 	SDL_Event e; // event for directory (mesh)
 	while(SDL_PollEvent(&e))
 	{
@@ -117,9 +117,18 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:      //drop case
 				file_dir = e.drop.file;
 				// directory of the file
-				LOG("%s dropped on window.", file_dir);
-				App->import->LoadMesh(file_dir);
-				SDL_free(file_dir);    // we free memory
+				if (file_dir.find(".fbx") != std::string::npos || file_dir.find(".obj") != std::string::npos)
+				{
+					LOG("%s dropped on window.", file_dir);
+					App->import->LoadMesh(file_dir.c_str());
+				}
+				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos)
+				{
+					LOG("%s dropped on window.", file_dir);
+					App->editor->LoadTexture2LastMesh(file_dir.c_str());
+				}
+
+				SDL_free((char*)file_dir.c_str());    // we free memory
 				break;
 
 			case SDL_WINDOWEVENT:

@@ -116,3 +116,9 @@ void ModuleSceneEditor::AddMesh(Mesh * model)
 {
 	mesh_list.push_back(model);
 }
+
+void ModuleSceneEditor::LoadTexture2LastMesh(const char * path)
+{
+	uint text_id = App->textures->ImportImage(path);
+	mesh_list.back()->texture = text_id;
+}

@@ -118,6 +118,10 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		{
 			glEnable(GL_COLOR_MATERIAL);
 		}
+		if (texture2D)
+		{
+			glEnable(GL_TEXTURE_2D);
+		}
 	}
 
 	// Projection matrix for
@@ -130,9 +134,6 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		return false;
 	}
 
-
-	lenna = App->textures->ImportImage("lena.png");
-
 	return ret;
 }
 
@@ -144,85 +145,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
-
-	//checker
-	GLubyte checkImage[256][256][4];
-	for (int i = 0; i < 256; i++) {
-		for (int j = 0; j < 256; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}
-	
-	glLineWidth(2.0f);
-
-	glBegin(GL_TRIANGLES);
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, (GLuint*)&checkImage);
-	glBindTexture(GL_TEXTURE_2D, (GLuint)checkImage);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
-	
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 0.0f);
-
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 1.0f);
-
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 1.0f);
-			
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);	
-	glVertex3f(1.0f, 1.0f, 0.0f);	
-
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
-
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);		
-	glVertex3f(0.0f, 1.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);	
-	glVertex3f(1.0f, 1.0f, 1.0f);
-
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);	
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	glEnd();
 
 	// Light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
@@ -263,38 +185,23 @@ bool ModuleRenderer3D::CleanUp()
 void ModuleRenderer3D::Draw(Mesh* to_draw)
 {
 
-	//binding texture
-	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
-
-
-	glPushMatrix();
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
-	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL); //sizeof(GLuint) * to_draw.num_index, GL_UNSIGNED_INT
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glPopMatrix();
 
-	if (to_draw->id_normals > 0)
-	{
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_normals);
-		glNormalPointer(GL_FLOAT, 0, NULL);
-	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
 	if (to_draw->id_texcoord > 0) //WIP
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 	}
-
-	//draw normals
-	if (show_normals)
+	
+	if (show_normals)//draw normals
 	{
 		for (int i = 0; i < to_draw->num_vertex; i += 3)
 		{
@@ -303,13 +210,11 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 		}
 	}
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
-	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glBindTexture(GL_TEXTURE_2D, 0); // 
-
-	
-
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
