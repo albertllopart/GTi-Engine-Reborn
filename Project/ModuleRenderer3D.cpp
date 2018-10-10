@@ -198,7 +198,7 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 	}
 	
 	if (show_normals)//draw normals
