@@ -25,6 +25,7 @@ struct Mesh
 	float* normals = nullptr;
 	//text coords
 	uint id_texcoord = 0; // id
+	uint texture = 0;
 	float* texCoords = nullptr;
 	
 

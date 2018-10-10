@@ -244,6 +244,11 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::Draw(Mesh* to_draw)
 {
+
+	//binding texture
+	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
+
+
 	glPushMatrix();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
@@ -267,13 +272,8 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 	}
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
-	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	//draw normals
 	if (show_normals)
@@ -284,6 +284,14 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 			line.Render();
 		}
 	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindTexture(GL_TEXTURE_2D, 0); // 
+
+	
+
 }
 
 
