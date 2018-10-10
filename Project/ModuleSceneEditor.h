@@ -26,7 +26,7 @@ public:
 	void AddCube(float3 size, float3 pos = float3(0, 0, 0));
 	void AddCube2(float3 size, float3 pos);
 	void AddMesh(Mesh* model);
-	void LoadTexture2LastMesh(const char* path);
+	void LoadTexture2AllMesh(const char* path);
 	//void LoadText2AllMeshes(const char * path);
 
 

@@ -125,7 +125,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
-					App->editor->LoadTexture2LastMesh(file_dir.c_str());
+					App->editor->LoadTexture2AllMesh(file_dir.c_str());
 				}
 
 				SDL_free((char*)file_dir.c_str());    // we free memory
