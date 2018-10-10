@@ -93,7 +93,6 @@ public:
 public:
 	float3 origin;
 	float3 destination;
-	float3 color = { 1,0,0 };
 };
 
 // ============================================

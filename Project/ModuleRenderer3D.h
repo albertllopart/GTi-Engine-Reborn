@@ -20,15 +20,16 @@ struct Mesh
 	uint id_vertex = 0; // unique vertex in VRAM
 	uint num_vertex = 0;
 	float* vertex = nullptr;
+
 	//normals
 	uint id_normals = 0;
 	float* normals = nullptr;
+
 	//text coords
 	uint id_texcoord = 0; // id textcoords
 	uint texture = 0; // text id
 	float* texCoords = nullptr;
 	
-
 };
 
 

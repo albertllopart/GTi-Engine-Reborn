@@ -40,6 +40,13 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	
 	if(ret == true)
 	{
+		GLint GlewInitResult = glewInit();
+		if (GLEW_OK != GlewInitResult)
+		{
+			LOG("ERROR: %s\n", glewGetErrorString(GlewInitResult));
+			return false;
+		}
+
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0) {
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
@@ -127,12 +134,6 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	// Projection matrix for
 	OnResize(json_object_get_number(node, "width"), json_object_get_number(node, "height"));
 
-	GLint GlewInitResult = glewInit();
-	if (GLEW_OK != GlewInitResult)
-	{
-		LOG("ERROR: %s\n", glewGetErrorString(GlewInitResult));
-		return false;
-	}
 
 	return ret;
 }
@@ -184,31 +185,28 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::Draw(Mesh* to_draw)
 {
+	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
+	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+
 	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
 	
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
-	if (to_draw->id_texcoord > 0) //WIP
-	{
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-	}
-	
-	if (show_normals)//draw normals
-	{
-		for (int i = 0; i < to_draw->num_vertex; i += 3)
-		{
-			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
-			line.Render();
-		}
-	}
+	//if (show_normals)//draw normals
+	//{
+	//	for (int i = 0; i < to_draw->num_vertex; i += 3)
+	//	{
+	//		pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
+	//		line.Render();
+	//	}
+	//}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

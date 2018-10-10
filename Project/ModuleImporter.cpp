@@ -63,6 +63,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			glGenBuffers(1, (GLuint*)&mesh->id_vertex);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->vertex, GL_STATIC_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			if (newMesh->HasFaces())
 			{
@@ -83,6 +84,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 				glGenBuffers(1, (GLuint*)&mesh->id_index); // 
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_index);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 			if (newMesh->HasNormals())
 			{
@@ -92,14 +94,21 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 				glGenBuffers(1, (GLuint*)&mesh->id_normals);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_normals);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->normals,  GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 			if (newMesh->HasTextureCoords(0))
 			{
 				mesh->texCoords = new float[mesh->num_vertex * 2];
-				memcpy(mesh->texCoords, newMesh->mTextureCoords[0], sizeof(float) * mesh->num_vertex * 2);
+
+				for (int i = 0; i < mesh->num_vertex; i += 2)
+				{
+					mesh->texCoords[i] = newMesh->mTextureCoords[0][i].x;
+					mesh->texCoords[i + 1] = newMesh->mTextureCoords[0][i].y;
+				}
 				glGenBuffers(1, (GLuint*) &(mesh->id_texcoord));
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texcoord);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 2, mesh->texCoords, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat*) * 2 * mesh->num_vertex, mesh->texCoords, GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 
 

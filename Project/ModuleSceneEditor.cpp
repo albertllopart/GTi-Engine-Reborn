@@ -53,14 +53,14 @@ update_status ModuleSceneEditor::PostUpdate(float dt)
 
 void ModuleSceneEditor::Draw()
 {
-	for (std::list<pCube*>::iterator it = cubes_list.begin(); it != cubes_list.end(); ++it)
+	/*for (std::list<pCube*>::iterator it = cubes_list.begin(); it != cubes_list.end(); ++it)
 	{
 		(*it)->Render();
 	}
 	for (std::list<pCube2*>::iterator it = indcubes_list.begin(); it != indcubes_list.end(); ++it)
 	{
 		(*it)->Render();
-	}
+	}*/
 	for (std::list<Mesh*>::iterator it = mesh_list.begin(); it != mesh_list.end(); ++it)
 	{
 		App->renderer3D->Draw((*it));
@@ -69,7 +69,6 @@ void ModuleSceneEditor::Draw()
 	pPlane p(0, 0, 0, 100);
 	p.color = White;
 	p.Render();
-
 }
 
 void ModuleSceneEditor::SetToWireframe(bool wframe)

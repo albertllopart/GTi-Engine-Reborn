@@ -21,43 +21,43 @@ PrimitiveTypes Primitive::GetType() const
 // ------------------------------------------------------------
 void Primitive::Render() const
 {
-	glPushMatrix();
-	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
+	//glPushMatrix();
+	//glMultMatrixf((GLfloat*)transform.Transposed().ptr());
 
 	// GEOLIB
-	if(axis == true)
-	{
-		// Draw Axis Grid
-		glLineWidth(2.0f);
+	//if(axis == true)
+	//{
+	//	// Draw Axis Grid
+	//	glLineWidth(2.0f);
 
-		glBegin(GL_LINES);
+	//	glBegin(GL_LINES);
 
-		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	//	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
-		glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+	//	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	//	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+	//	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
 
-		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+	//	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-		glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-		glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+	//	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	//	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	//	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	//	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
 
-		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	//	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
-		glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
-		glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+	//	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	//	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+	//	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+	//	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
 
-		glEnd();
+	//	glEnd();
 
-		glLineWidth(1.0f);
-	}
+	//	glLineWidth(1.0f);
+	//}
 
-	glColor3f(color.r, color.g, color.b);
+	//glColor3f(color.r, color.g, color.b);
 
 	/*if(App->renderer3D->wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -66,7 +66,7 @@ void Primitive::Render() const
 
 	InnerRender();
 
-	glPopMatrix();
+	//glPopMatrix();
 }
 
 // ------------------------------------------------------------
@@ -322,11 +322,13 @@ void pLine::InnerRender() const
 	glLineWidth(2.0f);
 
 	glBegin(GL_LINES);
-	glColor3f(color.x, color.y, color.z);
+	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(origin.x, origin.y, origin.z);
 	glVertex3f(destination.x, destination.y, destination.z);
-	glColor3f(1, 1, 1);
+	
 	glEnd();
+
+	glColor3f(1.0f, 1.0f, 1.0f);
 
 	glLineWidth(1.0f);
 }
