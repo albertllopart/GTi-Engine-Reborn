@@ -118,7 +118,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	}
 
 
-	lenna = App->textures->ImportImage("lenna.png");
+	lenna = App->textures->ImportImage("lena.png");
 
 	return ret;
 }
