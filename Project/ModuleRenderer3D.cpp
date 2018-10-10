@@ -101,10 +101,23 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+
+		if (depthTest)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}
+		if (cullFace)
+		{
+			glEnable(GL_CULL_FACE);
+		}
+		if (lighting)
+		{
+			glEnable(GL_LIGHTING);
+		}
+		if (colorMaterial)
+		{
+			glEnable(GL_COLOR_MATERIAL);
+		}
 	}
 
 	// Projection matrix for
@@ -223,8 +236,13 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	App->editor->Draw();
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	App->imgui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -392,5 +410,17 @@ void ModuleRenderer3D::SetTexture2D()
 	else
 	{
 		glDisable(GL_TEXTURE_2D);
+	}
+}
+
+void ModuleRenderer3D::SetWireFrame()
+{
+	if (wireframe)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

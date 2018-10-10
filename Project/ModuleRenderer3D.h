@@ -56,6 +56,7 @@ public:
 	void SetLighting();
 	void SetColorMaterial();
 	void SetTexture2D();
+	void SetWireFrame();
 
 public:
 
@@ -66,7 +67,7 @@ public:
 
 	uint lenna = 0;
 
-	bool wframe;
+	bool wireframe = false;
 	bool depthTest = true;
 	bool cullFace = true;
 	bool lighting = true;
