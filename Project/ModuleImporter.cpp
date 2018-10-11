@@ -111,28 +111,21 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 
-			//if (newMesh->HasTextureCoords(0))
-			//{
-			//	mesh->texCoords = new float[mesh->num_vertex * 2];
-
-			//	for (int i = 0; i < mesh->num_vertex; i += 2)
-			//	{
-			//		mesh->texCoords[i] = newMesh->mTextureCoords[0][i].x;
-			//		mesh->texCoords[i + 1] = newMesh->mTextureCoords[0][i].y;
-			//	}
-			//glGenBuffers(1, (GLuint*) &(mesh->id_texcoord));
-			//glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texcoord);
-			//glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat*) * 2 * mesh->num_vertex, mesh->texCoords, GL_STATIC_DRAW);
-			//glBindBuffer(GL_ARRAY_BUFFER, 0);
-			//}
+			///////////////////LOADING TRANSFORMATIONS\\\\\\\\\\\\\\\\\\\\\\\\\\|
+			aiVector3D translation;
+			aiVector3D scaling;
+			aiQuaternion rotation;
+			scene->mRootNode->mChildren[i]->mTransformation.Decompose(scaling, rotation, translation);
+			mesh->pos = { translation.x, translation.y, translation.z };
+			mesh->scale = { scaling.x, scaling.y, scaling.z };
+			mesh->rot = { rotation.x, rotation.y, rotation.z, rotation.w };
 
 
-			//else
-			//{
-			//	glGenBuffers(1, &m->id_vertex);
-			//	glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
-			//	glBufferData(GL_ARRAY_BUFFER, sizeof(m->vertex), m->vertex, GL_STATIC_DRAW);
-			//}
+
+			std::string path = fullPath;
+			uint position_name = path.find_last_of("\\");
+			std::string newPath = path.erase(0, position_name + 1);
+			mesh->name = newPath;
 			App->editor->AddMesh(mesh);
 		}
 		aiReleaseImport(scene);
@@ -143,4 +136,8 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 		return false;
 	}
 }
+
+
+
+
 

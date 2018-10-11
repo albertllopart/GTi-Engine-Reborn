@@ -28,7 +28,7 @@ public:
 	void AddMesh(Mesh* model);
 	void LoadTexture2AllMesh(const char* path);
 	//void LoadText2AllMeshes(const char * path);
-
+	void ShowMeshesInfo();
 
 private:
 

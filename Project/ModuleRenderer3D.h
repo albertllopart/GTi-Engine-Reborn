@@ -6,13 +6,18 @@
 #include "Light.h"
 #include "MathGeoLib/Math/float3x3.h"
 #include "MathGeoLib/Math/float4x4.h"
-
+#include "MathGeoLib/Math/Quat.h"
 #define MAX_LIGHTS 8
 
 
 
 struct Mesh
 {
+	std::string name;
+	float3 pos;
+	float3 scale;
+	Quat rot;
+
 	uint id_index = 0; // index in VRAM
 	uint num_index = 0;
 	uint* index = nullptr;

@@ -122,7 +122,7 @@ update_status ModuleImGui::Update(float dt)
 	{
 		ImGui::ShowTestWindow();
 	}
-	ImGui::Render();
+	//ImGui::Render();
 	return UPDATE_CONTINUE;
 }
 

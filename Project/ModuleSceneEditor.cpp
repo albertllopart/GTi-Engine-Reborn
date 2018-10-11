@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleSceneEditor.h"
+#include "ImGui/imgui.h"
 
 
 
@@ -114,6 +115,7 @@ void ModuleSceneEditor::AddCube2(float3 size, float3 pos)
 void ModuleSceneEditor::AddMesh(Mesh * model)
 {
 	mesh_list.push_back(model);
+	ShowMeshesInfo();
 }
 
 void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
@@ -123,4 +125,29 @@ void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 	{
 		iterator._Ptr->_Myval->texture = text_id;
 	}
+}
+
+void ModuleSceneEditor::ShowMeshesInfo()
+{
+	bool show = true;
+	ImGui::Begin("Meshes properties", &show);
+
+	if (mesh_list.size()>0)
+	{
+		for (std::list<Mesh*>::const_iterator iterator = mesh_list.begin(); iterator != mesh_list.end(); ++iterator)
+		{
+			std::string mesh_name = iterator._Ptr->_Myval->name;
+			if (ImGui::CollapsingHeader(mesh_name.c_str()))
+			{
+				ImGui::Text("Position:");
+				ImGui::Text("X: %f Y:%f Z:%f", iterator._Ptr->_Myval->pos.x, iterator._Ptr->_Myval->pos.y, iterator._Ptr->_Myval->pos.z);
+			}
+			
+		}
+	}
+	else
+	{
+		App->imgui->AddConsoleLog("Could not load mesh info");
+	}
+
 }
