@@ -33,7 +33,6 @@ public:
 	bool config_menu = false;
 	bool about = false;
 
-
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;
 	std::vector<std::string> consoleLogs;

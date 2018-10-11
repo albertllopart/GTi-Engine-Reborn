@@ -60,6 +60,9 @@ private:
 
 public:
 
+	std::string appname;
+	std::string organization;
+
 	Application();
 	~Application();
 

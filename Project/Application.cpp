@@ -64,6 +64,9 @@ bool Application::Init()
 
 		max_fps = json_object_get_number(config_node, "Max FPS");
 
+		appname = json_object_get_string(config_node, "name");
+		organization = json_object_get_string(config_node, "organization");
+
 		if (max_fps > 0)
 		{
 			capped_ms = 1000 / max_fps;

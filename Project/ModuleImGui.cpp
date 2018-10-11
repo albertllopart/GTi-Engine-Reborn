@@ -8,6 +8,8 @@
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include <stdio.h>
+#include <string.h>
 
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
@@ -143,8 +145,23 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 			ImGui::Text("Options");
 			if (ImGui::CollapsingHeader("Application"))
 			{
-				ImGui::InputText("App Name", TITLE, 20);
-				ImGui::InputText("Organization", "UPC CITM", 20);
+				static char appname[100];
+				strcpy_s(appname, 100, App->appname.c_str());
+
+				if (ImGui::InputText("App Name", appname, 100))
+				{
+					App->window->SetTitle(appname);
+					App->appname = appname;
+				}
+
+				static char organization[100];
+				strcpy_s(organization, 100, App->organization.c_str());
+
+				if (ImGui::InputText("Organization", organization, 20))
+				{
+					App->organization = organization;
+				}
+
 				ImGui::SliderInt("Max FPS", App->GetMaxFPS(), 0, 300);
 				PerformanceGraphCalc(App->GetFPS(), App->GetMs());
 				char title[25];

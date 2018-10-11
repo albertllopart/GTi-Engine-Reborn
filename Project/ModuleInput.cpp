@@ -4,6 +4,9 @@
 #include "ModuleRNG.h"
 #include "parson/parson.h"
 
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_sdl_gl3.h"
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -95,6 +98,8 @@ update_status ModuleInput::PreUpdate(float dt)
 	SDL_Event e; // event for directory (mesh)
 	while(SDL_PollEvent(&e))
 	{
+
+		ImGui_ImplSdlGL3_ProcessEvent(&e);
 
 		switch(e.type)
 		{
