@@ -77,6 +77,10 @@ update_status ModuleImGui::Update(float dt)
 			{
 				config_menu = !config_menu;
 			}
+			if (ImGui::MenuItem("Meshes Parameters"))
+			{
+				show_mesh_info = !show_mesh_info;
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -364,10 +368,12 @@ void ModuleImGui::AboutWindow()
 
 void ModuleImGui::ShowMeshesInfo()
 {
-	ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
-	std::list<Mesh*> scene_meshes = App->editor->GetMeshList();
-	ImGui::Begin("Meshes properties", &show_mesh_info);
+	if (show_mesh_info)
 	{
+		ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
+		std::list<Mesh*> scene_meshes = App->editor->GetMeshList();
+		ImGui::Begin("Meshes properties", &show_mesh_info);
+
 		if (App->editor->GetMeshList().size() > 0)
 		{
 			for (std::list<Mesh*>::const_iterator iterator = scene_meshes.begin(), end = scene_meshes.end(); iterator != scene_meshes.end(); ++iterator)
@@ -388,9 +394,10 @@ void ModuleImGui::ShowMeshesInfo()
 		{
 			App->imgui->AddConsoleLog("Could not load mesh info");
 		}
+
+		ImGui::End();
+		Draw();
 	}
-	ImGui::End();
-	Draw();
 }
 
 void ModuleImGui::Draw()const
