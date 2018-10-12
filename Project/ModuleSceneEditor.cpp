@@ -116,6 +116,13 @@ void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 	{
 		iterator._Ptr->_Myval->texture = text_id;
 	}
+
+	std::string str = path;
+	uint position_name = str.find_last_of("\\");
+	std::string newPath = str.erase(0, position_name + 1);
+
+	App->imgui->AddConsoleLog(("%s", newPath));
+	App->imgui->AddConsoleLog("Texture loaded to all meshes");
 }
 
 std::list<Mesh*> ModuleSceneEditor::GetMeshList() 
