@@ -118,9 +118,12 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			scene->mRootNode->mChildren[i]->mTransformation.Decompose(scaling, rotation, translation);
 			mesh->pos = { translation.x, translation.y, translation.z };
 			mesh->scale = { scaling.x, scaling.y, scaling.z };
-			mesh->rot = { rotation.x, rotation.y, rotation.z, rotation.w };
+			mesh->quat = { rotation.x, rotation.y, rotation.z, rotation.w };
 
-
+			mesh->euler_angles = mesh->quat.ToEulerXYX();
+			mesh->euler_angles.x = mesh->euler_angles.x * math::pi / 180;
+			mesh->euler_angles.y = mesh->euler_angles.y * math::pi / 180;
+			mesh->euler_angles.z = mesh->euler_angles.z * math::pi / 180;
 
 			std::string path = fullPath;
 			uint position_name = path.find_last_of("\\");

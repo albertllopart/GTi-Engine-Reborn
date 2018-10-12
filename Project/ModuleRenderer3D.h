@@ -16,7 +16,8 @@ struct Mesh
 	std::string name;
 	float3 pos;
 	float3 scale;
-	Quat rot;
+	float3 euler_angles;
+	Quat quat;
 
 	uint id_index = 0; // index in VRAM
 	uint num_index = 0;
