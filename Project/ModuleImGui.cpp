@@ -126,6 +126,10 @@ update_status ModuleImGui::Update(float dt)
 	{
 		ImGui::ShowTestWindow();
 	}
+	if (show_mesh_info)
+	{
+		ShowMeshesInfo();
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -396,7 +400,6 @@ void ModuleImGui::ShowMeshesInfo()
 		}
 
 		ImGui::End();
-		Draw();
 	}
 }
 

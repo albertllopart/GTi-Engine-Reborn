@@ -107,7 +107,6 @@ void ModuleSceneEditor::AddCube2(float3 size, float3 pos)
 void ModuleSceneEditor::AddMesh(Mesh * model)
 {
 	mesh_list.push_back(model);
-	App->imgui->ShowMeshesInfo();
 }
 
 void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
