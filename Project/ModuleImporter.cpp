@@ -46,7 +46,7 @@ bool ModuleImporter::CleanUp(JSON_Object* data)
 
 bool ModuleImporter::LoadMesh(const char * fullPath)
 {
-	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_Fast);
+	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
