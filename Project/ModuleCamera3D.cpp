@@ -106,6 +106,58 @@ update_status ModuleCamera3D::Update(float dt)
 		Position = Reference + Z * Position.Length();
 	}
 
+	/*if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT)
+	{
+		Look(Position, { 10, 20, 30 }, true);
+
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.009f;
+
+		Position -= Reference;
+
+		if (dx != 0)
+		{
+			float DeltaX = (float)dx * Sensitivity;
+
+			math::float3x3 rotationMatrix = math::float3x3::RotateY(DeltaX);
+			X = rotationMatrix * X;
+			Y = rotationMatrix * Y;
+			Z = rotationMatrix * Z;
+		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * Sensitivity;
+
+			math::float3x3 rotationMatrix = math::float3x3::RotateAxisAngle(X, DeltaY);
+			Y = rotationMatrix * Y;
+			Z = rotationMatrix * Z;
+
+			if (Y.y < 0.0f)
+			{
+				Z = math::float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = math::Cross(Z, X);
+			}
+		}
+
+		Position = Reference + Z * Position.Length();
+	}*/
+
+	if (App->input->GetMouseZ() == 1)
+	{
+		newPos -= Z * speed;
+		Position += newPos;
+		Reference += newPos;
+	}
+	else if (App->input->GetMouseZ() == -1)
+	{
+		newPos += Z * speed;
+		Position += newPos;
+		Reference += newPos;
+	}
+
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
