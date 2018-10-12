@@ -14,7 +14,7 @@
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
 
-#define MAX_FPS_CAP 60
+#define MAX_FPS_CAP 100
 
 
 
@@ -169,7 +169,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 					App->organization = organization;
 				}
 
-				ImGui::SliderInt("Max FPS", App->GetMaxFPS(), 0, 300);
+				ImGui::SliderInt("Max FPS", App->GetMaxFPS(), 0, 100);
 				PerformanceGraphCalc(App->GetFPS(), App->GetMs());
 				char title[25];
 				sprintf_s(title, 25, "Framerate %.1f", FPSvec[FPSvec.size() - 1]);
@@ -303,31 +303,16 @@ void ModuleImGui::AddConsoleLog(std::string add)
 
 void ModuleImGui::PerformanceGraphCalc(float fps, float ms)
 {
-	if (FPSvec.size() >= MAX_FPS_CAP)
-	{
-		for (int i = 0; i < MAX_FPS_CAP - 2; i++)
-		{
-			FPSvec[i] = FPSvec[i + 1];
-		}
-		FPSvec[MAX_FPS_CAP - 1] = fps;
-	}
-	else
+	if (FPSvec.size() < MAX_FPS_CAP)
 	{
 		FPSvec.push_back(fps);
-	}
-
-	////////////////////////////////
-
-	if (MSvec.size() >= MAX_FPS_CAP)
-	{
-		for (int i = 0; i < MAX_FPS_CAP - 2; i++)
-		{
-			MSvec[i] = MSvec[i + 1];
-		}
-		MSvec[MAX_FPS_CAP - 1] = ms;
+		MSvec.push_back(ms);
 	}
 	else
 	{
+		FPSvec.erase(FPSvec.begin());
+		MSvec.erase(MSvec.begin());
+		FPSvec.push_back(fps);
 		MSvec.push_back(ms);
 	}
 }

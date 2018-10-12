@@ -40,19 +40,18 @@ private:
 	//timer related
 
 	Timer	frame_time;
-	Timer   last_sec_frame_time;
-	PerfTimer perftimer;
+	Timer   ms_time;
 
-	double frame_count = 0;
-	int last_sec_frame_count = 0;
-	int prev_last_sec_frame_count = 0;
+	uint frames = 0;
+	int fps_counter;
 
-	float	dt;
-	float lastFPS = 0;
-	float lastMs = 0;
+	float dt;
+	float lastFPS;
+	float lastMs;
 	
 	int capped_ms;
-	mutable int max_fps = 60;
+
+	mutable int max_fps;
 
 	//load save
 	mutable bool want_to_save = false;

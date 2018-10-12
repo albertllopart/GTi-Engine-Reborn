@@ -6,6 +6,13 @@
 
 Application::Application()
 {
+	frames = 0;
+	lastMs = -1;
+	lastFPS = -1;
+	capped_ms = 1000 / 60;
+	fps_counter = 0;
+
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -94,7 +101,7 @@ bool Application::Init()
 void Application::PrepareUpdate()
 {
 	dt = (float)frame_time.Read() / 1000.0f;
-	frame_time.Start();
+	ms_time.Start();
 
 	if (max_fps > 0)
 		capped_ms = 1000 / max_fps;
@@ -103,23 +110,21 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	dt = (float)frame_time.Read() / 1000.0f - dt;
-	lastFPS = 1.0f / dt;
-	lastMs = (float)frame_time.Read();
+	++frames;
+	++fps_counter;
 
-	if (last_sec_frame_time.Read() > 1000)
+	if (frame_time.Read() > 1000)
 	{
-		last_sec_frame_time.Start();
-		prev_last_sec_frame_count = last_sec_frame_count;
-		last_sec_frame_count = 0;
+		lastFPS = fps_counter;
+		fps_counter = 0;
+		frame_time.Start();
 	}
 
-	int last_frame_ms = frame_time.Read();
-	int frames_on_last_update = prev_last_sec_frame_count;
+	lastMs = ms_time.Read();
 
 	if (capped_ms > 0 && lastMs < capped_ms)
 	{
-		SDL_Delay(capped_ms - last_frame_ms);
+		SDL_Delay(capped_ms - lastMs);
 		//LOG("We waited for %d milliseconds", capped_ms - lastMs);
 	}
 }
@@ -246,7 +251,7 @@ void Application::AddModule(Module* mod)
 
 float Application::GetFPS()
 {
-	return lastFPS * -1;
+	return lastFPS;
 }
 
 float Application::GetMs()
