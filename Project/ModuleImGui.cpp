@@ -372,23 +372,31 @@ void ModuleImGui::AboutWindow()
 
 void ModuleImGui::ShowMeshesInfo()
 {
+	int alignment = 120;
+
 	if (show_mesh_info)
 	{
-		ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
+		//ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
 		std::list<Mesh*> scene_meshes = App->editor->GetMeshList();
-		ImGui::Begin("Meshes properties", &show_mesh_info);
+		ImGui::Begin("Meshes", &show_mesh_info, ImGuiWindowFlags_NoResize);
 
 		if (App->editor->GetMeshList().size() > 0)
 		{
 			for (std::list<Mesh*>::const_iterator iterator = scene_meshes.begin(), end = scene_meshes.end(); iterator != scene_meshes.end(); ++iterator)
 			{
-				const char *test = iterator._Ptr->_Myval->name.c_str();
-				if (ImGui::CollapsingHeader(test))
+				if (ImGui::CollapsingHeader(iterator._Ptr->_Myval->name.c_str()))
 				{
-					ImGui::Text("Position:");
-					ImGui::Text("X: %f Y:%f Z:%f", iterator._Ptr->_Myval->pos.x, iterator._Ptr->_Myval->pos.y, iterator._Ptr->_Myval->pos.z);
-					ImGui::Text("Scale:");
-					ImGui::Text("X: %f Y:%f Z:%f", iterator._Ptr->_Myval->scale.x, iterator._Ptr->_Myval->scale.y, iterator._Ptr->_Myval->scale.z);
+					ImGui::Text("Position:"); ImGui::SameLine(alignment);//120 means horizontal alignment
+					
+					ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "X"); ImGui::SameLine(); ImGui::Text("%.2f", iterator._Ptr->_Myval->pos.x); ImGui::SameLine(alignment + 100);
+					ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "Y"); ImGui::SameLine(); ImGui::Text("%.2f", iterator._Ptr->_Myval->pos.y); ImGui::SameLine(alignment + 200);
+					ImGui::TextColored(ImVec4(0.f, 0.f, 1.f, 1.f), "Z"); ImGui::SameLine(); ImGui::Text("%.2f", iterator._Ptr->_Myval->pos.z);
+					
+					ImGui::Text("Scale:"); ImGui::SameLine(120);
+					ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "X"); ImGui::SameLine(); ImGui::Text("%.2f", iterator._Ptr->_Myval->scale.x); ImGui::SameLine(alignment + 100);
+					ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "Y"); ImGui::SameLine(); ImGui::Text("%.2f", iterator._Ptr->_Myval->scale.y); ImGui::SameLine(alignment + 200);
+					ImGui::TextColored(ImVec4(0.f, 0.f, 1.f, 1.f), "Z"); ImGui::SameLine(); ImGui::Text("%.2f", iterator._Ptr->_Myval->scale.z);
+				
 					//FALTA MOSTRAR ROTACIONS (HEM DE PASSAR EL QUATERNIÓ A ANGLES D'EULER)
 				}
 
@@ -396,11 +404,10 @@ void ModuleImGui::ShowMeshesInfo()
 		}
 		else
 		{
-			App->imgui->AddConsoleLog("Could not load mesh info");
+			ImGui::Text("There are no meshes loaded");
 		}
-
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void ModuleImGui::Draw()const
