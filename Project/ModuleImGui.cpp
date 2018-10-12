@@ -122,7 +122,6 @@ update_status ModuleImGui::Update(float dt)
 	{
 		ImGui::ShowTestWindow();
 	}
-	//ImGui::Render();
 	return UPDATE_CONTINUE;
 }
 
@@ -351,6 +350,7 @@ void ModuleImGui::AboutWindow()
 			ShellExecuteA(NULL, "open", "https://www.opengl.org/", NULL, NULL, SW_SHOWNORMAL);
 		}
 	}
+	//FALTA POSAR DEVIL I ASSIMP 
 	if (ImGui::CollapsingHeader("License"))
 	{
 		if (ImGui::MenuItem("License MIT"))
@@ -360,6 +360,37 @@ void ModuleImGui::AboutWindow()
 	}
 	ImGui::End();
 	
+}
+
+void ModuleImGui::ShowMeshesInfo()
+{
+	ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
+	std::list<Mesh*> scene_meshes = App->editor->GetMeshList();
+	ImGui::Begin("Meshes properties", &show_mesh_info);
+	{
+		if (App->editor->GetMeshList().size() > 0)
+		{
+			for (std::list<Mesh*>::const_iterator iterator = scene_meshes.begin(), end = scene_meshes.end(); iterator != scene_meshes.end(); ++iterator)
+			{
+				const char *test = iterator._Ptr->_Myval->name.c_str();
+				if (ImGui::CollapsingHeader(test))
+				{
+					ImGui::Text("Position:");
+					ImGui::Text("X: %f Y:%f Z:%f", iterator._Ptr->_Myval->pos.x, iterator._Ptr->_Myval->pos.y, iterator._Ptr->_Myval->pos.z);
+					ImGui::Text("Scale:");
+					ImGui::Text("X: %f Y:%f Z:%f", iterator._Ptr->_Myval->scale.x, iterator._Ptr->_Myval->scale.y, iterator._Ptr->_Myval->scale.z);
+					//FALTA MOSTRAR ROTACIONS (HEM DE PASSAR EL QUATERNIÓ A ANGLES D'EULER)
+				}
+
+			}
+		}
+		else
+		{
+			App->imgui->AddConsoleLog("Could not load mesh info");
+		}
+	}
+	ImGui::End();
+	Draw();
 }
 
 void ModuleImGui::Draw()const

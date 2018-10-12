@@ -32,7 +32,6 @@ bool ModuleSceneEditor::Start()
 	App->camera->Move(float3(0.0, 10.0, 0.0));
 	App->camera->LookAt(float3(0.0, 0.0, 0.0));
 
-
 	return true;
 }
 
@@ -54,14 +53,7 @@ update_status ModuleSceneEditor::PostUpdate(float dt)
 
 void ModuleSceneEditor::Draw()
 {
-	/*for (std::list<pCube*>::iterator it = cubes_list.begin(); it != cubes_list.end(); ++it)
-	{
-		(*it)->Render();
-	}
-	for (std::list<pCube2*>::iterator it = indcubes_list.begin(); it != indcubes_list.end(); ++it)
-	{
-		(*it)->Render();
-	}*/
+
 	for (std::list<Mesh*>::iterator it = mesh_list.begin(); it != mesh_list.end(); ++it)
 	{
 		App->renderer3D->Draw((*it));
@@ -115,7 +107,7 @@ void ModuleSceneEditor::AddCube2(float3 size, float3 pos)
 void ModuleSceneEditor::AddMesh(Mesh * model)
 {
 	mesh_list.push_back(model);
-	ShowMeshesInfo();
+	App->imgui->ShowMeshesInfo();
 }
 
 void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
@@ -127,27 +119,9 @@ void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 	}
 }
 
-void ModuleSceneEditor::ShowMeshesInfo()
+std::list<Mesh*> ModuleSceneEditor::GetMeshList() 
 {
-	bool show = true;
-	ImGui::Begin("Meshes properties", &show);
-
-	if (mesh_list.size()>0)
-	{
-		for (std::list<Mesh*>::const_iterator iterator = mesh_list.begin(); iterator != mesh_list.end(); ++iterator)
-		{
-			std::string mesh_name = iterator._Ptr->_Myval->name;
-			if (ImGui::CollapsingHeader(mesh_name.c_str()))
-			{
-				ImGui::Text("Position:");
-				ImGui::Text("X: %f Y:%f Z:%f", iterator._Ptr->_Myval->pos.x, iterator._Ptr->_Myval->pos.y, iterator._Ptr->_Myval->pos.z);
-			}
-			
-		}
-	}
-	else
-	{
-		App->imgui->AddConsoleLog("Could not load mesh info");
-	}
-
+	return  mesh_list;
 }
+
+
