@@ -107,10 +107,6 @@ update_status ModuleImGui::Update(float dt)
 			}
 			ImGui::EndMenu();
 		}
-		if (about)
-		{
-			AboutWindow();
-		}
 		ImGui::EndMainMenuBar();
 	}
 
@@ -129,6 +125,10 @@ update_status ModuleImGui::Update(float dt)
 	if (show_mesh_info)
 	{
 		ShowMeshesInfo();
+	}
+	if (about)
+	{
+		AboutWindow();
 	}
 	return UPDATE_CONTINUE;
 }
@@ -273,7 +273,6 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 
 void ModuleImGui::ShowConsole()
 {
-
 	if (showconsole)
 	{
 		ImGui::Begin("Console", &showconsole);
@@ -282,7 +281,7 @@ void ModuleImGui::ShowConsole()
 		{
 			consoleLogs.clear();
 		}
-		for (int i = consoleLogs.size() - 1; i >= 0; i--)
+		for (int i = 0; i < consoleLogs.size(); i++)
 		{
 			std::string s = consoleLogs[i];
 			ImGui::Text("%s", consoleLogs[i].c_str());
@@ -335,39 +334,42 @@ void ModuleImGui::PerformanceGraphCalc(float fps, float ms)
 
 void ModuleImGui::AboutWindow()
 {
-	ImGui::Begin("About");
-	ImGui::Text("GTi Engine");
-	ImGui::Text("A game engine developed by Albert Llopart & Marc Fabian");
+	if (about)
+	{
+		ImGui::Begin(("About"), &about);
+		
+		ImGui::Text("GTi Engine");
+		ImGui::Text("A game engine developed by Albert Llopart & Marc Fabian");
 
-	if (ImGui::CollapsingHeader("Libraries used"))
-	{
-		if (ImGui::MenuItem("SDL 2.0.4"))
+		if (ImGui::CollapsingHeader("Libraries used"))
 		{
-			ShellExecuteA(NULL, "open", "https://www.libsdl.org/index.php", NULL, NULL, SW_SHOWNORMAL);
+			if (ImGui::MenuItem("SDL 2.0.4"))
+			{
+				ShellExecuteA(NULL, "open", "https://www.libsdl.org/index.php", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::MenuItem("MathGeoLib 1.3"))
+			{
+				ShellExecuteA(NULL, "open", "http://clb.demon.fi/MathGeoLib/nightly/", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::MenuItem("ImGui 1.51"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/ocornut/imgui", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::MenuItem("OpenGl 3.1"))
+			{
+				ShellExecuteA(NULL, "open", "https://www.opengl.org/", NULL, NULL, SW_SHOWNORMAL);
+			}
 		}
-		if (ImGui::MenuItem("MathGeoLib 1.3"))
+		//FALTA POSAR DEVIL I ASSIMP 
+		if (ImGui::CollapsingHeader("License"))
 		{
-			ShellExecuteA(NULL, "open", "http://clb.demon.fi/MathGeoLib/nightly/", NULL, NULL, SW_SHOWNORMAL);
+			if (ImGui::MenuItem("License MIT"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/xDragan/GTi-Engine/blob/master/LICENSE", NULL, NULL, SW_SHOWNORMAL);
+			}
 		}
-		if (ImGui::MenuItem("ImGui 1.51"))
-		{
-			ShellExecuteA(NULL, "open", "https://github.com/ocornut/imgui", NULL, NULL, SW_SHOWNORMAL);
-		}
-		if (ImGui::MenuItem("OpenGl 3.1"))
-		{
-			ShellExecuteA(NULL, "open", "https://www.opengl.org/", NULL, NULL, SW_SHOWNORMAL);
-		}
+		ImGui::End();
 	}
-	//FALTA POSAR DEVIL I ASSIMP 
-	if (ImGui::CollapsingHeader("License"))
-	{
-		if (ImGui::MenuItem("License MIT"))
-		{
-			ShellExecuteA(NULL, "open", "https://github.com/xDragan/GTi-Engine/blob/master/LICENSE", NULL, NULL, SW_SHOWNORMAL);
-		}
-	}
-	ImGui::End();
-	
 }
 
 void ModuleImGui::ShowMeshesInfo()
