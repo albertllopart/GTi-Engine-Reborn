@@ -169,7 +169,6 @@
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="Module.h" />
-    <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="p2DynArray.h" />
@@ -178,7 +177,6 @@
     <ClInclude Include="pcg-c-0.94\extras\entropy.h" />
     <ClInclude Include="pcg-c-0.94\extras\pcg_spinlock.h" />
     <ClInclude Include="pcg-c-0.94\include\pcg_variants.h" />
-    <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
@@ -229,7 +227,6 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
-    <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />
     <ClCompile Include="ModuleImGui.cpp" />
     <ClCompile Include="ModuleImporter.cpp" />
@@ -241,7 +238,6 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="parson\parson.c" />
     <ClCompile Include="pcg-c-0.94\extras\entropy.c" />
-    <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
