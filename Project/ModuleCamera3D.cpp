@@ -54,25 +54,29 @@ update_status ModuleCamera3D::Update(float dt)
 		speed = 20.0f * dt;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+	if (free_move)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
 
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
 		Position += newPos;
 		Reference += newPos;
+	}
 		//code for camera focus around objects
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		free_move = !free_move;
 
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-		{
-			focus = App->editor->GetMeshList().back()->pos;
-			LookAt(focus);
-		}
+		focus = App->editor->GetMeshList().back()->pos; //TODO: CAP RADIUS ASWELL
+		LookAt(focus);
+	}
 		// Mouse motion ----------------
 		// COMENTED DUE CHANGE BETWEEN GLMATH AND MATHGEOLIB CONVERSION
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)

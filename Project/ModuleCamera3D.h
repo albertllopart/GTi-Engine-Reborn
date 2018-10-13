@@ -34,6 +34,7 @@ public:
 private:
 
 	math::float4x4 ViewMatrix, ViewMatrixInverse;
+	bool free_move = true;
 };
 
 #endif
