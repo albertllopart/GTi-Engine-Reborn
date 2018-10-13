@@ -7,6 +7,7 @@
 #include "MathGeoLib/Math/float4x4.h"
 
 
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -29,7 +30,7 @@ private:
 public:
 	
 	math::float3 X, Y, Z, Position, Reference;
-
+	math::float3 focus;
 private:
 
 	math::float4x4 ViewMatrix, ViewMatrixInverse;

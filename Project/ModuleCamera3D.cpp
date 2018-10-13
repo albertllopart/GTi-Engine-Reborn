@@ -12,7 +12,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = math::float3(0.0f, 0.0f, 5.0f);
 	Reference = math::float3(0.0f, 0.0f, 0.0f);
-
+	focus = float3(0.0f, 0.0f, 0.0f);
 	name = "Camera";
 
 	CalculateViewMatrix();
@@ -66,7 +66,13 @@ update_status ModuleCamera3D::Update(float dt)
 
 		Position += newPos;
 		Reference += newPos;
+		//code for camera focus around objects
 
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		{
+			focus = App->editor->GetMeshList().back()->pos;
+			LookAt(focus);
+		}
 		// Mouse motion ----------------
 		// COMENTED DUE CHANGE BETWEEN GLMATH AND MATHGEOLIB CONVERSION
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
