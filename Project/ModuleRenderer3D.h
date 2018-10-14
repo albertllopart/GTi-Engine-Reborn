@@ -83,7 +83,7 @@ public:
 	bool lighting = true;
 	bool colorMaterial = true;
 	bool texture2D = true;
-	bool show_normals = true;
+	bool show_normals = false;
 };
 
 #endif
