@@ -105,7 +105,12 @@ void ModuleSceneEditor::AddCube2(float3 size, float3 pos)
 
 void ModuleSceneEditor::AddMesh(Mesh * model)
 {
+	if (mesh_list.size() > 0)
+	{
+		mesh_list.clear();
+	}
 	mesh_list.push_back(model);
+	App->camera->CenterToMesh(GetMeshList().back());
 }
 
 void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)

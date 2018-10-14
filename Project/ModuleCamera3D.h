@@ -22,12 +22,11 @@ public:
 	void Move(const float3 &Movement);
 	void CameraRotation()const;
 	float* GetViewMatrix();
-
+	void CenterToMesh(Mesh * mesh);
 
 private:
 
 	void CalculateViewMatrix();
-	void CenterToMesh(Mesh * mesh);
 
 public:
 	
