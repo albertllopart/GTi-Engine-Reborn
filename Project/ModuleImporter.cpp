@@ -75,6 +75,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 					if (newMesh->mFaces[i].mNumIndices != 3)
 					{
 						LOG("WARNING, geometry face with != 3 indices!");
+						App->imgui->AddConsoleLog("WARNING: Geometry face with != 3 indices");
 					}
 					else
 					{
@@ -116,7 +117,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			aiVector3D translation;
 			aiVector3D scaling;
 			aiQuaternion rotation;
-			scene->mRootNode->mChildren[i]->mTransformation.Decompose(scaling, rotation, translation);
+			scene->mRootNode->mTransformation.Decompose(scaling, rotation, translation);
 			mesh->pos = { translation.x, translation.y, translation.z };
 			mesh->scale = { scaling.x, scaling.y, scaling.z };
 			mesh->quat = { rotation.x, rotation.y, rotation.z, rotation.w };
