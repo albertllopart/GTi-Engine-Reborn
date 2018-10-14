@@ -4,6 +4,11 @@
 #include "Module.h"
 #include "Globals.h"
 
+struct texture
+{
+	uint width;
+	uint height;
+};
 
 class ModuleTextures : public Module
 {
@@ -16,6 +21,9 @@ public:
 
 	uint ImportImage(const char * image);
 	void DeleteImage(uint id);
+
+	//last texture info
+	texture last_tex;
 };
 
 #endif // __MODULE_TEXTURES__

@@ -68,6 +68,7 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			if (newMesh->HasFaces())
 			{
 				mesh->num_index = newMesh->mNumFaces * 3;
+				mesh->faces = newMesh->mNumFaces;
 				mesh->index = new uint[mesh->num_index];
 				for (uint i = 0; i < newMesh->mNumFaces; ++i)
 				{

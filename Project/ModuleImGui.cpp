@@ -365,7 +365,7 @@ void ModuleImGui::ShowMeshesInfo()
 	{
 		//ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
 		std::list<Mesh*> scene_meshes = App->editor->GetMeshList();
-		ImGui::Begin("Meshes", &show_mesh_info, ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Meshes", &show_mesh_info);
 
 		if (App->editor->GetMeshList().size() > 0)
 		{
@@ -373,6 +373,7 @@ void ModuleImGui::ShowMeshesInfo()
 			{
 				if (ImGui::CollapsingHeader(iterator._Ptr->_Myval->name.c_str()))
 				{
+					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "Transform"); ImGui::Separator();
 					ImGui::Text("Position:"); ImGui::SameLine(alignment);//120 means horizontal alignment
 					ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "X"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->pos.x); ImGui::SameLine(alignment + 100);
 					ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "Y"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->pos.y); ImGui::SameLine(alignment + 200);
@@ -386,7 +387,22 @@ void ModuleImGui::ShowMeshesInfo()
 					ImGui::Text("Rotation:"); ImGui::SameLine(alignment);								   
 					ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "X"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->euler_angles.x); ImGui::SameLine(alignment + 100);
 					ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "Y"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->euler_angles.y); ImGui::SameLine(alignment + 200);
-					ImGui::TextColored(ImVec4(0.f, 0.f, 1.f, 1.f), "Z"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->euler_angles.z);
+					ImGui::TextColored(ImVec4(0.f, 0.f, 1.f, 1.f), "Z"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->euler_angles.z); ImGui::Separator();
+
+					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "Mesh"); ImGui::Separator();
+					ImGui::Text("Vertices:"); ImGui::SameLine(alignment); ImGui::Text("%i", iterator._Ptr->_Myval->num_vertex);
+					ImGui::Text("Faces:"); ImGui::SameLine(alignment); ImGui::Text("%i", iterator._Ptr->_Myval->faces); ImGui::Separator();
+
+					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "Texture"); ImGui::Separator();
+					if (iterator._Ptr->_Myval->tex_name != "none")
+					{
+						ImGui::Text("Name:"); ImGui::SameLine(alignment); ImGui::TextColored(ImVec4(1.f, 0.5f, 0.f, 1.f), "%s", iterator._Ptr->_Myval->tex_name.c_str());
+						ImGui::Text("Size:"); ImGui::SameLine(alignment); ImGui::Text("%i x %i", iterator._Ptr->_Myval->tex_width, iterator._Ptr->_Myval->tex_height);
+					}
+					else
+					{
+						ImGui::Text("No texture loaded");
+					}
 				}
 
 			}

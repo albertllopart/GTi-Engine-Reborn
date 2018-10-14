@@ -57,6 +57,10 @@ uint ModuleTextures::ImportImage(const char * image)
 		// If the image is flipped (i.e. upside-down and mirrored, flip it the right way up!)
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
+
+		last_tex.width = ImageInfo.Width;
+		last_tex.height = ImageInfo.Height;
+
 		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 		{
 			iluFlipImage();

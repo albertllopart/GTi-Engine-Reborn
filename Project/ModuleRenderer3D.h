@@ -35,7 +35,12 @@ struct Mesh
 	uint id_texcoord = 0; // id textcoords
 	uint texture = 0; // text id
 	float* texCoords = nullptr;
-	
+
+	//extra info
+	uint faces = 0;
+	std::string tex_name = "none";
+	uint tex_width = 0;
+	uint tex_height = 0;
 };
 
 

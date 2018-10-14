@@ -1,8 +1,7 @@
 #include "Application.h"
 #include "ModuleSceneEditor.h"
 #include "ImGui/imgui.h"
-
-
+#include "ModuleTextures.h"
 
 ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Module(app, startEnabled)
 {
@@ -111,15 +110,18 @@ void ModuleSceneEditor::AddMesh(Mesh * model)
 
 void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 {
+	std::string str = path;
+	uint position_name = str.find_last_of("\\");
+	std::string newPath = str.erase(0, position_name + 1);
+
 	uint text_id = App->textures->ImportImage(path);
 	for (std::list<Mesh*>::const_iterator iterator = mesh_list.begin(); iterator != mesh_list.end(); ++iterator)
 	{
 		iterator._Ptr->_Myval->texture = text_id;
+		iterator._Ptr->_Myval->tex_name = newPath;
+		iterator._Ptr->_Myval->tex_width = App->textures->last_tex.width;
+		iterator._Ptr->_Myval->tex_height = App->textures->last_tex.height;
 	}
-
-	std::string str = path;
-	uint position_name = str.find_last_of("\\");
-	std::string newPath = str.erase(0, position_name + 1);
 
 	App->imgui->AddConsoleLog(("%s", newPath));
 	App->imgui->AddConsoleLog("Texture loaded to all meshes");
