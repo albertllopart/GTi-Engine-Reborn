@@ -57,7 +57,7 @@ update_status ModuleCamera3D::Update(float dt)
 	if (free_move)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos.y -= speed;
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
@@ -70,18 +70,67 @@ update_status ModuleCamera3D::Update(float dt)
 		Reference += newPos;
 	}
 		//code for camera focus around objects
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	{
+		if (App->editor->GetMeshList().size() > 0)
+		{
+			free_move = false;
+
+			focus = App->editor->GetMeshList().back()->pos; //TODO: CAP RADIUS ASWELL
+			LookAt(focus);
+			//////////////////////////////////CAMERA ROTATION CODE///////////////////////////////
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
+
+			float Sensitivity = 0.009f;
+
+			Position -= Reference;
+
+			if (dx != 0)
+			{
+				float DeltaX = (float)dx * Sensitivity;
+
+				math::float3x3 rotationMatrix = math::float3x3::RotateY(DeltaX);
+				X = rotationMatrix * X;
+				Y = rotationMatrix * Y;
+				Z = rotationMatrix * Z;
+			}
+
+			if (dy != 0)
+			{
+				float DeltaY = (float)dy * Sensitivity;
+
+				math::float3x3 rotationMatrix = math::float3x3::RotateAxisAngle(X, DeltaY);
+				Y = rotationMatrix * Y;
+				Z = rotationMatrix * Z;
+
+				if (Y.y < 0.0f)
+				{
+					Z = math::float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+					Y = math::Cross(Z, X);
+				}
+			}
+
+			Position = Reference + Z * Position.Length();
+			///////////////////////////////////////END/////////////////////////////////////////////
+		}
+		
+	}
+	else
+	{
+		free_move = true;
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		if (App->editor->GetMeshList().size() > 0)
 		{
-			free_move = !free_move;
-
-			focus = App->editor->GetMeshList().back()->pos; //TODO: CAP RADIUS ASWELL
-			LookAt(focus);
+			free_move = false;
+			CenterToMesh(App->editor->GetMeshList().back());
 		}
 	}
+
 		// Mouse motion ----------------
-		// COMENTED DUE CHANGE BETWEEN GLMATH AND MATHGEOLIB CONVERSION
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		free_move = true;
@@ -188,6 +237,10 @@ void ModuleCamera3D::Move(const float3 &Movement)
 	CalculateViewMatrix();
 }
 
+void ModuleCamera3D::CameraRotation() const
+{
+}
+
 // -----------------------------------------------------------------
 float* ModuleCamera3D::GetViewMatrix()
 {
@@ -201,3 +254,16 @@ void ModuleCamera3D::CalculateViewMatrix()
 	ViewMatrix = math::float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f);
 	ViewMatrixInverse = ViewMatrix.Inverted();
 }
+
+void ModuleCamera3D::CenterToMesh(Mesh * mesh)
+{
+	if (mesh != nullptr)
+	{
+		float3 temp = mesh->bbox.Centroid();
+		float3 size = mesh->bbox.Size() * 0.5f;
+		Position = float3(temp.x + size.x, temp.y + size.y, temp.z + 5.0f + size.z);
+		Reference = float3(temp.x + size.x, temp.y + size.y, temp.z + size.z);
+		LookAt(float3(temp.x, temp.y, temp.z));
+	}
+}
+// -----------------------------------------------------------------

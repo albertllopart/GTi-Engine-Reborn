@@ -112,7 +112,9 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 				glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat*) * 2 * mesh->num_vertex, mesh->texCoords, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
-
+			///////////////SETTING AABB TO MESH/////////////////////
+			mesh->bbox.SetNegativeInfinity();
+			mesh->bbox.Enclose((float3*)mesh->vertex, mesh->num_vertex);
 			///////////////////LOADING TRANSFORMATIONS\\\\\\\\\\\\\\\\\\\\\\\\\\|
 			aiVector3D translation;
 			aiVector3D scaling;

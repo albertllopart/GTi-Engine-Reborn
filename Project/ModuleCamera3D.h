@@ -7,7 +7,6 @@
 #include "MathGeoLib/Math/float4x4.h"
 
 
-
 class ModuleCamera3D : public Module
 {
 public:
@@ -21,11 +20,14 @@ public:
 	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);
 	void LookAt(const float3 &Spot);
 	void Move(const float3 &Movement);
+	void CameraRotation()const;
 	float* GetViewMatrix();
+
 
 private:
 
 	void CalculateViewMatrix();
+	void CenterToMesh(Mesh * mesh);
 
 public:
 	

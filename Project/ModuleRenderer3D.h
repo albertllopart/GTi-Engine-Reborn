@@ -4,11 +4,12 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Light.h"
+#include "Primitive.h"
 #include "MathGeoLib/Math/float3x3.h"
 #include "MathGeoLib/Math/float4x4.h"
 #include "MathGeoLib/Math/Quat.h"
+#include "MathGeoLib\Geometry\AABB.h"
 #define MAX_LIGHTS 8
-
 
 
 struct Mesh
@@ -18,6 +19,8 @@ struct Mesh
 	float3 scale;
 	float3 euler_angles;
 	Quat quat;
+	AABB bbox;
+	pCube* bbox_debug = nullptr;
 
 	uint id_index = 0; // index in VRAM
 	uint num_index = 0;
