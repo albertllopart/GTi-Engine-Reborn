@@ -133,7 +133,6 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->editor->LoadTexture2AllMesh(file_dir.c_str());
 				}
 
-				SDL_free((char*)file_dir.c_str());    // we free memory
 				break;
 
 			case SDL_WINDOWEVENT:

@@ -167,7 +167,7 @@ void ModuleWindow::SetFullDesktop(bool fullDesktop)
 	SDL_SetWindowFullscreen(window, flags);
 }
 
-void ModuleWindow::Save(JSON_Object* node)
+void ModuleWindow::Save(JSON_Object* node) const
 {
 	LOG("Saving Window Module...");
 	App->imgui->AddConsoleLog("Saving Window Module...");

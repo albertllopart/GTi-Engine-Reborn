@@ -128,7 +128,7 @@ void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 	App->imgui->AddConsoleLog("Texture loaded to all meshes");
 }
 
-std::list<Mesh*> ModuleSceneEditor::GetMeshList() 
+std::list<Mesh*> ModuleSceneEditor::GetMeshList() const
 {
 	return  mesh_list;
 }

@@ -62,7 +62,6 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		if(error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			//App->imgui->AddConsoleLog(("Error initializing OpenGL! %s\n", gluErrorString(error)));
 			ret = false;
 		}
 
@@ -247,16 +246,6 @@ float4x4 ModuleRenderer3D::perspective(float fovy, float aspect, float n, float 
 	Perspective.v[3][2] = 2.0f * n * f / (n - f);
 
 	return Perspective;
-
-}
-
-void ModuleRenderer3D::Save(JSON_Object* node)
-{
-
-}
-
-void ModuleRenderer3D::Load(JSON_Object* node)
-{
 
 }
 

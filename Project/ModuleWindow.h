@@ -26,7 +26,7 @@ public:
 	void SetBorderless(bool borderless);
 	void SetFullDesktop(bool fullDesktop);
 
-	void Save(JSON_Object* node);
+	void Save(JSON_Object* node) const;
 	void Load(JSON_Object* node);
 
 public:

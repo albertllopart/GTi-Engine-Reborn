@@ -29,7 +29,7 @@ public:
 	void LoadTexture2AllMesh(const char* path);
 	//void LoadText2AllMeshes(const char * path);
 
-	std::list<Mesh*> GetMeshList();
+	std::list<Mesh*> GetMeshList() const;
 private:
 
 	std::list<pCube*> cubes_list; //list of cubes mades  with vertex array

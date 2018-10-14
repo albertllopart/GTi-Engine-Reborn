@@ -64,8 +64,6 @@ public:
 
 	float4x4 perspective(float fovy, float aspect, float n, float f);
 
-	void Save(JSON_Object* node);
-	void Load(JSON_Object* node);
 	void SetDepthTest();
 	void SetCullFace();
 	void SetLighting();
