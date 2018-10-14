@@ -122,12 +122,12 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:      //drop case
 				file_dir = e.drop.file;
 				// directory of the file
-				if (file_dir.find(".fbx") != std::string::npos || file_dir.find(".obj") != std::string::npos /*|| file_dir.find(".FBX") != std::string::npos || file_dir.find(".OBJ")*/)
+				if (file_dir.find(".fbx") != std::string::npos || file_dir.find(".obj") != std::string::npos || file_dir.find(".FBX") != std::string::npos || file_dir.find(".OBJ") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
 					App->import->LoadMesh(file_dir.c_str());
 				}
-				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos /*|| file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos*/)
+				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
 					App->editor->LoadTexture2AllMesh(file_dir.c_str());
