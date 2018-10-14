@@ -252,6 +252,8 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				{
 					ImGui::Text("Name:"); ImGui::SameLine(120); ImGui::TextColored(ImVec4(1.f, 0.5f, 0.f, 1.f), "%s", App->textures->last_tex.name.c_str());
 					ImGui::Text("Size:"); ImGui::SameLine(120); ImGui::Text("%i x %i", App->textures->last_tex.width, App->textures->last_tex.height);
+					ImGui::Separator();
+					ImGui::Image((ImTextureID)App->textures->last_tex.texture_id, ImVec2(128, 128));
 				}
 				else
 				{
@@ -266,6 +268,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				ImGui::Text("SDL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i.%i.%i", version.major, version.minor, version.patch);
 				ImGui::Text("OpenGL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VERSION));
 				ImGui::Text("GLSL:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+				ImGui::Text("DevIL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", IL_VERSION);
 				ImGui::Separator();
 				ImGui::Text("CPUs:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", SDL_GetCPUCount()); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "(Cache: %ikb)", SDL_GetCPUCacheLineSize());
 				ImGui::Text("System RAM:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fGb", SDL_GetSystemRAM() / 1024.0f);
@@ -381,7 +384,7 @@ void ModuleImGui::AboutWindow()
 			}
 			ImGui::SameLine(160); ImGui::Text("%s", glewGetString(GLEW_VERSION));
 
-			if (ImGui::Button("DevIl"))
+			if (ImGui::Button("DevIL"))
 			{
 				ShellExecuteA(NULL, "open", "http://openil.sourceforge.net/", NULL, NULL, SW_SHOWNORMAL);
 			}
@@ -406,12 +409,11 @@ void ModuleImGui::AboutWindow()
 			ImGui::SameLine(160); ImGui::Text("0.94");
 	
 		}
-		//FALTA POSAR DEVIL I ASSIMP 
 		if (ImGui::CollapsingHeader("License"))
 		{
 			if (ImGui::MenuItem("License MIT"))
 			{
-				ShellExecuteA(NULL, "open", "https://github.com/xDragan/GTi-Engine/blob/master/LICENSE", NULL, NULL, SW_SHOWNORMAL);
+				ShellExecuteA(NULL, "open", "https://github.com/albertllopart/GTi-Engine-Reborn/blob/master/LICENSE", NULL, NULL, SW_SHOWNORMAL);
 			}
 		}
 		ImGui::End();
@@ -424,7 +426,6 @@ void ModuleImGui::ShowMeshesInfo()
 
 	if (show_mesh_info)
 	{
-		//ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
 		std::list<Mesh*> scene_meshes = App->editor->GetMeshList();
 		ImGui::Begin("Meshes", &show_mesh_info);
 
@@ -450,7 +451,7 @@ void ModuleImGui::ShowMeshesInfo()
 					ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "Y"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->euler_angles.y); ImGui::SameLine(alignment + 200);
 					ImGui::TextColored(ImVec4(0.f, 0.f, 1.f, 1.f), "Z"); ImGui::SameLine(); ImGui::Text("%.3f", iterator._Ptr->_Myval->euler_angles.z); ImGui::Separator();
 
-					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "Mesh"); ImGui::Separator();
+					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "Geometry"); ImGui::Separator();
 					ImGui::Text("Vertices:"); ImGui::SameLine(alignment); ImGui::Text("%i", iterator._Ptr->_Myval->num_vertex);
 					ImGui::Text("Faces:"); ImGui::SameLine(alignment); ImGui::Text("%i", iterator._Ptr->_Myval->faces); ImGui::Separator();
 

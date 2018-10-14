@@ -115,6 +115,7 @@ uint ModuleTextures::ImportImage(const char * image)
 
 	LOG("Texture creation successful.");
 
+	last_tex.texture_id = textureID;
 	return textureID; // Return the GLuint to the texture so you can use it!
 }
 
