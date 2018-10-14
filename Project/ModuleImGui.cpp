@@ -11,6 +11,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "DevIL/include/il.h"
+#include "DevIL/include/ilu.h"
+#include "DevIL/include/ilut.h"
+
+#include "Assimp/include/version.h"
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
 
@@ -221,7 +226,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				ImGui::Separator();
 				ImGui::Text("CPUs:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", SDL_GetCPUCount()); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "(Cache: %ikb)", SDL_GetCPUCacheLineSize());
 				ImGui::Text("System RAM:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fGb", SDL_GetSystemRAM() / 1024.0f);
-				//ImGui::Text("Caps:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s%s%s%s%s%s%s%s%s%s%s", (SDL_Has3DNow()) ? "3DNow, " : "", (SDL_HasAVX()) ? "AVX, " : "", (SDL_HasAVX2()) ? "AVX2, " : "", (SDL_HasAltiVec()) ? "AltiVec, " : "", (SDL_HasMMX()) ? "MMX, " : "", (SDL_HasRDTSC()) ? "RDTSC, " : "", (SDL_HasSSE()) ? "SSE, " : "", (SDL_HasSSE2()) ? "SSE2, " : "", (SDL_HasSSE3()) ? "SSE3, " : "", (SDL_HasSSE41()) ? "SSE41, " : "", (SDL_HasSSE42()) ? "SSE42 " : "");
+				ImGui::Text("Caps:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s%s%s%s%s%s%s%s%s%s%s", (SDL_Has3DNow()) ? "3DNow, " : "", (SDL_HasAVX()) ? "AVX, " : "", (SDL_HasAVX2()) ? "AVX2, " : "", (SDL_HasAltiVec()) ? "AltiVec, " : "", (SDL_HasMMX()) ? "MMX, " : "", (SDL_HasRDTSC()) ? "RDTSC, " : "", (SDL_HasSSE()) ? "SSE, " : "", (SDL_HasSSE2()) ? "SSE2, " : "", (SDL_HasSSE3()) ? "SSE3, " : "", (SDL_HasSSE41()) ? "SSE41, " : "", (SDL_HasSSE42()) ? "SSE42 " : "");
 				ImGui::Separator();
 				ImGui::Text("GPU:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_RENDERER));
 				ImGui::Text("Brand:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VENDOR));
@@ -328,22 +333,63 @@ void ModuleImGui::AboutWindow()
 
 		if (ImGui::CollapsingHeader("Libraries used"))
 		{
-			if (ImGui::MenuItem("SDL 2.0.4"))
+			SDL_version sdl;
+			SDL_GetVersion(&sdl);
+
+			if (ImGui::Button("SDL"))
 			{
 				ShellExecuteA(NULL, "open", "https://www.libsdl.org/index.php", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::MenuItem("MathGeoLib 1.3"))
+			ImGui::SameLine(160); ImGui::Text("%i.%i.%i", sdl.major, sdl.minor, sdl.patch);
+
+			if (ImGui::Button("MathGeoLib"))
 			{
 				ShellExecuteA(NULL, "open", "http://clb.demon.fi/MathGeoLib/nightly/", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::MenuItem("ImGui 1.51"))
+			ImGui::SameLine(160); ImGui::Text("1.3");
+
+			if (ImGui::Button("ImGui"))
 			{
 				ShellExecuteA(NULL, "open", "https://github.com/ocornut/imgui", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::MenuItem("OpenGl 3.1"))
+			ImGui::SameLine(160); ImGui::Text("%s", ImGui::GetVersion());
+
+			if (ImGui::Button("OpenGL"))
 			{
 				ShellExecuteA(NULL, "open", "https://www.opengl.org/", NULL, NULL, SW_SHOWNORMAL);
 			}
+			ImGui::SameLine(160); ImGui::Text("%s", glGetString(GL_VERSION));
+
+			if (ImGui::Button("Glew"))
+			{
+				ShellExecuteA(NULL, "open", "http://glew.sourceforge.net/", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::SameLine(160); ImGui::Text("%s", glewGetString(GLEW_VERSION));
+
+			if (ImGui::Button("DevIl"))
+			{
+				ShellExecuteA(NULL, "open", "http://openil.sourceforge.net/", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::SameLine(160); ImGui::Text("%i", IL_VERSION);
+
+			if (ImGui::Button("Assimp"))
+			{
+				ShellExecuteA(NULL, "open", "http://www.assimp.org/", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::SameLine(160); ImGui::Text("%i.%i.%i", aiGetVersionMajor(), aiGetVersionMinor(), aiGetVersionRevision());
+
+			if (ImGui::Button("Parson"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/kgabis/parson", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::SameLine(160); ImGui::Text("No version control");
+
+			if (ImGui::Button("PCG"))
+			{
+				ShellExecuteA(NULL, "open", "http://www.pcg-random.org/", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::SameLine(160); ImGui::Text("0.94");
+	
 		}
 		//FALTA POSAR DEVIL I ASSIMP 
 		if (ImGui::CollapsingHeader("License"))
