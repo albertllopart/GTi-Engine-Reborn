@@ -75,12 +75,21 @@ bool Application::Init()
 		{
 			capped_ms = 1000 / max_fps;
 		}
+
+		for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
+		{
+			config_node = json_object_get_object(config, (*item)->name);
+			ret = (*item)->Init(config_node);
+		}
 	}
-	for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
+	else
 	{
-		config_node = json_object_get_object(config, (*item)->name);
-		ret = (*item)->Init(config_node);
+		for (std::list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end() && ret; ++item)
+		{
+			ret = (*item)->Init(nullptr);
+		}
 	}
+	
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APPLICATION_H_
+#define __APPLICATION_H_
 
 #include "Globals.h"
 #include "Timer.h"
@@ -86,3 +87,5 @@ private:
 };
 
 extern Application* App;
+
+#endif

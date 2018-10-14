@@ -121,9 +121,9 @@ bool ModuleImporter::LoadMesh(const char * fullPath)
 			mesh->quat = { rotation.x, rotation.y, rotation.z, rotation.w };
 
 			mesh->euler_angles = mesh->quat.ToEulerXYX();
-			mesh->euler_angles.x = mesh->euler_angles.x * math::pi / 180;
-			mesh->euler_angles.y = mesh->euler_angles.y * math::pi / 180;
-			mesh->euler_angles.z = mesh->euler_angles.z * math::pi / 180;
+			mesh->euler_angles.x = mesh->euler_angles.x * RADTODEG;
+			mesh->euler_angles.y = mesh->euler_angles.y * RADTODEG;
+			mesh->euler_angles.z = mesh->euler_angles.z * RADTODEG;
 
 			std::string path = fullPath;
 			uint position_name = path.find_last_of("\\");
