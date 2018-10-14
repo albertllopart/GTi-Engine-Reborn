@@ -9,11 +9,18 @@ This engine uses C++ language.
 
 ## Camera
 
+- RightMouse: Rotate
 - RightMouse +:
 	- W: move forward
 	- A: move left
 	- S: move backwards
 	- D: move right
+- WheelMouse:
+	- FW: Zoom in
+	- BW: Zoon out
+- Alt + LeftMouse: Orbit mesh
+- F: focus camera around geometry
+- Holding shift duplicates speed*
 
 ## Config
 
