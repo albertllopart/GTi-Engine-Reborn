@@ -6,8 +6,9 @@
 
 struct texture
 {
-	uint width;
-	uint height;
+	std::string name = "none";
+	uint width = 0;
+	uint height = 0;
 };
 
 class ModuleTextures : public Module

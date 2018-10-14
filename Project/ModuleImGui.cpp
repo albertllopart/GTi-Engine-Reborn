@@ -155,6 +155,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 
 			ImGui::PushItemWidth(-140);
 			ImGui::Text("Options");
+
 			if (ImGui::CollapsingHeader("Application"))
 			{
 				static char appname[100];
@@ -216,33 +217,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 
 			}
 
-			if (ImGui::CollapsingHeader("Hardware"))
-			{
-				SDL_version version;
-				SDL_GetVersion(&version);
-				ImGui::Text("SDL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i.%i.%i", version.major, version.minor, version.patch);
-				ImGui::Text("OpenGL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VERSION));
-				ImGui::Text("GLSL:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-				ImGui::Separator();
-				ImGui::Text("CPUs:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", SDL_GetCPUCount()); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "(Cache: %ikb)", SDL_GetCPUCacheLineSize());
-				ImGui::Text("System RAM:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fGb", SDL_GetSystemRAM() / 1024.0f);
-				ImGui::Text("Caps:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s%s%s%s%s%s%s%s%s%s%s", (SDL_Has3DNow()) ? "3DNow, " : "", (SDL_HasAVX()) ? "AVX, " : "", (SDL_HasAVX2()) ? "AVX2, " : "", (SDL_HasAltiVec()) ? "AltiVec, " : "", (SDL_HasMMX()) ? "MMX, " : "", (SDL_HasRDTSC()) ? "RDTSC, " : "", (SDL_HasSSE()) ? "SSE, " : "", (SDL_HasSSE2()) ? "SSE2, " : "", (SDL_HasSSE3()) ? "SSE3, " : "", (SDL_HasSSE41()) ? "SSE41, " : "", (SDL_HasSSE42()) ? "SSE42 " : "");
-				ImGui::Separator();
-				ImGui::Text("GPU:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_RENDERER));
-				ImGui::Text("Brand:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VENDOR));
-
-				GLint budget;
-				GLint available;
-				GLint reserved;
-				glGetIntegerv(0x9048, &budget);
-				glGetIntegerv(0x9049, &available);
-				glGetIntegerv(0x9047, &reserved);
-				ImGui::Text("VRAM Budget:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", budget / 1024.0f);
-				ImGui::Text("VRAM Usage:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", (budget / 1024.0f) - (available / 1024.0f));
-				ImGui::Text("VRAM Available:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", available / 1024.0f);
-				ImGui::Text("VRAM Reserved:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", reserved / 1024.0f);
-			}
-			if (ImGui::CollapsingHeader("Render"))
+			if (ImGui::CollapsingHeader("Renderer"))
 			{
 				if (ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe))
 				{
@@ -269,6 +244,46 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 					App->renderer3D->SetTexture2D();
 				}
 				ImGui::Checkbox("Show Normals", &App->renderer3D->show_normals);
+			}
+
+			if (ImGui::CollapsingHeader("Textures"))
+			{
+				if (App->textures->last_tex.width != 0)
+				{
+					ImGui::Text("Name:"); ImGui::SameLine(120); ImGui::TextColored(ImVec4(1.f, 0.5f, 0.f, 1.f), "%s", App->textures->last_tex.name.c_str());
+					ImGui::Text("Size:"); ImGui::SameLine(120); ImGui::Text("%i x %i", App->textures->last_tex.width, App->textures->last_tex.height);
+				}
+				else
+				{
+					ImGui::Text("No textures loaded");
+				}
+			}
+
+			if (ImGui::CollapsingHeader("Hardware"))
+			{
+				SDL_version version;
+				SDL_GetVersion(&version);
+				ImGui::Text("SDL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i.%i.%i", version.major, version.minor, version.patch);
+				ImGui::Text("OpenGL Version:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VERSION));
+				ImGui::Text("GLSL:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+				ImGui::Separator();
+				ImGui::Text("CPUs:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", SDL_GetCPUCount()); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "(Cache: %ikb)", SDL_GetCPUCacheLineSize());
+				ImGui::Text("System RAM:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fGb", SDL_GetSystemRAM() / 1024.0f);
+				ImGui::Text("Caps:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s%s%s%s%s%s%s%s%s%s%s", (SDL_Has3DNow()) ? "3DNow, " : "", (SDL_HasAVX()) ? "AVX, " : "", (SDL_HasAVX2()) ? "AVX2, " : "", (SDL_HasAltiVec()) ? "AltiVec, " : "", (SDL_HasMMX()) ? "MMX, " : "", (SDL_HasRDTSC()) ? "RDTSC, " : "", (SDL_HasSSE()) ? "SSE, " : "", (SDL_HasSSE2()) ? "SSE2, " : "", (SDL_HasSSE3()) ? "SSE3, " : "", (SDL_HasSSE41()) ? "SSE41, " : "", (SDL_HasSSE42()) ? "SSE42 " : "");
+				ImGui::Separator();
+				ImGui::Text("GPU:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_RENDERER));
+				ImGui::Text("Brand:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%s", glGetString(GL_VENDOR));
+
+				GLint budget;
+				GLint available;
+				GLint reserved;
+				glGetIntegerv(0x9048, &budget);
+				glGetIntegerv(0x9049, &available);
+				glGetIntegerv(0x9047, &reserved);
+				ImGui::Text("VRAM Budget:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", budget / 1024.0f);
+				ImGui::Text("VRAM Usage:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", (budget / 1024.0f) - (available / 1024.0f));
+				ImGui::Text("VRAM Available:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", available / 1024.0f);
+				ImGui::Text("VRAM Reserved:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2fMb", reserved / 1024.0f);
 			}
 		}
 		ImGui::End();

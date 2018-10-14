@@ -123,6 +123,7 @@ void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 		iterator._Ptr->_Myval->tex_height = App->textures->last_tex.height;
 	}
 
+	App->textures->last_tex.name = newPath;
 	App->imgui->AddConsoleLog(("%s", newPath));
 	App->imgui->AddConsoleLog("Texture loaded to all meshes");
 }
