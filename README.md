@@ -35,6 +35,9 @@ This engine uses C++ language.
 
 ## Assets
 
+building.fbx and its texture by Denis Loginovskiy (https://sketchfab.com/models/b7b355993e4142a3bdf689986c45b23d)
+mug.fbx and its texture by Dmytro Rohovyi (https://sketchfab.com/models/5ffab639d69d46e4a7c535adb097dbca)
+
 ## License
 
 MIT License
