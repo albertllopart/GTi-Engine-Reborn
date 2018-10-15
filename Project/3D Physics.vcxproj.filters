@@ -34,6 +34,9 @@
     <Filter Include="Sources\Devil">
       <UniqueIdentifier>{9d928d2b-5bb9-43dd-b188-f9617174d925}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Importer">
+      <UniqueIdentifier>{1a2aef46-6c82-4857-8f32-07333fa8d458}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -345,6 +348,12 @@
     <ClInclude Include="ModuleTextures.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Sources\Modules\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureImporter.h">
+      <Filter>Sources\Modules\Importer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -523,6 +532,12 @@
     </ClCompile>
     <ClCompile Include="ModuleTextures.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer.cpp">
+      <Filter>Sources\Modules\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureImporter.cpp">
+      <Filter>Sources\Modules\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
