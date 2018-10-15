@@ -34,6 +34,12 @@
     <Filter Include="Sources\Devil">
       <UniqueIdentifier>{9d928d2b-5bb9-43dd-b188-f9617174d925}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObject">
+      <UniqueIdentifier>{f3f6244f-39e5-4789-871b-0cc6a7b42e99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\GameObject\Components">
+      <UniqueIdentifier>{b154cced-bd74-4252-9714-d3eba8568c13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -345,6 +351,12 @@
     <ClInclude Include="ModuleTextures.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -523,6 +535,12 @@
     </ClCompile>
     <ClCompile Include="ModuleTextures.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
