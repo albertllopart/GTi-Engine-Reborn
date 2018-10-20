@@ -37,6 +37,12 @@
     <Filter Include="Sources\Modules\Importer">
       <UniqueIdentifier>{1a2aef46-6c82-4857-8f32-07333fa8d458}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObject">
+      <UniqueIdentifier>{9b8cb5b8-18b3-4638-95f3-046883bff571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\GameObject\Components">
+      <UniqueIdentifier>{1d2bd73c-3950-4523-9973-13d75a71c0a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -354,6 +360,12 @@
     <ClInclude Include="TextureImporter.h">
       <Filter>Sources\Modules\Importer</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -538,6 +550,12 @@
     </ClCompile>
     <ClCompile Include="TextureImporter.cpp">
       <Filter>Sources\Modules\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "GameObject.h"
 
 enum COMPONENT_TYPE
 {
@@ -15,10 +16,13 @@ enum COMPONENT_TYPE
 class Component
 {
 public:
-	Component();
+	Component(GameObject* my_go, COMPONENT_TYPE type);
 	~Component();
 
-	void Update();
+	void SetActive(bool activate);
+	bool IsActive() const;
+	const GameObject* GetParent()const;
+private:
 
 	COMPONENT_TYPE type = COMPONENT_NONE;
 	bool active = true;
