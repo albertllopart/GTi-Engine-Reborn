@@ -19,7 +19,7 @@ public:
 	Component(GameObject* my_go, COMPONENT_TYPE type);
 	~Component();
 
-	void SetActive(bool activate);
+	void Enable(bool to_enable);
 	bool IsActive() const;
 	const GameObject* GetParent()const;
 private:

@@ -14,6 +14,7 @@ public:
 	~GameObject();
 
 	void Update();
+	Component* CreateComponent(COMPONENT_TYPE type);
 
 	std::string name;
 	std::vector<Component*> components;

@@ -10,9 +10,9 @@ Component::~Component()
 {
 }
 
-void Component::SetActive(bool activate)
+void Component::Enable(bool to_enable)
 {
-	active = activate;
+	active = to_enable;
 }
 
 bool Component::IsActive() const
