@@ -2,17 +2,27 @@
 #include "Globals.h"
 #include "Application.h"
 
-Component::Component(GameObject* my_go, COMPONENT_TYPE type)
+Component::Component(GameObject* my_go, COMPONENT_TYPE type): my_go(my_go), type(type)
 {
+
 }
 
 Component::~Component()
 {
 }
 
-void Component::Enable(bool to_enable)
+void Component::Enable()
 {
-	active = to_enable;
+	active = true;
+}
+
+void Component::Update()
+{
+}
+
+void Component::Disable()
+{
+	active = false;
 }
 
 bool Component::IsActive() const
@@ -20,15 +30,4 @@ bool Component::IsActive() const
 	return active;
 }
 
-const GameObject * Component::GetParent() const
-{
-	if (my_go != nullptr)
-	{
-		return my_go;
-	}
-	else
-	{
-		App->imgui->AddConsoleLog("Couldn't return parent!!");
-	}
-}
 

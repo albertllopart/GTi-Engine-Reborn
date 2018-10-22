@@ -9,6 +9,8 @@ class ComponentMaterial : public Component
 	ComponentMaterial(GameObject* my_go);
 	~ComponentMaterial();
 
+	void OnEditor();
+	void LoadTexture(const char* path);
 
 private:
 

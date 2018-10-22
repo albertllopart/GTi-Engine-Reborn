@@ -1,10 +1,12 @@
-#ifndef __GAME_OBJECT__
-#define __GAME_OBJECT__
-
-#include "Module.h"
-#include "Globals.h"
+#ifndef __GAME_OBJECT_H__
+#define __GAME_OBJECT_H__
 #include "Component.h"
 
+#include <string>
+#include <vector>
+
+class Component;
+enum COMPONENT_TYPE;
 
 class GameObject
 {
@@ -15,13 +17,20 @@ public:
 
 	void Update();
 	Component* CreateComponent(COMPONENT_TYPE type);
+	GameObject* GetParent() const;
+
+	std::vector<GameObject*> GetChilds() const;
+	std::vector<Component*> GetComponents() const;
+
+private:
+
+	GameObject* parent = nullptr;
 
 	std::string name;
 	std::vector<Component*> components;
-	GameObject* parent = nullptr;
-	std::vector<Component*> childs;
+	std::vector<GameObject*> childs;
 
-	
+	bool is_static = false; 
 };
 
-#endif // __GAME_OBJECT__
+#endif // __GAME_OBJECT_H__
