@@ -1,9 +1,9 @@
 #include "Application.h"
 #include "Importer.h"
 
-Importer::Importer(Application* app, bool start_enabled) : Module(app, start_enabled)
+Importer::Importer(importer_type type)
 {
-	name = "importer";
+	this->type = type;
 }
 
 Importer::~Importer()
@@ -11,12 +11,5 @@ Importer::~Importer()
 
 }
 
-bool Importer::Init(JSON_Object* data)
-{
-	return true;
-}
 
-bool Importer::CleanUp(JSON_Object* data)
-{
-	return true;
-}
+

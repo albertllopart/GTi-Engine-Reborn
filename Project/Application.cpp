@@ -21,6 +21,7 @@ Application::Application()
 	rng = new ModuleRNG(this);
 	editor = new ModuleSceneEditor(this);
 	textures = new ModuleTextures(this);
+	filesystem = new ModuleFileSystem(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -35,6 +36,7 @@ Application::Application()
 	AddModule(textures);
 	AddModule(import);
 	AddModule(imgui);
+	AddModule(filesystem);
 
 	// Renderer last!
 	AddModule(renderer3D);
