@@ -24,6 +24,7 @@ public:
 	void AboutWindow();
 	void Draw()const;
 	void ShowMeshesInfo();
+	void ShowHierarchy();
 
 	std::vector<float> GetFramerateVec() const;
 
@@ -34,6 +35,7 @@ public:
 	bool config_menu = false;
 	bool about = false;
 	bool show_mesh_info = false;
+	bool hierarchy = true;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;

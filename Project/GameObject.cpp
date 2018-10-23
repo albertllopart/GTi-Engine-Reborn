@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "Application.h"
-
+#include "ImGui/imgui.h"
 
 GameObject::GameObject()
 {
@@ -35,9 +35,36 @@ void GameObject::Update()
 	}
 }
 
-Component * GameObject::CreateComponent(COMPONENT_TYPE type)
+void GameObject::OnEditor()
 {
-	return nullptr;
+	if (ImGui::TreeNodeEx(name.c_str()))
+	{
+		for (int i = 0; i < components.size(); i++)
+		{
+			components[i]->OnEditor();
+		}
+		for (int i = 0; i < childs.size(); i++)
+		{
+			childs[i]->OnEditor();
+		}
+		ImGui::TreePop();
+	}
+}
+
+void GameObject::ShowProperties()
+{
+	ImGui::SetNextWindowSize(ImVec2(500, 300));
+	ImGui::SetNextWindowPos(ImVec2(App->window->width - 10, 25));
+
+	std::string go = name;
+	go += " properties";
+
+}
+
+void  GameObject::AddComponent(Component* to_add)
+{
+	components.push_back(to_add);
+	to_add->SetMyGo(this);
 }
 
 GameObject * GameObject::GetParent() const
@@ -58,4 +85,10 @@ std::vector<Component*> GameObject::GetComponents() const
 void GameObject::SetName(const char * name)
 {
 	this->name = name;
+}
+
+void GameObject::AddChild(GameObject* child)
+{
+	childs.push_back(child);
+	child->parent = this;
 }

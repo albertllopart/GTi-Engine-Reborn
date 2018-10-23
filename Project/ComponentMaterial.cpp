@@ -2,7 +2,7 @@
 #include "ImGui/imgui.h"
 #include "Application.h"
 
-ComponentMaterial::ComponentMaterial(GameObject * my_go): Component(my_go, COMPONENT_TYPE::COMPONENT_MATERIAL)
+ComponentMaterial::ComponentMaterial(): Component(COMPONENT_MATERIAL)
 {
 	name = "ComponentMaterial";
 }

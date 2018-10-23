@@ -29,7 +29,10 @@ public:
 	void AddCube2(float3 size, float3 pos);
 	void AddMesh(Mesh* model);
 	void LoadTexture2AllMesh(const char* path);
-	//void LoadText2AllMeshes(const char * path);
+	void CreateEmptyGameObject();
+	void ShowRoot();
+	GameObject* GetRoot();
+	GameObject* CreateNewGameObject(const char* path);
 
 	std::list<Mesh*> GetMeshList() const;
 private:
@@ -38,6 +41,6 @@ private:
 	std::list<pCube*> cubes_list; //list of cubes mades  with vertex array
 	std::list<pCube2*> indcubes_list; //list of cubes mades  with indices
 	//scene meshes
-	std::list<Mesh*> mesh_list;
+	std::list<Mesh*> mesh_list;//TODO CAMBIAR AIXO A COMPONENTS
 };
 #endif 

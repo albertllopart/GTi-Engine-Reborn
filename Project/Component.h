@@ -18,14 +18,17 @@ enum COMPONENT_TYPE
 class Component
 {
 public:
-	Component(GameObject* my_go, COMPONENT_TYPE type);
+	Component(COMPONENT_TYPE type);
 	virtual ~Component();
 
 	virtual void Enable();
 	virtual void Update();
 	virtual void Disable();
+	virtual void OnEditor();
+
 
 	bool IsActive() const;
+	void SetMyGo(GameObject * my_go);
 
 protected:
 

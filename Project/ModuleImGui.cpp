@@ -5,6 +5,8 @@
 #include "ImGui\imgui_impl_sdl_gl3.h"
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
+#include "GameObject.h"
+#include "ModuleSceneEditor.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -74,6 +76,10 @@ update_status ModuleImGui::Update(float dt)
 		}
 		if (ImGui::BeginMenu("View"))
 		{
+			if (ImGui::MenuItem("Hierarchy"))
+			{
+				hierarchy = !hierarchy;
+			}
 			if (ImGui::MenuItem("Console"))
 			{
 				showconsole = !showconsole;
@@ -85,6 +91,14 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Meshes Parameters"))
 			{
 				show_mesh_info = !show_mesh_info;
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("GameObject"))
+		{
+			if (ImGui::MenuItem("Create Empty"))
+			{
+				App->editor->GetRoot()->AddChild(new GameObject());
 			}
 			ImGui::EndMenu();
 		}
@@ -134,6 +148,10 @@ update_status ModuleImGui::Update(float dt)
 	if (about)
 	{
 		AboutWindow();
+	}
+	if (hierarchy)
+	{
+		ShowHierarchy();
 	}
 	return UPDATE_CONTINUE;
 }
@@ -475,6 +493,19 @@ void ModuleImGui::ShowMeshesInfo()
 		}
 	}
 	ImGui::End();
+}
+
+void ModuleImGui::ShowHierarchy()
+{
+	if (hierarchy)
+	{
+		ImGui::Begin(("Hierarchy"), &hierarchy);
+		if (ImGui::CollapsingHeader("Scene"))
+		{
+			App->editor->ShowRoot();
+		}
+		ImGui::End();
+	}
 }
 
 void ModuleImGui::Draw()const

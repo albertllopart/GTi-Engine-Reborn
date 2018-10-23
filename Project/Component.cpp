@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "Application.h"
 
-Component::Component(GameObject* my_go, COMPONENT_TYPE type): my_go(my_go), type(type)
+Component::Component(COMPONENT_TYPE type): type(type)
 {
 
 }
@@ -28,6 +28,16 @@ void Component::Disable()
 bool Component::IsActive() const
 {
 	return active;
+}
+
+void Component::OnEditor()
+{
+
+}
+
+void Component::SetMyGo(GameObject* my_go)
+{
+	this->my_go = my_go;
 }
 
 

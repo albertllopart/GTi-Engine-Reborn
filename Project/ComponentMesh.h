@@ -9,14 +9,15 @@
 
 class ComponentMesh : public Component
 {
-	ComponentMesh(GameObject* my_go);
+public:
+	ComponentMesh();
 	~ComponentMesh();
 
 	void DrawDebug() const;
 	void OnEditor();
 	float3 GetCenter() const;
 
-private:
+public:
 
 	uint mesh_id = 0;
 

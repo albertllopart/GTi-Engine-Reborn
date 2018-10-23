@@ -3,6 +3,7 @@
 #include "ImGui/imgui.h"
 #include "ModuleTextures.h"
 #include "GameObject.h"
+#include "ComponentTransform.h"
 
 ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Module(app, startEnabled)
 {
@@ -24,6 +25,8 @@ bool ModuleSceneEditor::Init(JSON_Object* data)
 
 bool ModuleSceneEditor::CleanUp(JSON_Object* data)
 {
+	delete root;
+	root = nullptr;
 	return true;
 }
 
@@ -115,6 +118,19 @@ void ModuleSceneEditor::AddMesh(Mesh * model)
 	App->camera->CenterToMesh(GetMeshList().back());
 }
 
+GameObject * ModuleSceneEditor::GetRoot()
+{
+	return root;
+}
+
+GameObject * ModuleSceneEditor::CreateNewGameObject(const char * path)
+{
+	GameObject* ret = App->import->LoadGameObject(path);
+	root->AddChild(ret);
+
+	return ret;
+}
+
 void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 {
 	std::string str = path;
@@ -133,6 +149,20 @@ void ModuleSceneEditor::LoadTexture2AllMesh(const char * path)
 	App->textures->last_tex.name = newPath;
 	App->imgui->AddConsoleLog(("%s", newPath));
 	App->imgui->AddConsoleLog("Texture loaded to all meshes");
+}
+
+void ModuleSceneEditor::CreateEmptyGameObject()
+{
+	GameObject* go = new GameObject();
+	ComponentTransform* transform = new ComponentTransform();
+	go->AddComponent(transform);
+
+
+}
+
+void ModuleSceneEditor::ShowRoot()
+{
+	root->OnEditor();
 }
 
 std::list<Mesh*> ModuleSceneEditor::GetMeshList() const

@@ -8,7 +8,7 @@
 
 class ComponentCamera : public Component
 {
-	ComponentCamera(GameObject* my_go, float3 pos = { 0,0,0 }, float3 front = { 0,0,1 }, float3 up = { 0,0.5f,0 }, float near_plane_dist = 1.0f, float far_plane_dist = 1000.0f, float vertica_fov = 10, float aspect_ratio = 16.f / 9.f, FrustumType type = FrustumType::PerspectiveFrustum);
+	ComponentCamera(float3 pos = { 0,0,0 }, float3 front = { 0,0,1 }, float3 up = { 0,0.5f,0 }, float near_plane_dist = 1.0f, float far_plane_dist = 1000.0f, float vertica_fov = 10, float aspect_ratio = 16.f / 9.f, FrustumType type = FrustumType::PerspectiveFrustum);
 	~ComponentCamera();
 
 	void Update();

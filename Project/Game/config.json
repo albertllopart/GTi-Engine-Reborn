@@ -1,9 +1,9 @@
 {
-  "Application": {
-    "name": "GTi Engine",
-    "organization": "CITM UPC",
-    "Max FPS": 60
-  },
+    "Application": {
+        "name": "GTi Engine",
+        "organization": "CITM UPC",
+        "Max FPS": 60
+    },
     "Window": {
         "width": 1147,
         "height": 816,

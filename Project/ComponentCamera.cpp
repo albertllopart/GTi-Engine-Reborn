@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "ImGui/imgui.h"
 
-ComponentCamera::ComponentCamera(GameObject* my_gofloat3, float3 pos, float3 front, float3 up, float near_plane_dist, float far_plane_dist, float vertical_fov, float aspect_ratio, FrustumType type):Component(my_go, COMPONENT_CAMERA)
+ComponentCamera::ComponentCamera( float3 pos, float3 front, float3 up, float near_plane_dist, float far_plane_dist, float vertical_fov, float aspect_ratio, FrustumType type):Component( COMPONENT_CAMERA)
 {
 	name = "Camera";
 	frustum.SetPos(pos);

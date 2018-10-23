@@ -1,7 +1,7 @@
 #ifndef __GAME_OBJECT_H__
 #define __GAME_OBJECT_H__
 #include "Component.h"
-
+#include "Globals.h"
 #include <string>
 #include <vector>
 
@@ -16,16 +16,22 @@ public:
 	~GameObject();
 
 	void Update();
-	Component* CreateComponent(COMPONENT_TYPE type);
+	void OnEditor();
+	void ShowProperties();
+
+	void AddComponent(Component * to_add);
 	GameObject* GetParent() const;
 
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;
 	void SetName(const char* name);
+	void AddChild(GameObject * child);
 
 private:
-
+	uint uid = 0;
 	GameObject* parent = nullptr;
+	
+public:
 
 	std::string name;
 	std::vector<Component*> components;

@@ -7,7 +7,9 @@
 
 class ComponentTransform : public Component
 {
-	ComponentTransform(GameObject* my_go, float3 pos = { 0,0,0 }, float3 scale = { 1,1,1 }, Quat rot = { 0, 0, 0, 1 });
+public:
+
+	ComponentTransform(float3 pos = { 0,0,0 }, float3 scale = { 1,1,1 }, Quat rot = { 0, 0, 0, 1 });
 	~ComponentTransform();
 
 	void Update();

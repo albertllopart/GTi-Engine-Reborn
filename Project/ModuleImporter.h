@@ -5,6 +5,15 @@
 #include "Module.h"
 
 struct aiScene;
+struct aiMesh;
+struct aiMaterial;
+struct aiNode;
+
+class GameObject;
+
+class ComponentMesh;
+class ComponentMaterial;
+class ComponentTransform;
 
 class ModuleImporter : public Module
 {
@@ -14,7 +23,13 @@ public:
 
 	bool Init(JSON_Object* data);
 	bool CleanUp(JSON_Object* data = nullptr);
-	bool LoadMesh(const char* fullPath);
+ 
+
+	GameObject* LoadGameObject(const char* fullPath);
+	ComponentTransform* LoadTransform(aiNode* node);
+	ComponentMaterial * LoadMaterial(aiMaterial * drop);
+	ComponentMesh* LoadMesh(aiMesh*  drop);
+
 
 private:
 
