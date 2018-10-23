@@ -3,15 +3,48 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <string>
 
-class Importer : Module
+enum importer_type
+{
+	IMPORTER_NONE,
+	IMPORTER_MATERIAL,
+	IMPORTER_MESH,
+};
+
+class Importer
 {
 public:
-	Importer(Application* app, bool start_enabled = true);
-	~Importer();
 
-	bool Init(JSON_Object* data);
-	bool CleanUp(JSON_Object* data = nullptr);
+	Importer(importer_type type);
+	virtual ~Importer();
+
+	virtual bool Import(const char* file, const char* path, std::string& output_file) 
+	{
+		return true;
+	};
+
+	virtual bool Import(const void* buffer, uint size, std::string& output_file)
+	{
+		return true;
+	};
+
+	virtual bool Load(const char* exported_file)
+	{
+		return true;
+	};
+
+	virtual bool LoadCheckers() 
+	{
+		return true;
+	};
+
+private:
+
+	std::string source_file;
+	std::string exported_file;
+
+	importer_type type = IMPORTER_NONE;
 };
 
 #endif // !__IMPORTER__
