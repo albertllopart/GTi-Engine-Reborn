@@ -17,15 +17,15 @@ void ComponentMesh::DrawDebug() const
 }
 
 void ComponentMesh::OnEditor()
-{
+{	
 	if (ImGui::TreeNodeEx(name.c_str()))
 	{
-		ImGui::Text("Vertices ID: %i", id_vertex);
-		ImGui::Text("Num Vertices: %i", num_vertex);
-		ImGui::Text("Indexes ID: %i", id_index);
-		ImGui::Text("Num Indexes: %i", num_index);
+		ImGui::Text("Vertex ID: %i", id_vertex);
+		ImGui::Text("Vertex Ammount: %i", num_vertex);
+		ImGui::Text("Index ID: %i", id_index);
+		ImGui::Text("Index Ammount: %i", num_index);
 		ImGui::Text("Normals ID: %i", id_normals);
-		ImGui::Text("Texture Coords: %i", id_texcoord);
+		ImGui::Text("Texture Coords ID: %i", id_texcoord);
 		ImGui::TreePop();
 	}
 }

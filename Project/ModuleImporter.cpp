@@ -50,9 +50,7 @@ bool ModuleImporter::CleanUp(JSON_Object* data)
 ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 {
 	//const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
-
-	ComponentMesh* mesh = new ComponentMesh();
-	//VERTICES
+	ComponentMesh* mesh = new ComponentMesh;
 	mesh->num_vertex = drop->mNumVertices;
 	mesh->vertex = new float[mesh->num_vertex * 3];
 	memcpy(mesh->vertex, drop->mVertices, sizeof(float)* mesh->num_vertex * 3);
@@ -62,7 +60,6 @@ ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->vertex, GL_STATIC_DRAW);
 
-	//INDICES
 	if (drop->HasFaces())
 	{
 		mesh->num_index = drop->mNumFaces * 3;
@@ -84,7 +81,6 @@ ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
 	}
 
-	//NORMALS
 	if (drop->HasNormals())
 	{
 		mesh->normals = new float[mesh->num_vertex * 3];
@@ -95,7 +91,6 @@ ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->normals, GL_STATIC_DRAW);
 	}
 
-	//TEXTURE COORDS
 	if (drop->HasTextureCoords(0))
 	{
 		mesh->texCoords = new float[mesh->num_vertex * 3];
@@ -103,39 +98,35 @@ ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 
 		glGenBuffers(1, (GLuint*) &(mesh->id_texcoord));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texcoord);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->texCoords, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* mesh->num_vertex * 3, mesh->texCoords, GL_STATIC_DRAW);
 	}
-
 
 	mesh->bbox.SetNegativeInfinity();
 	mesh->bbox.Enclose((float3*)mesh->vertex, mesh->num_vertex);
 
 	return mesh;
-		
 }
 
 GameObject * ModuleImporter::LoadGameObject(const char * fullPath)
 {
 	GameObject* newObject = new GameObject();
 
-	uint length = strlen(fullPath);
+	uint size = strlen(fullPath);
 
 	std::string namePath = fullPath;
 	uint i = namePath.find_last_of("\\");
-	char* testM = new char[length - i];
-	namePath.copy(testM, length - i, i);
-	newObject->name.assign(testM);
+	char* temp = new char[size - i];
+	namePath.copy(temp, size - i, i);
+	newObject->name.assign(temp);
 
 	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		LOG("Scene %s loaded succesfully", fullPath);
 
-		//Load transform
 		aiNode* node = scene->mRootNode;
 		newObject->AddComponent(LoadTransform(node));
 
-		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
 			newObject->AddComponent(LoadMesh(scene->mMeshes[i]));

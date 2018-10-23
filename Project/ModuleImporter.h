@@ -26,6 +26,7 @@ public:
  
 
 	GameObject* LoadGameObject(const char* fullPath);
+
 	ComponentTransform* LoadTransform(aiNode* node);
 	ComponentMaterial * LoadMaterial(aiMaterial * drop);
 	ComponentMesh* LoadMesh(aiMesh*  drop);
