@@ -15,6 +15,7 @@ class ComponentTransform : public Component
 
 
 private:
+
 	float3 pos;
 	float3 new_pos;
 	float3 scale;

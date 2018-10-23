@@ -54,3 +54,8 @@ std::vector<Component*> GameObject::GetComponents() const
 {
 	return components;
 }
+
+void GameObject::SetName(const char * name)
+{
+	this->name = name;
+}

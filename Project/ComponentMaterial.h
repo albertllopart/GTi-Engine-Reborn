@@ -16,6 +16,9 @@ private:
 
 	uint tex_id = 0;
 
+	//std::string tex_name = "none";
+	//uint tex_width = 0;
+	//uint tex_height = 0;
 };
 
 #endif //__COMPONENT_MATERIAL_

@@ -2,6 +2,7 @@
 #include "ModuleSceneEditor.h"
 #include "ImGui/imgui.h"
 #include "ModuleTextures.h"
+#include "GameObject.h"
 
 ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Module(app, startEnabled)
 {
@@ -30,6 +31,11 @@ bool ModuleSceneEditor::Start()
 {
 	App->camera->Move(float3(0.0, 10.0, 0.0));
 	App->camera->LookAt(float3(0.0, 0.0, 0.0));
+
+	root = new GameObject();
+	root->SetName("Root");
+	GameObject* scene = new GameObject();
+	scene->SetName("Scene");
 
 	return true;
 }

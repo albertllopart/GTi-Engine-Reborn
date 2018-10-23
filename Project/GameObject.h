@@ -21,6 +21,7 @@ public:
 
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;
+	void SetName(const char* name);
 
 private:
 

@@ -1,6 +1,11 @@
 #include "ComponentMesh.h"
 #include "ImGui/imgui.h"
 
+ComponentMesh::ComponentMesh(GameObject * my_go): Component(my_go, COMPONENT_MESH)
+{
+
+}
+
 ComponentMesh::~ComponentMesh()
 {
 	name = "ComponentMesh";

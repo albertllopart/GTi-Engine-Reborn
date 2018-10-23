@@ -24,6 +24,9 @@
 #include "../Math/float4x4.h"
 #include "Ray.h"
 
+
+//#include "../../Color.h"
+
 #ifdef MATH_TINYXML_INTEROP
 #include "Config/tinyxml/tinyxml.h"
 #endif
@@ -97,7 +100,7 @@ enum FrustumHandedness
 /// Represents either an orthographic or a perspective viewing frustum.
 class Frustum
 {
-private:
+public:
 	/// Specifies whether this frustum is a perspective or an orthographic frustum.
 	/** [noscript] @todo Remove the noscript attribute. */
 	FrustumType type;
@@ -603,6 +606,8 @@ public:
 		@see Contains(), Intersects(), ClosestPoint(). */
 	float Distance(const vec &point) const;
 
+
+	//void DrawDebug(Color color = Red) const;
 	/// Tests whether this Frustum and the given object intersect.	
 	/** Both objects are treated as "solid", meaning that if one of the objects is fully contained inside
 		another, this function still returns true. (e.g. in case a line segment is contained inside this Frustum,

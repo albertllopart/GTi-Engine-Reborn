@@ -13,6 +13,7 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
+
 }
 
 void ComponentTransform::OnEditor()

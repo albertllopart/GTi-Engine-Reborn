@@ -6,6 +6,8 @@
 
 #include <list>
 
+class GameObject;
+
 class ModuleSceneEditor : public Module
 {
 public:
@@ -32,6 +34,7 @@ public:
 	std::list<Mesh*> GetMeshList() const;
 private:
 
+	GameObject* root = nullptr;
 	std::list<pCube*> cubes_list; //list of cubes mades  with vertex array
 	std::list<pCube2*> indcubes_list; //list of cubes mades  with indices
 	//scene meshes
