@@ -1,5 +1,6 @@
 #include "ComponentCamera.h"
 #include "Globals.h"
+#include "ImGui/imgui.h"
 
 ComponentCamera::ComponentCamera(GameObject* my_gofloat3, float3 pos, float3 front, float3 up, float near_plane_dist, float far_plane_dist, float vertical_fov, float aspect_ratio, FrustumType type):Component(my_go, COMPONENT_CAMERA)
 {
@@ -35,7 +36,25 @@ void ComponentCamera::SetPos(float3 pos)
 
 void ComponentCamera::OnEditor()
 {
+	if (ImGui::TreeNodeEx(name.c_str()))
+	{
+		ImGui::Text("Position:");
+		ImGui::DragFloat("X", &frustum.pos.x, -0.5f, 0.5f);
+		ImGui::DragFloat("Y", &frustum.pos.y, -0.5f, 0.5f);
+		ImGui::DragFloat("Z", &frustum.pos.z, -0.5f, 0.5f);
 
+		ImGui::DragFloat3("Frustum up", frustum.up.ptr(), -0.5f, 0.5f);
+		ImGui::DragFloat3("Frustum front", frustum.front.ptr(), -0.5f, 0.5f);
+
+		ImGui::TreePop();
+
+		ImGui::Text("FOV:");
+		if (ImGui::InputFloat("Vertical fov", &fov, 0.5f, 115, 3))
+		{
+			SetFov();
+		}
+		ImGui::Checkbox("Active", &active);
+	}
 }
 
 void ComponentCamera::SetAspectRatio(float x, float y)
