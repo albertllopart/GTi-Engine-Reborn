@@ -259,7 +259,11 @@ void ModuleRenderer3D::Draw(GameObject* to_draw)
 
 		for (int i = 0; i < components.size(); i++)
 		{
-			//if (components[i].)
+			if (components[i]->GetType() == COMPONENT_MESH)
+			{
+				ComponentMesh* local_mesh = (ComponentMesh*)components[i];
+				Draw(local_mesh);
+			}
 		}
 	}
 }

@@ -500,7 +500,7 @@ void ModuleImGui::ShowHierarchy()
 	if (hierarchy)
 	{
 		ImGui::Begin(("Hierarchy"), &hierarchy);
-		if (ImGui::CollapsingHeader("Scene"))
+		if (ImGui::CollapsingHeader("Scenes"))
 		{
 			App->editor->ShowRoot();
 		}

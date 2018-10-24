@@ -36,9 +36,7 @@ bool ModuleSceneEditor::Start()
 	App->camera->LookAt(float3(0.0, 0.0, 0.0));
 
 	root = new GameObject();
-	root->SetName("Root");
-	GameObject* scene = new GameObject();
-	scene->SetName("Scene");
+	root->SetName("Scene 1");
 
 	return true;
 }
