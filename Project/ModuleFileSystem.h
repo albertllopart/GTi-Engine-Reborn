@@ -20,7 +20,7 @@ public:
 	bool Init(JSON_Object* node);
 
 	bool CreateNewDirectory(const char* name) const;
-	bool SaveFile(const char* name, char* buffer, int buffer_size, file_type type);
+	bool SaveFile(std::string name, char* buffer, int buffer_size, file_type type);
 	bool LoadFile(const char* name, char** buffer, uint& size, file_type type);
 };
 

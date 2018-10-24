@@ -19,26 +19,6 @@ public:
 	Importer(importer_type type);
 	virtual ~Importer();
 
-	virtual bool Import(const char* file, const char* path, std::string& output_file) 
-	{
-		return true;
-	};
-
-	virtual bool Import(const void* buffer, uint size, std::string& output_file)
-	{
-		return true;
-	};
-
-	virtual bool Load(const char* exported_file)
-	{
-		return true;
-	};
-
-	virtual bool LoadCheckers() 
-	{
-		return true;
-	};
-
 private:
 
 	std::string source_file;

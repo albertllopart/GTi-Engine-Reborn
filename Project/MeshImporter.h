@@ -2,7 +2,10 @@
 #define __MeshImporter__
 
 #include "Importer.h"
+#include "ComponentMesh.h"
 #include "Globals.h"
+
+struct aiMesh;
 
 class MeshImporter : Importer
 {
@@ -10,10 +13,9 @@ public:
 	MeshImporter(importer_type type);
 	~MeshImporter();
 
-	bool Import(const char* file, const char* path, std::string& output_file);
-	bool Import(const void* buffer, uint size, std::string& output_file);
-	bool Load(const char* exported_file);
-	bool LoadCheckers();
+	bool Import(const aiMesh* aimesh, std::string output_file);
+	bool Load(const char* exported_file, ComponentMesh* mesh);
+
 };
 
 #endif

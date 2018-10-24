@@ -24,10 +24,6 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 	CreateNewDirectory(MESH_DIRECTORY);
 	CreateNewDirectory(MATERIAL_DIRECTORY);
 
-	char* testing = "asdfg";
-
-	SaveFile("testing", testing, 5, FILE_MESH);
-
 	return true;
 }
 
@@ -51,7 +47,7 @@ bool ModuleFileSystem::CreateNewDirectory(const char* name) const
 	return result;
 }
 
-bool ModuleFileSystem::SaveFile(const char* name, char* buffer, int buffer_size, file_type type)
+bool ModuleFileSystem::SaveFile(std::string name, char* buffer, int buffer_size, file_type type)
 {
 	std::string path;
 
