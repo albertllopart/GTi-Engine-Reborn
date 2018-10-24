@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ComponentMaterial.h"
 #include "Glew/include/glew.h"
 #include "Devil\include\ilut.h"
 #include "Devil\include\il.h"
@@ -183,55 +184,61 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
-void ModuleRenderer3D::Draw(Mesh* to_draw)
-{
-	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
-	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
-
-	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
-	
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (show_normals)//draw normals
-	{
-		for (int i = 0; i < to_draw->num_vertex; i += 3)
-		{
-			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
-			line.Render();
-		}
-	}
-}
+//void ModuleRenderer3D::Draw(Mesh* to_draw)
+//{
+//	glBindTexture(GL_TEXTURE_2D, mat->GetID());
+//
+//	glEnableClientState(GL_VERTEX_ARRAY);
+//	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
+//	glVertexPointer(3, GL_FLOAT, 0, NULL);
+//
+//	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+//	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
+//	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+//
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+//
+//	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+//	
+//
+//
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+//	glDisableClientState(GL_VERTEX_ARRAY);
+//	glBindTexture(GL_TEXTURE_2D, 0);
+//
+//	if (show_normals)//draw normals
+//	{
+//		for (int i = 0; i < to_draw->num_vertex; i += 3)
+//		{
+//			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
+//			line.Render();
+//		}
+//	}
+//}
 
 void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
-	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
+	
+	if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
+	{
+		ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
+		glBindTexture(GL_TEXTURE_2D, temp->GetID());
+	}
+	
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_vertex);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_texcoord);
 	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->id_index);
 
-	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+	glDrawElements(GL_TRIANGLES, to_draw->mesh->num_index, GL_UNSIGNED_INT, NULL);
 
 
 
@@ -243,9 +250,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 	if (show_normals)//draw normals
 	{
-		for (int i = 0; i < to_draw->num_vertex; i += 3)
+		for (int i = 0; i < to_draw->mesh->num_vertex; i += 3)
 		{
-			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
+			pLine line(to_draw->mesh->vertex[i], to_draw->mesh->vertex[i + 1], to_draw->mesh->vertex[i + 2], to_draw->mesh->normals[i] + to_draw->mesh->vertex[i], to_draw->mesh->normals[i + 1] + to_draw->mesh->vertex[i + 1], to_draw->mesh->normals[i + 2] + to_draw->mesh->vertex[i + 2]);
 			line.Render();
 		}
 	}
@@ -256,12 +263,24 @@ void ModuleRenderer3D::Draw(GameObject* to_draw)
 	if (to_draw != nullptr)
 	{
 		std::vector<Component*> components = to_draw->GetComponents();
-
+		ComponentMesh* local_mesh = nullptr;
+		ComponentMaterial* local_mat = nullptr;
 		for (int i = 0; i < components.size(); i++)
 		{
 			if (components[i]->GetType() == COMPONENT_MESH)
 			{
-				ComponentMesh* local_mesh = (ComponentMesh*)components[i];
+				local_mesh = (ComponentMesh*)components[i];
+			}
+			//if (components[i]->GetType() == COMPONENT_MATERIAL)
+			//{
+			//	local_mat = (ComponentMaterial*)components[i];
+			//}
+			//if (local_mesh != nullptr && local_mat !=nullptr)
+			//{
+			//	Draw(local_mesh, local_mat);
+			//}
+			//else if(local_mesh != nullptr)
+			{
 				Draw(local_mesh);
 			}
 		}

@@ -22,6 +22,7 @@ public:
 
 	void AddComponent(Component * to_add);
 	GameObject* GetParent() const;
+	Component* FindComponent(COMPONENT_TYPE type) const;
 
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;

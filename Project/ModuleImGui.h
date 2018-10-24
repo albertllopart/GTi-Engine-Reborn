@@ -23,7 +23,7 @@ public:
 	void PerformanceGraphCalc(float fps, float ms);
 	void AboutWindow();
 	void Draw()const;
-	void ShowMeshesInfo();
+	//void ShowMeshesInfo();
 	void ShowHierarchy();
 
 	std::vector<float> GetFramerateVec() const;

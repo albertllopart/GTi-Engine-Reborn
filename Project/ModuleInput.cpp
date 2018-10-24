@@ -3,7 +3,7 @@
 #include "ModuleInput.h"
 #include "ModuleRNG.h"
 #include "parson/parson.h"
-
+#include "ModuleSceneEditor.h"
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
 
@@ -131,7 +131,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
-					App->editor->LoadTexture2AllMesh(file_dir.c_str());
+					App->editor->GetSelected()->AddComponent(App->editor->LoadComponentMaterial(file_dir.c_str()));
 				}
 
 				break;

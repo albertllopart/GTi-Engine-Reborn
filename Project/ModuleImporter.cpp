@@ -51,19 +51,19 @@ ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 {
 	//const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
 	ComponentMesh* mesh = new ComponentMesh;
-	mesh->num_vertex = drop->mNumVertices;
-	mesh->vertex = new float[mesh->num_vertex * 3];
-	memcpy(mesh->vertex, drop->mVertices, sizeof(float)* mesh->num_vertex * 3);
-	LOG("New mesh with %d vertices", mesh->num_vertex);
+	mesh->mesh->num_vertex = drop->mNumVertices;
+	mesh->mesh->vertex = new float[mesh->mesh->num_vertex * 3];
+	memcpy(mesh->mesh->vertex, drop->mVertices, sizeof(float)* mesh->mesh->num_vertex * 3);
+	LOG("New mesh with %d vertices", mesh->mesh->num_vertex);
 
-	glGenBuffers(1, (GLuint*)&mesh->id_vertex);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->vertex, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*)&mesh->mesh->id_vertex);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_vertex);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->vertex, GL_STATIC_DRAW);
 
 	if (drop->HasFaces())
 	{
-		mesh->num_index = drop->mNumFaces * 3;
-		mesh->index = new uint[mesh->num_index];
+		mesh->mesh->num_index = drop->mNumFaces * 3;
+		mesh->mesh->index = new uint[mesh->mesh->num_index];
 		for (uint i = 0; i < drop->mNumFaces; ++i)
 		{
 			if (drop->mFaces[i].mNumIndices != 3)
@@ -72,37 +72,43 @@ ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
 			}
 			else
 			{
-				memcpy(&mesh->index[i * 3], drop->mFaces[i].mIndices, 3 * sizeof(uint));
+				memcpy(&mesh->mesh->index[i * 3], drop->mFaces[i].mIndices, 3 * sizeof(uint));
 			}
 		}
 
-		glGenBuffers(1, (GLuint*)&mesh->id_index);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_index);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
+		glGenBuffers(1, (GLuint*)&mesh->mesh->id_index);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->mesh->id_index);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->mesh->num_index, mesh->mesh->index, GL_STATIC_DRAW);
 	}
 
 	if (drop->HasNormals())
 	{
-		mesh->normals = new float[mesh->num_vertex * 3];
-		memcpy(mesh->normals, drop->mNormals, sizeof(float) * mesh->num_vertex * 3);
+		mesh->mesh->normals = new float[mesh->mesh->num_vertex * 3];
+		memcpy(mesh->mesh->normals, drop->mNormals, sizeof(float) * mesh->mesh->num_vertex * 3);
 
-		glGenBuffers(1, (GLuint*) &(mesh->id_normals));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normals);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex * 3, mesh->normals, GL_STATIC_DRAW);
+		glGenBuffers(1, (GLuint*) &(mesh->mesh->id_normals));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_normals);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->normals, GL_STATIC_DRAW);
 	}
 
 	if (drop->HasTextureCoords(0))
-	{
-		mesh->texCoords = new float[mesh->num_vertex * 3];
-		memcpy(mesh->texCoords, drop->mTextureCoords[0], sizeof(float) * mesh->num_vertex * 3);
 
-		glGenBuffers(1, (GLuint*) &(mesh->id_texcoord));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_texcoord);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* mesh->num_vertex * 3, mesh->texCoords, GL_STATIC_DRAW);
+	{
+		mesh->mesh->texCoords = new float[drop->mNumVertices * 2];
+
+		for (int i = 0; i < drop->mNumVertices; i++)
+		{
+			memcpy(&mesh->mesh->texCoords[i * 2], &drop->mTextureCoords[0][i].x, sizeof(float));
+			memcpy(&mesh->mesh->texCoords[(i * 2) + 1], &drop->mTextureCoords[0][i].y, sizeof(float));
+		}
+		glGenBuffers(1, (GLuint*) &(mesh->mesh->id_texcoord));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_texcoord);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat*) * 2 * mesh->mesh->num_vertex, mesh->mesh->texCoords, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	mesh->bbox.SetNegativeInfinity();
-	mesh->bbox.Enclose((float3*)mesh->vertex, mesh->num_vertex);
+	mesh->mesh->bbox.SetNegativeInfinity();
+	mesh->mesh->bbox.Enclose((float3*)mesh->mesh->vertex, mesh->mesh->num_vertex);
 
 	return mesh;
 }
@@ -133,7 +139,7 @@ GameObject * ModuleImporter::LoadGameObject(const char * fullPath)
 			aiMaterial* material = nullptr;
 			material = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
 
-			newObject->AddComponent(LoadMaterial(material));
+			//newObject->AddComponent(LoadMaterial(material));
 		}
 
 		aiReleaseImport(scene);
@@ -172,8 +178,8 @@ ComponentMaterial* ModuleImporter::LoadMaterial(aiMaterial* drop)
 		drop->GetTexture(aiTextureType_DIFFUSE, 0, &path);
 		std::string fullPath = "Assets/";
 		fullPath.append(path.C_Str());
-		mat->tex_id = App->textures->ImportImage(fullPath.c_str());
-		mat->tex_name = path.C_Str();
+		mat->SetID(App->textures->ImportImage(fullPath.c_str()));
+		mat->SetTextureName(path.C_Str());
 
 		return mat;
 	}

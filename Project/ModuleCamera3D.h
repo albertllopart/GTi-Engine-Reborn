@@ -22,7 +22,7 @@ public:
 	void Move(const float3 &Movement);
 	void CameraRotation()const;
 	float* GetViewMatrix();
-	void CenterToMesh(Mesh * mesh);
+	//void CenterToMesh(Mesh * mesh);
 
 private:
 

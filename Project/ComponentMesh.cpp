@@ -5,7 +5,7 @@
 
 ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
 {
-
+	mesh = new Mesh;
 }
 
 ComponentMesh::~ComponentMesh()
@@ -32,17 +32,17 @@ void ComponentMesh::OnEditor()
 {	
 	if (ImGui::TreeNodeEx(name.c_str()))
 	{
-		ImGui::Text("Vertex ID: %i", id_vertex);
-		ImGui::Text("Vertex Ammount: %i", num_vertex);
-		ImGui::Text("Index ID: %i", id_index);
-		ImGui::Text("Index Ammount: %i", num_index);
-		ImGui::Text("Normals ID: %i", id_normals);
-		ImGui::Text("Texture Coords ID: %i", id_texcoord);
+		ImGui::Text("Vertex ID: %i", mesh->id_vertex);
+		ImGui::Text("Vertex Ammount: %i", mesh->num_vertex);
+		ImGui::Text("Index ID: %i", mesh->id_index);
+		ImGui::Text("Index Ammount: %i", mesh->num_index);
+		ImGui::Text("Normals ID: %i", mesh->id_normals);
+		ImGui::Text("Texture Coords ID: %i", mesh->id_texcoord);
 		ImGui::TreePop();
 	}
 }
 
 float3 ComponentMesh::GetCenter() const
 {
-	return bbox.Centroid();
+	return mesh->bbox.Centroid();
 }

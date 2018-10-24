@@ -31,6 +31,11 @@ void Component::Disable()
 	active = false;
 }
 
+GameObject * Component::GetMyGo() const
+{
+	return my_go;
+}
+
 bool Component::IsActive() const
 {
 	return active;

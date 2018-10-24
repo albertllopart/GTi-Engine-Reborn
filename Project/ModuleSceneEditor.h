@@ -23,24 +23,17 @@ public:
 	update_status PostUpdate(float dt);
 
 	void Draw();
-	void SetToWireframe(bool wframe);
-
-	void AddCube(float3 size, float3 pos = float3(0, 0, 0));
-	void AddCube2(float3 size, float3 pos);
-	void AddMesh(Mesh* model);
-	void LoadTexture2AllMesh(const char* path);
+	ComponentMaterial* LoadComponentMaterial(const char* path);
 	void CreateEmptyGameObject();
 	void ShowRoot();
 	GameObject* GetRoot();
 	GameObject* CreateNewGameObject(const char* path);
-
+	void SetSelected(GameObject* to_select);
+	GameObject* GetSelected()const;
 	std::list<Mesh*> GetMeshList() const;
+	
 private:
-
+	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
-	std::list<pCube*> cubes_list; //list of cubes mades  with vertex array
-	std::list<pCube2*> indcubes_list; //list of cubes mades  with indices
-	//scene meshes
-	std::list<Mesh*> mesh_list;//TODO CAMBIAR AIXO A COMPONENTS
 };
 #endif 

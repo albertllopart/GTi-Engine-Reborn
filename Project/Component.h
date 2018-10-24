@@ -28,7 +28,7 @@ public:
 	virtual void Disable();
 	virtual void OnEditor();
 
-
+	GameObject* GetMyGo()const;
 	bool IsActive() const;
 	void SetMyGo(GameObject * my_go);
 	COMPONENT_TYPE GetType() const;

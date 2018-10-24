@@ -26,3 +26,24 @@ void ComponentMaterial::LoadTexture(const char* path)
 {
 	tex_id = App->textures->ImportImage(path);
 }
+
+uint ComponentMaterial::GetID()const
+{
+	return tex_id;
+}
+
+void ComponentMaterial::SetID(uint id)
+{
+	tex_id = id;
+}
+
+void ComponentMaterial::SetTextureName(const char* new_name)
+{
+	tex_name = new_name;
+}
+
+void ComponentMaterial::SetTextureSize(uint width, uint height)
+{
+	tex_width = width;
+	tex_height = height;
+}

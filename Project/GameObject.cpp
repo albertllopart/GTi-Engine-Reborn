@@ -49,6 +49,7 @@ void GameObject::PostUpdate()
 
 void GameObject::OnEditor()
 {
+	App->editor->SetSelected(this);
 	if (ImGui::TreeNodeEx(name.c_str()))
 	{
 		for (int i = 0; i < components.size(); i++)
@@ -82,6 +83,19 @@ void  GameObject::AddComponent(Component* to_add)
 GameObject * GameObject::GetParent() const
 {
 	return parent;
+}
+
+Component * GameObject::FindComponent(COMPONENT_TYPE type) const
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i]->GetType() == type)
+		{
+			return components[i];
+		}
+	}
+
+	return nullptr;;
 }
 
 std::vector<GameObject*> GameObject::GetChilds() const

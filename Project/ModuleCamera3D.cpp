@@ -72,11 +72,11 @@ update_status ModuleCamera3D::Update(float dt)
 		//code for camera focus around objects
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
-		if (App->editor->GetMeshList().size() > 0)
+		if (/*App->editor->GetMeshList().size() > 0*/true)
 		{
-			free_move = false;
+			free_move = true; //THIS NEEDS A COMPLETE REWORK, BROKEN AF
 
-			focus = App->editor->GetMeshList().back()->pos; //TODO: CAP RADIUS ASWELL
+			//focus = App->editor->GetMeshList().back()->mesh->pos; //TODO: fix this sheet
 			LookAt(focus);
 			//////////////////////////////////CAMERA ROTATION CODE///////////////////////////////
 			int dx = -App->input->GetMouseXMotion();
@@ -123,10 +123,10 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		if (App->editor->GetMeshList().size() > 0)
+		if (/*App->editor->GetMeshList().size() > 0*/true)
 		{
 			free_move = false;
-			CenterToMesh(App->editor->GetMeshList().back());
+			//CenterToMesh(App->editor->GetMeshList().back());
 		}
 	}
 
@@ -255,15 +255,15 @@ void ModuleCamera3D::CalculateViewMatrix()
 	ViewMatrixInverse = ViewMatrix.Inverted();
 }
 
-void ModuleCamera3D::CenterToMesh(Mesh * mesh)
-{
-	if (mesh != nullptr)
-	{
-		float3 temp = mesh->bbox.Centroid();
-		float3 size = mesh->bbox.Size() * 0.5f;
-		Position = float3(temp.x + size.x, temp.y + size.y, temp.z + 5.0f + size.z);
-		Reference = float3(temp.x + size.x, temp.y + size.y, temp.z + size.z);
-		LookAt(float3(temp.x, temp.y, temp.z));
-	}
-}
+//void ModuleCamera3D::CenterToMesh(Mesh * mesh)
+//{
+//	if (mesh != nullptr)
+//	{
+//		float3 temp = mesh->bbox.Centroid();
+//		float3 size = mesh->bbox.Size() * 0.5f;
+//		Position = float3(temp.x + size.x, temp.y + size.y, temp.z + 5.0f + size.z);
+//		Reference = float3(temp.x + size.x, temp.y + size.y, temp.z + size.z);
+//		LookAt(float3(temp.x, temp.y, temp.z));
+//	}
+//}
 // -----------------------------------------------------------------

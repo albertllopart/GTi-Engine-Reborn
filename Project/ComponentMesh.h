@@ -7,21 +7,9 @@
 #include "MathGeoLib/Math/Quat.h"
 #include "MathGeoLib\Geometry\AABB.h"
 
-class ComponentMesh : public Component
+
+struct Mesh
 {
-public:
-	ComponentMesh();
-	~ComponentMesh();
-
-	void Update();
-	void PostUpdate();
-
-	void DrawDebug() const;
-	void OnEditor();
-	float3 GetCenter() const;
-
-public:
-
 	uint mesh_id = 0;
 
 	std::string name;
@@ -40,11 +28,26 @@ public:
 	float* normals = nullptr;
 	uint faces = 0;//WARNING TODO THIS
 
-	//text coords
+				   //text coords
 	uint id_texcoord = 0; // id textcoords
-	uint texture = 0; // text id
 	float* texCoords = nullptr;
+};
 
+class ComponentMesh : public Component
+{
+public:
+	ComponentMesh();
+	~ComponentMesh();
+
+	void Update();
+	void PostUpdate();
+
+	void DrawDebug() const;
+	void OnEditor();
+	float3 GetCenter() const;
+
+public:
+	Mesh * mesh = nullptr;
 };
 
 #endif//__COMPONENT_MESH__

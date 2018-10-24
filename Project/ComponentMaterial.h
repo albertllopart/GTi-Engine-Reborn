@@ -13,7 +13,14 @@ public:
 	void OnEditor();
 	void LoadTexture(const char* path);
 
-public:
+	//void OnSave(); TODO WORK ON SAVE LOAD (G.O. & Components)
+	//void OnLoad();
+	
+	uint GetID()const;
+	void SetID(uint id);
+	void SetTextureName(const char* new_name);
+	void SetTextureSize(uint width, uint height);
+private:
 
 	uint tex_id = 0;
 
