@@ -67,6 +67,8 @@ void ModuleSceneEditor::Draw()
 		App->renderer3D->Draw((*it));
 	}
 
+
+
 	pPlane p(0, 0, 0, 100);
 	p.color = White;
 	p.Render();

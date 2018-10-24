@@ -29,6 +29,7 @@ public:
 
 	bool IsActive() const;
 	void SetMyGo(GameObject * my_go);
+	COMPONENT_TYPE GetType() const;
 
 protected:
 

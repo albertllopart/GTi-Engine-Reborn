@@ -5,6 +5,7 @@
 #include "Devil\include\ilut.h"
 #include "Devil\include\il.h"
 #include "SDL\include\SDL_opengl.h"
+#include <vector>
 
 #pragma comment (lib, "glu32.lib")    
 #pragma comment (lib, "opengl32.lib") 
@@ -212,6 +213,53 @@ void ModuleRenderer3D::Draw(Mesh* to_draw)
 		{
 			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
 			line.Render();
+		}
+	}
+}
+
+void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
+{
+	glBindTexture(GL_TEXTURE_2D, to_draw->texture);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
+	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
+
+	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
+
+
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	if (show_normals)//draw normals
+	{
+		for (int i = 0; i < to_draw->num_vertex; i += 3)
+		{
+			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
+			line.Render();
+		}
+	}
+}
+
+void ModuleRenderer3D::Draw(GameObject* to_draw)
+{
+	if (to_draw != nullptr)
+	{
+		std::vector<Component*> components = to_draw->GetComponents();
+
+		for (int i = 0; i < components.size(); i++)
+		{
+			//if (components[i].)
 		}
 	}
 }

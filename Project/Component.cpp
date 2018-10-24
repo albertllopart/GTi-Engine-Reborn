@@ -40,4 +40,9 @@ void Component::SetMyGo(GameObject* my_go)
 	this->my_go = my_go;
 }
 
+COMPONENT_TYPE Component::GetType() const
+{
+	return type;
+}
+
 

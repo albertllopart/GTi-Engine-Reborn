@@ -9,6 +9,10 @@
 #include "MathGeoLib/Math/float4x4.h"
 #include "MathGeoLib/Math/Quat.h"
 #include "MathGeoLib\Geometry\AABB.h"
+
+#include "ComponentMesh.h"
+#include "GameObject.h"
+
 #define MAX_LIGHTS 8
 
 
@@ -60,6 +64,8 @@ public:
 	bool Init(JSON_Object* node);
 	bool CleanUp();
 	void Draw(Mesh* toDraw);
+	void Draw(ComponentMesh* toDraw);
+	void Draw(GameObject* toDraw);
 	void OnResize(int width, int height);
 
 	float4x4 perspective(float fovy, float aspect, float n, float f);
