@@ -13,6 +13,9 @@ public:
 	ComponentMesh();
 	~ComponentMesh();
 
+	void Update();
+	void PostUpdate();
+
 	void DrawDebug() const;
 	void OnEditor();
 	float3 GetCenter() const;

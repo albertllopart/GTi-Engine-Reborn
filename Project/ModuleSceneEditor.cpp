@@ -48,12 +48,13 @@ update_status ModuleSceneEditor::PreUpdate(float dt)
 
 update_status ModuleSceneEditor::Update(float dt)
 {
+	root->Update();
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleSceneEditor::PostUpdate(float dt)
 {
-	
+	root->PostUpdate();
 	return UPDATE_CONTINUE;
 }
 

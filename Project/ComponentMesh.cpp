@@ -1,4 +1,6 @@
+#include "Application.h"
 #include "ComponentMesh.h"
+#include "ModuleRenderer3D.h"
 #include "ImGui/imgui.h"
 
 ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
@@ -9,6 +11,16 @@ ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
 ComponentMesh::~ComponentMesh()
 {
 	name = "ComponentMesh";
+}
+
+void ComponentMesh::Update()
+{
+
+}
+
+void ComponentMesh::PostUpdate()
+{
+	App->renderer3D->Draw(this);
 }
 
 void ComponentMesh::DrawDebug() const

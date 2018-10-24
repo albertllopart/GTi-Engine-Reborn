@@ -35,6 +35,18 @@ void GameObject::Update()
 	}
 }
 
+void GameObject::PostUpdate()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->PostUpdate();
+	}
+	for (int i = 0; i < childs.size(); i++)
+	{
+		childs[i]->PostUpdate();
+	}
+}
+
 void GameObject::OnEditor()
 {
 	if (ImGui::TreeNodeEx(name.c_str()))

@@ -16,6 +16,7 @@ public:
 	~GameObject();
 
 	void Update();
+	void PostUpdate();
 	void OnEditor();
 	void ShowProperties();
 

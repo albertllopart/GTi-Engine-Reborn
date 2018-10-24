@@ -11,13 +11,19 @@ Component::~Component()
 {
 }
 
+void Component::Update()
+{
+
+}
+
+void Component::PostUpdate()
+{
+
+}
+
 void Component::Enable()
 {
 	active = true;
-}
-
-void Component::Update()
-{
 }
 
 void Component::Disable()

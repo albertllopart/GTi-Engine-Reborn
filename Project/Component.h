@@ -21,8 +21,10 @@ public:
 	Component(COMPONENT_TYPE type);
 	virtual ~Component();
 
-	virtual void Enable();
 	virtual void Update();
+	virtual void PostUpdate();
+
+	virtual void Enable();
 	virtual void Disable();
 	virtual void OnEditor();
 
