@@ -31,6 +31,7 @@ public:
 	GameObject* GetMyGo()const;
 	bool IsActive() const;
 	void SetMyGo(GameObject * my_go);
+	void ShowInspectorWindow();
 	COMPONENT_TYPE GetType() const;
 
 protected:

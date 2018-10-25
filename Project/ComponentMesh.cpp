@@ -30,7 +30,7 @@ void ComponentMesh::DrawDebug() const
 
 void ComponentMesh::OnEditor()
 {	
-	if (ImGui::TreeNodeEx(name.c_str()))
+	if (ImGui::TreeNodeEx("ComponentMesh"))
 	{
 		ImGui::Text("Vertex ID: %i", mesh->id_vertex);
 		ImGui::Text("Vertex Ammount: %i", mesh->num_vertex);

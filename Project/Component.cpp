@@ -51,6 +51,11 @@ void Component::SetMyGo(GameObject* my_go)
 	this->my_go = my_go;
 }
 
+void Component::ShowInspectorWindow()
+{
+	//TODO
+}
+
 COMPONENT_TYPE Component::GetType() const
 {
 	return type;

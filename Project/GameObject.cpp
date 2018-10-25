@@ -64,6 +64,28 @@ void GameObject::OnEditor()
 	}
 }
 
+void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
+{
+	ImGui::PushStyleColor(ImGuiCol_ChildWindowBg, ImVec4(0.f, 0.f, 0.f, 1.00f));
+
+	if (ImGui::BeginChild(ImGui::GetID("Inspector"), ImVec2(ImGui::GetWindowWidth(), 150)))
+	{
+		/* ENABLE-DISABLE CHECKBOX*/
+		if (ImGui::Checkbox("test",&active))
+		{
+			active = !active;
+		}
+		/* NAME OF THE GAMEOBJECT */
+		ImGui::SameLine();
+		ImGui::Text(name.c_str());//TODO EDIT G.O. NAME
+		ImGui::Checkbox("#2",&is_static);
+		ImGui::SameLine();
+		ImGui::PopStyleVar();
+		ImGui::TextColored(ImVec4(0.25f, 1.00f, 0.00f, 1.00f), "Static");
+		ImGui::PopStyleVar();
+	}
+}
+
 void GameObject::ShowProperties()
 {
 	ImGui::SetNextWindowSize(ImVec2(500, 300));

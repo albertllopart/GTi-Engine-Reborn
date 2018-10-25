@@ -44,14 +44,17 @@ void ComponentTransform::OnEditor()
 		else
 		{
 			ImGui::Text("Position:");
-			ImGui::DragFloat("X",&pos.x,0.1f,0.0f,)
-
-
-
-
-
-
-
+			ImGui::DragFloat("X", &pos.x, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::DragFloat("Y", &pos.y, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::DragFloat("Z", &pos.z, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::Text("Rotation:");
+			ImGui::DragFloat("X", &rot_euler.x, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::DragFloat("Y", &rot_euler.y, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::DragFloat("Z", &rot_euler.z, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::Text("Scale:");
+			ImGui::DragFloat("X", &scale.x, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::DragFloat("Y", &scale.y, 0.1f, 0.0f, 0.0f, "%.3f");
+			ImGui::DragFloat("Z", &scale.z, 0.1f, 0.0f, 0.0f, "%.3f");
 		}
 		ImGui::TreePop();
 	}

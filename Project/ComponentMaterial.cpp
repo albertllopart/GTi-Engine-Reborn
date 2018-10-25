@@ -14,9 +14,9 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::OnEditor()
 {
-	if (ImGui::TreeNodeEx("Material"))
+	if (ImGui::TreeNodeEx("ComponentMaterial"))
 	{
-		ImGui::Text(name.c_str());
+		ImGui::Text(tex_name.c_str());
 		ImGui::Text("Texture ID: %i", tex_id);
 		ImGui::TreePop();
 	}

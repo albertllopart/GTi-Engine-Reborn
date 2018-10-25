@@ -88,9 +88,9 @@ update_status ModuleImGui::Update(float dt)
 			{
 				config_menu = !config_menu;
 			}
-			if (ImGui::MenuItem("Meshes Parameters"))
+			if (ImGui::BeginMenu("Mesh Parameters", false)) // Disabled
 			{
-				/*show_mesh_info = !show_mesh_info;*/
+				IM_ASSERT(0);
 			}
 			ImGui::EndMenu();
 		}

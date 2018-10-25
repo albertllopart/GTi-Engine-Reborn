@@ -18,6 +18,7 @@ public:
 	void Update();
 	void PostUpdate();
 	void OnEditor();
+	void ShowInspectorWindow();
 	void ShowProperties();
 
 	void AddComponent(Component * to_add);
@@ -40,6 +41,7 @@ public:
 	std::vector<GameObject*> childs;
 
 	bool is_static = false; 
+	bool active = true;
 };
 
 #endif // __GAME_OBJECT_H__
