@@ -18,6 +18,26 @@ void log(const char file[], int line, const char* format, ...);
 #define HAVE_M_PI
 #define FOCUS_RAD 5.0f
 
+// Deletes a buffer
+#define RELEASE( x ) \
+    {                        \
+    if( x != NULL )        \
+	    {                      \
+      delete x;            \
+	  x = NULL;              \
+	    }                      \
+    }
+
+// Deletes an array of buffers
+#define RELEASE_ARRAY( x ) \
+    {                              \
+    if( x != NULL )              \
+	    {                            \
+      delete[] x;                \
+	  x = NULL;                    \
+	    }                            \
+                              \
+    }
 
 typedef unsigned int uint;
 

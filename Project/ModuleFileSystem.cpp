@@ -6,7 +6,7 @@
 #define MESH_DIRECTORY "Library/Meshes"
 #define MESH_EXTENSION ".GTImesh"
 #define MATERIAL_DIRECTORY "Library/Materials"
-#define MATERIAL_EXTENSION "dds"
+#define MATERIAL_EXTENSION ".dds"
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {

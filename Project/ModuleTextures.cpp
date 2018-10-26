@@ -23,6 +23,8 @@ ModuleTextures::~ModuleTextures()
 
 bool ModuleTextures::Init(JSON_Object * data)
 {
+	importer = new TextureImporter(IMPORTER_MATERIAL);
+
 	ilInit();
 	iluInit();
 	ilutInit();
@@ -32,11 +34,17 @@ bool ModuleTextures::Init(JSON_Object * data)
 
 bool ModuleTextures::CleanUp(JSON_Object * data)
 {
+	RELEASE(importer);
 	return true;
 }
 
 uint ModuleTextures::ImportImage(const char * image)
 {
+	//testing importer
+	std::string name("image_test");
+	importer->Import(image, name);
+	//end test
+
 	ILuint imageID;				// Create an image ID as a ULuint
 
 	GLuint textureID;			// Create a texture ID as a GLuint

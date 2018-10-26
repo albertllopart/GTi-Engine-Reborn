@@ -109,9 +109,9 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 	}
 
 	App->filesystem->SaveFile(output_file, data, size, FILE_MESH);
-	delete mesh;
-	delete[] data;
-	data = nullptr;
+
+	RELEASE(mesh);
+	RELEASE_ARRAY(data);
 
 	return true;
 }

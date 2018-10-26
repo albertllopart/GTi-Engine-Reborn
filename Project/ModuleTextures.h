@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "TextureImporter.h"
 
 struct texture
 {
@@ -26,6 +27,10 @@ public:
 
 	//last texture info
 	texture last_tex;
+
+private:
+
+	TextureImporter* importer;
 };
 
 #endif // __MODULE_TEXTURES__
