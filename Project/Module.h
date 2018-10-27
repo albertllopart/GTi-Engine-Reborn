@@ -45,6 +45,11 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
+	virtual update_status OnEditor()
+	{
+		return UPDATE_CONTINUE;
+	}
+
 	virtual bool CleanUp() 
 	{ 
 		return true; 

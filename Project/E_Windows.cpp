@@ -8,7 +8,7 @@ E_Windows::E_Windows(ModuleEngineWindows * mom) : mom(mom)
 
 E_Windows::~E_Windows()
 {
-	delete mom;
+	//delete mom;
 	mom = nullptr;
 }
 

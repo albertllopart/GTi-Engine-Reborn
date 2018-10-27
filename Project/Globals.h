@@ -40,6 +40,7 @@ void log(const char file[], int line, const char* format, ...);
     }
 
 typedef unsigned int uint;
+typedef unsigned int UID;
 
 enum update_status
 {
@@ -58,3 +59,4 @@ enum update_status
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "GTi Engine"
+

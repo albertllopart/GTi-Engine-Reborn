@@ -1,6 +1,8 @@
 #ifndef __ENGINE_WINDOWS__
 #define __ENGINE_WINDOWS__
 
+#include <string>
+
 class ModuleEngineWindows;
 class E_Windows
 {
@@ -17,7 +19,7 @@ public:
 
 public: 
 	bool active = true;
-
+	std::string name = "none";
 protected:
 	ModuleEngineWindows* mom = nullptr;
 

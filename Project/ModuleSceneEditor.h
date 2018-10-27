@@ -24,17 +24,16 @@ public:
 
 	void Draw();
 	ComponentMaterial* LoadComponentMaterial(const char* path);
-	void CreateEmptyGameObject();
+	GameObject* CreateEmptyGameObject(GameObject* parent);
 	void ShowRoot();
 	GameObject* GetRoot();
 	GameObject* CreateNewGameObject(const char* path);
 	void SetSelected(GameObject* to_select);
 	GameObject* GetSelected()const;
-	//std::list<Mesh*> GetMeshList() const;
+	void AddToScene(GameObject* to_add);
 	
 private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
-	GameObject* scene = nullptr;
 };
 #endif 

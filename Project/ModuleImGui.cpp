@@ -497,15 +497,15 @@ void ModuleImGui::AboutWindow()
 
 void ModuleImGui::ShowHierarchy()
 {
-	if (hierarchy)
-	{
-		ImGui::Begin(("Hierarchy"), &hierarchy);
-		if (ImGui::CollapsingHeader("Scenes"))
-		{
-			App->editor->ShowRoot();
-		}
-		ImGui::End();
-	}
+	//if (hierarchy)
+	//{
+	//	ImGui::Begin(("Hierarchy"), &hierarchy);
+	//	if (ImGui::CollapsingHeader("Scenes"))
+	//	{
+	//		App->editor->ShowRoot();
+	//	}
+	//	ImGui::End();
+	//}
 }
 
 void ModuleImGui::Draw()const

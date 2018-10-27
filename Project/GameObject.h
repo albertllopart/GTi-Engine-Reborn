@@ -13,6 +13,7 @@ class GameObject
 
 public:
 	GameObject();
+	GameObject(GameObject* parent);
 	~GameObject();
 
 	void Update();
@@ -22,17 +23,20 @@ public:
 
 	void AddComponent(Component * to_add);
 	GameObject* GetParent() const;
+	void SetParent(GameObject* new_parent);
 	Component* FindComponent(COMPONENT_TYPE type) const;
 
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;
 	void SetName(const char* name);
 	void AddChild(GameObject * child);
+	void SetToDelete();
 
 private:
 	uint uid = 0;
 	GameObject* parent = nullptr;
-	
+
+
 public:
 
 	std::string name;
@@ -41,6 +45,7 @@ public:
 
 	bool is_static = false; 
 	bool active = true;
+	bool want_delete = false;
 };
 
 #endif // __GAME_OBJECT_H__

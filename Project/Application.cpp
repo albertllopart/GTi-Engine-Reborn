@@ -21,6 +21,7 @@ Application::Application()
 	rng = new ModuleRNG(this);
 	editor = new ModuleSceneEditor(this);
 	textures = new ModuleTextures(this);
+	e_windows = new ModuleEngineWindows(this);
 	filesystem = new ModuleFileSystem(this);
 
 	// The order of calls is very important!
@@ -35,6 +36,7 @@ Application::Application()
 	AddModule(editor);
 	AddModule(textures);
 	AddModule(import);
+	AddModule(e_windows);
 	AddModule(imgui);
 	AddModule(filesystem);
 
@@ -158,6 +160,7 @@ update_status Application::Update()
 		ret = (*item)->Update(dt);
 		item++;
 	}
+	ret = OnEditor();
 
 	item = list_modules.begin();
 
@@ -177,15 +180,30 @@ update_status Application::Update()
 	return ret;
 }
 
+update_status Application::OnEditor()
+{
+	update_status ret = UPDATE_CONTINUE;
+
+	std::list<Module*>::iterator item = list_modules.begin();
+	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	{
+		ret = (*item)->OnEditor();
+		item++;
+	}
+
+	return ret;
+}
+
 bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for (std::list<Module*>::const_reverse_iterator item = list_modules.rbegin(); item != list_modules.rend() && ret; ++item)
+	std::list<Module*>::reverse_iterator item = list_modules.rbegin();
+	while (item != list_modules.rend() && ret)
 	{
 		ret = (*item)->CleanUp();
+		item++;
 	}
-
 	return ret;
 }
 

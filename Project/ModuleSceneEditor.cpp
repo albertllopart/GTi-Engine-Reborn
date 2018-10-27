@@ -106,6 +106,11 @@ GameObject * ModuleSceneEditor::GetSelected() const
 	return selected_go;
 }
 
+void ModuleSceneEditor::AddToScene(GameObject * to_add)
+{
+	to_add->SetParent(root);	//CHECK IF THIS IS POSSIBLE (ROOT == SCENE)??
+}
+
 ComponentMaterial* ModuleSceneEditor::LoadComponentMaterial(const char * path)
 {
 	ComponentMaterial* mat = new ComponentMaterial;
@@ -118,17 +123,17 @@ ComponentMaterial* ModuleSceneEditor::LoadComponentMaterial(const char * path)
 	mat->SetTextureSize(App->textures->last_tex.width, App->textures->last_tex.height);
 
 	App->imgui->AddConsoleLog(("%s", newPath));
-	App->imgui->AddConsoleLog("Texture loaded to mesh");
+	App->imgui->AddConsoleLog("Texture loaded to geometry");
 
 	return mat;
 }
 
-void ModuleSceneEditor::CreateEmptyGameObject()
+GameObject* ModuleSceneEditor::CreateEmptyGameObject(GameObject* parent)
 {
-	GameObject* go = new GameObject();
+	GameObject* go = new GameObject(parent);
 	ComponentTransform* transform = new ComponentTransform();
 	go->AddComponent(transform);
-	
+	return go;
 }
 
 void ModuleSceneEditor::ShowRoot()

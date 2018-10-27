@@ -14,10 +14,12 @@
 #include "ModuleSceneEditor.h"
 #include "ModuleTextures.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEngineWindows.h"
 #include <list>
 #include <vector>
 #include <string>
 
+class ModuleEngineWindows;
 class Application
 {
 public:
@@ -32,6 +34,7 @@ public:
 	ModuleImporter* import;
 	ModuleTextures* textures;
 	ModuleFileSystem* filesystem;
+	ModuleEngineWindows* e_windows;
 
 private:
 
@@ -67,6 +70,8 @@ public:
 
 	bool Init();
 	update_status Update();
+	update_status OnEditor();
+
 	bool CleanUp();
 
 	float GetFPS();

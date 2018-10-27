@@ -7,6 +7,12 @@ GameObject::GameObject()
 	name = "GameObject";
 }
 
+GameObject::GameObject(GameObject * parent)
+{
+	name = "GameObject";
+	this->parent = parent;
+}
+
 GameObject::~GameObject()
 {
 	while (!childs.empty())
@@ -49,32 +55,65 @@ void GameObject::PostUpdate()
 
 void GameObject::OnEditor()
 {
-	App->editor->SetSelected(this);
+	bool node_open = false;
 
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_ShowBorders;
-	window_flags |= ImGuiWindowFlags_NoResize;
-	window_flags |= ImGuiWindowFlags_NoCollapse;
-	window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
-	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
+	ImGuiWindowFlags tree_flags = 0;
+	if (childs.empty())
+		tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
-	ImGui::Begin("Hierarchy", &App->imgui->hierarchy, window_flags);
-
-	if (ImGui::TreeNode(name.c_str()))
+	if (App->editor->GetSelected() == this)
 	{
-		for (int i = 0; i < components.size(); i++)
+		tree_flags |= ImGuiTreeNodeFlags_Selected;
+	}
+
+	if (!active)
+	{
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+	} //if not active, set  color to grey
+	
+	char item_id[80];
+	sprintf_s(item_id, 80, "%s##%i", name.c_str(), uid);
+	node_open = ImGui::TreeNodeEx(item_id, tree_flags);
+
+	if (!active)
+	{
+		ImGui::PopStyleColor();
+	}//reset color if was set to grey
+
+	//Set item selected->InspectorUpdate
+	if (ImGui::IsItemClicked())
+	{
+		App->editor->SetSelected(this); //setting item clicked to selected
+	}
+		
+	ImGui::PushID(item_id); //ImGui unique identifier 
+	if (ImGui::BeginPopupContextItem("GameObject_options"))
+	{
+		if (parent != nullptr)
 		{
-			components[i]->OnEditor();
+			if (ImGui::Button("Delete Game Object"))
+			{
+				SetToDelete();
+				ImGui::CloseCurrentPopup();
+			}
 		}
-		for (int i = 0; i < childs.size(); i++)
+		if (ImGui::Button("Create Game Object"))
 		{
-			childs[i]->OnEditor();
+			App->editor->CreateEmptyGameObject(this);
+			ImGui::CloseCurrentPopup();
+		}
+	}
+
+	ImGui::PopID();
+	if (node_open)
+	{
+		for (uint i = 0; i < childs.size(); i++)
+		{
+			GameObject* item = childs[i];
+			item->OnEditor();
 		}
 		ImGui::TreePop();
 	}
-
-	ImGui::End();
 }
 
 void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
@@ -110,6 +149,11 @@ GameObject * GameObject::GetParent() const
 	return parent;
 }
 
+void GameObject::SetParent(GameObject* new_parent)
+{
+	parent = new_parent;
+}
+
 Component * GameObject::FindComponent(COMPONENT_TYPE type) const
 {
 	for (int i = 0; i < components.size(); i++)
@@ -142,4 +186,9 @@ void GameObject::AddChild(GameObject* child)
 {
 	childs.push_back(child);
 	child->parent = this;
+}
+
+void GameObject::SetToDelete()
+{
+	want_delete = true;
 }

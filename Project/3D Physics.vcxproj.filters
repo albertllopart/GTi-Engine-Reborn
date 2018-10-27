@@ -393,6 +393,9 @@
     <ClInclude Include="E_Windows.h">
       <Filter>Sources\Modules\EngineWindows</Filter>
     </ClInclude>
+    <ClInclude Include="E_Hierarchy.h">
+      <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -606,6 +609,9 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="E_Windows.cpp">
+      <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="E_Hierarchy.cpp">
       <Filter>Sources\Modules\EngineWindows</Filter>
     </ClCompile>
   </ItemGroup>
