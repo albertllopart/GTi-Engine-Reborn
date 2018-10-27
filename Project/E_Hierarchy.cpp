@@ -45,8 +45,8 @@ bool E_Hierarchy::Draw()
 		}
 		ImGui::EndPopup();
 	}
-
-	return false;
+	ImGui::End();
+	return true;
 }
 
 void E_Hierarchy::CleanUp()
