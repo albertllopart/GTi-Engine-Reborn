@@ -50,6 +50,17 @@ void GameObject::PostUpdate()
 void GameObject::OnEditor()
 {
 	App->editor->SetSelected(this);
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
+	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
+
+	ImGui::Begin("Hierarchy", &App->imgui->hierarchy, window_flags);
+
 	if (ImGui::TreeNodeEx(name.c_str()))
 	{
 		for (int i = 0; i < components.size(); i++)
@@ -62,6 +73,7 @@ void GameObject::OnEditor()
 		}
 		ImGui::TreePop();
 	}
+	ImGui::End();
 }
 
 void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
@@ -84,16 +96,6 @@ void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
 		ImGui::TextColored(ImVec4(0.25f, 1.00f, 0.00f, 1.00f), "Static");
 		ImGui::PopStyleVar();
 	}
-}
-
-void GameObject::ShowProperties()
-{
-	ImGui::SetNextWindowSize(ImVec2(500, 300));
-	ImGui::SetNextWindowPos(ImVec2(App->window->width - 10, 25));
-
-	std::string go = name;
-	go += " properties";
-
 }
 
 void  GameObject::AddComponent(Component* to_add)

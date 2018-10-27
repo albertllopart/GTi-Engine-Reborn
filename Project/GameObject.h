@@ -19,7 +19,6 @@ public:
 	void PostUpdate();
 	void OnEditor();
 	void ShowInspectorWindow();
-	void ShowProperties();
 
 	void AddComponent(Component * to_add);
 	GameObject* GetParent() const;
