@@ -56,8 +56,12 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 
 	if (aimesh->HasTextureCoords(0))
 	{
-		mesh->mesh->texCoords = new float[mesh->mesh->num_vertex * 3];
-		memcpy(mesh->mesh->texCoords, aimesh->mTextureCoords[0], sizeof(float) * mesh->mesh->num_vertex * 3);
+		mesh->mesh->texCoords = new float[mesh->mesh->num_vertex * 2];
+		for (int i = 0; i < aimesh->mNumVertices; i++)
+		{
+			memcpy(&mesh->mesh->texCoords[i * 2], &aimesh->mTextureCoords[0][i].x, sizeof(float));
+			memcpy(&mesh->mesh->texCoords[(i * 2) + 1], &aimesh->mTextureCoords[0][i].y, sizeof(float));
+		}
 	}
 
 	//calculate memory needed
@@ -82,7 +86,7 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 	}
 	if (mesh->mesh->texCoords != nullptr)
 	{
-		size += sizeof(float) * mesh->mesh->num_vertex * 3;
+		size += sizeof(float) * mesh->mesh->num_vertex * 2;
 	}
 
 	char* data = new char[size];
@@ -113,8 +117,14 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 	//texcoords
 	if (mesh->mesh->texCoords != nullptr)
 	{
-		bytes = sizeof(float) * mesh->mesh->num_vertex * 3;
-		memcpy(pointer, mesh->mesh->texCoords, sizeof(float) * 3 * mesh->mesh->num_vertex);
+		bytes = sizeof(float) * mesh->mesh->num_vertex * 2;
+
+		for (int i = 0; i < mesh->mesh->num_vertex; i++)
+		{
+			memcpy(&pointer[i * 2 * sizeof(float)], &aimesh->mTextureCoords[0][i].x, sizeof(float));
+			memcpy(&pointer[i * 2 * sizeof(float) + sizeof(float)], &aimesh->mTextureCoords[0][i].y, sizeof(float));
+		}
+
 		pointer += bytes;
 	}
 
@@ -182,13 +192,18 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
 		if (ranges[3] > 0)
 		{
 			pointer += bytes;
-			bytes = sizeof(float) * 3 * mesh->mesh->num_vertex;
-			mesh->mesh->texCoords = new float[mesh->mesh->num_vertex * 3];
-			memcpy(mesh->mesh->texCoords, pointer, bytes);
+			bytes = sizeof(float) * 2 * mesh->mesh->num_vertex;
+			mesh->mesh->texCoords = new float[mesh->mesh->num_vertex * 2];
+
+			for (int i = 0; i < mesh->mesh->num_vertex; i++)
+			{
+				memcpy(&mesh->mesh->texCoords[i * 2], &pointer[i * 2 * sizeof(float)], sizeof(float));
+				memcpy(&mesh->mesh->texCoords[(i * 2) + 1], &pointer[i * 2 * sizeof(float) + sizeof(float)], sizeof(float));
+			}
 
 			glGenBuffers(1, (GLuint*) &(mesh->mesh->id_texcoord));
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_texcoord);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->texCoords, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 2, mesh->mesh->texCoords, GL_STATIC_DRAW);
 	
 		}
 	}
