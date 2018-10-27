@@ -19,8 +19,7 @@ class ComponentCamera : public Component
 	void SetFov();
 	void SetVerticalFOV(float value);
 
-	//void DrawDebug() const; TODO draw camera limits
-	
+	void DrawDebug() const; 
 
 
 

@@ -390,6 +390,9 @@
     <ClInclude Include="ModuleEngineWindows.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="E_Windows.h">
+      <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -601,6 +604,9 @@
     </ClCompile>
     <ClCompile Include="ModuleEngineWindows.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="E_Windows.cpp">
+      <Filter>Sources\Modules\EngineWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

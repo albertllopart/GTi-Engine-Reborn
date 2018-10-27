@@ -19,7 +19,8 @@ public:
 
 	bool CleanUp();
 
-
+private:
+	std::vector<E_Windows> e_windows;
 
 };
 
