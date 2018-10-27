@@ -128,15 +128,19 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
 					App->import->ImportMesh(file_dir.c_str());
 				}
-				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
+				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
-					App->editor->GetSelected()->AddComponent(App->editor->LoadComponentMaterial(file_dir.c_str()));
+
+					//get name
+					std::string file_name = App->import->CleanFileName(file_dir.c_str());
+
+					App->textures->importer->Import(file_dir.c_str(), file_name);
 				}
 
 				//export
-				else if (file_dir.find(".GTImesh") != std::string::npos)
+				if (file_dir.find(".GTImesh") != std::string::npos)
 				{
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
 					App->editor->CreateNewGameObject(file_dir.c_str());

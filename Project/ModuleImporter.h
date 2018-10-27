@@ -34,6 +34,8 @@ public:
 	ComponentMesh* LoadMesh(const char* fullPath);
 	bool ImportMesh(const char* fullPath);
 
+	std::string CleanFileName(const char* fullPath) const;
+
 
 private:
 

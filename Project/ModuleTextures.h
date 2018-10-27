@@ -30,6 +30,8 @@ public:
 
 private:
 
+public:
+
 	TextureImporter* importer;
 };
 

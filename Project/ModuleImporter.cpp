@@ -69,7 +69,8 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
-			importer->Import(scene->mMeshes[i], "testing1234");
+			std::string name = CleanFileName(fullPath);
+			importer->Import(scene->mMeshes[i], name);
 		}
 
 		aiReleaseImport(scene);
@@ -131,6 +132,17 @@ ComponentMaterial* ModuleImporter::LoadMaterial(aiMaterial* drop)
 		return mat;
 	}
 	return nullptr;
+}
+
+std::string ModuleImporter::CleanFileName(const char* fullPath) const
+{
+	std::string file_name = fullPath;
+	uint start = file_name.find_last_of("\\");
+	uint end = file_name.find_last_of(".");
+	uint len = end - start;
+	file_name = file_name.substr(start + 1, len - 1);
+
+	return file_name;
 }
 
 
