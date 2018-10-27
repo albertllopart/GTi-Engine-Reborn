@@ -43,6 +43,9 @@
     <Filter Include="Sources\Importer">
       <UniqueIdentifier>{1a2aef46-6c82-4857-8f32-07333fa8d458}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\EngineWindows">
+      <UniqueIdentifier>{3ca9c0c5-4d83-4a19-9711-4631a5a859df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -384,6 +387,9 @@
     <ClInclude Include="TextureImporter.h">
       <Filter>Sources\Importer</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleEngineWindows.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -592,6 +598,9 @@
     </ClCompile>
     <ClCompile Include="TextureImporter.cpp">
       <Filter>Sources\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEngineWindows.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

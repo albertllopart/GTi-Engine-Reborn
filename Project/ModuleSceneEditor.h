@@ -30,10 +30,11 @@ public:
 	GameObject* CreateNewGameObject(const char* path);
 	void SetSelected(GameObject* to_select);
 	GameObject* GetSelected()const;
-	std::list<Mesh*> GetMeshList() const;
+	//std::list<Mesh*> GetMeshList() const;
 	
 private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
+	GameObject* scene = nullptr;
 };
 #endif 
