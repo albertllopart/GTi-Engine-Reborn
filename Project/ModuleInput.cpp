@@ -125,13 +125,21 @@ update_status ModuleInput::PreUpdate(float dt)
 				if (file_dir.find(".fbx") != std::string::npos || file_dir.find(".obj") != std::string::npos || file_dir.find(".FBX") != std::string::npos || file_dir.find(".OBJ") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
-					App->editor->CreateNewGameObject(file_dir.c_str());
-					//App->import->LoadMesh(file_dir.c_str());
+					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
+					App->import->ImportMesh(file_dir.c_str());
 				}
 				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
+					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
 					App->editor->GetSelected()->AddComponent(App->editor->LoadComponentMaterial(file_dir.c_str()));
+				}
+
+				//export
+				else if (file_dir.find(".GTImesh") != std::string::npos)
+				{
+					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
+					App->editor->CreateNewGameObject(file_dir.c_str());
 				}
 
 				break;

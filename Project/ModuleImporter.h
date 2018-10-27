@@ -3,6 +3,7 @@
 
 #include "Globals.h"
 #include "Module.h"
+#include "MeshImporter.h"
 
 struct aiScene;
 struct aiMesh;
@@ -29,11 +30,16 @@ public:
 
 	ComponentTransform* LoadTransform(aiNode* node);
 	ComponentMaterial * LoadMaterial(aiMaterial * drop);
-	ComponentMesh* LoadMesh(aiMesh*  drop);
+
+	ComponentMesh* LoadMesh(const char* fullPath);
+	bool ImportMesh(const char* fullPath);
 
 
 private:
 
+public:
+
+	MeshImporter* importer;
 };
 
 #endif //__ModuleImporter_H__

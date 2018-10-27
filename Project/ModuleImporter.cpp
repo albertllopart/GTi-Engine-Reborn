@@ -34,6 +34,8 @@ ModuleImporter::~ModuleImporter()
 
 bool ModuleImporter::Init(JSON_Object* data)
 {
+	importer = new MeshImporter(IMPORTER_MESH);
+
 	struct aiLogStream stream;
 	stream.callback = AssimpCallback;
 	aiAttachLogStream(&stream);
@@ -43,74 +45,41 @@ bool ModuleImporter::Init(JSON_Object* data)
 
 bool ModuleImporter::CleanUp(JSON_Object* data)
 {
+	RELEASE(importer);
+
 	aiDetachAllLogStreams();
 	return true;
 }
 
-ComponentMesh* ModuleImporter::LoadMesh(aiMesh* drop)
+ComponentMesh* ModuleImporter::LoadMesh(const char* fullPath)
 {
-	//const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
 	ComponentMesh* mesh = new ComponentMesh;
-	mesh->mesh->num_vertex = drop->mNumVertices;
-	mesh->mesh->vertex = new float[mesh->mesh->num_vertex * 3];
-	memcpy(mesh->mesh->vertex, drop->mVertices, sizeof(float)* mesh->mesh->num_vertex * 3);
-	LOG("New mesh with %d vertices", mesh->mesh->num_vertex);
-
-	glGenBuffers(1, (GLuint*)&mesh->mesh->id_vertex);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_vertex);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->vertex, GL_STATIC_DRAW);
-
-	if (drop->HasFaces())
-	{
-		mesh->mesh->num_index = drop->mNumFaces * 3;
-		mesh->mesh->index = new uint[mesh->mesh->num_index];
-		for (uint i = 0; i < drop->mNumFaces; ++i)
-		{
-			if (drop->mFaces[i].mNumIndices != 3)
-			{
-				LOG("WARNING, geometry face with != 3 indices!");
-			}
-			else
-			{
-				memcpy(&mesh->mesh->index[i * 3], drop->mFaces[i].mIndices, 3 * sizeof(uint));
-			}
-		}
-
-		glGenBuffers(1, (GLuint*)&mesh->mesh->id_index);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->mesh->id_index);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->mesh->num_index, mesh->mesh->index, GL_STATIC_DRAW);
-	}
-
-	if (drop->HasNormals())
-	{
-		mesh->mesh->normals = new float[mesh->mesh->num_vertex * 3];
-		memcpy(mesh->mesh->normals, drop->mNormals, sizeof(float) * mesh->mesh->num_vertex * 3);
-
-		glGenBuffers(1, (GLuint*) &(mesh->mesh->id_normals));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_normals);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->normals, GL_STATIC_DRAW);
-	}
-
-	if (drop->HasTextureCoords(0))
-
-	{
-		mesh->mesh->texCoords = new float[drop->mNumVertices * 2];
-
-		for (int i = 0; i < drop->mNumVertices; i++)
-		{
-			memcpy(&mesh->mesh->texCoords[i * 2], &drop->mTextureCoords[0][i].x, sizeof(float));
-			memcpy(&mesh->mesh->texCoords[(i * 2) + 1], &drop->mTextureCoords[0][i].y, sizeof(float));
-		}
-		glGenBuffers(1, (GLuint*) &(mesh->mesh->id_texcoord));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_texcoord);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat*) * 2 * mesh->mesh->num_vertex, mesh->mesh->texCoords, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	mesh->mesh->bbox.SetNegativeInfinity();
-	mesh->mesh->bbox.Enclose((float3*)mesh->mesh->vertex, mesh->mesh->num_vertex);
+	
+	importer->Load(fullPath, mesh);
 
 	return mesh;
+}
+
+bool ModuleImporter::ImportMesh(const char* fullPath)
+{
+	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
+	if (scene != nullptr && scene->HasMeshes())
+	{
+		aiNode* node = scene->mRootNode;
+
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			importer->Import(scene->mMeshes[i], "testing1234");
+		}
+
+		aiReleaseImport(scene);
+		return true;
+	}
+	else
+	{
+		LOG("Error loading scene %s", fullPath);
+		return false;
+	}
 }
 
 GameObject * ModuleImporter::LoadGameObject(const char * fullPath)
@@ -125,31 +94,9 @@ GameObject * ModuleImporter::LoadGameObject(const char * fullPath)
 	namePath.copy(temp, size - i, i);
 	newObject->name.assign(temp);
 
-	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
-	if (scene != nullptr && scene->HasMeshes())
-	{
-		LOG("Scene %s loaded succesfully", fullPath);
+	newObject->AddComponent(LoadMesh(fullPath));
 
-		aiNode* node = scene->mRootNode;
-		newObject->AddComponent(LoadTransform(node));
-
-		for (int i = 0; i < scene->mNumMeshes; i++)
-		{
-			newObject->AddComponent(LoadMesh(scene->mMeshes[i]));
-			aiMaterial* material = nullptr;
-			material = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
-
-			//newObject->AddComponent(LoadMaterial(material));
-		}
-
-		aiReleaseImport(scene);
-		return newObject;
-	}
-	else
-	{
-		LOG("Error loading scene %s", fullPath);
-		return nullptr;
-	}
+	return newObject;
 }
 
 ComponentTransform * ModuleImporter::LoadTransform(aiNode * node)

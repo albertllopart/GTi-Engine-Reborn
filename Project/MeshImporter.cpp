@@ -61,7 +61,17 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 	}
 
 	//calculate memory needed
-	uint ranges[4] = { mesh->mesh->num_index, mesh->mesh->num_vertex, mesh->mesh->num_vertex, mesh->mesh->num_vertex };
+	
+	uint ranges[4] = { mesh->mesh->num_index, mesh->mesh->num_vertex, 0, 0 };
+	if (aimesh->HasNormals())
+	{
+		ranges[2] = mesh->mesh->num_vertex;
+	}
+	if (aimesh->HasTextureCoords(0))
+	{
+		ranges[3] = mesh->mesh->num_vertex;
+	}
+
 	float size = sizeof(ranges);
 	size += sizeof(uint) * mesh->mesh->num_index;
 	size += sizeof(float) * mesh->mesh->num_vertex * 3;
@@ -118,5 +128,74 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 
 bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
 {
-	return true;
+	char* buffer;
+	uint size;
+
+	bool result = App->filesystem->LoadFile(exported_file, &buffer, size, FILE_MESH);
+
+	if (result)
+	{
+		char* pointer = buffer;
+
+		uint ranges[4];
+		uint bytes = sizeof(ranges);
+		memcpy(ranges, pointer, bytes);
+
+		mesh->mesh->num_index = ranges[0];
+		mesh->mesh->num_vertex = ranges[1];
+
+		//indices
+		pointer += bytes;
+		bytes = sizeof(uint) * mesh->mesh->num_index;
+		mesh->mesh->index = new uint[mesh->mesh->num_index];
+		memcpy(mesh->mesh->index, pointer, bytes);
+
+		glGenBuffers(1, (GLuint*)&mesh->mesh->id_index);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->mesh->id_index);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->mesh->num_index, mesh->mesh->index, GL_STATIC_DRAW);
+
+		//vertices
+		pointer += bytes;
+		bytes = sizeof(float) * 3 * mesh->mesh->num_vertex;
+		mesh->mesh->vertex = new float[mesh->mesh->num_vertex * 3];
+		memcpy(mesh->mesh->vertex, pointer, bytes);
+
+		glGenBuffers(1, (GLuint*)&mesh->mesh->id_vertex);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_vertex);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->vertex, GL_STATIC_DRAW);
+
+		//normals
+		if (ranges[2] > 0)
+		{
+			pointer += bytes;
+			bytes = sizeof(float) * 3 * mesh->mesh->num_vertex;
+			mesh->mesh->normals = new float[mesh->mesh->num_vertex * 3];
+			memcpy(mesh->mesh->normals, pointer, bytes);
+
+			glGenBuffers(1, (GLuint*) &(mesh->mesh->id_normals));
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_normals);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->normals, GL_STATIC_DRAW);
+		}
+
+		//texcoords
+		if (ranges[3] > 0)
+		{
+			pointer += bytes;
+			bytes = sizeof(float) * 3 * mesh->mesh->num_vertex;
+			mesh->mesh->texCoords = new float[mesh->mesh->num_vertex * 3];
+			memcpy(mesh->mesh->texCoords, pointer, bytes);
+
+			glGenBuffers(1, (GLuint*) &(mesh->mesh->id_texcoord));
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->id_texcoord);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->mesh->num_vertex * 3, mesh->mesh->texCoords, GL_STATIC_DRAW);
+	
+		}
+	}
+
+	mesh->mesh->bbox.SetNegativeInfinity();
+	mesh->mesh->bbox.Enclose((float3*)mesh->mesh->vertex, mesh->mesh->num_vertex);
+
+	RELEASE_ARRAY(buffer);
+
+	return result;
 }
