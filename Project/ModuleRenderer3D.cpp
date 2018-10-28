@@ -402,10 +402,10 @@ void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
 {
 	if (cam == nullptr)
 	{
-		camera = cam;
+		camera = App->camera->GetCamera();
 	}
 	else
 	{
-		return;
+		camera = cam;
 	}
 }

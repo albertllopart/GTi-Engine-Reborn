@@ -142,7 +142,7 @@ void GameObject::ShowInspectorWindow()
 	if (this != App->editor->GetRoot())
 	{
 
-		if (ImGui::BeginChild(ImGui::GetID("Inspector"), ImVec2(ImGui::GetWindowWidth(), 150)))
+		if (ImGui::BeginChild(ImGui::GetID("Inspector"), ImVec2(ImGui::GetWindowWidth(), 500)))
 		{
 			ImGui::Checkbox("Active", &active);
 			ImGui::SameLine();
