@@ -23,17 +23,17 @@ bool E_Hierarchy::Draw()
 		scene = App->editor->GetRoot();
 	}
 
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_ShowBorders;
-	window_flags |= ImGuiWindowFlags_NoResize;
-	window_flags |= ImGuiWindowFlags_NoCollapse;
-	window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
+	ImGuiWindowFlags flags = 0;
+	flags |= ImGuiWindowFlags_ShowBorders;
+	flags |= ImGuiWindowFlags_NoResize;
+	flags |= ImGuiWindowFlags_NoCollapse;
+	flags |= ImGuiWindowFlags_HorizontalScrollbar;
 
 	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
 
 	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
 
-	ImGui::Begin("Hierarchy", NULL, window_flags);
+	ImGui::Begin("Hierarchy", NULL, flags);
 
 	scene->OnEditor();
 	ImGui::BeginChild("EndInspector Zone", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
@@ -59,6 +59,3 @@ void E_Hierarchy::CleanUp()
 {
 }
 
-void E_Hierarchy::SetSceneGameObject(GameObject * to_set)
-{
-}

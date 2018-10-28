@@ -13,7 +13,6 @@ public:
 
 	bool Draw();
 	void CleanUp();
-	void SetSceneGameObject(GameObject* to_set);
 
 public :
 	GameObject* scene = nullptr;

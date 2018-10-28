@@ -6,11 +6,13 @@
 ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
 {
 	mesh = new Mesh;
+	name = "ComponentMesh";
 }
 
 ComponentMesh::~ComponentMesh()
 {
-	name = "ComponentMesh";
+	delete mesh;
+	mesh = nullptr;
 }
 
 void ComponentMesh::Update()
