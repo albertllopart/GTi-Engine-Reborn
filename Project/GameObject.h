@@ -22,6 +22,7 @@ public:
 	void ShowInspectorWindow();
 
 	void AddComponent(Component * to_add);
+	void AddComponent(COMPONENT_TYPE component);
 	GameObject* GetParent() const;
 	void SetParent(GameObject* new_parent);
 	Component* FindComponent(COMPONENT_TYPE type) const;

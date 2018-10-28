@@ -7,6 +7,7 @@
 
 class E_Windows;
 class E_Hierarchy;
+class E_Inspector;
 class ModuleEngineWindows : public Module
 {
 public:
@@ -25,6 +26,7 @@ public:
 private:
 	std::vector<E_Windows*> e_windows;
 	E_Hierarchy* e_hierarchy;
+	E_Inspector* e_inspector;
 
 };
 

@@ -34,23 +34,7 @@ bool E_Hierarchy::Draw()
 	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
 
 	ImGui::Begin("Hierarchy", NULL, flags);
-
 	scene->OnEditor();
-	ImGui::BeginChild("EndInspector Zone", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
-
-	if (ImGui::BeginPopupContextWindow("GameObject_options"))
-	{
-		if (ImGui::Button("Create Game Object"))
-		{
-			GameObject* item = App->editor->CreateEmptyGameObject(nullptr);
-			item->SetName("Game Object");
-			App->editor->AddToScene(item);
-			ImGui::CloseCurrentPopup();
-		}
-		ImGui::EndPopup();
-	}
-
-	ImGui::EndChild();
 	ImGui::End();
 	return true;
 }

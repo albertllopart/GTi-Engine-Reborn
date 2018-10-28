@@ -28,17 +28,42 @@ bool E_Inspector::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
 	ImGui::Begin("Inspector", NULL, flags);
-
+	ShowComponents();
 	ImGui::End();
 	return true;
 }
 
-void E_Inspector::InspectorComponents()
+void E_Inspector::ShowComponents()
 {
+	GameObject* temp = App->editor->GetSelected();
 
+	if (temp != nullptr)
+	{
+		temp->ShowInspectorWindow();
+		if (temp != App->editor->GetRoot())
+		{
+			COMPONENT_TYPE select = COMPONENT_NONE;
+			if (ImGui::Button("Create Component.."))
+			{
+				ImGui::OpenPopup("select");
+			}
+			ImGui::SameLine();
+			if (ImGui::BeginPopup("select"))
+			{
+				for (std::map<COMPONENT_TYPE, const char*>::const_iterator it = comp_names.begin(); it != comp_names.end(); it++)
+				{
+					if (ImGui::Selectable(it->second))
+						select = it->first;
+				}
 
-
-
+				ImGui::EndPopup();
+			}
+			if (select != COMPONENT_NONE)
+			{
+				temp->AddComponent(select);
+			}
+		}
+	}
 }
 
 void E_Inspector::CleanUp()

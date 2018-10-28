@@ -12,7 +12,7 @@ public:
 	~E_Inspector();
 
 	bool Draw();
-	void InspectorComponents();
+	void ShowComponents();
 	void CleanUp();
 
 private:

@@ -1,12 +1,15 @@
 #include "ModuleEngineWindows.h"
 #include "E_Windows.h"
 #include "E_Hierarchy.h"
+#include "E_Inspector.h"
 
 ModuleEngineWindows::ModuleEngineWindows(Application * app, bool start_enabled):Module(app, start_enabled)
 {
 	name = "Engine Windows";
 	e_hierarchy = new E_Hierarchy(this);
 	e_windows.push_back(e_hierarchy);
+	e_inspector = new E_Inspector(this);
+	e_windows.push_back(e_inspector);
 }
 
 ModuleEngineWindows::~ModuleEngineWindows()

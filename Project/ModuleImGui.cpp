@@ -98,7 +98,7 @@ update_status ModuleImGui::Update(float dt)
 		{
 			if (ImGui::MenuItem("Create Empty"))
 			{
-				App->editor->GetRoot()->AddChild(new GameObject());
+				App->editor->GetSelected()->AddChild(new GameObject());
 			}
 			ImGui::EndMenu();
 		}

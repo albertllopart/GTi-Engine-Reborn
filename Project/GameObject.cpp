@@ -1,6 +1,8 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "ImGui/imgui.h"
+#include "ComponentTransform.h"
+#include "ComponentCamera.h"
 
 GameObject::GameObject()
 {
@@ -99,7 +101,7 @@ void GameObject::OnEditor()
 		}
 		if (ImGui::Button("Create Game Object"))
 		{
-			App->editor->CreateEmptyGameObject(this);
+			App->editor->GetSelected()->AddChild(new GameObject());
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
@@ -120,30 +122,64 @@ void GameObject::OnEditor()
 
 void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
 {
-	ImGui::PushStyleColor(ImGuiCol_ChildWindowBg, ImVec4(0.f, 0.f, 0.f, 1.00f));
-
-	if (ImGui::BeginChild(ImGui::GetID("Inspector"), ImVec2(ImGui::GetWindowWidth(), 150)))
+	if (this != App->editor->GetRoot())
 	{
-		/* ENABLE-DISABLE CHECKBOX*/
-		if (ImGui::Checkbox("test",&active))
+
+		if (ImGui::BeginChild(ImGui::GetID("Inspector"), ImVec2(ImGui::GetWindowWidth(), 150)))
 		{
-			active = !active;
+			ImGui::Checkbox("Active", &active);
+			ImGui::SameLine();
+			ImGui::Text(name.c_str());	//TODO EDIT G.O. NAME
+			ImGui::Checkbox("", &is_static);
+			ImGui::SameLine();
+			//ImGui::PopStyleVar();
+			ImGui::TextColored(ImVec4(0.25f, 1.00f, 1.00f, 1.00f), "Static");
+			//ImGui::PopStyleVar();
 		}
-		/* NAME OF THE GAMEOBJECT */
-		ImGui::SameLine();
-		ImGui::Text(name.c_str());//TODO EDIT G.O. NAME
-		ImGui::Checkbox("#2",&is_static);
-		ImGui::SameLine();
-		ImGui::PopStyleVar();
-		ImGui::TextColored(ImVec4(0.25f, 1.00f, 0.00f, 1.00f), "Static");
-		ImGui::PopStyleVar();
+		//ImGui::PopStyleColor();
+		ImGui::EndChild();
 	}
 }
 
-void  GameObject::AddComponent(Component* to_add)
+void GameObject::AddComponent(Component* to_add)
 {
 	components.push_back(to_add);
 	to_add->SetMyGo(this);
+}
+
+void GameObject::AddComponent(COMPONENT_TYPE component)
+{
+	if (component != COMPONENT_NONE)
+	{
+		Component* to_add;
+		switch (component)
+		{
+		case COMPONENT_MESH:
+			to_add = new ComponentMesh();
+			components.push_back(to_add);
+			to_add->SetMyGo(this);
+			break;
+
+		case COMPONENT_TRANSFORM:
+			to_add = new ComponentTransform();
+			components.push_back(to_add);
+			to_add->SetMyGo(this);
+			break;
+		case COMPONENT_MATERIAL:
+			to_add = new ComponentMaterial();
+			components.push_back(to_add);
+			to_add->SetMyGo(this);
+			break;
+		case COMPONENT_CAMERA:
+			to_add = new ComponentCamera();
+			components.push_back(to_add);
+			to_add->SetMyGo(this);
+			break;
+		default:
+			break;
+
+		}
+	}
 }
 
 GameObject * GameObject::GetParent() const
