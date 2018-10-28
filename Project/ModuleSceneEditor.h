@@ -31,6 +31,9 @@ public:
 	void SetSelected(GameObject* to_select);
 	GameObject* GetSelected()const;
 	void AddToScene(GameObject* to_add);
+
+	//save and load
+	bool SaveScene() const;
 	
 private:
 	GameObject* selected_go = nullptr;

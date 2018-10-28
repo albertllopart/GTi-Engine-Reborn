@@ -7,6 +7,8 @@
 #define MESH_EXTENSION ".GTImesh"
 #define MATERIAL_DIRECTORY "Library/Materials"
 #define MATERIAL_EXTENSION ".dds"
+#define SCENE_DIRECTORY "Library/Scenes"
+#define SCENE_EXTENSION ".GTIscene"
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -23,6 +25,7 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 	CreateNewDirectory("Library");
 	CreateNewDirectory(MESH_DIRECTORY);
 	CreateNewDirectory(MATERIAL_DIRECTORY);
+	CreateNewDirectory(SCENE_DIRECTORY);
 
 	return true;
 }

@@ -5,6 +5,8 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 
+#include "parson/parson.h"
+
 ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Module(app, startEnabled)
 {
 	name = "Scene editor";
@@ -16,6 +18,7 @@ ModuleSceneEditor::~ModuleSceneEditor()
 
 bool ModuleSceneEditor::Init(JSON_Object* data)
 {
+	SaveScene();
 	return true;
 }
 
@@ -139,6 +142,31 @@ GameObject* ModuleSceneEditor::CreateEmptyGameObject(GameObject* parent)
 void ModuleSceneEditor::ShowRoot()
 {
 	root->OnEditor();
+}
+
+bool ModuleSceneEditor::SaveScene() const
+{
+	//cada GO ha de cridar el seu save
+	JSON_Value *root_value = json_value_init_object();
+	JSON_Object *root_object = json_value_get_object(root_value);
+
+	char* serialized_string = NULL;
+	json_object_set_value(root_object, "name", json_value_init_object());
+	root_object = json_object_get_object(root_object, "name");
+	json_object_set_string(root_object, "subname", "caca de vaca");
+	root_object = json_value_get_object(root_value);
+	json_object_set_value(root_object, "name2", json_value_init_object());
+	json_object_set_value(root_object, "name3", json_value_init_object());
+
+	serialized_string = json_serialize_to_string_pretty(root_value);
+	puts(serialized_string);
+
+	json_serialize_to_file(root_value, "testing.json");
+
+	json_free_serialized_string(serialized_string);
+	json_value_free(root_value);
+
+	return true;
 }
 
 
