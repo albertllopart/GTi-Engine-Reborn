@@ -1,7 +1,7 @@
 #ifndef __COMPONENT__
 #define __COMPONENT__
 #include "GameObject.h"
-
+#include "MathGeoLib/Math/float4x4.h"
 #include <string>
 
 class GameObject;
@@ -27,11 +27,12 @@ public:
 	virtual void Enable();
 	virtual void Disable();
 	virtual void OnEditor();
+	virtual void ShowInspectorWindow();
 
 	GameObject* GetMyGo()const;
 	bool IsActive() const;
 	void SetMyGo(GameObject * my_go);
-	void ShowInspectorWindow();
+	void OnUpdateMatrix(const float4x4 mat);
 	COMPONENT_TYPE GetType() const;
 
 protected:

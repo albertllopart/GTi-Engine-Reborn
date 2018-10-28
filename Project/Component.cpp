@@ -51,9 +51,14 @@ void Component::SetMyGo(GameObject* my_go)
 	this->my_go = my_go;
 }
 
+void Component::OnUpdateMatrix(const float4x4 mat)
+{
+
+}
+
 void Component::ShowInspectorWindow()
 {
-	//TODO
+	
 }
 
 COMPONENT_TYPE Component::GetType() const

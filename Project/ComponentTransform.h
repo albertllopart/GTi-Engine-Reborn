@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "MathGeoLib/Math/float3.h"
 #include "MathGeoLib/Math/Quat.h"
+#include "MathGeoLib/Math/float4x4.h"
 
 class ComponentTransform : public Component
 {
@@ -14,9 +15,19 @@ public:
 
 	void Update();
 	void OnEditor();
+	void ShowInspectorWindow();
 
+	void UpdatePosition(float3 pos);
+	void UpdateRotation(float3 rot);
+	void UpdateScale(float3 scale);
+	void UpdateMatrix();
+
+	float4x4 GetGlobalMatrix()const;
 
 private:
+	float4x4 trans_matrix;
+	float4x4 global_trans_matrix;
+
 
 	float3 pos;
 	float3 new_pos;

@@ -3,6 +3,7 @@
 #include "ImGui/imgui.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "MathGeoLib/Math/float4x4.h"
 
 GameObject::GameObject()
 {
@@ -53,6 +54,22 @@ void GameObject::PostUpdate()
 	{
 		childs[i]->PostUpdate();
 	}
+	//CHECK how to delete go!!
+	//if (want_delete)
+	//{
+	//	for (int i = 0; i < components.size(); i++)
+	//	{
+	//		delete components[i];
+	//		components[i] = nullptr;
+	//	}
+	//	for (int i = 0; i < childs.size(); i++)
+	//	{
+	//		delete childs[i];
+	//		childs[i] = nullptr;
+	//	}
+	//	childs.clear();
+	//	delete this;
+	//}
 }
 
 void GameObject::OnEditor()
@@ -120,7 +137,7 @@ void GameObject::OnEditor()
 
 }
 
-void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
+void GameObject::ShowInspectorWindow()
 {
 	if (this != App->editor->GetRoot())
 	{
@@ -132,11 +149,16 @@ void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
 			ImGui::Text(name.c_str());	//TODO EDIT G.O. NAME
 			ImGui::Checkbox("", &is_static);
 			ImGui::SameLine();
-			//ImGui::PopStyleVar();
 			ImGui::TextColored(ImVec4(0.25f, 1.00f, 1.00f, 1.00f), "Static");
-			//ImGui::PopStyleVar();
 		}
-		//ImGui::PopStyleColor();
+		ImGui::Checkbox("BoundingBox", &show_bbox);
+		for (uint i = 0; i < components.size(); i++)
+		{
+			ImGui::Separator();
+			Component* item = components[i];
+			item->ShowInspectorWindow();
+
+		}
 		ImGui::EndChild();
 	}
 }
@@ -182,6 +204,11 @@ void GameObject::AddComponent(COMPONENT_TYPE component)
 	}
 }
 
+void GameObject::UpdateBBox()
+{
+ //TODO
+}
+
 GameObject * GameObject::GetParent() const
 {
 	return parent;
@@ -203,6 +230,15 @@ Component * GameObject::FindComponent(COMPONENT_TYPE type) const
 	}
 
 	return nullptr;;
+}
+
+float4x4 GameObject::GetTransMatrix()const
+{
+	if (my_transform != nullptr)
+	{
+		return my_transform->GetGlobalMatrix();
+	}
+	return float4x4::zero;
 }
 
 std::vector<GameObject*> GameObject::GetChilds() const
@@ -229,4 +265,15 @@ void GameObject::AddChild(GameObject* child)
 void GameObject::SetToDelete()
 {
 	want_delete = true;
+}
+
+void GameObject::RefreshBBox() const
+{
+	//TODO
+	//WHEN WE TRSNSFROM THE G.O. WE HAVE TO UPDATE THE BBOX
+}
+
+void GameObject::UpdateMatrix() const
+{
+	my_transform->UpdateMatrix();
 }
