@@ -99,7 +99,7 @@ void GameObject::OnEditor()
 		ImGui::PopStyleColor();
 	}//reset color if was set to grey
 
-	//Set item selected->InspectorUpdate
+	
 	if (ImGui::IsItemClicked())
 	{
 		App->editor->SetSelected(this); //setting item clicked to selected
@@ -135,7 +135,6 @@ void GameObject::OnEditor()
 		}
 		ImGui::TreePop();
 	}
-
 }
 
 void GameObject::ShowInspectorWindow()

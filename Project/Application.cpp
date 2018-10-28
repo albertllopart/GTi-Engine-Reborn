@@ -30,6 +30,7 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
+	AddModule(imgui);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(rng);
@@ -37,7 +38,6 @@ Application::Application()
 	AddModule(textures);
 	AddModule(import);
 	AddModule(e_windows);
-	AddModule(imgui);
 	AddModule(filesystem);
 
 	// Renderer last!

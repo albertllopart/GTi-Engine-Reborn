@@ -327,8 +327,9 @@ void ModuleImGui::ShowConsole()
 			std::string s = consoleLogs[i];
 			ImGui::Text("%s", consoleLogs[i].c_str());
 		}
+		ImGui::End();
 	}
-	ImGui::End();
+
 }
 
 void ModuleImGui::AddConsoleLog(const char * add)

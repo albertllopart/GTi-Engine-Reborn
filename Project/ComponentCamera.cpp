@@ -112,15 +112,13 @@ void ComponentCamera::ShowInspectorWindow()
 					App->renderer3D->SetCamera(nullptr);
 				}
 			}
-
-			ImGui::NewLine();
 			ImGui::TextWrapped("Aspect ratio:");
 			ImGui::SameLine();
 			ImGui::Text("%.3f", aspect_ratio);
 
-			ImGui::DragFloat("Near Distance", &frustum.nearPlaneDistance, 0.1, 0.0, frustum.farPlaneDistance);
+			ImGui::DragFloat("Near Distance", &frustum.nearPlaneDistance, 0.5, 0.0, frustum.farPlaneDistance);
 			
-			ImGui::DragFloat("Far Distance", &frustum.farPlaneDistance, 0.1);
+			ImGui::DragFloat("Far Distance", &frustum.farPlaneDistance, 0.5);
 
 			if (ImGui::DragFloat("Field of View", &frustum.verticalFov, 0.1, 0.1))
 			{
