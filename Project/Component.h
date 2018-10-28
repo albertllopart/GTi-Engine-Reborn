@@ -33,6 +33,7 @@ public:
 	bool IsActive() const;
 	void SetMyGo(GameObject * my_go);
 	void OnUpdateMatrix(const float4x4 mat);
+	void DestroyComponent();
 	COMPONENT_TYPE GetType() const;
 
 protected:
@@ -40,6 +41,7 @@ protected:
 	std::string name;
 	COMPONENT_TYPE type = COMPONENT_NONE;
 	bool active = true;
+	bool want_delete = false;
 	GameObject* my_go = nullptr;
 };
 

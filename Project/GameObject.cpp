@@ -113,6 +113,7 @@ void GameObject::OnEditor()
 			if (ImGui::Button("Delete Game Object"))
 			{
 				SetToDelete();
+				
 				ImGui::CloseCurrentPopup();
 			}
 		}

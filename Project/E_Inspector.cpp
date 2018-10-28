@@ -10,6 +10,7 @@ E_Inspector::E_Inspector(ModuleEngineWindows * mom) : E_Windows(mom)
 	comp_names[COMPONENT_TRANSFORM] = "ComponentTransform";
 	comp_names[COMPONENT_MATERIAL] = "ComponentMaterial";
 	comp_names[COMPONENT_MESH] = "ComponentMesh";
+	comp_names[COMPONENT_CAMERA] = "ComponentCamera";
 }
 
 E_Inspector::~E_Inspector()

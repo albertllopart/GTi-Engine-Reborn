@@ -12,6 +12,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 #include "GameObject.h"
+#include "ComponentCamera.h"
 
 #define MAX_LIGHTS 8
 
@@ -63,9 +64,8 @@ public:
 
 	bool Init(JSON_Object* node);
 	bool CleanUp();
-	void Draw(Mesh* toDraw);
+	//void Draw(Mesh* toDraw);
 	void Draw(ComponentMesh * to_draw);
-	//void Draw(ComponentMesh* toDraw);
 	void Draw(GameObject* toDraw);
 	void OnResize(int width, int height);
 
@@ -77,6 +77,8 @@ public:
 	void SetColorMaterial();
 	void SetTexture2D();
 	void SetWireFrame();
+
+	void SetCamera(ComponentCamera * cam);
 
 public:
 
@@ -92,6 +94,8 @@ public:
 	bool colorMaterial = true;
 	bool texture2D = true;
 	bool show_normals = false;
+
+	ComponentCamera* camera = nullptr;
 };
 
 #endif

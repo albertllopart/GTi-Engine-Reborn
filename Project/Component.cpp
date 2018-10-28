@@ -56,6 +56,11 @@ void Component::OnUpdateMatrix(const float4x4 mat)
 
 }
 
+void Component::DestroyComponent()
+{
+	want_delete = true;
+}
+
 void Component::ShowInspectorWindow()
 {
 	

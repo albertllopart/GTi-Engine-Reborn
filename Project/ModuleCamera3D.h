@@ -23,6 +23,7 @@ public:
 	void CameraRotation()const;
 	float* GetViewMatrix();
 	//void CenterToMesh(Mesh * mesh);
+	ComponentCamera* GetCamera() const;
 
 private:
 
@@ -36,6 +37,7 @@ private:
 
 	math::float4x4 ViewMatrix, ViewMatrixInverse;
 	bool free_move = false;
+	ComponentCamera* camera = nullptr;
 };
 
 #endif

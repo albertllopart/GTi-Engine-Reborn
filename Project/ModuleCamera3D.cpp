@@ -16,6 +16,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	name = "Camera";
 
 	CalculateViewMatrix();
+	camera = new ComponentCamera();
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -237,6 +238,8 @@ void ModuleCamera3D::Move(const float3 &Movement)
 	CalculateViewMatrix();
 }
 
+
+
 void ModuleCamera3D::CameraRotation() const
 {
 }
@@ -245,6 +248,11 @@ void ModuleCamera3D::CameraRotation() const
 float* ModuleCamera3D::GetViewMatrix()
 {
 	return ViewMatrix.ptr();
+}
+
+ComponentCamera * ModuleCamera3D::GetCamera() const
+{
+	return camera;
 }
 
 // -----------------------------------------------------------------

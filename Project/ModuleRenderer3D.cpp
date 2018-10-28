@@ -27,6 +27,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_Object* node)
 {
+	camera = App->camera->GetCamera();
 	LOG("Creating 3D Renderer context");
 	App->imgui->AddConsoleLog("Creating 3D Renderer context");
 	bool ret = true;
@@ -143,13 +144,20 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadIdentity();
-
+	glLoadIdentity();
+	if (camera->update_mat == true)
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
+		camera->update_mat = false;
+	}
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
+
+
 	// Light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
@@ -387,5 +395,17 @@ void ModuleRenderer3D::SetWireFrame()
 	else
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
+{
+	if (cam == nullptr)
+	{
+		camera = cam;
+	}
+	else
+	{
+		return;
 	}
 }

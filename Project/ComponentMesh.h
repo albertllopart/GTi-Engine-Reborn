@@ -44,6 +44,7 @@ public:
 
 	void DrawDebug() const;
 	void OnEditor();
+	void ShowInspectorWindow();
 	float3 GetCenter() const;
 
 public:

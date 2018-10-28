@@ -19,16 +19,24 @@ public:
 	void SetAspectRatio(float x, float y);
 	void SetFov();
 	void SetVerticalFOV(float value);
-
+	void ShowInspectorWindow();
+	void OnUpdateMatrix(const float4x4 & matrix);
+	void UpdateMatrix();
 	void DrawDebug() const; 
+	float* GetProjectionMatrix()const;
 
-
+public:
+	bool update_mat = false;
 
 private:
 
 	float fov;
 	float aspect_ratio;
+	bool culling = false;
+	bool main_camera = false;
 	Frustum frustum;
+	float4x4 view_matrix;
+	float4x4 projection_matrix;
 	//TODO ADD CULLING TO THE FRUSTUM
 };
 
