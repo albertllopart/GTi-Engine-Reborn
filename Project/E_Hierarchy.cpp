@@ -18,6 +18,11 @@ E_Hierarchy::~E_Hierarchy()
 
 bool E_Hierarchy::Draw()
 {
+	if (scene == nullptr)
+	{
+		scene = App->editor->GetRoot();
+	}
+
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
@@ -28,15 +33,14 @@ bool E_Hierarchy::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
 
-	ImGui::Begin("Hierarchy", &active, window_flags);
+	ImGui::Begin("Hierarchy", NULL, window_flags);
 
-	if (scene != nullptr)
+	scene->OnEditor();
+	ImGui::BeginChild("EndInspector Zone", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
+
+	if (ImGui::BeginPopupContextWindow("GameObject_options"))
 	{
-		scene->OnEditor();
-	}
-	if (ImGui::BeginPopupContextWindow("go_options"))
-	{
-		if (ImGui::Button("Generate Game Object"))
+		if (ImGui::Button("Create Game Object"))
 		{
 			GameObject* item = App->editor->CreateEmptyGameObject(nullptr);
 			item->SetName("Game Object");
@@ -45,6 +49,8 @@ bool E_Hierarchy::Draw()
 		}
 		ImGui::EndPopup();
 	}
+
+	ImGui::EndChild();
 	ImGui::End();
 	return true;
 }

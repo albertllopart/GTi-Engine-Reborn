@@ -102,6 +102,7 @@ void GameObject::OnEditor()
 			App->editor->CreateEmptyGameObject(this);
 			ImGui::CloseCurrentPopup();
 		}
+		ImGui::EndPopup();
 	}
 
 	ImGui::PopID();
@@ -114,6 +115,7 @@ void GameObject::OnEditor()
 		}
 		ImGui::TreePop();
 	}
+
 }
 
 void GameObject::ShowInspectorWindow() //NOT SHOWING NOW
