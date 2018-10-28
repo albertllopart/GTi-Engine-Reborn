@@ -277,3 +277,29 @@ void GameObject::UpdateMatrix() const
 {
 	my_transform->UpdateMatrix();
 }
+
+bool GameObject::OnSave(JSON_Value* value, JSON_Object* node) const
+{
+	//create new child
+	json_object_set_value(node, name.c_str(), json_value_init_object());
+	//target the new child
+	node = json_object_get_object(node, name.c_str());
+
+	//copy values
+	json_object_set_string(node, "Name", name.c_str());
+	json_object_set_number(node, "UID", uid);
+
+	if (parent != nullptr)
+		json_object_set_number(node, "Parent", parent->uid);
+
+	//target root so a new child can be created
+	node = json_value_get_object(value);
+	node = json_object_get_object(node, "Scene");
+
+	for (int i = 0; i < childs.size(); i++)
+	{
+		childs[i]->OnSave(value, node);
+	}
+
+	return true;
+}

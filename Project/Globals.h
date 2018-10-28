@@ -60,3 +60,6 @@ enum update_status
 #define VSYNC true
 #define TITLE "GTi Engine"
 
+//values
+#define MAX_INT32_VALUE 2147483647
+

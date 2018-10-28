@@ -8,7 +8,14 @@
 
 class Component;
 class ComponentTransform;
+
 enum COMPONENT_TYPE;
+
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
 
 class GameObject
 {
@@ -38,6 +45,9 @@ public:
 	void SetToDelete();
 	void RefreshBBox()const;
 	void UpdateMatrix()const;
+
+	//save
+	bool OnSave(JSON_Value* value, JSON_Object* node) const;
 	
 
 private:
