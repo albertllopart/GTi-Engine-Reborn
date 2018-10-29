@@ -3,8 +3,15 @@
 #include "GameObject.h"
 #include "MathGeoLib/Math/float4x4.h"
 #include <string>
+#include "Globals.h"
 
 class GameObject;
+
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
 
 enum COMPONENT_TYPE
 {
@@ -36,8 +43,12 @@ public:
 	void DestroyComponent();
 	COMPONENT_TYPE GetType() const;
 
+	//save
+	virtual bool OnSave(JSON_Value* value, JSON_Object* node, uint go_uid) const;
+
 protected:
 
+	uint uid = 0;
 	std::string name;
 	COMPONENT_TYPE type = COMPONENT_NONE;
 	bool active = true;

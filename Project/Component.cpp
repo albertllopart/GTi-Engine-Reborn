@@ -4,7 +4,7 @@
 
 Component::Component(COMPONENT_TYPE type): type(type)
 {
-
+	uid = App->rng->RandomInt(0, MAX_INT32_VALUE);
 }
 
 Component::~Component()
@@ -69,6 +69,11 @@ void Component::ShowInspectorWindow()
 COMPONENT_TYPE Component::GetType() const
 {
 	return type;
+}
+
+bool Component::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid) const
+{
+	return true;
 }
 
 

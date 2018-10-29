@@ -47,6 +47,8 @@ public:
 	void ShowInspectorWindow();
 	float3 GetCenter() const;
 
+	bool OnSave(JSON_Value* value, JSON_Object* node, uint go_uid) const;
+
 public:
 	Mesh * mesh = nullptr;
 };

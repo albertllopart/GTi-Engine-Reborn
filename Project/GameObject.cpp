@@ -296,6 +296,11 @@ bool GameObject::OnSave(JSON_Value* value, JSON_Object* node) const
 	node = json_value_get_object(value);
 	node = json_object_get_object(node, "Scene");
 
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->OnSave(value, node, uid);
+	}
+
 	for (int i = 0; i < childs.size(); i++)
 	{
 		childs[i]->OnSave(value, node);

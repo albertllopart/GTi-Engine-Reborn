@@ -84,3 +84,24 @@ float3 ComponentMesh::GetCenter() const
 {
 	return mesh->bbox.Centroid();
 }
+
+bool ComponentMesh::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid) const
+{
+	//create new child
+	std::string add = std::to_string(uid);
+	json_object_set_value(node, add.c_str(), json_value_init_object());
+
+	//target the new child
+	node = json_object_get_object(node, add.c_str());
+
+	//copy values
+	json_object_set_string(node, "Name", name.c_str());
+	json_object_set_number(node, "UID", uid);
+	json_object_set_number(node, "GameObject", go_uid);
+
+	//target root so a new child can be created
+	node = json_value_get_object(value);
+	node = json_object_get_object(node, "Scene");
+
+	return true;
+}
