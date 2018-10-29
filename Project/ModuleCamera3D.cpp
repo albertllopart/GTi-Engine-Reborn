@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "ModuleInput.h"
+#include "Glew/include/glew.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -44,8 +46,21 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Implement a debug camera with keys and mouse
-	// Now we can make this movememnt frame rate independant!
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		picking = camera->GetFrustum().UnProjectLineSegment(App->input->GetMouseX(), App->input->GetMouseY());
+	}
+
+	glBegin(GL_LINES);
+	glLineWidth(2.0f);
+	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+	glVertex2f(picking.a.x, picking.a.y);
+	glVertex2f(picking.b.x, picking.a.y);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glEnd();
+
+
 
 	math::float3 newPos(0.0f, 0.0f, 0.0f);
 	float speed = 1.0f * dt;

@@ -28,6 +28,7 @@ public:
 	Component(COMPONENT_TYPE type);
 	virtual ~Component();
 
+
 	virtual void Update();
 	virtual void PostUpdate();
 

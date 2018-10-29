@@ -24,6 +24,7 @@ public:
 	void UpdateMatrix();
 	void DrawDebug() const; 
 	float* GetProjectionMatrix()const;
+	Frustum GetFrustum() const;
 
 public:
 	bool update_mat = false;

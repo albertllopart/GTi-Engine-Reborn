@@ -152,7 +152,7 @@ void ComponentCamera::UpdateMatrix()
 	update_mat = true;
 }
 
-void ComponentCamera::DrawDebug() const //TO TEST IT
+void ComponentCamera::DrawDebug() const 
 {
 	glBegin(GL_LINES);
 	glLineWidth(1.0f);
@@ -172,4 +172,9 @@ void ComponentCamera::DrawDebug() const //TO TEST IT
 float * ComponentCamera::GetProjectionMatrix() const
 {
 	return (float*)projection_matrix.v;
+}
+
+Frustum  ComponentCamera::GetFrustum() const
+{
+	return frustum;
 }

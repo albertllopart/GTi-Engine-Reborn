@@ -5,7 +5,7 @@
 #include "Globals.h"
 #include "MathGeoLib/Math/float3.h"
 #include "MathGeoLib/Math/float4x4.h"
-
+#include "MathGeoLib/Geometry/LineSegment.h"
 
 class ModuleCamera3D : public Module
 {
@@ -38,6 +38,7 @@ private:
 	math::float4x4 ViewMatrix, ViewMatrixInverse;
 	bool free_move = false;
 	ComponentCamera* camera = nullptr;
+	LineSegment picking;
 };
 
 #endif

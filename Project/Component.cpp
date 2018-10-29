@@ -4,7 +4,7 @@
 
 Component::Component(COMPONENT_TYPE type): type(type)
 {
-	uid = App->rng->RandomInt(0, MAX_INT32_VALUE);
+	//uid = App->rng->RandomInt(0, MAX_INT32_VALUE);
 }
 
 Component::~Component()
