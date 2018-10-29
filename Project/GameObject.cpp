@@ -7,11 +7,13 @@
 
 GameObject::GameObject()
 {
+	uid = App->rng->Random32();
 	name = "GameObject";
 }
 
 GameObject::GameObject(GameObject * parent)
 {
+	uid = App->rng->Random32();
 	name = "GameObject";
 	this->parent = parent;
 }
@@ -280,7 +282,6 @@ void GameObject::UpdateMatrix() const
 
 bool GameObject::OnSave(JSON_Value* value, JSON_Object* node)
 {
-	uid = App->rng->RandomInt(0, MAX_INT32_VALUE);
 	//create new child
 	json_object_set_value(node, name.c_str(), json_value_init_object());
 	//target the new child

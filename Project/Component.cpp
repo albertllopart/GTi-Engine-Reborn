@@ -4,7 +4,7 @@
 
 Component::Component(COMPONENT_TYPE type): type(type)
 {
-
+	
 }
 
 Component::~Component()
@@ -73,7 +73,7 @@ COMPONENT_TYPE Component::GetType() const
 
 void Component::GenerateUID()
 {
-	uid = App->rng->RandomInt(0, MAX_INT32_VALUE);
+	uid = App->rng->Random32();
 }
 
 bool Component::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid)

@@ -88,7 +88,6 @@ float3 ComponentMesh::GetCenter() const
 bool ComponentMesh::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid)
 {
 	GenerateUID();
-	
 	//create new child
 	std::string add = std::to_string(uid);
 	json_object_set_value(node, add.c_str(), json_value_init_object());

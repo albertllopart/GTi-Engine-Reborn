@@ -26,11 +26,7 @@ bool ModuleRNG::Init(JSON_Object* node)
 
 bool ModuleRNG::Start()
 {
-	random_pSphere = new pSphere();
-	random_pSphere->SetPos(0, 0, 0);
-
-	random_pCylinder = new pCylinder();
-	random_pCylinder->SetPos(0, 0, 0);
+	pcg32_srandom_r(&seed, NULL, (intptr_t)&seed);
 
 	return true;
 }
@@ -54,11 +50,16 @@ float ModuleRNG::RandomFloat()
 	return ldexp(pcg32_random_r(&floatseed), -32);
 }
 
-int ModuleRNG::RandomInt(int min, int max)
+uint32_t ModuleRNG::RandomInt(int min, int max)
 {
 	uint bound = max - min + 1;
 
 	return pcg32_boundedrand_r(&intbound, bound);
+}
+
+uint32_t ModuleRNG::Random32()
+{
+	return pcg32_random_r(&seed);
 }
 
 

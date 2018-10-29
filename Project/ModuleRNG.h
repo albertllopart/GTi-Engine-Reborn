@@ -21,16 +21,14 @@ public:
 	update_status Update(float dt);
 
 	float RandomFloat();
-	int RandomInt(int min, int max);
+	uint32_t RandomInt(int min, int max);
+	uint32_t Random32();
 
 private:
 
 	pcg32_random_t floatseed;
-	pcg_state_setseq_64 intbound;
-
-	//primitives
-	pSphere* random_pSphere;
-	pCylinder* random_pCylinder;
+	pcg32_random_t intbound;
+	pcg32_random_t seed;
 	
 };
 
