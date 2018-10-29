@@ -28,7 +28,6 @@ public:
 	Component(COMPONENT_TYPE type);
 	virtual ~Component();
 
-
 	virtual void Update();
 	virtual void PostUpdate();
 
@@ -44,8 +43,10 @@ public:
 	void DestroyComponent();
 	COMPONENT_TYPE GetType() const;
 
+	void GenerateUID();
+
 	//save
-	virtual bool OnSave(JSON_Value* value, JSON_Object* node, uint go_uid) const;
+	virtual bool OnSave(JSON_Value* value, JSON_Object* node, uint go_uid);
 
 protected:
 

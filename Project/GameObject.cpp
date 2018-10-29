@@ -278,8 +278,9 @@ void GameObject::UpdateMatrix() const
 	my_transform->UpdateMatrix();
 }
 
-bool GameObject::OnSave(JSON_Value* value, JSON_Object* node) const
+bool GameObject::OnSave(JSON_Value* value, JSON_Object* node)
 {
+	uid = App->rng->RandomInt(0, MAX_INT32_VALUE);
 	//create new child
 	json_object_set_value(node, name.c_str(), json_value_init_object());
 	//target the new child

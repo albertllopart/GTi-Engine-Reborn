@@ -67,6 +67,7 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Save (F5)"))
 			{
 				App->Save();
+				App->editor->SaveScene();
 			}
 			if (ImGui::MenuItem("Quit (Alt + F4)"))
 			{

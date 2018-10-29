@@ -47,7 +47,7 @@ public:
 	void UpdateMatrix()const;
 
 	//save
-	bool OnSave(JSON_Value* value, JSON_Object* node) const;
+	bool OnSave(JSON_Value* value, JSON_Object* node);
 	
 
 private:

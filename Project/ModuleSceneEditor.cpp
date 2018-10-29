@@ -46,7 +46,6 @@ update_status ModuleSceneEditor::PreUpdate(float dt)
 
 update_status ModuleSceneEditor::Update(float dt)
 {
-	SaveScene();
 	root->Update();
 	return UPDATE_CONTINUE;
 }
@@ -93,7 +92,7 @@ GameObject * ModuleSceneEditor::GetRoot()
 
 GameObject * ModuleSceneEditor::CreateNewGameObject(const char * path)
 {
-	GameObject* ret = App->import->LoadGameObject(path); //needs rework
+	GameObject* ret = App->import->LoadGameObject(path);
 	root->AddChild(ret);
 
 	return ret;
