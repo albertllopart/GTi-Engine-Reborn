@@ -8,7 +8,7 @@
 
 class Component;
 class ComponentTransform;
-
+class ComponentMesh;
 enum COMPONENT_TYPE;
 
 struct json_object_t;
@@ -33,6 +33,8 @@ public:
 	void AddComponent(Component * to_add);
 	void AddComponent(COMPONENT_TYPE component);
 	void UpdateBBox();
+	void DrawBBox(ComponentMesh* c_mesh);
+
 	GameObject* GetParent() const;
 	void SetParent(GameObject* new_parent);
 	Component* FindComponent(COMPONENT_TYPE type) const;

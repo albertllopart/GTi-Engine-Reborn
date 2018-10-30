@@ -4,6 +4,8 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "MathGeoLib/Math/float4x4.h"
+#include "ComponentMesh.h"
+#include "Glew/include/glew.h"
 
 GameObject::GameObject()
 {
@@ -44,6 +46,7 @@ void GameObject::Update()
 	{
 		childs[i]->Update();
 	}
+	UpdateBBox(); //temp
 }
 
 void GameObject::PostUpdate()
@@ -104,7 +107,7 @@ void GameObject::OnEditor()
 	
 	if (ImGui::IsItemClicked())
 	{
-		App->editor->SetSelected(this); //setting item clicked to selected
+		App->editor->SetSelected(this); 
 	}
 		
 	ImGui::PushID(item_id); //ImGui unique identifier 
@@ -121,7 +124,8 @@ void GameObject::OnEditor()
 		}
 		if (ImGui::Button("Create Game Object"))
 		{
-			App->editor->GetSelected()->AddChild(new GameObject());
+			GameObject* bug = new GameObject();
+			App->editor->GetSelected()->AddChild(bug);
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
@@ -148,7 +152,7 @@ void GameObject::ShowInspectorWindow()
 		{
 			ImGui::Checkbox("Active", &active);
 			ImGui::SameLine();
-			ImGui::Text(name.c_str());	//TODO EDIT G.O. NAME
+			ImGui::Text(name.c_str());	//TODO EDIT G.O. NAME in inspector
 			ImGui::Checkbox("", &is_static);
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.25f, 1.00f, 1.00f, 1.00f), "Static");
@@ -208,7 +212,42 @@ void GameObject::AddComponent(COMPONENT_TYPE component)
 
 void GameObject::UpdateBBox()
 {
- //TODO
+	Component* item = nullptr;
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+
+		if (item->GetType() == COMPONENT_MESH)
+		{
+			ComponentMesh* c_mesh = (ComponentMesh*)item;
+			c_mesh->mesh->bbox.SetNegativeInfinity();
+			c_mesh->mesh->bbox.Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
+			DrawBBox(c_mesh);
+		}
+	}
+}
+
+void GameObject::DrawBBox(ComponentMesh* c_mesh)
+{
+	if (show_bbox)
+	{
+		float3 bbox_vertex[8];
+		c_mesh->mesh->bbox.GetCornerPoints(bbox_vertex);
+
+		glBegin(GL_LINES);
+		glLineWidth(1.0f);
+		glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(c_mesh->mesh->bbox.Edge(i).a.x, c_mesh->mesh->bbox.Edge(i).a.y, c_mesh->mesh->bbox.Edge(i).a.z);
+			glVertex3f(c_mesh->mesh->bbox.Edge(i).b.x, c_mesh->mesh->bbox.Edge(i).b.y, c_mesh->mesh->bbox.Edge(i).b.z);
+		}
+
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+		glEnd();
+	}
 }
 
 GameObject * GameObject::GetParent() const
@@ -261,7 +300,8 @@ void GameObject::SetName(const char * name)
 void GameObject::AddChild(GameObject* child)
 {
 	childs.push_back(child);
-	child->parent = this;
+	child->parent = this; //PREGUNTAR RICARD
+
 }
 
 void GameObject::SetToDelete()

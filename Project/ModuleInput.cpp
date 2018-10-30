@@ -143,8 +143,16 @@ update_status ModuleInput::PreUpdate(float dt)
 				if (file_dir.find(".GTImesh") != std::string::npos)
 				{
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
-					//App->editor->GetSelected()->AddComponent(COMPONENT_MESH);
-					App->editor->CreateNewGameObject(file_dir.c_str()); //remove
+					if (App->editor->GetSelected() != nullptr)
+					{
+						ComponentMesh* new_mesh = App->import->LoadMesh(file_dir.c_str());
+						App->editor->GetSelected()->AddComponent(new_mesh);
+						App->editor->GetSelected()->UpdateBBox();
+					}
+					else
+					{
+						App->editor->CreateNewGameObject(file_dir.c_str());
+					}
 				}
 				else if(file_dir.find(".dds") != std::string::npos)
 				{

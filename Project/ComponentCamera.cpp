@@ -156,7 +156,7 @@ void ComponentCamera::DrawDebug() const
 {
 	glBegin(GL_LINES);
 	glLineWidth(1.0f);
-	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+	glColor4f(0.2f, 0.2f, 0.7f, 1.0f);
 
 	for (uint i = 0; i < 12; i++)
 	{

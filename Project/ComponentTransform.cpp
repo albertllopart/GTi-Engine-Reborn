@@ -82,8 +82,9 @@ void ComponentTransform::ShowInspectorWindow()
 		{
 			UpdateScale(scale);
 		}
+		ImGui::TreePop();
 	}
-	ImGui::TreePop();
+	
 }
 
 void ComponentTransform::UpdateScale(float3 scale)

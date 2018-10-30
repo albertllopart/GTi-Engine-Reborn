@@ -79,9 +79,9 @@ update_status ModuleImGui::Update(float dt)
 		}
 		if (ImGui::BeginMenu("View"))
 		{
-			if (ImGui::MenuItem("Hierarchy"))
+			if (ImGui::BeginMenu("Hierarchy", false)) // Disabled
 			{
-				hierarchy = !hierarchy;
+				IM_ASSERT(0);
 			}
 			if (ImGui::MenuItem("Console"))
 			{

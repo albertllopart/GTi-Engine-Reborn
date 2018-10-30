@@ -6,7 +6,7 @@
 #include "MathGeoLib/Math/float3.h"
 #include "MathGeoLib/Math/Quat.h"
 #include "MathGeoLib\Geometry\AABB.h"
-
+#include "Primitive.h"
 
 struct Mesh
 {
