@@ -55,7 +55,9 @@ ComponentMesh* ModuleImporter::LoadMesh(const char* fullPath)
 {
 	ComponentMesh* mesh = new ComponentMesh;
 	
-	importer->Load(fullPath, mesh);
+	std::string temp = CleanFileName(fullPath);
+	importer->Load(temp.c_str(), mesh);
+	mesh->source = temp;
 
 	return mesh;
 }
@@ -89,10 +91,7 @@ GameObject * ModuleImporter::LoadGameObject(const char * fullPath)
 
 	uint size = strlen(fullPath);
 
-	std::string namePath = fullPath;
-	uint i = namePath.find_last_of("\\");
-	char* temp = new char[size - i];
-	namePath.copy(temp, size - i, i);
+	std::string temp = CleanFileName(fullPath);
 	newObject->name.assign(temp);
 
 	newObject->AddComponent(LoadMesh(fullPath));

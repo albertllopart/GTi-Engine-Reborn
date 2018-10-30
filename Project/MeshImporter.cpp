@@ -142,7 +142,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
 	uint size;
 
 	//TODO: loadFile needs to receive ONLY the name of the file with no extension nor directories
-	bool result = App->filesystem->LoadFile("testing1234", &buffer, size, FILE_MESH);
+	bool result = App->filesystem->LoadFile(exported_file, &buffer, size, FILE_MESH);
 
 	if (result)
 	{

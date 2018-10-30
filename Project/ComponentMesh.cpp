@@ -74,7 +74,7 @@ void ComponentMesh::ShowInspectorWindow()
 		ImGui::Text("Mesh Path:");
 		ImGui::SameLine();
 		if (mesh != nullptr)
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", mesh->name);
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", source.c_str());
 
 		ImGui::TreePop();
 	}
@@ -99,6 +99,7 @@ bool ComponentMesh::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid)
 	json_object_set_string(node, "Name", name.c_str());
 	json_object_set_number(node, "UID", uid);
 	json_object_set_number(node, "GameObject", go_uid);
+	json_object_set_string(node, "Source", source.c_str());
 
 	//target root so a new child can be created
 	node = json_value_get_object(value);
