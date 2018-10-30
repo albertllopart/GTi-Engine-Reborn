@@ -31,13 +31,13 @@ Application::Application()
 	// Main Modules
 	AddModule(window);
 	AddModule(imgui);
+	AddModule(e_windows);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(rng);
 	AddModule(editor);
 	AddModule(textures);
 	AddModule(import);
-	AddModule(e_windows);
 	AddModule(filesystem);
 
 	// Renderer last!
@@ -160,7 +160,11 @@ update_status Application::Update()
 		ret = (*item)->Update(dt);
 		item++;
 	}
-	ret = OnEditor();
+	
+	if (ret == UPDATE_CONTINUE)
+	{
+		ret = OnEditor();
+	}
 
 	item = list_modules.begin();
 
@@ -198,12 +202,11 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	std::list<Module*>::reverse_iterator item = list_modules.rbegin();
-	while (item != list_modules.rend() && ret)
+	for (std::list<Module*>::const_reverse_iterator item = list_modules.rbegin(); item != list_modules.rend() && ret; ++item)
 	{
 		ret = (*item)->CleanUp();
-		item++;
 	}
+	
 	return ret;
 }
 

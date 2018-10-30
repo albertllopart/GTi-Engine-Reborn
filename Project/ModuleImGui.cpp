@@ -52,6 +52,8 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
+	update_status ret = UPDATE_CONTINUE;
+
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 	{
 		AddConsoleLog("Shinny Mew2 appeared!");
@@ -92,6 +94,7 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::BeginMenu("Mesh Parameters", false)) // Disabled
 			{
 				IM_ASSERT(0);
+				//ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
 		}
@@ -154,7 +157,7 @@ update_status ModuleImGui::Update(float dt)
 	{
 		ShowHierarchy();
 	}
-	return UPDATE_CONTINUE;
+	return ret;
 }
 
 bool ModuleImGui::CleanUp()
