@@ -163,5 +163,21 @@ bool ModuleSceneEditor::SaveScene() const
 	return true;
 }
 
+bool ModuleSceneEditor::LoadScene()
+{
+
+	std::string path = "testing.json";
+
+	App->imgui->AddConsoleLog("Loading Scene");
+
+	JSON_Value* value = json_parse_file(path.c_str());
+	JSON_Object* root_object = json_value_get_object(value);
+	JSON_Array* array = json_object_get_array(root_object, "Item");
+
+	testing = json_array_get_count(array);
+
+	return true;
+}
+
 
 

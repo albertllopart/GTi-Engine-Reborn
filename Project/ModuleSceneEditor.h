@@ -8,6 +8,15 @@
 
 class GameObject;
 
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
+
+struct json_array_t;
+typedef struct json_array_t JSON_Array;
+
 class ModuleSceneEditor : public Module
 {
 public:
@@ -34,9 +43,12 @@ public:
 
 	//save and load
 	bool SaveScene() const;
+	bool LoadScene();
 	
 private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
+
+	int testing = 0;
 };
 #endif 
