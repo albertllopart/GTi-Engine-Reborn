@@ -120,7 +120,7 @@ void ComponentCamera::ShowInspectorWindow()
 			
 			ImGui::DragFloat("Far Distance", &frustum.farPlaneDistance, 0.5);
 
-			if (ImGui::DragFloat("Field of View", &frustum.verticalFov, 0.1, 0.1))
+			if (ImGui::DragFloat("Field of View", &frustum.verticalFov, 0.01,0.5))
 			{
 				frustum.horizontalFov = atan(aspect_ratio*tan(frustum.verticalFov / 2)) * 2;
 			}
@@ -156,7 +156,7 @@ void ComponentCamera::DrawDebug() const
 {
 	glBegin(GL_LINES);
 	glLineWidth(1.0f);
-	glColor4f(0.2f, 0.2f, 0.7f, 1.0f);
+	glColor4f(0.1f, 0.3f, 0.7f, 0.8f);
 
 	for (uint i = 0; i < 12; i++)
 	{
