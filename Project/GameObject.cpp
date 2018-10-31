@@ -6,6 +6,7 @@
 #include "MathGeoLib/Math/float4x4.h"
 #include "ComponentMesh.h"
 #include "Glew/include/glew.h"
+#include "JSONConfig.h"
 
 GameObject::GameObject()
 {
@@ -257,7 +258,11 @@ GameObject * GameObject::GetParent() const
 
 void GameObject::SetParent(GameObject* new_parent)
 {
-	parent = new_parent;
+	if (new_parent != nullptr)
+	{
+		parent = new_parent;
+		new_parent->AddChild(this);
+	}
 }
 
 Component * GameObject::FindComponent(COMPONENT_TYPE type) const
@@ -360,10 +365,10 @@ bool GameObject::OnSave(JSON_Value* array) const
 	return true;
 }
 
-bool GameObject::OnLoad(JSON_Object* object)
+bool GameObject::OnLoad(const JSONConfig data)
 {
-	uid = json_object_get_number(object, "UID");
-	name = json_object_get_string(object, "Name");
+	uid = data.GetInt("UID");
+	name = data.GetString("Name");
 
 	return true;
 }

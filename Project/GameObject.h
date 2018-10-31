@@ -9,6 +9,7 @@
 class Component;
 class ComponentTransform;
 class ComponentMesh;
+class JSONConfig;
 enum COMPONENT_TYPE;
 
 struct json_object_t;
@@ -53,7 +54,7 @@ public:
 
 	//save
 	bool OnSave(JSON_Value* array) const;
-	bool OnLoad(JSON_Object* object);
+	bool OnLoad(const JSONConfig data);
 	
 
 private:

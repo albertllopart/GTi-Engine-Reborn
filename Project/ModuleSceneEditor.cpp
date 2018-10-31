@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 
 #include "parson/parson.h"
+#include "JSONConfig.h"
 
 ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Module(app, startEnabled)
 {
@@ -188,30 +189,48 @@ bool ModuleSceneEditor::SaveScene() const
 
 bool ModuleSceneEditor::LoadScene()
 {
-	JSON_Value* root_value = json_parse_file("scene.json");
-	JSON_Object* root_object = json_value_get_object(root_value);
+	JSONConfig config;
 
-	//target scene
-	root_object = json_object_get_object(root_object, "Scene");
-	root->uid = json_object_get_number(root_object, "UID");
+	if (!config.ParseFile("scene.json"))
+		return false;
 
-	JSON_Array* array = json_object_get_array(root_object, "Game Objects");
-	JSON_Object* item;
-	
-	item = json_array_get_object(array, 0);
-	testing = json_object_get_number(item, "Parent");
+	config = config.SetFocus("Scene");
+	root->uid = config.GetInt("UID");
 
-	LOG("%i", testing);
+	uint size = config.GetArraySize("Game Objects");
 
-	for (uint i = 0; i < json_array_get_count(array); i++)
+	for (uint i = 0; i < size; i++)
 	{
-		item = json_array_get_object(array, i);
+		JSONConfig item_config = config.SetFocusArray("Game Objects", i);
+		GameObject* item = new GameObject();
 
-		GameObject* temp_go = new GameObject();
-		temp_go->OnLoad(item);
-		
+		item->OnLoad(item_config);
+		item->SetParent(FindGObyUID(item_config.GetInt("Parent"), root));
 	}
+	//JSON_Value* root_value = json_parse_file("scene.json");
+	//JSON_Object* root_object = json_value_get_object(root_value);
 
+	////target scene
+	//root_object = json_object_get_object(root_object, "Scene");
+	//root->uid = json_object_get_number(root_object, "UID");
+
+	//JSON_Array* array = json_object_get_array(root_object, "Game Objects");
+	//JSON_Object* item;
+	//
+	//item = json_array_get_object(array, 0);
+	//testing = json_object_get_number(item, "Parent");
+
+	//LOG("%i", testing);
+
+	//for (uint i = 0; i < json_array_get_count(array); i++)
+	//{
+	//	item = json_array_get_object(array, i);
+
+	//	GameObject* temp_go = new GameObject();
+	//	temp_go->OnLoad(item);
+	//	
+	//}
+	
 	return true;
 }
 
