@@ -76,7 +76,7 @@ void Component::GenerateUID()
 	uid = App->rng->Random32();
 }
 
-bool Component::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid)
+bool Component::OnSave(JSON_Value* array, uint go_uid)
 {
 	return true;
 }

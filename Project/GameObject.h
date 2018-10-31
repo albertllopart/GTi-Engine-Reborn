@@ -17,6 +17,9 @@ typedef struct json_object_t JSON_Object;
 struct json_value_t;
 typedef struct json_value_t  JSON_Value;
 
+struct json_array_t;
+typedef struct json_array_t JSON_Array;
+
 class GameObject
 {
 
@@ -49,7 +52,7 @@ public:
 	void UpdateMatrix()const;
 
 	//save
-	bool OnSave(JSON_Value* value, JSON_Object* node);
+	bool OnSave(JSON_Value* array) const;
 	
 
 private:

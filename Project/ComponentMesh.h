@@ -47,7 +47,7 @@ public:
 	void ShowInspectorWindow();
 	float3 GetCenter() const;
 
-	bool OnSave(JSON_Value* value, JSON_Object* node, uint go_uid);
+	bool OnSave(JSON_Value* array, uint go_uid);
 
 public:
 	std::string source;

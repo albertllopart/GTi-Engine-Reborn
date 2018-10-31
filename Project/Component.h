@@ -46,7 +46,7 @@ public:
 	void GenerateUID();
 
 	//save
-	virtual bool OnSave(JSON_Value* value, JSON_Object* node, uint go_uid);
+	virtual bool OnSave(JSON_Value* array, uint go_uid);
 
 protected:
 

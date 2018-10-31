@@ -320,32 +320,41 @@ void GameObject::UpdateMatrix() const
 	my_transform->UpdateMatrix();
 }
 
-bool GameObject::OnSave(JSON_Value* value, JSON_Object* node)
+bool GameObject::OnSave(JSON_Value* array) const
 {
-	//create new child
-	json_object_set_value(node, name.c_str(), json_value_init_object());
-	//target the new child
-	node = json_object_get_object(node, name.c_str());
-
-	//copy values
-	json_object_set_string(node, "Name", name.c_str());
-	json_object_set_number(node, "UID", uid);
-
-	if (parent != nullptr)
-		json_object_set_number(node, "Parent", parent->uid);
-
-	//target root so a new child can be created
-	node = json_value_get_object(value);
-	node = json_object_get_object(node, "Scene");
-
-	for (int i = 0; i < components.size(); i++)
+	if (parent != NULL)
 	{
-		components[i]->OnSave(value, node, uid);
+		//create new child
+		JSON_Value* go_value = json_value_init_object();
+
+		//target the new child
+		JSON_Object *go_object = json_value_get_object(go_value);
+
+		//copy values
+		json_object_set_string(go_object, "Name", name.c_str());
+		json_object_set_number(go_object, "UID", uid);
+
+		if (parent != nullptr)
+			json_object_set_number(go_object, "Parent", parent->uid);
+
+		//create array for components
+		JSON_Value* comp_array = json_value_init_array();
+		json_object_set_value(go_object, "Components", comp_array);
+
+		for (int i = 0; i < components.size(); i++)
+		{
+			components[i]->OnSave(comp_array, uid);
+		}
+
+		//add value into array
+		JSON_Array* my_array = json_value_get_array(array);
+		json_array_append_value(my_array, json_value_deep_copy(go_value));
 	}
 
+	//call childs OnSave()
 	for (int i = 0; i < childs.size(); i++)
 	{
-		childs[i]->OnSave(value, node);
+		childs[i]->OnSave(array);
 	}
 
 	return true;

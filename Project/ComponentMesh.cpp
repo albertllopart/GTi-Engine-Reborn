@@ -85,25 +85,24 @@ float3 ComponentMesh::GetCenter() const
 	return mesh->bbox.Centroid();
 }
 
-bool ComponentMesh::OnSave(JSON_Value* value, JSON_Object* node, uint go_uid)
+bool ComponentMesh::OnSave(JSON_Value* array, uint go_uid)
 {
 	GenerateUID();
 	//create new child
-	std::string add = std::to_string(uid);
-	json_object_set_value(node, add.c_str(), json_value_init_object());
+	JSON_Value* comp_value = json_value_init_object();
 
 	//target the new child
-	node = json_object_get_object(node, add.c_str());
+	JSON_Object* comp_object = json_value_get_object(comp_value);
 
 	//copy values
-	json_object_set_string(node, "Name", name.c_str());
-	json_object_set_number(node, "UID", uid);
-	json_object_set_number(node, "GameObject", go_uid);
-	json_object_set_string(node, "Source", source.c_str());
+	json_object_set_string(comp_object, "Name", name.c_str());
+	json_object_set_number(comp_object, "UID", uid);
+	json_object_set_number(comp_object, "GameObject", go_uid);
+	json_object_set_string(comp_object, "Source", source.c_str());
 
-	//target root so a new child can be created
-	node = json_value_get_object(value);
-	node = json_object_get_object(node, "Scene");
+	//add everything to the components array
+	JSON_Array* my_array = json_value_get_array(array);
+	json_array_append_value(my_array, comp_value);
 
 	return true;
 }

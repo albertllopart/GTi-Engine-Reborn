@@ -153,10 +153,15 @@ bool ModuleSceneEditor::SaveScene() const
 	
 	if (root != NULL)
 	{
-		root->OnSave(root_value, root_object);
+		json_object_set_string(root_object, "Name", root->name.c_str());
+		
+		JSON_Value* array = json_value_init_array();
+		json_object_set_value(root_object, "Game Objects", array);
+
+		root->OnSave(array);
 	}
 	
-	json_serialize_to_file(root_value, "testing.json");
+	json_serialize_to_file(root_value, "scene.json");
 
 	json_value_free(root_value);
 
