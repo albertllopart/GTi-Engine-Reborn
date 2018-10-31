@@ -40,6 +40,7 @@ public:
 	void SetSelected(GameObject* to_select);
 	GameObject* GetSelected()const;
 	void AddToScene(GameObject* to_add);
+	GameObject* FindGObyUID(uint uid, GameObject* to_find);
 
 	//save and load
 	bool SaveScene() const;
@@ -49,6 +50,6 @@ private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
 
-	int testing = 0;
+	uint testing = 0;
 };
 #endif 

@@ -1,1 +1,1 @@
-{"Scene":{"Name":"Scene 1","Game Objects":[{"Name":"GameObject","UID":2778918303,"Parent":3355905493,"Components":[{"Name":"ComponentMesh","UID":2105481318,"GameObject":2778918303,"Source":"BakerHouse"}]}]}}
+{"Scene":{"UID":2668925384,"Name":"Scene 1","Game Objects":[{"Name":"GameObject","UID":808481234,"Parent":2668925384,"Components":[{"Name":"ComponentMesh","UID":3284968533,"GameObject":808481234,"Source":"BakerHouse"}]}]}}

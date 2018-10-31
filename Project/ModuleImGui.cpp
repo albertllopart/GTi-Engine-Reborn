@@ -65,6 +65,7 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Load (F6)"))
 			{
 				App->Load();
+				App->editor->LoadScene();
 			}
 			if (ImGui::MenuItem("Save (F5)"))
 			{

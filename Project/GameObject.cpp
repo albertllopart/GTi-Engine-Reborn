@@ -359,3 +359,11 @@ bool GameObject::OnSave(JSON_Value* array) const
 
 	return true;
 }
+
+bool GameObject::OnLoad(JSON_Object* object)
+{
+	uid = json_object_get_number(object, "UID");
+	name = json_object_get_string(object, "Name");
+
+	return true;
+}

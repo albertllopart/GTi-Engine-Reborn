@@ -143,6 +143,23 @@ void ModuleSceneEditor::ShowRoot()
 	root->OnEditor();
 }
 
+GameObject* ModuleSceneEditor::FindGObyUID(uint uid, GameObject* to_find)
+{
+	GameObject* ret = nullptr;
+
+	if (to_find->uid == uid)
+	{
+		return to_find;
+	}
+
+	for (int i = 0; i < to_find->childs.size() && ret == nullptr; i++)
+	{
+		ret = FindGObyUID(uid, to_find->childs[i]);
+	}
+
+	return ret;
+}
+
 bool ModuleSceneEditor::SaveScene() const
 {
 	JSON_Value *root_value = json_value_init_object();
@@ -154,6 +171,7 @@ bool ModuleSceneEditor::SaveScene() const
 	if (root != NULL)
 	{
 		json_object_set_string(root_object, "Name", root->name.c_str());
+		json_object_set_number(root_object, "UID", root->uid);
 		
 		JSON_Value* array = json_value_init_array();
 		json_object_set_value(root_object, "Game Objects", array);
@@ -170,16 +188,29 @@ bool ModuleSceneEditor::SaveScene() const
 
 bool ModuleSceneEditor::LoadScene()
 {
+	JSON_Value* root_value = json_parse_file("scene.json");
+	JSON_Object* root_object = json_value_get_object(root_value);
 
-	std::string path = "testing.json";
+	//target scene
+	root_object = json_object_get_object(root_object, "Scene");
+	root->uid = json_object_get_number(root_object, "UID");
 
-	App->imgui->AddConsoleLog("Loading Scene");
+	JSON_Array* array = json_object_get_array(root_object, "Game Objects");
+	JSON_Object* item;
+	
+	item = json_array_get_object(array, 0);
+	testing = json_object_get_number(item, "Parent");
 
-	JSON_Value* value = json_parse_file(path.c_str());
-	JSON_Object* root_object = json_value_get_object(value);
-	JSON_Array* array = json_object_get_array(root_object, "Item");
+	LOG("%i", testing);
 
-	testing = json_array_get_count(array);
+	for (uint i = 0; i < json_array_get_count(array); i++)
+	{
+		item = json_array_get_object(array, i);
+
+		GameObject* temp_go = new GameObject();
+		temp_go->OnLoad(item);
+		
+	}
 
 	return true;
 }

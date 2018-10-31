@@ -53,15 +53,17 @@ public:
 
 	//save
 	bool OnSave(JSON_Value* array) const;
+	bool OnLoad(JSON_Object* object);
 	
 
 private:
-	uint uid = 0;
+	
 	GameObject* parent = nullptr;
 	ComponentTransform* my_transform = nullptr;
 
 public:
 
+	uint uid = 0;
 	std::string name;
 	std::vector<Component*> components;
 	std::vector<GameObject*> childs;
