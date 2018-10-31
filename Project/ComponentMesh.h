@@ -8,6 +8,8 @@
 #include "MathGeoLib\Geometry\AABB.h"
 #include "Primitive.h"
 
+class JSONConfig;
+
 struct Mesh
 {
 	uint mesh_id = 0;
@@ -48,6 +50,7 @@ public:
 	float3 GetCenter() const;
 
 	bool OnSave(JSON_Value* array, uint go_uid);
+	bool OnLoad(JSONConfig data);
 
 public:
 	std::string source;

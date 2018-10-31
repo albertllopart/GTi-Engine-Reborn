@@ -180,7 +180,7 @@ bool ModuleSceneEditor::SaveScene() const
 		root->OnSave(array);
 	}
 	
-	json_serialize_to_file(root_value, "scene.json");
+	json_serialize_to_file(root_value, "Library/Scenes/scene.GTIscene");
 
 	json_value_free(root_value);
 
@@ -191,7 +191,7 @@ bool ModuleSceneEditor::LoadScene()
 {
 	JSONConfig config;
 
-	if (!config.ParseFile("scene.json"))
+	if (!config.ParseFile("scene.testing"))
 		return false;
 
 	config = config.SetFocus("Scene");
@@ -207,29 +207,6 @@ bool ModuleSceneEditor::LoadScene()
 		item->OnLoad(item_config);
 		item->SetParent(FindGObyUID(item_config.GetInt("Parent"), root));
 	}
-	//JSON_Value* root_value = json_parse_file("scene.json");
-	//JSON_Object* root_object = json_value_get_object(root_value);
-
-	////target scene
-	//root_object = json_object_get_object(root_object, "Scene");
-	//root->uid = json_object_get_number(root_object, "UID");
-
-	//JSON_Array* array = json_object_get_array(root_object, "Game Objects");
-	//JSON_Object* item;
-	//
-	//item = json_array_get_object(array, 0);
-	//testing = json_object_get_number(item, "Parent");
-
-	//LOG("%i", testing);
-
-	//for (uint i = 0; i < json_array_get_count(array); i++)
-	//{
-	//	item = json_array_get_object(array, i);
-
-	//	GameObject* temp_go = new GameObject();
-	//	temp_go->OnLoad(item);
-	//	
-	//}
 	
 	return true;
 }

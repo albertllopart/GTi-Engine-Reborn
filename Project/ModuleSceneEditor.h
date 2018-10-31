@@ -49,7 +49,5 @@ public:
 private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
-
-	uint testing = 0;
 };
 #endif 

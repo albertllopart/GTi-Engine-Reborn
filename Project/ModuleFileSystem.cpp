@@ -85,6 +85,20 @@ bool ModuleFileSystem::SaveFile(std::string name, char* buffer, int buffer_size,
 	return true;
 }
 
+bool ModuleFileSystem::SaveJSONintoOWN(JSON_Value * value, const char * name)
+{
+	std::string path;
+
+	path = SCENE_DIRECTORY;
+	path += "/";
+	path += name;
+	path += SCENE_EXTENSION;
+
+	return json_serialize_to_file(value, path.c_str());
+}
+
+
+
 bool ModuleFileSystem::LoadFile(const char* name, char** buffer, uint& size, file_type type)
 {
 	bool result = false;

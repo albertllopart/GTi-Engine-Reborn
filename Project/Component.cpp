@@ -1,6 +1,7 @@
 #include "Component.h"
 #include "Globals.h"
 #include "Application.h"
+#include "JSONConfig.h"
 
 Component::Component(COMPONENT_TYPE type): type(type)
 {
@@ -77,6 +78,11 @@ void Component::GenerateUID()
 }
 
 bool Component::OnSave(JSON_Value* array, uint go_uid)
+{
+	return true;
+}
+
+bool Component::OnLoad(JSONConfig data)
 {
 	return true;
 }

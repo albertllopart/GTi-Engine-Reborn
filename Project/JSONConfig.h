@@ -45,7 +45,7 @@ public:
 	void CloseArray(const JSONConfig& child);
 
 	//save
-	bool Save(const char* path);
+	bool Save(const char* name);
 
 private:
 

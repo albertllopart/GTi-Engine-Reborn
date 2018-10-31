@@ -35,7 +35,7 @@ public:
 	void ShowInspectorWindow();
 
 	void AddComponent(Component * to_add);
-	void AddComponent(COMPONENT_TYPE component);
+	Component* AddComponent(COMPONENT_TYPE component);
 	void UpdateBBox();
 	void DrawBBox(ComponentMesh* c_mesh);
 

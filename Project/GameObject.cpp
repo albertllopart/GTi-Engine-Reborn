@@ -176,11 +176,12 @@ void GameObject::AddComponent(Component* to_add)
 	to_add->SetMyGo(this);
 }
 
-void GameObject::AddComponent(COMPONENT_TYPE component)
+Component* GameObject::AddComponent(COMPONENT_TYPE component)
 {
+	Component* to_add;
+
 	if (component != COMPONENT_NONE)
 	{
-		Component* to_add;
 		switch (component)
 		{
 		case COMPONENT_MESH:
@@ -209,6 +210,8 @@ void GameObject::AddComponent(COMPONENT_TYPE component)
 
 		}
 	}
+
+	return to_add;
 }
 
 void GameObject::UpdateBBox()
@@ -369,6 +372,23 @@ bool GameObject::OnLoad(const JSONConfig data)
 {
 	uid = data.GetInt("UID");
 	name = data.GetString("Name");
+
+	uint size = data.GetArraySize("Components");
+	for (uint i = 0; i < size; i++)
+	{
+		JSONConfig item_config = data.SetFocusArray("Components", i);
+		
+		Component* item = AddComponent((COMPONENT_TYPE)item_config.GetInt("Type"));
+
+		switch (item->GetType())
+		{
+			case COMPONENT_MESH:
+			{
+				ComponentMesh* item_mesh = (ComponentMesh*)item;
+				item_mesh->OnLoad(item_config);
+			}
+		}
+	}
 
 	return true;
 }

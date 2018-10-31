@@ -116,9 +116,9 @@ void JSONConfig::CloseArray(const JSONConfig & child)
 	}
 }
 
-bool JSONConfig::Save(const char * path)
+bool JSONConfig::Save(const char * name)
 {
-	return json_serialize_to_file(value, path);
+	return App->filesystem->SaveJSONintoOWN(value, name);
 }
 
 

@@ -6,6 +6,7 @@
 #include "Globals.h"
 
 class GameObject;
+class JSONConfig;
 
 struct json_object_t;
 typedef struct json_object_t JSON_Object;
@@ -47,6 +48,7 @@ public:
 
 	//save
 	virtual bool OnSave(JSON_Value* array, uint go_uid);
+	virtual bool OnLoad(JSONConfig data);
 
 protected:
 

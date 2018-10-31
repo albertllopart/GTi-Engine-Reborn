@@ -2,11 +2,13 @@
 #include "ComponentMesh.h"
 #include "ModuleRenderer3D.h"
 #include "ImGui/imgui.h"
+#include "JSONConfig.h"
 
 ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
 {
 	mesh = new Mesh;
 	name = "ComponentMesh";
+	source = "None";
 }
 
 ComponentMesh::~ComponentMesh()
@@ -99,10 +101,24 @@ bool ComponentMesh::OnSave(JSON_Value* array, uint go_uid)
 	json_object_set_number(comp_object, "UID", uid);
 	json_object_set_number(comp_object, "GameObject", go_uid);
 	json_object_set_string(comp_object, "Source", source.c_str());
+	json_object_set_number(comp_object, "Type", type);
 
 	//add everything to the components array
 	JSON_Array* my_array = json_value_get_array(array);
 	json_array_append_value(my_array, comp_value);
+
+	return true;
+}
+
+bool ComponentMesh::OnLoad(JSONConfig data)
+{
+	uid = data.GetInt("UID");
+	source = data.GetString("Source");
+
+	if (source != "None")
+	{
+		App->import->importer->Load(source.c_str(), this);
+	}
 
 	return true;
 }

@@ -9,6 +9,7 @@ enum file_type
 	FILE_NONE,
 	FILE_MESH,
 	FILE_MATERIAL,
+	FILE_SCENE
 };
 
 class ModuleFileSystem : public Module
@@ -21,6 +22,7 @@ public:
 
 	bool CreateNewDirectory(const char* name) const;
 	bool SaveFile(std::string name, char* buffer, int buffer_size, file_type type);
+	bool SaveJSONintoOWN(JSON_Value* value, const char* name);
 	bool LoadFile(const char* name, char** buffer, uint& size, file_type type);
 };
 
