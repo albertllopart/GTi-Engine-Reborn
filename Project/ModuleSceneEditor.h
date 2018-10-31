@@ -43,8 +43,8 @@ public:
 	GameObject* FindGObyUID(uint uid, GameObject* to_find);
 
 	//save and load
-	bool SaveScene() const;
-	bool LoadScene();
+	bool SaveScene(const char* name) const;
+	bool LoadScene(const char* name);
 	
 private:
 	GameObject* selected_go = nullptr;

@@ -161,8 +161,12 @@ GameObject* ModuleSceneEditor::FindGObyUID(uint uid, GameObject* to_find)
 	return ret;
 }
 
-bool ModuleSceneEditor::SaveScene() const
+bool ModuleSceneEditor::SaveScene(const char* name) const
 {
+	std::string log = "Saving Scene: ";
+	log += name;
+	App->imgui->AddConsoleLog(log);
+
 	JSON_Value *root_value = json_value_init_object();
 	JSON_Object *root_object = json_value_get_object(root_value);
 
@@ -180,14 +184,18 @@ bool ModuleSceneEditor::SaveScene() const
 		root->OnSave(array);
 	}
 	
-	json_serialize_to_file(root_value, "Library/Scenes/scene.GTIscene");
+	std::string to_save = "Library/Scenes/";
+	to_save += name;
+	to_save += ".GTIscene";
+
+	json_serialize_to_file(root_value, to_save.c_str());
 
 	json_value_free(root_value);
 
 	return true;
 }
 
-bool ModuleSceneEditor::LoadScene()
+bool ModuleSceneEditor::LoadScene(const char* name)
 {
 	JSONConfig config;
 

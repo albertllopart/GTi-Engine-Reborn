@@ -25,6 +25,7 @@ public:
 	void Draw()const;
 	//void ShowMeshesInfo();
 	void ShowHierarchy();
+	bool Confirmation();
 
 	std::vector<float> GetFramerateVec() const;
 
@@ -36,6 +37,7 @@ public:
 	bool about = false;
 	bool show_mesh_info = false;
 	bool hierarchy = true;
+	bool confirmation = false;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;

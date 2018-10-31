@@ -65,12 +65,18 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Load (F6)"))
 			{
 				App->Load();
-				App->editor->LoadScene();
 			}
 			if (ImGui::MenuItem("Save (F5)"))
 			{
 				App->Save();
-				App->editor->SaveScene();
+			}
+			if (ImGui::MenuItem("Load Scene"))
+			{
+				App->editor->LoadScene("null");
+			}
+			if (ImGui::MenuItem("Save Scene"))
+			{
+				confirmation = true;
 			}
 			if (ImGui::MenuItem("Quit (Alt + F4)"))
 			{
@@ -158,6 +164,10 @@ update_status ModuleImGui::Update(float dt)
 	{
 		ShowHierarchy();
 	}
+	if (confirmation)
+	{
+		Confirmation();
+	}
 	return ret;
 }
 
@@ -167,6 +177,31 @@ bool ModuleImGui::CleanUp()
 	AddConsoleLog("Unloading ImGui Module");
 	ImGui_ImplSdlGL3_Shutdown();
 	return true;
+}
+
+bool ModuleImGui::Confirmation()
+{
+	bool ret = false;
+
+	if (confirmation)
+	{
+		ImGui::Begin("Are you sure?", &confirmation);
+
+		if (ImGui::Button("YES", ImVec2(50, 20)))
+		{
+			ret = true;
+			confirmation = false;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("NO", ImVec2(50, 20)))
+		{
+			ret = false;
+			confirmation = false;
+		}
+		ImGui::End();
+	}
+
+	return ret;
 }
 
 void ModuleImGui::ShowConfigurationMenu(bool* opened)
