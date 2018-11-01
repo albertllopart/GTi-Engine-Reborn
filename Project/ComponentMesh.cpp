@@ -84,7 +84,7 @@ void ComponentMesh::ShowInspectorWindow()
 
 float3 ComponentMesh::GetCenter() const
 {
-	return mesh->bbox.Centroid();
+	return mesh->bbox->Centroid();
 }
 
 bool ComponentMesh::OnSave(JSON_Value* array, uint go_uid)
@@ -121,4 +121,9 @@ bool ComponentMesh::OnLoad(JSONConfig data)
 	}
 
 	return true;
+}
+
+Mesh::Mesh()
+{
+	bbox = new AABB();
 }

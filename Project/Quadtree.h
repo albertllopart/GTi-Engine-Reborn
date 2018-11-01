@@ -8,10 +8,19 @@
 #include <list>
 
 class GameObject;
+
+enum QuadSubdivide
+{
+	TOP_LEFT,
+	TOP_RIGHT,
+	BOT_LEFT,
+	BOT_RIGHT
+};
+
 class QuadtreeNode
 {
 public:
-	QuadtreeNode(const AABB bbox);
+	QuadtreeNode(const AABB bbox, QuadtreeNode* parent = nullptr);
 	virtual ~QuadtreeNode();
 
 	bool IsLeaf();
@@ -39,7 +48,7 @@ public:
 	Quadtree();
 	~Quadtree();
 
-	void SetBoundary(const AABB& limits);
+	void Boundaries(AABB limits);
 	void Clear();
 
 	void Insert(GameObject* gameObject);
@@ -51,6 +60,27 @@ public:
 
 	QuadtreeNode* root = nullptr;
 };
+
+
+
+
+
+template<typename Type>
+inline void Quadtree::CollectIntersections(std::vector<GameObject*>& gameObjects, Type & primitive)
+{
+	if (primitive.Intersects(box))
+	{
+		for (std::list<GameObject*>::const_iterator it = this->objects.begin(); it != this->objects.end(); ++it)
+		{
+			if (primitive.Intersects((*it)->global_bbox))
+				objects.push_back(*it);
+
+		}
+		for (int i = 0; i < 4; ++i)
+			if (childs[i] != nullptr) childs[i]->CollectIntersections(objects, primitive);
+
+	}
+}
 
 
 

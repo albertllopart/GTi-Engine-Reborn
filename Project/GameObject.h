@@ -49,7 +49,7 @@ public:
 	void SetName(const char* name);
 	void AddChild(GameObject * child);
 	void SetToDelete();
-	void RefreshBBox()const;
+	//void RefreshBBox()const;
 	void UpdateMatrix()const;
 
 	//save
@@ -68,7 +68,7 @@ public:
 	std::string name;
 	std::vector<Component*> components;
 	std::vector<GameObject*> childs;
-
+	AABB* bbox = nullptr; //only if we have a mesh
 
 	bool is_static = false; 
 	bool active = true;

@@ -224,10 +224,11 @@ void GameObject::UpdateBBox()
 		if (item->GetType() == COMPONENT_MESH)
 		{
 			ComponentMesh* c_mesh = (ComponentMesh*)item;
-			c_mesh->mesh->bbox.SetNegativeInfinity();
-			c_mesh->mesh->bbox.Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
+			c_mesh->mesh->bbox->SetNegativeInfinity();
+			c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
 			DrawBBox(c_mesh);
-		}
+			bbox = c_mesh->mesh->bbox;
+		}	
 	}
 }
 
@@ -236,7 +237,8 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 	if (show_bbox)
 	{
 		float3 bbox_vertex[8];
-		c_mesh->mesh->bbox.GetCornerPoints(bbox_vertex);
+		c_mesh->mesh->bbox->GetCornerPoints(bbox_vertex);
+		bbox = c_mesh->mesh->bbox;
 
 		glBegin(GL_LINES);
 		glLineWidth(1.0f);
@@ -244,8 +246,8 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 
 		for (uint i = 0; i < 12; i++)
 		{
-			glVertex3f(c_mesh->mesh->bbox.Edge(i).a.x, c_mesh->mesh->bbox.Edge(i).a.y, c_mesh->mesh->bbox.Edge(i).a.z);
-			glVertex3f(c_mesh->mesh->bbox.Edge(i).b.x, c_mesh->mesh->bbox.Edge(i).b.y, c_mesh->mesh->bbox.Edge(i).b.z);
+			glVertex3f(c_mesh->mesh->bbox->Edge(i).a.x, c_mesh->mesh->bbox->Edge(i).a.y, c_mesh->mesh->bbox->Edge(i).a.z);
+			glVertex3f(c_mesh->mesh->bbox->Edge(i).b.x, c_mesh->mesh->bbox->Edge(i).b.y, c_mesh->mesh->bbox->Edge(i).b.z);
 		}
 
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -315,12 +317,6 @@ void GameObject::AddChild(GameObject* child)
 void GameObject::SetToDelete()
 {
 	want_delete = true;
-}
-
-void GameObject::RefreshBBox() const
-{
-	//TODO
-	//WHEN WE TRSNSFROM THE G.O. WE HAVE TO UPDATE THE BBOX
 }
 
 void GameObject::UpdateMatrix() const
