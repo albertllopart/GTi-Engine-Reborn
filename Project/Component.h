@@ -36,11 +36,11 @@ public:
 	virtual void Disable();
 	virtual void OnEditor();
 	virtual void ShowInspectorWindow();
+	virtual void OnUpdateMatrix(const float4x4 mat);
 
 	GameObject* GetMyGo()const;
 	bool IsActive() const;
 	void SetMyGo(GameObject * my_go);
-	void OnUpdateMatrix(const float4x4 mat);
 	void DestroyComponent();
 	COMPONENT_TYPE GetType() const;
 
