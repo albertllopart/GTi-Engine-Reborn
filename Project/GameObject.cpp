@@ -194,6 +194,8 @@ Component* GameObject::AddComponent(COMPONENT_TYPE component)
 			to_add = new ComponentTransform();
 			components.push_back(to_add);
 			to_add->SetMyGo(this);
+			my_transform = (ComponentTransform*)to_add;
+			my_transform->UpdateMatrix();
 			break;
 		case COMPONENT_MATERIAL:
 			to_add = new ComponentMaterial();
@@ -287,7 +289,7 @@ float4x4 GameObject::GetTransMatrix()const
 {
 	if (my_transform != nullptr)
 	{
-		return my_transform->GetGlobalMatrix();
+		return my_transform->GetTransposedGlobalMatrix();
 	}
 	return float4x4::zero;
 }

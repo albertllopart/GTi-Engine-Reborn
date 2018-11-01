@@ -228,7 +228,9 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
-	
+	glPushMatrix();
+	glMultMatrixf((float*)&to_draw->GetMyGo()->GetTransMatrix());
+
 	if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 	{
 		ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
@@ -264,6 +266,8 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			line.Render();
 		}
 	}
+
+	glPopMatrix();
 }
 
 void ModuleRenderer3D::Draw(GameObject* to_draw)

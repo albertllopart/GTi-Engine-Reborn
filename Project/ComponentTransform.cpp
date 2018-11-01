@@ -1,19 +1,27 @@
 #include "ComponentTransform.h"
 #include "ImGui/imgui.h"
+#include "Application.h"
 
 ComponentTransform::ComponentTransform(float3 pos, float3 scale, Quat rot): Component(COMPONENT_TYPE::COMPONENT_TRANSFORM),pos(pos), new_pos(pos), scale(scale),rot_quat(rot)
 {
 	name = "ComponentTransform";
-
 }
 
 ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Update()
+void ComponentTransform::SetTransform(float3 scale, Quat rotation, float3 position)
 {
+	this->scale = scale;
 
+
+	this->rot_quat = rotation;
+	rot_euler = rotation.ToEulerXYZ() * RADTODEG;
+
+	this->pos = position;
+
+	UpdateMatrix();
 }
 
 void ComponentTransform::OnEditor()
@@ -68,15 +76,16 @@ void ComponentTransform::ShowInspectorWindow()
 
 	if (node_open)
 	{
-		rot_euler = rot_quat.ToEulerXYX();
+		rot_quat.ToEulerXYX();
+		float3 temp_rot = rot_euler;
 
 		if (ImGui::DragFloat3("Position##transform_position", &pos.x, 0.3f))
 		{
 			UpdatePosition(pos);
 		}
-		if (ImGui::DragFloat3("Rotation##transform_rotation", &rot_quat.x, 0.3f))
+		if (ImGui::DragFloat3("Rotation##transform_rotation", &temp_rot.x, 0.3f))
 		{
-			UpdateRotation(rot_euler);
+			UpdateRotation(temp_rot);
 		}
 		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 0.3f))
 		{
@@ -101,7 +110,6 @@ void ComponentTransform::UpdateRotation(float3 rot)
 	rot_quat = rot_quat * rotation;
 	rot_euler = rot;
 	UpdateMatrix();
-
 }
 
 void ComponentTransform::UpdatePosition(float3 pos)
@@ -115,7 +123,7 @@ void ComponentTransform::UpdateMatrix()
 	trans_matrix = float4x4::FromTRS(pos, rot_quat, scale);
 
 
-	if (my_go->GetParent() != nullptr)
+	if (my_go->GetParent() != nullptr && my_go->GetParent() != App->editor->GetRoot())
 	{
 		global_trans_matrix = my_go->GetParent()->GetTransMatrix() * trans_matrix;
 	}
@@ -124,7 +132,7 @@ void ComponentTransform::UpdateMatrix()
 		global_trans_matrix = trans_matrix;
 	}
 
-	global_trans_matrix = global_trans_matrix.Transposed();
+	global_trans_matrix_transposed = global_trans_matrix.Transposed();
 
 //REFRESH BBOX TODO
 
@@ -141,4 +149,9 @@ void ComponentTransform::UpdateMatrix()
 float4x4 ComponentTransform::GetGlobalMatrix()const
 {
 	return global_trans_matrix;
+}
+
+float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
+{
+	return global_trans_matrix_transposed;
 }
