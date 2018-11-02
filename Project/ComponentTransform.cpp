@@ -22,6 +22,7 @@ void ComponentTransform::SetTransform(float3 scale, Quat rotation, float3 positi
 	this->pos = position;
 
 	UpdateMatrix();
+	
 }
 
 void ComponentTransform::OnEditor()
@@ -120,29 +121,32 @@ void ComponentTransform::UpdatePosition(float3 pos)
 
 void ComponentTransform::UpdateMatrix()
 {
-	trans_matrix = float4x4::FromTRS(pos, rot_quat, scale);
-
-
-	if (my_go->GetParent() != nullptr && my_go->GetParent() != App->editor->GetRoot())
+	if (!my_go->is_static)
 	{
-		global_trans_matrix = my_go->GetParent()->GetTransMatrix() * trans_matrix;
-	}
-	else
-	{
-		global_trans_matrix = trans_matrix;
-	}
+		trans_matrix = float4x4::FromTRS(pos, rot_quat, scale);
 
-	global_trans_matrix_transposed = global_trans_matrix.Transposed();
 
-//REFRESH BBOX TODO
+		if (my_go->GetParent() != nullptr && my_go->GetParent() != App->editor->GetRoot())
+		{
+			global_trans_matrix = my_go->GetParent()->GetTransMatrix() * trans_matrix;
+		}
+		else
+		{
+			global_trans_matrix = trans_matrix;
+		}
 
-	for (uint i = 0; i < my_go->components.size(); i++)
-	{
-		my_go->components[i]->OnUpdateMatrix(global_trans_matrix);
-	}
-	for (uint i = 0; i < my_go->childs.size(); i++)
-	{
-		my_go->childs[i]->UpdateMatrix();
+		global_trans_matrix_transposed = global_trans_matrix.Transposed();
+
+		my_go->UpdateBBox();
+
+		for (uint i = 0; i < my_go->components.size(); i++)
+		{
+			my_go->components[i]->OnUpdateMatrix(global_trans_matrix);
+		}
+		for (uint i = 0; i < my_go->childs.size(); i++)
+		{
+			my_go->childs[i]->UpdateMatrix();
+		}
 	}
 }
 
