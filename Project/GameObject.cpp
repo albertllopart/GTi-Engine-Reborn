@@ -326,6 +326,14 @@ void GameObject::UpdateMatrix() const
 	my_transform->UpdateMatrix();
 }
 
+void GameObject::GetSceneGameObjects(std::vector<GameObject*>& scene_go) const
+{
+	scene_go.push_back((GameObject*)this);
+
+	for (std::vector<GameObject*>::const_iterator item = childs.cbegin(); item != childs.cend(); ++item)
+		(*item)->GetSceneGameObjects(scene_go);
+}
+
 bool GameObject::OnSave(JSON_Value* array) const
 {
 	if (parent != NULL)

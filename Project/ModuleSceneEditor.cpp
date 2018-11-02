@@ -36,6 +36,8 @@ bool ModuleSceneEditor::Start()
 
 	root = new GameObject();
 	root->SetName("Scene 1");
+	quadtree.Boundaries(AABB(float3(-quad_size, -quad_size, -quad_size), float3(quad_size, quad_size, quad_size)));//boundariese of 100 for testing
+
 
 	return true;
 }
@@ -47,6 +49,11 @@ update_status ModuleSceneEditor::PreUpdate(float dt)
 
 update_status ModuleSceneEditor::Update(float dt)
 {
+	if (quadtree_draw)
+	{
+		quadtree.root->DrawQuadtree();
+	}
+	
 	root->Update();
 	return UPDATE_CONTINUE;
 }
@@ -65,26 +72,6 @@ void ModuleSceneEditor::Draw()
 	p.Render();
 }
 
-//void ModuleSceneEditor::AddCube(float3 size, float3 pos)
-//{
-//	pCube* cube = new pCube(pos,size);
-//	cube->size.Set(size.x, size.y, size.z);
-//	cube->SetPos(pos.x, pos.y, pos.z);
-//	cubes_list.push_back(cube);
-//}
-//void ModuleSceneEditor::AddCube2(float3 size, float3 pos)
-//{
-//	pCube2* cube = new pCube2(pos,size);
-//	cube->size.Set(size.x, size.y, size.z);
-//	cube->SetPos(pos.x, pos.y, pos.z);
-//	indcubes_list.push_back(cube);
-//}
-//
-//void ModuleSceneEditor::AddMesh(Mesh * model)
-//{
-//	mesh_list.push_back(model);
-//	App->camera->CenterToMesh(GetMeshList().back());
-//}
 
 GameObject * ModuleSceneEditor::GetRoot()
 {
@@ -159,6 +146,13 @@ GameObject* ModuleSceneEditor::FindGObyUID(uint uid, GameObject* to_find)
 	}
 
 	return ret;
+}
+
+std::vector<GameObject*>* ModuleSceneEditor::GetAllGO()
+{
+	scene_go.clear();
+	root->GetSceneGameObjects(scene_go);
+	return &scene_go;
 }
 
 bool ModuleSceneEditor::SaveScene(const char* name) const

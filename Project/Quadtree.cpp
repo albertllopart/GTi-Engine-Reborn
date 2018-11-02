@@ -39,9 +39,21 @@ void QuadtreeNode::Insert(GameObject * gameObject)
 		
 }
 
-void QuadtreeNode::Remove(GameObject * obj)
+void QuadtreeNode::Remove(GameObject * to_remove)
 {
-	//TODO?¿
+	std::list<GameObject*>::iterator it = std::find(objects.begin(), objects.end(), to_remove);
+
+	if (it != objects.end())
+	{
+		objects.erase(it);
+	}
+	if (!IsLeaf())
+	{
+		for (uint i = 0; i < 4; i++)
+		{
+			childs[i]->Remove(to_remove);
+		}
+	}
 }
 
 void QuadtreeNode::Subdivide()
@@ -122,7 +134,7 @@ void QuadtreeNode::DrawQuadtree()
 		glVertex3f(bbox.Edge(i).b.x, bbox.Edge(i).b.y, bbox.Edge(i).b.z);
 	}
 
-	if (childs[0] != nullptr)
+	if (childs[0] != nullptr) //FIXX
 	{
 		for (uint i = 0; i < 4; i++)
 		{
@@ -151,6 +163,14 @@ void Quadtree::Clear()
 {
 	delete root;
 	root = nullptr;
+}
+
+void Quadtree::Remove(GameObject * to_remove)
+{
+	if (root != nullptr)
+	{
+		root->Remove(to_remove);
+	}
 }
 
 void Quadtree::Insert(GameObject * gameObject)

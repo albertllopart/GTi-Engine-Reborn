@@ -302,8 +302,9 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 					App->renderer3D->SetTexture2D();
 				}
 				ImGui::Checkbox("Show Normals", &App->renderer3D->show_normals);
+				ImGui::Checkbox("Show Quadtree", &App->editor->quadtree_draw);
 			}
-
+			
 			if (ImGui::CollapsingHeader("Textures"))
 			{
 				if (App->textures->last_tex.width != 0)

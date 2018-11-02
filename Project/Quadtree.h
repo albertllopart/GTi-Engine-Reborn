@@ -20,6 +20,7 @@ enum QuadSubdivide
 class QuadtreeNode
 {
 public:
+
 	QuadtreeNode(const AABB bbox, QuadtreeNode* parent = nullptr);
 	virtual ~QuadtreeNode();
 
@@ -51,6 +52,7 @@ public:
 	void Boundaries(AABB limits);
 	void Clear();
 
+	void Remove(GameObject* to_remove);
 	void Insert(GameObject* gameObject);
 
 	template<typename Type>

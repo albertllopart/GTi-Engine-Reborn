@@ -3,6 +3,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Quadtree.h"
 
 #include <list>
 
@@ -41,13 +42,21 @@ public:
 	GameObject* GetSelected()const;
 	void AddToScene(GameObject* to_add);
 	GameObject* FindGObyUID(uint uid, GameObject* to_find);
-
+	std::vector<GameObject*>* GetAllGO();
 	//save and load
 	bool SaveScene(const char* name) const;
 	bool LoadScene(const char* name);
-	
+
+public:
+	Quadtree quadtree;
+	bool quadtree_draw = false;
 private:
+
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
+
+	float quad_size = 100.0f;
+
+	std::vector<GameObject*>scene_go;
 };
 #endif 

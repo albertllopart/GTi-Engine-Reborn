@@ -51,7 +51,7 @@ public:
 	void SetToDelete();
 	//void RefreshBBox()const;
 	void UpdateMatrix()const;
-
+	void GetSceneGameObjects(std::vector<GameObject*>& SceneGameObjects) const; //method for root, to get all gameobjects in scene
 	//save
 	bool OnSave(JSON_Value* array) const;
 	bool OnLoad(const JSONConfig data);
