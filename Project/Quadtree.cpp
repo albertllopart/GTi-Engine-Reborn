@@ -6,6 +6,11 @@
 
 QuadtreeNode::QuadtreeNode(const AABB bbox, QuadtreeNode* parent): bbox(bbox), parent(parent)
 {
+	for (uint i = 0; i < 4; ++i)
+	{
+		childs[i] = nullptr;
+	}
+	
 }
 
 QuadtreeNode::~QuadtreeNode()
@@ -134,7 +139,7 @@ void QuadtreeNode::DrawQuadtree()
 		glVertex3f(bbox.Edge(i).b.x, bbox.Edge(i).b.y, bbox.Edge(i).b.z);
 	}
 
-	if (childs[0] != nullptr) //FIXX
+	if (childs[0] != nullptr) 
 	{
 		for (uint i = 0; i < 4; i++)
 		{
