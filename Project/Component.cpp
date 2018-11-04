@@ -52,11 +52,6 @@ void Component::SetMyGo(GameObject* my_go)
 	this->my_go = my_go;
 }
 
-void Component::OnUpdateMatrix(const float4x4 mat)
-{
-
-}
-
 void Component::DestroyComponent()
 {
 	want_delete = true;
@@ -65,6 +60,10 @@ void Component::DestroyComponent()
 void Component::ShowInspectorWindow()
 {
 	
+}
+
+void Component::OnUpdateMatrix(const float4x4 mat)
+{
 }
 
 COMPONENT_TYPE Component::GetType() const

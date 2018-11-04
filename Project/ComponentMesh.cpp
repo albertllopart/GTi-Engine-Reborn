@@ -27,11 +27,6 @@ void ComponentMesh::PostUpdate()
 	App->renderer3D->Draw(this);
 }
 
-void ComponentMesh::DrawDebug() const
-{
-	//TODO
-}
-
 void ComponentMesh::OnEditor()
 {	
 	//if (ImGui::TreeNodeEx("ComponentMesh"))
@@ -73,7 +68,7 @@ void ComponentMesh::ShowInspectorWindow()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
 
-		ImGui::Text("Mesh Path:");
+		ImGui::Text("Mesh:");
 		ImGui::SameLine();
 		if (mesh != nullptr)
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", source.c_str());

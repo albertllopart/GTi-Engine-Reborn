@@ -156,6 +156,7 @@ Quadtree::Quadtree()
 
 Quadtree::~Quadtree()
 {
+	Clear();
 }
 
 void Quadtree::Boundaries(AABB limits)

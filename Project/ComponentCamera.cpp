@@ -133,10 +133,14 @@ void ComponentCamera::ShowInspectorWindow()
 
 void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
 {
-	frustum.pos = matrix.TranslatePart();
-	frustum.front = matrix.WorldZ().Normalized();
-	frustum.up = matrix.WorldY().Normalized();
-	UpdateMatrix();
+	int test;
+	if (this != nullptr)
+	{
+		frustum.SetPos(matrix.TranslatePart());
+		frustum.SetFront(matrix.WorldZ().Normalized());
+		frustum.SetUp(matrix.WorldY().Normalized());
+		UpdateMatrix();
+	}
 }
 
 void ComponentCamera::UpdateMatrix()

@@ -21,6 +21,7 @@ public:
 	void UpdateRotation(float3 rot);
 	void UpdateScale(float3 scale);
 	void UpdateMatrix();
+	void TransformCamera();
 
 	float4x4 GetGlobalMatrix()const;
 	float4x4 GetTransposedGlobalMatrix()const;

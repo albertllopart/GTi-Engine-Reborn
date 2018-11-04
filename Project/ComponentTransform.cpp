@@ -138,18 +138,29 @@ void ComponentTransform::UpdateMatrix()
 		global_trans_matrix_transposed = global_trans_matrix.Transposed();
 
 
-		for (uint i = 0; i < my_go->components.size(); i++)
-		{
-			my_go->components[i]->OnUpdateMatrix(global_trans_matrix);
-		}
+		//for (uint i = 0; i < my_go->components.size(); i++)
+		//{
+		//	my_go->components[i]->OnUpdateMatrix(global_trans_matrix);
+		//}
 		for (uint i = 0; i < my_go->childs.size(); i++)
 		{
 			my_go->childs[i]->UpdateMatrix();
 		}
 	}
 
+	TransformCamera();
+}
 
-	my_go->UpdateBBox(); //not working??
+void ComponentTransform::TransformCamera()
+{
+	for (int i = 0; i < my_go->components.size(); ++i)
+	{
+		if (my_go->components[i]->GetType() == COMPONENT_CAMERA)
+		{
+			ComponentCamera* c_cam = (ComponentCamera*)my_go->components[i];
+			c_cam->OnUpdateMatrix(global_trans_matrix);
+		}
+	}
 }
 
 float4x4 ComponentTransform::GetGlobalMatrix()const

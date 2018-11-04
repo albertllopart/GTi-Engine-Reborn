@@ -46,7 +46,6 @@ public:
 	void Update();
 	void PostUpdate();
 
-	void DrawDebug() const;
 	void OnEditor();
 	void ShowInspectorWindow();
 	float3 GetCenter() const;

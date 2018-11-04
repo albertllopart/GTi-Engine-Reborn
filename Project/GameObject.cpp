@@ -132,6 +132,7 @@ void GameObject::OnEditor()
 			GameObject* bug = new GameObject();
 			App->editor->GetSelected()->AddChild(bug);
 			bug->AddComponent(COMPONENT_TRANSFORM);
+			//App->editor->quadtree.Insert(bug); peta
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
@@ -225,7 +226,7 @@ void GameObject::UpdateBBox()
 	Component* item = nullptr;
 	for (uint i = 0; i < components.size(); i++)
 	{
-		Component* item = components[i];
+		item = components[i];
 
 		if (item->GetType() == COMPONENT_MESH)
 		{
@@ -259,20 +260,7 @@ void GameObject::UpdateBBox()
 
 void GameObject::DrawBBox(ComponentMesh* c_mesh)
 {
-	//if (c_mesh == nullptr)
-	//{
-	//	for (uint i = 0; i < components.size(); i++)
-	//	{
-	//		Component* item = components[i];
-	//		if (item->GetType() == COMPONENT_MESH)
-	//		{
-	//			ComponentMesh* mesh = (ComponentMesh*)item;
-	//			DrawBBox(mesh);
-	//		}
-
-	//	}
-	//}
-	if (show_bbox && c_mesh!=nullptr)
+	if (show_bbox && c_mesh != nullptr)
 	{
 		float3 bbox_vertex[8];
 		c_mesh->mesh->bbox->GetCornerPoints(bbox_vertex);

@@ -29,15 +29,15 @@ public:
 public:
 	bool update_mat = false;
 
-private:
+public:
 
 	float fov;
 	float aspect_ratio;
 	bool culling = false;
 	bool main_camera = false;
 	Frustum frustum;
-	float4x4 view_matrix;
-	float4x4 projection_matrix;
+	float4x4 view_matrix = float4x4::zero;
+	float4x4 projection_matrix = float4x4::zero;
 	//TODO ADD CULLING TO THE FRUSTUM
 };
 
