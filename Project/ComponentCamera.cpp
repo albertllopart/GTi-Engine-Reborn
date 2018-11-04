@@ -86,8 +86,7 @@ void ComponentCamera::ShowInspectorWindow()
 		bool node_open = ImGui::TreeNodeEx(name.c_str(), flags);
 	
 		if (ImGui::BeginPopupContextItem("go_options"))
-		{	//Scene GO protection
-			
+		{	
 				if (ImGui::Button("Delete Component"))
 				{
 					DestroyComponent();

@@ -4,7 +4,6 @@
 #include "ModuleTextures.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
-
 #include "parson/parson.h"
 #include "JSONConfig.h"
 
@@ -45,11 +44,21 @@ bool ModuleSceneEditor::Start()
 
 update_status ModuleSceneEditor::PreUpdate(float dt)
 {
+	if (root != nullptr)
+	{
+		root->PreUpdate();
+
+	}
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleSceneEditor::Update(float dt)
 {
+	if (root != nullptr)
+	{
+		root->Update();
+
+	}
 	if (quadtree_draw)
 	{
 		quadtree.root->DrawQuadtree();
@@ -61,7 +70,11 @@ update_status ModuleSceneEditor::Update(float dt)
 
 update_status ModuleSceneEditor::PostUpdate(float dt)
 {
-	root->PostUpdate();
+	if (root != nullptr)
+	{
+		root->PostUpdate();
+
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -154,6 +167,24 @@ std::vector<GameObject*>* ModuleSceneEditor::GetAllGO()
 	scene_go.clear();
 	root->GetSceneGameObjects(scene_go);
 	return &scene_go;
+}
+
+void ModuleSceneEditor::RemoveGameObjectFromScene()
+{
+	for (std::vector<GameObject*>::iterator it = scene_go.begin(); it != scene_go.end();)
+	{
+		if ((*it)->want_delete)
+		{
+			delete(*it);
+			(*it) = nullptr;
+			it = scene_go.erase(it);
+		}
+		else
+		{
+			(*it)->PostUpdate();
+			it++;
+		}
+	}
 }
 
 void ModuleSceneEditor::GenQuadtree()

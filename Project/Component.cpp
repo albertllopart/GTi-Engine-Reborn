@@ -22,6 +22,10 @@ void Component::PostUpdate()
 
 }
 
+void Component::CleanUp()
+{
+}
+
 void Component::Enable()
 {
 	active = true;
@@ -55,6 +59,7 @@ void Component::SetMyGo(GameObject* my_go)
 void Component::DestroyComponent()
 {
 	want_delete = true;
+	LOG("WANT TO DELETE %s", &name);
 }
 
 void Component::ShowInspectorWindow()
@@ -74,6 +79,11 @@ COMPONENT_TYPE Component::GetType() const
 void Component::GenerateUID()
 {
 	uid = App->rng->Random32();
+}
+
+const bool Component::GetDelete()const
+{
+	return want_delete;
 }
 
 bool Component::OnSave(JSON_Value* array, uint go_uid)

@@ -31,6 +31,7 @@ public:
 
 	virtual void Update();
 	virtual void PostUpdate();
+	virtual void CleanUp();
 
 	virtual void Enable();
 	virtual void Disable();
@@ -45,7 +46,7 @@ public:
 	COMPONENT_TYPE GetType() const;
 
 	void GenerateUID();
-
+	const bool GetDelete()const;
 	//save
 	virtual bool OnSave(JSON_Value* array, uint go_uid);
 	virtual bool OnLoad(JSONConfig data);

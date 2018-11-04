@@ -24,18 +24,44 @@ GameObject::GameObject(GameObject * parent)
 
 GameObject::~GameObject()
 {
-	while (!childs.empty())
+
+}
+
+void GameObject::PreUpdate()
+{
+	for (uint i = 0; i < components.size(); i++)
 	{
-		delete childs.back();
-		childs.pop_back();
+		Component* item = components[i];
+		if (item->GetDelete())
+		{
+			if (RemoveComponent(item->GetType(), i))
+			{
+				LOG("Component Removed");
+				break;
+			}
+			else
+			{
+				LOG("Feiled to remove component!");
+			}
+		}
 	}
-	childs.clear();
-	while (!components.empty())
+
+	for (uint i = 0; i < childs.size(); i++)
 	{
-		delete components.back();
-		components.pop_back();
+		GameObject* item = childs[i];
+		if (item->want_delete)
+		{
+			if (RemoveGameObject(item))
+			{
+				LOG("Remove GameObject Complete");
+			}
+			else
+			{
+				item->want_delete = false;
+				LOG("Remove GameObject Fail");
+			}
+		}
 	}
-	components.clear();
 }
 
 void GameObject::Update()
@@ -64,22 +90,6 @@ void GameObject::PostUpdate()
 	{
 		childs[i]->PostUpdate();
 	}
-	//CHECK how to delete go!!
-	//if (want_delete)
-	//{
-	//	for (int i = 0; i < components.size(); i++)
-	//	{
-	//		delete components[i];
-	//		components[i] = nullptr;
-	//	}
-	//	for (int i = 0; i < childs.size(); i++)
-	//	{
-	//		delete childs[i];
-	//		childs[i] = nullptr;
-	//	}
-	//	childs.clear();
-	//	delete this;
-	//}
 }
 
 void GameObject::OnEditor()
@@ -223,15 +233,14 @@ Component* GameObject::AddComponent(COMPONENT_TYPE component)
 
 void GameObject::UpdateBBox()
 {
-	Component* item = nullptr;
 	for (uint i = 0; i < components.size(); i++)
 	{
-		item = components[i];
-
-		if (item->GetType() == COMPONENT_MESH)
+	
+		if (components[i]->GetType() == COMPONENT_MESH)
 		{
-			ComponentMesh* c_mesh = (ComponentMesh*)item;
-			if (c_mesh != nullptr)
+			ComponentMesh* c_mesh = (ComponentMesh*)components[i];
+
+			if (c_mesh->mesh != nullptr)
 			{
 				c_mesh->mesh->bbox->SetNegativeInfinity();
 				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
@@ -256,6 +265,12 @@ void GameObject::UpdateBBox()
 	{
 		App->editor->FillQuadtree();
 	}
+}
+
+bool GameObject::RemoveComponent(COMPONENT_TYPE type, int position)
+{
+	components.erase(components.begin() + position);
+	return true;
 }
 
 void GameObject::DrawBBox(ComponentMesh* c_mesh)
@@ -360,6 +375,54 @@ void GameObject::GetSceneGameObjects(std::vector<GameObject*>& scene_go) const
 
 	for (std::vector<GameObject*>::const_iterator item = childs.cbegin(); item != childs.cend(); ++item)
 		(*item)->GetSceneGameObjects(scene_go);
+}
+
+bool GameObject::RemoveGameObject(GameObject * to_remove)
+{
+
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+
+		if (item == to_remove)
+		{
+
+			childs.erase(childs.begin() + i);
+			item->CleanRemove();
+			RELEASE(item);
+			return true;
+		}
+	}
+	return false;
+}
+
+void GameObject::CleanRemove()
+{
+	if (App->editor->GetSelected() == this)
+	{
+		App->editor->SetSelected(nullptr);
+	}
+
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		item->CleanUp();
+		RELEASE(item);
+	}
+
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+
+		item->want_delete = true;
+		RELEASE(item);
+
+	}
+	//if (parent == App->editor->GetRoot())
+	//{	
+	//	App->editor->RemoveGameObjectFromScene();
+	//}
+	parent = nullptr;
 }
 
 bool GameObject::OnSave(JSON_Value* array) const

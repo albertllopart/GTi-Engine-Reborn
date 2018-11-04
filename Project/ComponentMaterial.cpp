@@ -16,6 +16,15 @@ void ComponentMaterial::OnEditor()
 {
 	if (ImGui::TreeNodeEx("ComponentMaterial"))
 	{
+		if (ImGui::BeginPopupContextItem("go_options"))
+		{
+			if (ImGui::Button("Delete Component"))
+			{
+				DestroyComponent();
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
 		ImGui::Text(tex_name.c_str());
 		ImGui::Text("Texture ID: %i", tex_id);
 		ImGui::TreePop();

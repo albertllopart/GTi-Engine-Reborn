@@ -29,6 +29,7 @@ public:
 	GameObject(GameObject* parent);
 	~GameObject();
 
+	void PreUpdate();
 	void Update();
 	void PostUpdate();
 	void OnEditor();
@@ -37,6 +38,7 @@ public:
 	void AddComponent(Component * to_add);
 	Component* AddComponent(COMPONENT_TYPE component);
 	void UpdateBBox();
+	bool RemoveComponent(COMPONENT_TYPE type, int position);
 	void DrawBBox(ComponentMesh* c_mesh);
 
 	GameObject* GetParent() const;
@@ -52,6 +54,8 @@ public:
 	//void RefreshBBox()const;
 	void UpdateMatrix()const;
 	void GetSceneGameObjects(std::vector<GameObject*>& SceneGameObjects) const; //method for root, to get all gameobjects in scene
+	bool RemoveGameObject(GameObject * to_remove);
+	void CleanRemove();
 	//save
 	bool OnSave(JSON_Value* array) const;
 	bool OnLoad(const JSONConfig data);

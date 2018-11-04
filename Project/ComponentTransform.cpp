@@ -74,6 +74,15 @@ void ComponentTransform::ShowInspectorWindow()
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen;
 
 	bool node_open = ImGui::TreeNodeEx(name.c_str(), flags);
+	if (ImGui::BeginPopupContextItem("go_options"))
+	{
+		if (ImGui::Button("Delete Component"))
+		{
+			DestroyComponent();
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
 
 	if (node_open)
 	{
