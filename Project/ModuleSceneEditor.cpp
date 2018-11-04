@@ -64,7 +64,6 @@ update_status ModuleSceneEditor::Update(float dt)
 		quadtree.root->DrawQuadtree();
 	}
 	
-	root->Update();
 	return UPDATE_CONTINUE;
 }
 

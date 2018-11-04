@@ -29,6 +29,12 @@ GameObject::~GameObject()
 
 void GameObject::PreUpdate()
 {
+
+	for (int i = 0; i < childs.size(); i++)
+	{
+		childs[i]->PreUpdate();
+	}
+
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -128,7 +134,7 @@ void GameObject::OnEditor()
 	ImGui::PushID(item_id); //ImGui unique identifier 
 	if (ImGui::BeginPopupContextItem("GameObject_options"))
 	{
-		if (parent != nullptr)
+		if (parent != nullptr && this!= App->editor->GetRoot())
 		{
 			if (ImGui::Button("Delete Game Object"))
 			{
@@ -140,7 +146,15 @@ void GameObject::OnEditor()
 		if (ImGui::Button("Create Game Object"))
 		{
 			GameObject* bug = new GameObject();
-			App->editor->GetSelected()->AddChild(bug);
+			if (App->editor->GetSelected() == nullptr)
+			{
+				App->editor->GetRoot()->AddChild(bug);
+			}
+			else 
+			{
+				App->editor->GetSelected()->AddChild(bug);
+			}
+			
 			bug->AddComponent(COMPONENT_TRANSFORM);
 			//App->editor->quadtree.Insert(bug); peta
 			ImGui::CloseCurrentPopup();
@@ -243,7 +257,7 @@ void GameObject::UpdateBBox()
 			if (c_mesh->mesh != nullptr)
 			{
 				c_mesh->mesh->bbox->SetNegativeInfinity();
-				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
+				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex); //crash #2
 				//we create the obb if we transform the gmaeobject
 				OBB obb;
 				obb.SetFrom(*c_mesh->mesh->bbox);
