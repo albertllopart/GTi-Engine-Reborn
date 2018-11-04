@@ -137,7 +137,6 @@ void ComponentTransform::UpdateMatrix()
 
 		global_trans_matrix_transposed = global_trans_matrix.Transposed();
 
-		my_go->UpdateBBox();
 
 		for (uint i = 0; i < my_go->components.size(); i++)
 		{
@@ -148,6 +147,9 @@ void ComponentTransform::UpdateMatrix()
 			my_go->childs[i]->UpdateMatrix();
 		}
 	}
+
+
+	my_go->UpdateBBox(); //not working??
 }
 
 float4x4 ComponentTransform::GetGlobalMatrix()const

@@ -7,6 +7,7 @@
 #include "ComponentMesh.h"
 #include "Glew/include/glew.h"
 #include "JSONConfig.h"
+#include "MathGeoLib/Geometry/OBB.h"
 
 GameObject::GameObject()
 {
@@ -228,6 +229,14 @@ void GameObject::UpdateBBox()
 			ComponentMesh* c_mesh = (ComponentMesh*)item;
 			c_mesh->mesh->bbox->SetNegativeInfinity();
 			c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
+			//we create the obb if we transform the gmaeobject
+			OBB obb;
+			obb.SetFrom(*c_mesh->mesh->bbox);
+			if (my_transform != nullptr)
+			{
+				obb.Transform(my_transform->GetGlobalMatrix());
+			}
+			c_mesh->mesh->bbox = &obb.MinimalEnclosingAABB();
 			DrawBBox(c_mesh);
 			bbox = c_mesh->mesh->bbox;
 		}	
