@@ -48,7 +48,10 @@ void GameObject::Update()
 	{
 		childs[i]->Update();
 	}
-	//UpdateBBox(); //temp
+	if (show_bbox)
+	{
+		UpdateBBox();
+	}
 }
 
 void GameObject::PostUpdate()
@@ -166,7 +169,6 @@ void GameObject::ShowInspectorWindow()
 			ImGui::Separator();
 			Component* item = components[i];
 			item->ShowInspectorWindow();
-
 		}
 		ImGui::EndChild();
 	}
@@ -249,11 +251,28 @@ void GameObject::UpdateBBox()
 			childs[i]->UpdateBBox();
 		}
 	}
+	if (is_static)
+	{
+		App->editor->FillQuadtree();
+	}
 }
 
 void GameObject::DrawBBox(ComponentMesh* c_mesh)
 {
-	if (show_bbox)
+	//if (c_mesh == nullptr)
+	//{
+	//	for (uint i = 0; i < components.size(); i++)
+	//	{
+	//		Component* item = components[i];
+	//		if (item->GetType() == COMPONENT_MESH)
+	//		{
+	//			ComponentMesh* mesh = (ComponentMesh*)item;
+	//			DrawBBox(mesh);
+	//		}
+
+	//	}
+	//}
+	if (show_bbox && c_mesh!=nullptr)
 	{
 		float3 bbox_vertex[8];
 		c_mesh->mesh->bbox->GetCornerPoints(bbox_vertex);
@@ -329,7 +348,11 @@ void GameObject::SetName(const char * name)
 void GameObject::AddChild(GameObject* child)
 {
 	childs.push_back(child);
-	child->parent = this; //PREGUNTAR RICARD
+	if (this != nullptr)
+	{
+		child->parent = this; //PREGUNTAR RICARD
+	}
+	
 
 }
 

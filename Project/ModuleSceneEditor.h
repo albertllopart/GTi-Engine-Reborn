@@ -43,6 +43,10 @@ public:
 	void AddToScene(GameObject* to_add);
 	GameObject* FindGObyUID(uint uid, GameObject* to_find);
 	std::vector<GameObject*>* GetAllGO();
+
+	//Quadtree
+	void GenQuadtree();
+	void FillQuadtree();
 	//save and load
 	bool SaveScene(const char* name) const;
 	bool LoadScene(const char* name);

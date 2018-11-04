@@ -19,6 +19,7 @@ ModuleSceneEditor::~ModuleSceneEditor()
 
 bool ModuleSceneEditor::Init(JSON_Object* data)
 {
+	GenQuadtree();
 	return true;
 }
 
@@ -36,7 +37,7 @@ bool ModuleSceneEditor::Start()
 
 	root = new GameObject();
 	root->SetName("Scene 1");
-	quadtree.Boundaries(AABB(float3(-quad_size, -quad_size, -quad_size), float3(quad_size, quad_size, quad_size)));//boundariese of 100 for testing
+	//quadtree.Boundaries(AABB(float3(-quad_size, -quad_size, -quad_size), float3(quad_size, quad_size, quad_size)));//boundariese of 100 for testing
 
 
 	return true;
@@ -153,6 +154,27 @@ std::vector<GameObject*>* ModuleSceneEditor::GetAllGO()
 	scene_go.clear();
 	root->GetSceneGameObjects(scene_go);
 	return &scene_go;
+}
+
+void ModuleSceneEditor::GenQuadtree()
+{
+	const float3 pivot(0.0f, 5.0f, 0.0f);
+	const float3 size(100.0f, 10.0f, 100.0f);
+	AABB boundary;
+	boundary.SetFromCenterAndSize(pivot, size);
+
+	quadtree.Boundaries(boundary);
+}
+
+void ModuleSceneEditor::FillQuadtree()
+{
+	GenQuadtree();
+
+	for (uint i = 0; i < scene_go.size(); ++i)
+	{
+		if (scene_go[i]->is_static)
+			App->editor->quadtree.Insert(scene_go[i]);
+	}
 }
 
 bool ModuleSceneEditor::SaveScene(const char* name) const
