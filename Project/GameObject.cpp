@@ -128,6 +128,8 @@ void GameObject::OnEditor()
 		{
 			GameObject* bug = new GameObject();
 			App->editor->GetSelected()->AddChild(bug);
+			bug->AddComponent(COMPONENT_TRANSFORM);
+			
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
