@@ -161,11 +161,11 @@ GameObject* ModuleSceneEditor::FindGObyUID(uint uid, GameObject* to_find)
 	return ret;
 }
 
-std::vector<GameObject*>* ModuleSceneEditor::GetAllGO()
+std::vector<GameObject*> ModuleSceneEditor::GetAllGO()
 {
 	scene_go.clear();
 	root->GetSceneGameObjects(scene_go);
-	return &scene_go;
+	return scene_go;
 }
 
 void ModuleSceneEditor::RemoveGameObjectFromScene()
@@ -199,6 +199,7 @@ void ModuleSceneEditor::GenQuadtree()
 void ModuleSceneEditor::FillQuadtree()
 {
 	GenQuadtree();
+	scene_go = GetAllGO();
 
 	for (uint i = 0; i < scene_go.size(); ++i)
 	{

@@ -42,7 +42,7 @@ public:
 	GameObject* GetSelected()const;
 	void AddToScene(GameObject* to_add);
 	GameObject* FindGObyUID(uint uid, GameObject* to_find);
-	std::vector<GameObject*>* GetAllGO();
+	std::vector<GameObject*> GetAllGO();
 	void RemoveGameObjectFromScene();
 	//Quadtree
 	void GenQuadtree();
