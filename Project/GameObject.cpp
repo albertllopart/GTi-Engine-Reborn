@@ -48,7 +48,7 @@ void GameObject::Update()
 	{
 		childs[i]->Update();
 	}
-	UpdateBBox(); //temp
+	//UpdateBBox(); //temp
 }
 
 void GameObject::PostUpdate()
@@ -129,7 +129,6 @@ void GameObject::OnEditor()
 			GameObject* bug = new GameObject();
 			App->editor->GetSelected()->AddChild(bug);
 			bug->AddComponent(COMPONENT_TRANSFORM);
-			
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
@@ -229,19 +228,26 @@ void GameObject::UpdateBBox()
 		if (item->GetType() == COMPONENT_MESH)
 		{
 			ComponentMesh* c_mesh = (ComponentMesh*)item;
-			c_mesh->mesh->bbox->SetNegativeInfinity();
-			c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
-			//we create the obb if we transform the gmaeobject
-			OBB obb;
-			obb.SetFrom(*c_mesh->mesh->bbox);
-			if (my_transform != nullptr)
+			if (c_mesh != nullptr)
 			{
-				obb.Transform(my_transform->GetGlobalMatrix());
+				c_mesh->mesh->bbox->SetNegativeInfinity();
+				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex);
+				//we create the obb if we transform the gmaeobject
+				OBB obb;
+				obb.SetFrom(*c_mesh->mesh->bbox);
+				if (my_transform != nullptr)
+				{
+					obb.Transform(my_transform->GetGlobalMatrix());
+				}
+				c_mesh->mesh->bbox = &obb.MinimalEnclosingAABB();
+				DrawBBox(c_mesh);
+				bbox = c_mesh->mesh->bbox;
 			}
-			c_mesh->mesh->bbox = &obb.MinimalEnclosingAABB();
-			DrawBBox(c_mesh);
-			bbox = c_mesh->mesh->bbox;
-		}	
+		}
+		for (int i = 0; i < childs.size(); ++i)
+		{
+			childs[i]->UpdateBBox();
+		}
 	}
 }
 
