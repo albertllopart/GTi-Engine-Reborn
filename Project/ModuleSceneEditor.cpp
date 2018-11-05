@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 #include "parson/parson.h"
 #include "JSONConfig.h"
+#include "Quadtree.h"
 
 ModuleSceneEditor::ModuleSceneEditor(Application* app, bool startEnabled) : Module(app, startEnabled)
 {

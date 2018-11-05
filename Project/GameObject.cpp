@@ -266,8 +266,8 @@ void GameObject::UpdateBBox()
 					obb.Transform(my_transform->GetGlobalMatrix());
 				}
 				c_mesh->mesh->bbox = &obb.MinimalEnclosingAABB();
-				DrawBBox(c_mesh);
 				bbox = c_mesh->mesh->bbox;
+				DrawBBox(c_mesh);
 			}
 		}
 		for (int i = 0; i < childs.size(); ++i)
@@ -275,10 +275,10 @@ void GameObject::UpdateBBox()
 			childs[i]->UpdateBBox();
 		}
 	}
-	if (is_static)
-	{
-		App->editor->FillQuadtree();
-	}
+	//if (is_static)
+	//{
+	//	App->editor->FillQuadtree();
+	//}
 }
 
 bool GameObject::RemoveComponent(COMPONENT_TYPE type, int position)

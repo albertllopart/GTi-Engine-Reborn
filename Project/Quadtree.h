@@ -1,11 +1,13 @@
 #ifndef __QUADTREE__
 #define __QUADTREE__
 
-#define QUADTREE_MAX_SIZE 5
+#define QUADTREE_MAX_SIZE 1
 #define QUADTREE_MAX_SUBDIVISIONS 5
 
 #include "MathGeoLib/Geometry/AABB.h"
 #include <list>
+
+#include "Globals.h"
 
 class GameObject;
 
@@ -40,6 +42,8 @@ public:
 	std::list<GameObject*> objects;	
 	QuadtreeNode* parent = nullptr; 
 	QuadtreeNode* childs[4]; // TODO try it with 8 (octree)
+
+	uint subdivisions = 0;
 };
 
 class Quadtree

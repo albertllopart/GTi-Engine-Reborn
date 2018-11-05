@@ -30,7 +30,7 @@ void QuadtreeNode::Insert(GameObject * gameObject)
 {
 	if (objects.size() == QUADTREE_MAX_SIZE)
 	{
-		if (IsLeaf())
+		if (IsLeaf() && subdivisions < QUADTREE_MAX_SUBDIVISIONS)
 		{
 			Subdivide(); // subdivide in 4 
 		}
@@ -82,15 +82,17 @@ void QuadtreeNode::Subdivide()
 	childs[TOP_RIGHT] = new QuadtreeNode(new_bbox, this);
 
 	//bot left quad
-	new_center.Set(center.x + new_size.x * 0.5f, center.y, center.z + new_size.z * 0.5f);
+	new_center.Set(center.x + new_size.x * 0.5f, center.y, center.z + new_size.z* 0.5f);
 	new_bbox.SetFromCenterAndSize(new_center, new_size);
 	childs[BOT_LEFT] = new QuadtreeNode(new_bbox, this);
 
 	// bot right quad
-	new_center.Set(center.x - new_size.x * 0.5f, center.y, center.z + new_size.z * 0.5f);
+	new_center.Set(center.x - new_size.x * 0.5f, center.y, center.z + new_size.z* 0.5f);
 	new_bbox.SetFromCenterAndSize(new_center, new_size);
 	childs[BOT_RIGHT] = new QuadtreeNode(new_bbox, this);
 
+
+	childs[TOP_LEFT]->subdivisions = childs[TOP_RIGHT]->subdivisions = childs[BOT_LEFT]->subdivisions = childs[BOT_RIGHT]->subdivisions = subdivisions + 1;
 }
 
 void QuadtreeNode::DistributeObjects()
@@ -107,9 +109,12 @@ void QuadtreeNode::DistributeObjects()
 		//checking intersections between the 4 chils and the gameobject
 		for (uint i = 0; i < 4; i++)
 		{
-			if (intersecting[i] = childs[i]->bbox.Intersects((const AABB)*item->bbox))
+			if (childs[i] != nullptr)
 			{
-				++num_intersections;
+				if (intersecting[i] = childs[i]->bbox.Intersects((const AABB)*item->bbox))
+				{
+					++num_intersections;
+				}
 			}
 		}
 		if (num_intersections == 4)
@@ -133,12 +138,19 @@ void QuadtreeNode::DistributeObjects()
 void QuadtreeNode::DrawQuadtree()
 {
 	//same as boundingbox deugb draw
+	glBegin(GL_LINES);
+	glLineWidth(1.0f);
+	glColor4f(0.7f, 1.0f, 1.0f, 0.6f);
+
 	for (uint i = 0; i < 12; i++)
 	{
 		glVertex3f(bbox.Edge(i).a.x, bbox.Edge(i).a.y, bbox.Edge(i).a.z);
 		glVertex3f(bbox.Edge(i).b.x, bbox.Edge(i).b.y, bbox.Edge(i).b.z);
 	}
 
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glEnd();
 	if (childs[0] != nullptr) 
 	{
 		for (uint i = 0; i < 4; i++)
