@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "GameObject.h"
 #include "MathGeoLib/Geometry/LineSegment.h"
+#include "MathGeoLib/Geometry/AABB.h"
 
 QuadtreeNode::QuadtreeNode(const AABB bbox, QuadtreeNode* parent): bbox(bbox), parent(parent)
 {
@@ -151,6 +152,7 @@ void QuadtreeNode::DrawQuadtree()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glEnd();
+
 	if (childs[0] != nullptr) 
 	{
 		for (uint i = 0; i < 4; i++)
@@ -193,9 +195,15 @@ void Quadtree::Remove(GameObject * to_remove)
 
 void Quadtree::Insert(GameObject * gameObject)
 {
-	if (gameObject->bbox->Intersects(root->bbox))
+	if (root != nullptr)
 	{
-		root->Insert(gameObject);
+		if (gameObject->bbox->IsFinite())
+		{
+			if (gameObject->bbox->Intersects(root->bbox))
+			{
+				root->Insert(gameObject);
+			}
+		}
 	}
 
 }

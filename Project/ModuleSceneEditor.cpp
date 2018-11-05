@@ -205,7 +205,7 @@ void ModuleSceneEditor::FillQuadtree()
 	for (uint i = 0; i < scene_go.size(); ++i)
 	{
 		if (scene_go[i]->is_static)
-			App->editor->quadtree.Insert(scene_go[i]);
+			quadtree.Insert(scene_go[i]);
 	}
 }
 

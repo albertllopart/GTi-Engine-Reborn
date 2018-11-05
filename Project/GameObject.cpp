@@ -82,6 +82,7 @@ void GameObject::Update()
 	}
 	if (show_bbox)
 	{
+		//DrawBBox(GetBBox());
 		UpdateBBox();
 	}
 }
@@ -252,7 +253,7 @@ void GameObject::UpdateBBox()
 	
 		if (components[i]->GetType() == COMPONENT_MESH)
 		{
-			ComponentMesh* c_mesh = (ComponentMesh*)components[i];
+			ComponentMesh* c_mesh = dynamic_cast<ComponentMesh*>(components[i]);
 
 			if (c_mesh->mesh != nullptr)
 			{
@@ -266,8 +267,8 @@ void GameObject::UpdateBBox()
 					obb.Transform(my_transform->GetGlobalMatrix());
 				}
 				c_mesh->mesh->bbox = &obb.MinimalEnclosingAABB();
-				bbox = c_mesh->mesh->bbox;
-				DrawBBox(c_mesh);
+				this->bbox = *&c_mesh->mesh->bbox;
+				DrawBBox(bbox);
 			}
 		}
 		for (int i = 0; i < childs.size(); ++i)
@@ -275,10 +276,6 @@ void GameObject::UpdateBBox()
 			childs[i]->UpdateBBox();
 		}
 	}
-	//if (is_static)
-	//{
-	//	App->editor->FillQuadtree();
-	//}
 }
 
 bool GameObject::RemoveComponent(COMPONENT_TYPE type, int position)
@@ -293,23 +290,51 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 	{
 		float3 bbox_vertex[8];
 		c_mesh->mesh->bbox->GetCornerPoints(bbox_vertex);
-		bbox = c_mesh->mesh->bbox;
+		this->bbox = c_mesh->mesh->bbox;
 
-		glBegin(GL_LINES);
-		glLineWidth(1.0f);
-		glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
-
-		for (uint i = 0; i < 12; i++)
-		{
-			glVertex3f(c_mesh->mesh->bbox->Edge(i).a.x, c_mesh->mesh->bbox->Edge(i).a.y, c_mesh->mesh->bbox->Edge(i).a.z);
-			glVertex3f(c_mesh->mesh->bbox->Edge(i).b.x, c_mesh->mesh->bbox->Edge(i).b.y, c_mesh->mesh->bbox->Edge(i).b.z);
-		}
-
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-		glEnd();
+		DrawBBox(bbox);
+	}
+	else if (c_mesh == nullptr)
+	{
+		UpdateBBox();
 	}
 }
+
+void GameObject::DrawBBox(AABB* bbox) //PREGUNTAR RICARD
+{
+	glBegin(GL_LINES);
+	glLineWidth(1.0f);
+	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(bbox->Edge(i).a.x, bbox->Edge(i).a.y, bbox->Edge(i).a.z);
+		glVertex3f(bbox->Edge(i).b.x, bbox->Edge(i).b.y, bbox->Edge(i).b.z);
+	}
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glEnd();
+}
+
+//AABB * GameObject::GetBBox()
+//{
+//	for (uint i = 0; i < components.size(); i++)
+//	{
+//		if (components[i]->GetType() == COMPONENT_MESH)
+//		{
+//			ComponentMesh* c_mesh = dynamic_cast<ComponentMesh*>(components[i]);
+//
+//			if (c_mesh->mesh != nullptr)
+//			{
+//				c_mesh->mesh->bbox->SetNegativeInfinity();
+//				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex); //crash #2
+//				return c_mesh->mesh->bbox;
+//			}
+//		}
+//	}
+//	return nullptr;
+//}
 
 GameObject * GameObject::GetParent() const
 {
@@ -438,6 +463,8 @@ void GameObject::CleanRemove()
 	//}
 	parent = nullptr;
 }
+
+
 
 bool GameObject::OnSave(JSON_Value* array) const
 {

@@ -40,6 +40,7 @@ public:
 	void UpdateBBox();
 	bool RemoveComponent(COMPONENT_TYPE type, int position);
 	void DrawBBox(ComponentMesh* c_mesh);
+	void DrawBBox(AABB * bboc);
 
 	GameObject* GetParent() const;
 	void SetParent(GameObject* new_parent);
@@ -56,6 +57,7 @@ public:
 	void GetSceneGameObjects(std::vector<GameObject*>& SceneGameObjects) const; //method for root, to get all gameobjects in scene
 	bool RemoveGameObject(GameObject * to_remove);
 	void CleanRemove();
+	AABB* GetBBox();
 	//save
 	bool OnSave(JSON_Value* array) const;
 	bool OnLoad(const JSONConfig data);
