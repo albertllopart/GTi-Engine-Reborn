@@ -1,6 +1,7 @@
 #include "ComponentTransform.h"
 #include "ImGui/imgui.h"
 #include "Application.h"
+#include "JSONConfig.h"
 
 ComponentTransform::ComponentTransform(float3 pos, float3 scale, Quat rot): Component(COMPONENT_TYPE::COMPONENT_TRANSFORM),pos(pos), new_pos(pos), scale(scale),rot_quat(rot)
 {
@@ -180,4 +181,67 @@ float4x4 ComponentTransform::GetGlobalMatrix()const
 float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
 {
 	return global_trans_matrix_transposed;
+}
+
+bool ComponentTransform::OnSave(JSON_Value* array, uint go_uid)
+{
+	GenerateUID();
+	//create new child
+	JSON_Value* comp_value = json_value_init_object();
+
+	//target the new child
+	JSON_Object* comp_object = json_value_get_object(comp_value);
+
+	//copy values
+	json_object_set_string(comp_object, "Name", name.c_str());
+	json_object_set_number(comp_object, "UID", uid);
+	json_object_set_number(comp_object, "GameObject", go_uid);
+	
+	json_object_set_number(comp_object, "pos.x", pos.x);
+	json_object_set_number(comp_object, "pos.y", pos.y);
+	json_object_set_number(comp_object, "pos.z", pos.z);
+
+	json_object_set_number(comp_object, "rot.x", rot_euler.x);
+	json_object_set_number(comp_object, "rot.y", rot_euler.y);
+	json_object_set_number(comp_object, "rot.z", rot_euler.z);
+
+	json_object_set_number(comp_object, "scale.x", scale.x);
+	json_object_set_number(comp_object, "scale.y", scale.y);
+	json_object_set_number(comp_object, "scale.z", scale.z);
+
+	json_object_set_number(comp_object, "Type", type);
+
+	//add everything to the components array
+	JSON_Array* my_array = json_value_get_array(array);
+	json_array_append_value(my_array, comp_value);
+
+	return true;
+}
+
+bool ComponentTransform::OnLoad(JSONConfig data)
+{
+	uid = data.GetInt("UID");
+
+	float3 position = float3::zero;
+	position.x = data.GetInt("pos.x");
+	position.y = data.GetInt("pos.y");
+	position.z = data.GetInt("pos.z");
+
+	float3 rotation = float3::zero;
+	rotation.x = data.GetInt("rot.x");
+	rotation.y = data.GetInt("rot.y");
+	rotation.z = data.GetInt("rot.z");
+
+	float3 scale_l = float3::zero;
+	scale_l.x = data.GetInt("scale.x");
+	scale_l.y = data.GetInt("scale.y");
+	scale_l.z = data.GetInt("scale.z");
+
+	UpdatePosition(position);
+	UpdateRotation(rotation);
+	UpdateScale(scale_l);
+
+	TransformCamera();
+
+	return true;
 }

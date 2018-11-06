@@ -527,6 +527,18 @@ bool GameObject::OnLoad(const JSONConfig data)
 				ComponentMesh* item_mesh = (ComponentMesh*)item;
 				item_mesh->OnLoad(item_config);
 			}
+
+			case COMPONENT_MATERIAL:
+			{
+				ComponentMaterial* item_material = (ComponentMaterial*)item;
+				item_material->OnLoad(item_config);
+			}
+
+			case COMPONENT_TRANSFORM:
+			{
+				ComponentTransform* item_transform = (ComponentTransform*)item;
+				item_transform->OnLoad(item_config);
+			}
 		}
 	}
 

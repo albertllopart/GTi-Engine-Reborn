@@ -6,6 +6,7 @@
 ComponentMaterial::ComponentMaterial(): Component(COMPONENT_MATERIAL)
 {
 	name = "ComponentMaterial";
+	tex_name = "None";
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -104,6 +105,8 @@ bool ComponentMaterial::OnSave(JSON_Value* array, uint go_uid)
 	json_object_set_number(comp_object, "UID", uid);
 	json_object_set_number(comp_object, "GameObject", go_uid);
 	json_object_set_string(comp_object, "Source", tex_name.c_str());
+	json_object_set_number(comp_object, "Width", tex_width);
+	json_object_set_number(comp_object, "Height", tex_height);
 	json_object_set_number(comp_object, "Type", type);
 
 	//add everything to the components array
@@ -115,5 +118,15 @@ bool ComponentMaterial::OnSave(JSON_Value* array, uint go_uid)
 
 bool ComponentMaterial::OnLoad(JSONConfig data)
 {
+	uid = data.GetInt("UID");
+	tex_name = data.GetString("Source");
+	tex_width = data.GetInt("Width");
+	tex_height = data.GetInt("Height");
+
+	if (tex_name != "None")
+	{
+		tex_id = App->textures->importer->Load(tex_name.c_str());
+	}
+
 	return true;
 }

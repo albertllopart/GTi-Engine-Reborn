@@ -26,6 +26,9 @@ public:
 	float4x4 GetGlobalMatrix()const;
 	float4x4 GetTransposedGlobalMatrix()const;
 
+	bool OnSave(JSON_Value* array, uint go_uid);
+	bool OnLoad(JSONConfig data);
+
 private:
 
 	float4x4 trans_matrix = float4x4::identity;
