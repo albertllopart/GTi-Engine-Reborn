@@ -29,7 +29,7 @@ bool QuadtreeNode::IsLeaf() //only if you are a leaf you subdivide by 4 once you
 
 void QuadtreeNode::Insert(GameObject * gameObject)
 {
-	// If the node has space for the gameobject, add it to its list
+	//if node has space -> pushback in the list
 	if (IsLeaf() && (objects.size() < QUADTREE_MAX_SIZE ||
 		(bbox.HalfSize().LengthSq() <= QUADTREE_MAX_SUBDIVISIONS * QUADTREE_MAX_SUBDIVISIONS)))
 	{
@@ -40,7 +40,6 @@ void QuadtreeNode::Insert(GameObject * gameObject)
 	{
 		if (IsLeaf())
 		{
-			//Divide the root node into 4 childs
 			Subdivide();
 
 			objects.push_back(gameObject);

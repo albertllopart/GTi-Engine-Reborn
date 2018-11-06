@@ -24,6 +24,7 @@ public:
 	float* GetViewMatrix();
 	//void CenterToMesh(Mesh * mesh);
 	ComponentCamera* GetCamera() const;
+	ComponentCamera* SetCamera(ComponentCamera* cam);
 
 private:
 

@@ -16,42 +16,6 @@
 
 #define MAX_LIGHTS 8
 
-
-//struct Mesh
-//{
-//	std::string name;
-//	float3 pos;
-//	float3 scale;
-//	float3 euler_angles;
-//	Quat quat;
-//	AABB bbox;
-//	pCube* bbox_debug = nullptr;
-//
-//	uint id_index = 0; // index in VRAM
-//	uint num_index = 0;
-//	uint* index = nullptr;
-//
-//	uint id_vertex = 0; // unique vertex in VRAM
-//	uint num_vertex = 0;
-//	float* vertex = nullptr;
-//
-//	//normals
-//	uint id_normals = 0;
-//	float* normals = nullptr;
-//
-//	//text coords
-//	uint id_texcoord = 0; // id textcoords
-//	uint texture = 0; // text id
-//	float* texCoords = nullptr;
-//
-//	//extra info
-//	uint faces = 0;
-//	std::string tex_name = "none";
-//	uint tex_width = 0;
-//	uint tex_height = 0;
-//};
-
-
 class ModuleRenderer3D : public Module
 {
 public:
@@ -64,6 +28,7 @@ public:
 
 	bool Init(JSON_Object* node);
 	bool CleanUp();
+	void FrustumCulling() const;
 	//void Draw(Mesh* toDraw);
 	void Draw(ComponentMesh * to_draw);
 	void Draw(GameObject* toDraw);

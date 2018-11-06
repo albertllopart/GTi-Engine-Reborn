@@ -43,6 +43,7 @@ public:
 	void AddToScene(GameObject* to_add);
 	GameObject* FindGObyUID(uint uid, GameObject* to_find);
 	std::vector<GameObject*> GetAllGO();
+	std::vector<GameObject*> GetStaticGO();
 	void RemoveGameObjectFromScene();
 	//Quadtree
 	void GenQuadtree();
@@ -59,8 +60,9 @@ private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
 
-	float quad_size = 100.0f;
+	//float quad_size = 100.0f;
 
 	std::vector<GameObject*>scene_go;
+	std::vector<GameObject*>static_scene_go;
 };
 #endif 

@@ -166,6 +166,11 @@ std::vector<GameObject*> ModuleSceneEditor::GetAllGO()
 	return scene_go;
 }
 
+std::vector<GameObject*> ModuleSceneEditor::GetStaticGO()
+{
+	return static_scene_go;
+}
+
 void ModuleSceneEditor::RemoveGameObjectFromScene()
 {
 	for (std::vector<GameObject*>::iterator it = scene_go.begin(); it != scene_go.end();)
@@ -202,7 +207,10 @@ void ModuleSceneEditor::FillQuadtree()
 	for (uint i = 0; i < scene_go.size(); ++i)
 	{
 		if (scene_go[i]->is_static)
+		{
 			quadtree.Insert(scene_go[i]);
+			static_scene_go.push_back(scene_go[i]);
+		}
 	}
 }
 

@@ -30,7 +30,6 @@ GameObject::~GameObject()
 
 void GameObject::PreUpdate()
 {
-
 	for (int i = 0; i < childs.size(); i++)
 	{
 		childs[i]->PreUpdate();
@@ -73,18 +72,20 @@ void GameObject::PreUpdate()
 
 void GameObject::Update()
 {
-	for (int i = 0; i < components.size(); i++)
+	if (visible)
 	{
-		components[i]->Update();
-	}
-	for (int i = 0; i < childs.size(); i++)
-	{
-		childs[i]->Update();
-	}
-	if (show_bbox)
-	{
-		DrawBBox(bbox);
-		//UpdateBBox();
+		for (int i = 0; i < components.size(); i++)
+		{
+			components[i]->Update();
+		}
+		for (int i = 0; i < childs.size(); i++)
+		{
+			childs[i]->Update();
+		}
+		if (show_bbox)
+		{
+			DrawBBox(bbox);
+		}
 	}
 }
 

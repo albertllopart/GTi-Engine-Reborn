@@ -62,6 +62,8 @@ void ComponentCamera::OnEditor()
 	//}
 }
 
+
+
 void ComponentCamera::SetAspectRatio(float x, float y)
 {
 	aspect_ratio = x / y;
@@ -97,7 +99,7 @@ void ComponentCamera::ShowInspectorWindow()
 		}
 		if (node_open)
 		{
-			ImGui::Checkbox("Eanble Culling##show_bb", &culling);
+			ImGui::Checkbox("Enable Culling##show_bb", &culling);
 
 			
 			if (ImGui::Checkbox("Set Render Camera##show_bb", &main_camera))
@@ -170,6 +172,29 @@ void ComponentCamera::DrawDebug() const
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glEnd();
+}
+
+void ComponentCamera::Culling() const
+{
+	if (culling)
+	{
+		//culling static objects
+		std::vector<GameObject*>items = App->editor->GetStaticGO();
+		for (uint i = 0; i < items.size(); i++)
+		{
+			items[i]->visible = false;
+		}
+
+		// Get all static objects that are inside the frustum (accelerated with quadtree)
+		App->scene->quadtree.CollectCandidates(candidates_to_cull, frustum);
+
+		// Set visible only these static objects
+		while (!candidates_to_cull.empty())
+		{
+			candidates_to_cull.front()->SetVisible(true); // INSIDE CAMERA VISION
+			candidates_to_cull.pop();
+		}
+	}
 }
 
 float * ComponentCamera::GetProjectionMatrix() const

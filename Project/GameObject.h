@@ -80,6 +80,7 @@ public:
 	bool active = true;
 	bool want_delete = false;
 	bool show_bbox = false;
+	bool visible = true;
 };
 
 #endif // __GAME_OBJECT_H__

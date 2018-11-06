@@ -226,6 +226,12 @@ bool ModuleRenderer3D::CleanUp()
 //	}
 //}
 
+void ModuleRenderer3D::FrustumCulling() const
+{
+	std::vector<GameObject*> objects;
+	//App->editor->quadtree.CollectIntersections(objects, camera->frustum);
+}
+
 void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	glPushMatrix();
@@ -410,6 +416,6 @@ void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
 	}
 	else
 	{
-		camera = cam;
+		camera = App->camera->SetCamera(cam);
 	}
 }

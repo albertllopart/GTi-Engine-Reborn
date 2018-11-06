@@ -270,6 +270,11 @@ ComponentCamera * ModuleCamera3D::GetCamera() const
 	return camera;
 }
 
+ComponentCamera * ModuleCamera3D::SetCamera(ComponentCamera * cam)
+{
+	return camera = cam;
+}
+
 // -----------------------------------------------------------------
 void ModuleCamera3D::CalculateViewMatrix()
 {

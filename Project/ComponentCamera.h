@@ -22,7 +22,10 @@ public:
 	void ShowInspectorWindow();
 	void OnUpdateMatrix(const float4x4 & matrix);
 	void UpdateMatrix();
-	void DrawDebug() const; 
+	void DrawDebug() const;
+	void Culling()const;
+
+
 	float* GetProjectionMatrix()const;
 	Frustum GetFrustum() const;
 
@@ -35,6 +38,7 @@ public:
 	float aspect_ratio;
 	bool culling = false;
 	bool main_camera = false;
+	GameObject* scene_go;
 	Frustum frustum;
 	float4x4 view_matrix = float4x4::zero;
 	float4x4 projection_matrix = float4x4::zero;
