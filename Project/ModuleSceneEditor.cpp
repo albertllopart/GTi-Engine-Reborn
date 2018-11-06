@@ -118,15 +118,12 @@ void ModuleSceneEditor::AddToScene(GameObject * to_add)
 ComponentMaterial* ModuleSceneEditor::LoadComponentMaterial(const char * path)
 {
 	ComponentMaterial* mat = new ComponentMaterial;
-	std::string str = path;
-	uint position_name = str.find_last_of("\\");
-	std::string newPath = str.erase(0, position_name + 1);
+	
+	mat->SetID(App->textures->importer->Load(path));
+	mat->SetTextureName(path);
+	mat->SetTextureSize(App->textures->importer->last_tex_width, App->textures->importer->last_tex_height);
 
-	mat->SetID(App->textures->ImportImage(path));
-	mat->SetTextureName(newPath.c_str());
-	mat->SetTextureSize(App->textures->last_tex.width, App->textures->last_tex.height);
-
-	App->imgui->AddConsoleLog(("%s", newPath));
+	App->imgui->AddConsoleLog(("%s", path));
 	App->imgui->AddConsoleLog("Texture loaded to geometry");
 
 	return mat;
