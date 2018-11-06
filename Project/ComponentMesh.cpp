@@ -60,6 +60,11 @@ void ComponentMesh::ShowInspectorWindow()
 		int num_vertices = (mesh == nullptr) ? 0 : mesh->num_vertex;
 		int num_indices = (mesh == nullptr) ? 0 : mesh->num_index;
 
+		ImGui::Text("Name:");
+		ImGui::SameLine();
+		if (mesh != nullptr)
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", source.c_str());
+
 		ImGui::Text("Vertices:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_vertices);
@@ -67,11 +72,6 @@ void ComponentMesh::ShowInspectorWindow()
 		ImGui::Text("Indices:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
-
-		ImGui::Text("Mesh:");
-		ImGui::SameLine();
-		if (mesh != nullptr)
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", source.c_str());
 
 		ImGui::TreePop();
 	}

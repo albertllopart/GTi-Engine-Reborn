@@ -20,6 +20,8 @@ public:
 	void SetID(uint id);
 	void SetTextureName(const char* new_name);
 	void SetTextureSize(uint width, uint height);
+	void ShowInspectorWindow();
+
 private:
 
 	uint tex_id = 0;
