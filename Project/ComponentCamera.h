@@ -5,6 +5,7 @@
 //#include "Globals.h"
 #include "MathGeoLib/Geometry/Frustum.h"
 #include "MathGeoLib/Math/float3.h"
+#include <vector>
 
 class ComponentCamera : public Component
 {
@@ -42,7 +43,8 @@ public:
 	Frustum frustum;
 	float4x4 view_matrix = float4x4::zero;
 	float4x4 projection_matrix = float4x4::zero;
-	//TODO ADD CULLING TO THE FRUSTUM
+
+	std::vector<GameObject*> elements_to_cull;
 };
 
 

@@ -36,6 +36,9 @@ public:
 
 	void DrawQuadtree();
 
+	template<typename TYPE>
+	void CollectIntersections(std::vector<GameObject*> &objects, const TYPE & primitive);
+
 public:
 
 	AABB bbox;	
@@ -69,16 +72,23 @@ public:
 
 
 
-
+template<typename Type>
+inline void QuadtreeNode::CollectIntersections(std::vector<GameObject*>& objects, const Type & primitive)
+{
+	if (root_node != nullptr) 
+	{
+		root_node->CollectIntersections(objects, primitive);
+	}
+}
 
 template<typename Type>
 inline void Quadtree::CollectIntersections(std::vector<GameObject*>& gameObjects, Type & primitive)
 {
-	if (primitive.Intersects(box))
+	if (primitive.Intersects(bbox))
 	{
 		for (std::list<GameObject*>::const_iterator it = this->objects.begin(); it != this->objects.end(); ++it)
 		{
-			if (primitive.Intersects((*it)->global_bbox))
+			if (primitive.Intersects((*it)->bbox))
 				objects.push_back(*it);
 
 		}
@@ -87,7 +97,6 @@ inline void Quadtree::CollectIntersections(std::vector<GameObject*>& gameObjects
 
 	}
 }
-
 
 
 #endif // !__QUADTREE__

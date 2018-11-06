@@ -24,7 +24,10 @@ void ComponentMesh::Update()
 
 void ComponentMesh::PostUpdate()
 {
-	App->renderer3D->Draw(this);
+	if (my_go->visible)
+	{
+		App->renderer3D->Draw(this);
+	}
 }
 
 void ComponentMesh::OnEditor()

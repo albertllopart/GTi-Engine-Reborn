@@ -185,15 +185,13 @@ void ComponentCamera::Culling() const
 			items[i]->visible = false;
 		}
 
-		// Get all static objects that are inside the frustum (accelerated with quadtree)
-		App->scene->quadtree.CollectCandidates(candidates_to_cull, frustum);
+		App->editor->quadtree.CollectIntersections(elements_to_cull, frustum); //preguntar ricard
 
-		// Set visible only these static objects
-		while (!candidates_to_cull.empty())
+		for (uint i = 0; i < elements_to_cull.size(); i++)
 		{
-			candidates_to_cull.front()->SetVisible(true); // INSIDE CAMERA VISION
-			candidates_to_cull.pop();
+			elements_to_cull[i]->visible = false;
 		}
+		
 	}
 }
 
