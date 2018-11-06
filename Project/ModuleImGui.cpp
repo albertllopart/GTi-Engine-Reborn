@@ -76,7 +76,7 @@ update_status ModuleImGui::Update(float dt)
 			}
 			if (ImGui::MenuItem("Save Scene"))
 			{
-				confirmation = true;
+				App->editor->SaveScene("random");
 			}
 			if (ImGui::MenuItem("Quit (Alt + F4)"))
 			{

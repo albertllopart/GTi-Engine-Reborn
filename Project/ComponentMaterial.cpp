@@ -1,6 +1,7 @@
 #include "ComponentMaterial.h"
 #include "ImGui/imgui.h"
 #include "Application.h"
+#include "JSONConfig.h"
 
 ComponentMaterial::ComponentMaterial(): Component(COMPONENT_MATERIAL)
 {
@@ -87,4 +88,32 @@ void ComponentMaterial::ShowInspectorWindow()
 
 		ImGui::TreePop();
 	}
+}
+
+bool ComponentMaterial::OnSave(JSON_Value* array, uint go_uid)
+{
+	GenerateUID();
+	//create new child
+	JSON_Value* comp_value = json_value_init_object();
+
+	//target the new child
+	JSON_Object* comp_object = json_value_get_object(comp_value);
+
+	//copy values
+	json_object_set_string(comp_object, "Name", name.c_str());
+	json_object_set_number(comp_object, "UID", uid);
+	json_object_set_number(comp_object, "GameObject", go_uid);
+	json_object_set_string(comp_object, "Source", tex_name.c_str());
+	json_object_set_number(comp_object, "Type", type);
+
+	//add everything to the components array
+	JSON_Array* my_array = json_value_get_array(array);
+	json_array_append_value(my_array, comp_value);
+
+	return true;
+}
+
+bool ComponentMaterial::OnLoad(JSONConfig data)
+{
+	return true;
 }

@@ -22,6 +22,9 @@ public:
 	void SetTextureSize(uint width, uint height);
 	void ShowInspectorWindow();
 
+	bool OnSave(JSON_Value* array, uint go_uid);
+	bool OnLoad(JSONConfig data);
+
 private:
 
 	uint tex_id = 0;
