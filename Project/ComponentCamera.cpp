@@ -186,7 +186,7 @@ void ComponentCamera::Culling() const
 		}
 
 
-		App->editor->quadtree.CollectIntersections(elements_to_cull, frustum); //preguntar ricard
+		App->editor->quadtree.CollectIntersections((std::vector<GameObject*>)elements_to_cull, frustum); //preguntar ricard
 
 		for (uint i = 0; i < elements_to_cull.size(); i++)
 		{
