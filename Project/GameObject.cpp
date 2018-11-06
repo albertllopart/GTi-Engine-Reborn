@@ -269,7 +269,7 @@ void GameObject::UpdateBBox()
 				}
 				c_mesh->mesh->bbox = obb.MinimalEnclosingAABB();
 				this->bbox = &c_mesh->mesh->bbox;
-				DrawBBox(bbox);
+				//DrawBBox(bbox);
 			}
 		}
 		for (int i = 0; i < childs.size(); ++i)

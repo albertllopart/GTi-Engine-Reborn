@@ -29,19 +29,48 @@ bool QuadtreeNode::IsLeaf() //only if you are a leaf you subdivide by 4 once you
 
 void QuadtreeNode::Insert(GameObject * gameObject)
 {
-	if (objects.size() == QUADTREE_MAX_SIZE)
+	// If the node has space for the gameobject, add it to its list
+	if (IsLeaf() && (objects.size() < QUADTREE_MAX_SIZE ||
+		(bbox.HalfSize().LengthSq() <= QUADTREE_MAX_SUBDIVISIONS * QUADTREE_MAX_SUBDIVISIONS)))
 	{
-		if (IsLeaf() && subdivisions < QUADTREE_MAX_SUBDIVISIONS)
-		{
-			Subdivide(); // subdivide in 4 
-		}
 		objects.push_back(gameObject);
-		DistributeObjects();
 	}
+
 	else
 	{
-		objects.push_back(gameObject);
+		if (IsLeaf())
+		{
+			//Divide the root node into 4 childs
+			Subdivide();
+
+			objects.push_back(gameObject);
+			// All gameobjects of the father node have to be inside at least one of the childs
+			DistributeObjects();
+		}
+		else
+		{
+			for (uint i = 0; i < 4; i++)
+			{
+				if (childs[i]->bbox.Intersects(*gameObject->bbox))
+				{
+					childs[i]->Insert(gameObject);
+				}
+			}
+		}
 	}
+	//if (objects.size() == QUADTREE_MAX_SIZE)
+	//{
+	//	if (IsLeaf() && subdivisions < QUADTREE_MAX_SUBDIVISIONS)
+	//	{
+	//		Subdivide(); // subdivide in 4 
+	//	}
+	//	objects.push_back(gameObject);
+	//	DistributeObjects();
+	//}
+	//else
+	//{
+	//	objects.push_back(gameObject);
+	//}
 		
 }
 
@@ -98,38 +127,37 @@ void QuadtreeNode::Subdivide()
 
 void QuadtreeNode::DistributeObjects()
 {
-	GameObject* item = nullptr;
+	GameObject* object = nullptr;
 
-	std::list<GameObject*>::const_iterator it;
+	std::list<GameObject*>::iterator it;
 	for (it = objects.begin(); it != objects.end();)
 	{
-		item = *it;
-
+		object = *it;
 		bool intersecting[4];
 		uint num_intersections = 0;
-		//checking intersections between the 4 chils and the gameobject
+
 		for (uint i = 0; i < 4; i++)
 		{
-			if (childs[i] != nullptr)
+			if (intersecting[i] = childs[i]->bbox.Intersects(*object->bbox))
 			{
-				if (intersecting[i] = childs[i]->bbox.Intersects((const AABB)*item->bbox))
-				{
-					++num_intersections;
-				}
+				num_intersections++;
 			}
 		}
+
 		if (num_intersections == 4)
 		{
 			it++;
 		}
 		else
 		{
-			it = objects.erase(it); //erase gameocject from father to add it to child nodes
+			// Erase this game object from the father list to add it to childs nodes
+			it = objects.erase(it);
 			for (uint i = 0; i < 4; i++)
 			{
 				if (intersecting[i])
 				{
-					childs[i]->Insert(item);
+					// Insert the Game Object into the correct child
+					childs[i]->Insert(object);
 				}
 			}
 		}
