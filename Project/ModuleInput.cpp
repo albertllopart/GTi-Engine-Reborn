@@ -144,10 +144,10 @@ update_status ModuleInput::PreUpdate(float dt)
 					//get name
 					std::string file_name = App->import->CleanFileName(file_dir.c_str());
 					App->textures->importer->Import(file_dir.c_str(), file_name);
-					//std::string clean = App->import->CleanFileName(file_dir.c_str());
+
 					if (App->editor->GetSelected() != nullptr)
 					{
-						ComponentMaterial* new_mat = App->editor->LoadComponentMaterial(file_dir.c_str());
+						ComponentMaterial* new_mat = App->editor->LoadComponentMaterial(file_name.c_str());
 						App->editor->GetSelected()->AddComponent(new_mat);
 					}
 				}
