@@ -8,6 +8,7 @@
 #include "Glew/include/glew.h"
 #include "JSONConfig.h"
 #include "MathGeoLib/Geometry/OBB.h"
+#include "ComponentMesh.h"
 
 GameObject::GameObject()
 {
@@ -82,8 +83,8 @@ void GameObject::Update()
 	}
 	if (show_bbox)
 	{
-		//DrawBBox(GetBBox());
-		UpdateBBox();
+		DrawBBox(bbox);
+		//UpdateBBox();
 	}
 }
 
@@ -257,17 +258,17 @@ void GameObject::UpdateBBox()
 
 			if (c_mesh->mesh != nullptr)
 			{
-				c_mesh->mesh->bbox->SetNegativeInfinity();
-				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex); //crash #2
+				c_mesh->mesh->bbox.SetNegativeInfinity();
+				c_mesh->mesh->bbox.Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex); //crash #2
 				//we create the obb if we transform the gmaeobject
 				OBB obb;
-				obb.SetFrom(*c_mesh->mesh->bbox);
+				obb.SetFrom(c_mesh->mesh->bbox);
 				if (my_transform != nullptr)
 				{
 					obb.Transform(my_transform->GetGlobalMatrix());
 				}
-				c_mesh->mesh->bbox = &obb.MinimalEnclosingAABB();
-				this->bbox = *&c_mesh->mesh->bbox;
+				c_mesh->mesh->bbox = obb.MinimalEnclosingAABB();
+				this->bbox = &c_mesh->mesh->bbox;
 				DrawBBox(bbox);
 			}
 		}
@@ -289,8 +290,8 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 	if (show_bbox && c_mesh != nullptr)
 	{
 		float3 bbox_vertex[8];
-		c_mesh->mesh->bbox->GetCornerPoints(bbox_vertex);
-		this->bbox = c_mesh->mesh->bbox;
+		c_mesh->mesh->bbox.GetCornerPoints(bbox_vertex);
+		this->bbox = &c_mesh->mesh->bbox;
 
 		DrawBBox(bbox);
 	}
@@ -317,24 +318,24 @@ void GameObject::DrawBBox(AABB* bbox) //PREGUNTAR RICARD
 	glEnd();
 }
 
-//AABB * GameObject::GetBBox()
-//{
-//	for (uint i = 0; i < components.size(); i++)
-//	{
-//		if (components[i]->GetType() == COMPONENT_MESH)
-//		{
-//			ComponentMesh* c_mesh = dynamic_cast<ComponentMesh*>(components[i]);
-//
-//			if (c_mesh->mesh != nullptr)
-//			{
-//				c_mesh->mesh->bbox->SetNegativeInfinity();
-//				c_mesh->mesh->bbox->Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex); //crash #2
-//				return c_mesh->mesh->bbox;
-//			}
-//		}
-//	}
-//	return nullptr;
-//}
+AABB * GameObject::GetBBox()
+{
+	for (uint i = 0; i < components.size(); i++)
+	{
+		if (components[i]->GetType() == COMPONENT_MESH)
+		{
+			ComponentMesh* c_mesh = dynamic_cast<ComponentMesh*>(components[i]);
+
+			if (c_mesh->mesh != nullptr)
+			{
+				c_mesh->mesh->bbox.SetNegativeInfinity();
+				c_mesh->mesh->bbox.Enclose((float3*)c_mesh->mesh->vertex, c_mesh->mesh->num_vertex); //crash #2
+				return &c_mesh->mesh->bbox;
+			}
+		}
+	}
+	return nullptr;
+}
 
 GameObject * GameObject::GetParent() const
 {

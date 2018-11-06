@@ -208,8 +208,8 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
 		}
 	}
 
-	mesh->mesh->bbox->SetNegativeInfinity();
-	mesh->mesh->bbox->Enclose((float3*)mesh->mesh->vertex, mesh->mesh->num_vertex);
+	mesh->mesh->bbox.SetNegativeInfinity();
+	mesh->mesh->bbox.Enclose((float3*)mesh->mesh->vertex, mesh->mesh->num_vertex);
 
 	RELEASE_ARRAY(buffer);
 
