@@ -156,7 +156,7 @@ void ComponentTransform::UpdateMatrix()
 			my_go->childs[i]->UpdateMatrix();
 		}
 	}
-
+	my_go->UpdateBBox();
 	TransformCamera();
 }
 

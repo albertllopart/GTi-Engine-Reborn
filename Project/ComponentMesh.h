@@ -17,7 +17,7 @@ struct Mesh
 	uint mesh_id = 0;
 
 	//std::string name;
-	AABB* bbox;
+	AABB bbox;
 
 	uint id_index = 0; // index in VRAM
 	uint num_index = 0;
