@@ -185,11 +185,12 @@ void ComponentCamera::Culling() const
 			items[i]->visible = false;
 		}
 
+
 		App->editor->quadtree.CollectIntersections(elements_to_cull, frustum); //preguntar ricard
 
 		for (uint i = 0; i < elements_to_cull.size(); i++)
 		{
-			elements_to_cull[i]->visible = false;
+			elements_to_cull[i]->visible = true;
 		}
 		
 	}
