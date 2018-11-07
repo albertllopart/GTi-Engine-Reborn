@@ -20,8 +20,6 @@ ModuleCamera3D::~ModuleCamera3D()
 
 bool ModuleCamera3D::Init(JSON_Object* node)
 {
-	App->renderer3D->active_camera = camera;
-
 	return true;
 }
 // -----------------------------------------------------------------
@@ -39,8 +37,6 @@ bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
 	App->imgui->consoleLogs.push_back("Cleaning camera");
-
-	App->renderer3D->active_camera = nullptr;
 
 	return true;
 }
@@ -80,8 +76,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT)
 			Orbit(dx, dy);
-		else
-			LookAt(dx, dy);
 	}
 
 	//math::float3 newPos(0.0f, 0.0f, 0.0f);
@@ -240,32 +234,9 @@ void ModuleCamera3D::Look(const float3& position)
 	camera->Look(position);
 }
 
-void ModuleCamera3D::CenterOn(const float3& position, float distance)
-{
-	float3 v = camera->frustum.front.Neg();
-	camera->frustum.pos = position + (v * distance);
-	looking_at = position;
-	looking = true;
-}
-
-// -----------------------------------------------------------------
-void ModuleCamera3D::LookAt( const float3 &Spot)
-{
-	Reference = Spot;
-	// GEOLIB
-	Z = (Position - Reference).Normalized();
-	X = math::Cross(math::float3(0.0f, 1.0f, 0.0f), Z).Normalized();
-	Y = math::Cross(Z, X);
-
-	CalculateViewMatrix();
-}
-
-
 // -----------------------------------------------------------------
 void ModuleCamera3D::Move(float dt)
 {
-	Frustum* frustum = &camera->frustum;
-
 	float speed = 1.0f * dt;
 	
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
@@ -273,8 +244,8 @@ void ModuleCamera3D::Move(float dt)
 		speed = 2.0f * dt;
 	}
 
-	float3 right(frustum->WorldRight());
-	float3 forward(frustum->front);
+	float3 right(camera->frustum.WorldRight());
+	float3 forward(camera->frustum.front);
 
 	float3 movement(float3::zero);
 
@@ -287,75 +258,43 @@ void ModuleCamera3D::Move(float dt)
 
 	if (movement.Equals(float3::zero) == false)
 	{
-		frustum->Translate(movement * speed);
+		camera->frustum.Translate(movement * speed);
 	}
+
+	camera->UpdateMatrix();
 }
 
 void ModuleCamera3D::Orbit(float dx, float dy)
 {
-	float3 point = looking_at;
+	float3 point = camera->GetFrustum().pos - reference;
 
-	if (looking == false)
-	{
-		LineSegment picking = camera->frustum.UnProjectLineSegment(0.f, 0.f);
-		float distance;
-		GameObject* hit = App->editor->GetSelected();
+	Quat quatx(camera->GetFrustum().WorldRight(), dy * 0.01f);
+	Quat quaty(camera->GetFrustum().up, dx * 0.01f);
 
-		if (hit != nullptr)
-			point = picking.GetPoint(distance);
-		else
-			point = camera->frustum.pos + camera->frustum.front * 50.0f;
+	point = quatx.Transform(point);
+	point = quaty.Transform(point);
 
-		looking = true;
-		looking_at = point;
-	}
-
-	float3 focus = camera->frustum.pos - point;
-
-	Quat qy(camera->frustum.up, dx);
-	Quat qx(camera->frustum.WorldRight(), dy);
-
-	focus = qx.Transform(focus);
-	focus = qy.Transform(focus);
-
-	camera->frustum.pos = focus + point;
-
-	Look(point);
+	camera->frustum.pos = point + reference;
+	LookAt(reference);
+	camera->UpdateMatrix();
 }
 
-void ModuleCamera3D::LookAt(float dx, float dy)
+void ModuleCamera3D::Zoom(float zoom)
 {
-	looking = false;
+	float distance = reference.Distance(camera->frustum.pos);
+	float3 new_pos = camera->frustum.pos + camera->frustum.front * zoom * distance * 0.05f;
+	camera->frustum.pos = new_pos;
+	camera->UpdateMatrix();
+}
 
-	if (dx != 0.f)
-	{
-		Quat q = Quat::RotateY(dx);
-		camera->frustum.front = q.Mul(camera->frustum.front).Normalized();
-		camera->frustum.up = q.Mul(camera->frustum.up).Normalized();
-	}
-
-	if (dy != 0.f)
-	{
-		Quat q = Quat::RotateAxisAngle(camera->frustum.WorldRight(), dy);
-
-		float3 new_up = q.Mul(camera->frustum.up).Normalized();
-
-		if (new_up.y > 0.0f)
-		{
-			camera->frustum.up = new_up;
-			camera->frustum.front = q.Mul(camera->frustum.front).Normalized();
-		}
-	}
+void ModuleCamera3D::LookAt(const float3& position)
+{
+	camera->Look(position);
+	reference = position;
 }
 
 void ModuleCamera3D::CameraRotation() const
 {
-}
-
-// -----------------------------------------------------------------
-float* ModuleCamera3D::GetViewMatrix()
-{
-	return ViewMatrix.ptr();
 }
 
 ComponentCamera * ModuleCamera3D::GetCamera() const
@@ -366,14 +305,6 @@ ComponentCamera * ModuleCamera3D::GetCamera() const
 ComponentCamera * ModuleCamera3D::SetCamera(ComponentCamera * cam)
 {
 	return camera = cam;
-}
-
-// -----------------------------------------------------------------
-void ModuleCamera3D::CalculateViewMatrix()
-{
-	// GEOLIB
-	ViewMatrix = math::float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f);
-	ViewMatrixInverse = ViewMatrix.Inverted();
 }
 
 //void ModuleCamera3D::CenterToMesh(Mesh * mesh)
@@ -392,4 +323,11 @@ void ModuleCamera3D::CalculateViewMatrix()
 float3 ModuleCamera3D::GetPosition() const
 {
 	return camera->GetFrustum().pos;
+}
+
+void ModuleCamera3D::SetPosition(float3 pos)
+{
+	float3 difference = pos - camera->frustum.pos;
+	camera->frustum.pos = pos;
+	reference += difference;
 }

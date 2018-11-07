@@ -28,6 +28,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 bool ModuleRenderer3D::Init(JSON_Object* node)
 {
 	camera = App->camera->GetCamera();
+
 	LOG("Creating 3D Renderer context");
 	App->imgui->AddConsoleLog("Creating 3D Renderer context");
 	bool ret = true;
@@ -136,32 +137,33 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	// Projection matrix for
 	OnResize(json_object_get_number(node, "width"), json_object_get_number(node, "height"));
 
-
 	return ret;
+}
+
+bool ModuleRenderer3D::Start()
+{
+	return true;
 }
 
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	ComponentCamera* cam =  App->camera->GetCamera();
-
-	if (cam->projection_changed == true)
-	{
-		RefreshProjection();
-		cam->projection_changed = false;
-	}
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
+
+	/*if (camera->update_mat == true)
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
+		camera->update_mat = false;
+	}*/
 	
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(cam->GetOpenGLViewMatrix());
-
-
+	glLoadMatrixf(App->camera->camera->GetOpenGLViewMatrix());
 
 	// Light 0 on cam pos
 	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-	if (active_camera != nullptr)
+	if (camera != nullptr)
 	{
 		FrustumCulling();
 	}
@@ -186,6 +188,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->imgui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -202,7 +205,7 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::FrustumCulling() const
 {
-	active_camera->Culling();
+	App->camera->camera->Culling();
 }
 
 void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
@@ -276,12 +279,13 @@ void ModuleRenderer3D::Draw(GameObject* to_draw)
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
+	App->camera->camera->SetAspectRatio(width, height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// GEOLIB
 	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	glLoadMatrixf((GLfloat*)ProjectionMatrix.ptr());
+	glLoadMatrixf(App->camera->camera->GetOpenGLProjectionMatrix());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -389,7 +393,7 @@ void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
 
 void ModuleRenderer3D::SetMainCamera(ComponentCamera* cam) //Main camera gets affected by culling
 {
-	active_camera = cam;
+	camera = cam;
 }
 
 void ModuleRenderer3D::RefreshProjection()

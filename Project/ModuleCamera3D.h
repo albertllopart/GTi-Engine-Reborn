@@ -21,37 +21,30 @@ public:
 	bool CleanUp();
 
 	void Look(const float3 &Position);
-	void CenterOn(const float3& position, float distance);
-	void LookAt(const float3 &Spot);
+	void LookAt(const float3 & position);
 	void Move(float dt);
 	void Orbit(float dx, float dy);
-	void LookAt(float dx, float dy);
+	
+	void Zoom(float zoom);
 	void CameraRotation()const;
-	float* GetViewMatrix();
+	
 	//void CenterToMesh(Mesh * mesh);
 	ComponentCamera* GetCamera() const;
 	ComponentCamera* SetCamera(ComponentCamera* cam);
 
 	float3 GetPosition()const;
-
-private:
-
-	void CalculateViewMatrix();
+	void SetPosition(float3 pos);
 
 public:
-	
-	math::float3 X, Y, Z, Position, Reference;
-	math::float3 focus;
-private:
-
-	math::float4x4 ViewMatrix, ViewMatrixInverse;
-	bool free_move = false;
 
 	ComponentCamera* camera = nullptr;
-	float3 looking_at = float3::zero;
-	bool looking = false;
 
-	math::LineSegment picking;
+private:
+
+	float3 reference = float3::zero;
+	float3 new_pos = float3::zero;
+
+	LineSegment picking = LineSegment(float3::zero, float3::zero);
 
 	MousePicking* mouse_picker = nullptr;
 };

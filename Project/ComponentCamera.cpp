@@ -6,28 +6,30 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 
-ComponentCamera::ComponentCamera( float3 pos, float3 front, float3 up, float near_plane_dist, float far_plane_dist, float vertical_fov, float aspect_ratio, FrustumType type):Component( COMPONENT_CAMERA)
+ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 {
 	name = "Camera";
 
-	frustum.SetPos(pos);
-	frustum.SetFront(front);
-	frustum.SetUp(up);
-	frustum.SetViewPlaneDistances(near_plane_dist, far_plane_dist);
-	fov = vertical_fov;
-	frustum.verticalFov = DEGTORAD * fov;
-	frustum.horizontalFov = 2.f * atanf((tanf(frustum.verticalFov * 0.5f)) * (aspect_ratio));
-	this->aspect_ratio = aspect_ratio;
+	frustum.nearPlaneDistance = 0.2f;
+	frustum.farPlaneDistance = 10000.0f;
+
 	frustum.type = PerspectiveFrustum;
-	frustum.ProjectionMatrix();
+	frustum.front = { 0, 0, 1 };
+	frustum.up = { 0, 1, 0 };
 
-	float3 new_pos = { 0.f, 10.f, 0.f };
-	SetPos(new_pos);
+	frustum.pos = { 5, 5, -5 };
+	frustum.verticalFov = 1.0f;
+	SetAspectRatio(16.f, 9.f);
 
-	float3 new_look = { 0.f, 0.f, 0.f };
-	Look(new_look);
+	frustum.horizontalFov = atan(GetAspectRatio()*tan(frustum.verticalFov / 2)) * 2;
 
-	projection_changed = true;
+	UpdateMatrix();
+
+	if (my_go != nullptr)
+	{
+		OnUpdateMatrix(my_go->GetTransMatrix());
+	}
+
 	active = false;
 }
 
@@ -57,7 +59,11 @@ void ComponentCamera::OnEditor()
 void ComponentCamera::SetAspectRatio(float x, float y)
 {
 	aspect_ratio = x / y;
-	SetFov();
+}
+
+float ComponentCamera::GetAspectRatio() const
+{
+	return aspect_ratio;
 }
 
 void ComponentCamera::SetFov()
@@ -127,7 +133,6 @@ void ComponentCamera::ShowInspectorWindow()
 
 void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
 {
-	int test;
 	if (this != nullptr)
 	{
 		frustum.SetPos(matrix.TranslatePart());
@@ -191,6 +196,11 @@ void ComponentCamera::Culling() const
 float * ComponentCamera::GetProjectionMatrix() const
 {
 	return (float*)projection_matrix.v;
+}
+
+float * ComponentCamera::GetViewMatrix() const
+{
+	return (float*)view_matrix.v;
 }
 
 Frustum  ComponentCamera::GetFrustum() const

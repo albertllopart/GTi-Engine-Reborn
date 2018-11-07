@@ -27,6 +27,7 @@ public:
 	update_status PostUpdate(float dt);
 
 	bool Init(JSON_Object* node);
+	bool Start();
 	bool CleanUp();
 	void FrustumCulling() const;
 	//void Draw(Mesh* toDraw);
@@ -63,7 +64,6 @@ public:
 	bool show_normals = false;
 
 	ComponentCamera* camera = nullptr;
-	ComponentCamera* active_camera = nullptr;
 };
 
 #endif

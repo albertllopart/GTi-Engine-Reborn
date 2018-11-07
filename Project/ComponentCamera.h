@@ -10,16 +10,26 @@
 class ComponentCamera : public Component
 {
 public: 
-	ComponentCamera(float3 pos = { 0,1,-2 }, float3 front = { 0,0,1 }, float3 up = { 0,0.5f,0 }, float near_plane_dist = 1.0f, float far_plane_dist = 100.0f, float vertica_fov = 10, float aspect_ratio = 16.f / 9.f, FrustumType type = FrustumType::PerspectiveFrustum);
+	ComponentCamera();
 	~ComponentCamera();
 
 	void Update();
 
+	//getters
+	float* GetViewMatrix()const;
+	float* GetProjectionMatrix()const;
+	Frustum GetFrustum() const;
+	float* GetOpenGLViewMatrix();
+	float* GetOpenGLProjectionMatrix();
+	float GetAspectRatio() const;
+
+	//setters
 	void SetPos(float3 pos);
-	void OnEditor();
 	void SetAspectRatio(float x, float y);
 	void SetFov();
 	void SetVerticalFOV(float value);
+	
+	void OnEditor();
 	void ShowInspectorWindow();
 	void OnUpdateMatrix(const float4x4 & matrix);
 	void UpdateMatrix();
@@ -28,16 +38,12 @@ public:
 
 	void Look(const float3& position);
 
-	float* GetProjectionMatrix()const;
-	Frustum GetFrustum() const;
-
-	float* GetOpenGLViewMatrix();
-	float* GetOpenGLProjectionMatrix();
-
 public:
+
 	bool update_mat = false;
+	Frustum frustum;
 
-public:
+private:
 
 	float fov;
 	float aspect_ratio;
@@ -48,7 +54,6 @@ public:
 
 	GameObject* scene_go = nullptr;
 
-	Frustum frustum;
 	float4x4 view_matrix = float4x4::zero;
 	float4x4 projection_matrix = float4x4::zero;
 
