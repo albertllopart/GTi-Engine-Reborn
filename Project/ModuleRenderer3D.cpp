@@ -135,7 +135,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	}
 
 	// Projection matrix for
-	OnResize(json_object_get_number(node, "width"), json_object_get_number(node, "height"));
+	OnResize(App->window->width, App->window->height);
 
 	return ret;
 }
@@ -148,25 +148,26 @@ bool ModuleRenderer3D::Start()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	/*if (camera->update_mat == true)
+	if (camera->update_mat == true)
 	{
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
+		glLoadMatrixf((GLfloat*)camera->GetOpenGLProjectionMatrix());
 		camera->update_mat = false;
-	}*/
+	}
 	
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->camera->GetOpenGLViewMatrix());
+	glLoadMatrixf(camera->GetOpenGLViewMatrix());
 
 	// Light 0 on cam pos
 	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-	if (camera != nullptr)
+	/*if (camera != nullptr)
 	{
 		FrustumCulling();
-	}
+	}*/
 	
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
@@ -184,6 +185,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->editor->Draw();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf((GLfloat*)camera->GetOpenGLProjectionMatrix());
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(camera->GetOpenGLViewMatrix());
 
 	App->imgui->Draw();
 
