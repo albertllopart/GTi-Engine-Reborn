@@ -155,10 +155,6 @@ update_status ModuleImGui::Update(float dt)
 	{
 		AboutWindow();
 	}
-	if (hierarchy)
-	{
-		ShowHierarchy();
-	}
 	if (confirmation)
 	{
 		Confirmation();
