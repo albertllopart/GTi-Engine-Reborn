@@ -143,16 +143,19 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+	ComponentCamera* cam =  App->camera->GetCamera();
+
+	if (cam->projection_changed == true)
+	{
+		RefreshProjection();
+		cam->projection_changed = false;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	if (camera->update_mat == true)
-	{
-		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
-		camera->update_mat = false;
-	}
+	
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf(cam->GetOpenGLViewMatrix());
 
 
 
@@ -387,4 +390,16 @@ void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
 void ModuleRenderer3D::SetMainCamera(ComponentCamera* cam) //Main camera gets affected by culling
 {
 	active_camera = cam;
+}
+
+void ModuleRenderer3D::RefreshProjection()
+{
+	ComponentCamera* cam = App->camera->GetCamera();
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glLoadMatrixf((GLfloat*)cam->GetOpenGLProjectionMatrix());
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }

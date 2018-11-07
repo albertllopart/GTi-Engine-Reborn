@@ -42,6 +42,7 @@ public:
 	void SetColorMaterial();
 	void SetTexture2D();
 	void SetWireFrame();
+	void RefreshProjection();
 
 	void SetCamera(ComponentCamera * cam);
 	void SetMainCamera(ComponentCamera * cam);

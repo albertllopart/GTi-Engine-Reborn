@@ -15,18 +15,24 @@ public:
 	ModuleCamera3D(Application* app, bool start_enabled = true);
 	~ModuleCamera3D();
 
+	bool Init(JSON_Object* node);
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);
+	void Look(const float3 &Position);
+	void CenterOn(const float3& position, float distance);
 	void LookAt(const float3 &Spot);
-	void Move(const float3 &Movement);
+	void Move(float dt);
+	void Orbit(float dx, float dy);
+	void LookAt(float dx, float dy);
 	void CameraRotation()const;
 	float* GetViewMatrix();
 	//void CenterToMesh(Mesh * mesh);
 	ComponentCamera* GetCamera() const;
 	ComponentCamera* SetCamera(ComponentCamera* cam);
+
+	float3 GetPosition()const;
 
 private:
 
@@ -40,7 +46,11 @@ private:
 
 	math::float4x4 ViewMatrix, ViewMatrixInverse;
 	bool free_move = false;
+
 	ComponentCamera* camera = nullptr;
+	float3 looking_at = float3::zero;
+	bool looking = false;
+
 	math::LineSegment picking;
 
 	MousePicking* mouse_picker = nullptr;

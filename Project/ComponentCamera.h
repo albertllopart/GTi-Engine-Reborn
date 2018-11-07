@@ -2,7 +2,7 @@
 #define __COMPONENT_CAMERA__
 
 #include "Component.h"
-//#include "Globals.h"
+#include "Globals.h"
 #include "MathGeoLib/Geometry/Frustum.h"
 #include "MathGeoLib/Math/float3.h"
 #include <vector>
@@ -26,9 +26,13 @@ public:
 	void DrawDebug() const;
 	void Culling()const;
 
+	void Look(const float3& position);
 
 	float* GetProjectionMatrix()const;
 	Frustum GetFrustum() const;
+
+	float* GetOpenGLViewMatrix();
+	float* GetOpenGLProjectionMatrix();
 
 public:
 	bool update_mat = false;
@@ -39,7 +43,11 @@ public:
 	float aspect_ratio;
 	bool culling = false;
 	bool main_camera = false;
-	GameObject* scene_go;
+
+	bool projection_changed = false;
+
+	GameObject* scene_go = nullptr;
+
 	Frustum frustum;
 	float4x4 view_matrix = float4x4::zero;
 	float4x4 projection_matrix = float4x4::zero;

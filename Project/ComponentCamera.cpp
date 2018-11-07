@@ -9,6 +9,7 @@
 ComponentCamera::ComponentCamera( float3 pos, float3 front, float3 up, float near_plane_dist, float far_plane_dist, float vertical_fov, float aspect_ratio, FrustumType type):Component( COMPONENT_CAMERA)
 {
 	name = "Camera";
+
 	frustum.SetPos(pos);
 	frustum.SetFront(front);
 	frustum.SetUp(up);
@@ -20,6 +21,13 @@ ComponentCamera::ComponentCamera( float3 pos, float3 front, float3 up, float nea
 	frustum.type = PerspectiveFrustum;
 	frustum.ProjectionMatrix();
 
+	float3 new_pos = { 0.f, 10.f, 0.f };
+	SetPos(new_pos);
+
+	float3 new_look = { 0.f, 0.f, 0.f };
+	Look(new_look);
+
+	projection_changed = true;
 	active = false;
 }
 
@@ -188,4 +196,34 @@ float * ComponentCamera::GetProjectionMatrix() const
 Frustum  ComponentCamera::GetFrustum() const
 {
 	return frustum;
+}
+
+void ComponentCamera::Look(const float3& position)
+{
+	float3 dir = position - frustum.pos;
+
+	float3x3 matrix = float3x3::LookAt(frustum.front, dir.Normalized(), frustum.up, float3::unitY);
+
+	frustum.front = matrix.MulDir(frustum.front).Normalized();
+	frustum.up = matrix.MulDir(frustum.up).Normalized();
+}
+
+float* ComponentCamera::GetOpenGLViewMatrix()
+{
+	static float4x4 m;
+
+	m = frustum.ViewMatrix();
+	m.Transpose();
+
+	return (float*)m.v;
+}
+
+float* ComponentCamera::GetOpenGLProjectionMatrix()
+{
+	static float4x4 m;
+
+	m = frustum.ProjectionMatrix();
+	m.Transpose();
+
+	return (float*)m.v;
 }
