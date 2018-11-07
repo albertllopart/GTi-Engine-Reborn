@@ -159,7 +159,6 @@ void GameObject::OnEditor()
 			}
 			
 			bug->AddComponent(COMPONENT_TRANSFORM);
-			//App->editor->quadtree.Insert(bug); peta
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
@@ -186,7 +185,13 @@ void GameObject::ShowInspectorWindow()
 		{
 			ImGui::Checkbox("Active", &active);
 			ImGui::SameLine();
-			ImGui::Text(name.c_str());	//TODO EDIT G.O. NAME in inspector
+			char namedit[50];
+			strcpy_s(namedit,50, name.c_str());
+			if (ImGui::InputText("##GOname", namedit, 50, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				name = std::string(namedit).c_str();
+			}
+			//ImGui::Text(name.c_str());	
 			ImGui::Checkbox("", &is_static);
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.25f, 1.00f, 1.00f, 1.00f), "Static");
