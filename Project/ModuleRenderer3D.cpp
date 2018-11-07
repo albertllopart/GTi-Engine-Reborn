@@ -197,40 +197,6 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
-//void ModuleRenderer3D::Draw(Mesh* to_draw)
-//{
-//	glBindTexture(GL_TEXTURE_2D, mat->GetID());
-//
-//	glEnableClientState(GL_VERTEX_ARRAY);
-//	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_vertex);
-//	glVertexPointer(3, GL_FLOAT, 0, NULL);
-//
-//	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-//	glBindBuffer(GL_ARRAY_BUFFER, to_draw->id_texcoord);
-//	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-//
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->id_index);
-//
-//	glDrawElements(GL_TRIANGLES, to_draw->num_index, GL_UNSIGNED_INT, NULL);
-//	
-//
-//
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-//	glDisableClientState(GL_VERTEX_ARRAY);
-//	glBindTexture(GL_TEXTURE_2D, 0);
-//
-//	if (show_normals)//draw normals
-//	{
-//		for (int i = 0; i < to_draw->num_vertex; i += 3)
-//		{
-//			pLine line(to_draw->vertex[i], to_draw->vertex[i + 1], to_draw->vertex[i + 2], to_draw->normals[i] + to_draw->vertex[i], to_draw->normals[i + 1] + to_draw->vertex[i + 1], to_draw->normals[i + 2] + to_draw->vertex[i + 2]);
-//			line.Render();
-//		}
-//	}
-//}
-
 void ModuleRenderer3D::FrustumCulling() const
 {
 	active_camera->Culling();

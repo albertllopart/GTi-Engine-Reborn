@@ -101,7 +101,6 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::BeginMenu("Mesh Parameters", false)) // Disabled
 			{
 				IM_ASSERT(0);
-				//ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
 		}
@@ -152,10 +151,6 @@ update_status ModuleImGui::Update(float dt)
 	{
 		ImGui::ShowTestWindow();
 	}
-	//if (show_mesh_info)
-	//{
-	//	ShowMeshesInfo();
-	//}
 	if (about)
 	{
 		AboutWindow();
@@ -277,10 +272,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 
 			if (ImGui::CollapsingHeader("Renderer"))
 			{
-				if (ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe))
-				{
-					//App->renderer3D->SetWireFrame();
-				}
+				ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe);
 				if (ImGui::Checkbox("Depth Test", &App->renderer3D->depthTest))
 				{
 					App->renderer3D->SetDepthTest();

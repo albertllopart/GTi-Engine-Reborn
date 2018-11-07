@@ -204,8 +204,16 @@ void GameObject::ShowInspectorWindow()
 
 void GameObject::AddComponent(Component* to_add)
 {
-	components.push_back(to_add);
-	to_add->SetMyGo(this);
+	if (to_add != nullptr)
+	{
+		components.push_back(to_add);
+		to_add->SetMyGo(this);
+	}
+	else
+	{
+		LOG("Failed to add Component!");
+	}
+
 }
 
 Component* GameObject::AddComponent(COMPONENT_TYPE component)
@@ -304,19 +312,24 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 
 void GameObject::DrawBBox(AABB* bbox) //PREGUNTAR RICARD
 {
-	glBegin(GL_LINES);
-	glLineWidth(1.0f);
-	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
-
-	for (uint i = 0; i < 12; i++)
+	if (bbox != nullptr)
 	{
-		glVertex3f(bbox->Edge(i).a.x, bbox->Edge(i).a.y, bbox->Edge(i).a.z);
-		glVertex3f(bbox->Edge(i).b.x, bbox->Edge(i).b.y, bbox->Edge(i).b.z);
+		glBegin(GL_LINES);
+		glLineWidth(1.0f);
+		glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(bbox->Edge(i).a.x, bbox->Edge(i).a.y, bbox->Edge(i).a.z);
+			glVertex3f(bbox->Edge(i).b.x, bbox->Edge(i).b.y, bbox->Edge(i).b.z);
+		}
+
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+		glEnd();
 	}
-
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	glEnd();
+	else
+		LOG("Couldn't draw BoundingBox!!");
 }
 
 AABB * GameObject::GetBBox()
@@ -386,18 +399,23 @@ std::vector<Component*> GameObject::GetComponents() const
 
 void GameObject::SetName(const char * name)
 {
-	this->name = name;
+	if (name != nullptr)
+	{
+		this->name = name;
+	}
+	else
+		LOG("Couldn't set GameObject name!");
 }
 
 void GameObject::AddChild(GameObject* child)
 {
-	childs.push_back(child);
-	if (this != nullptr)
+	if (child != nullptr)
 	{
-		child->parent = this; //PREGUNTAR RICARD
+		childs.push_back(child);
+		child->parent = this;
 	}
-	
-
+	else
+		LOG("Couldn't add %s as a child!", child->name);
 }
 
 void GameObject::SetToDelete()
@@ -420,18 +438,20 @@ void GameObject::GetSceneGameObjects(std::vector<GameObject*>& scene_go) const
 
 bool GameObject::RemoveGameObject(GameObject * to_remove)
 {
-
-	for (uint i = 0; i < childs.size(); i++)
+	if (to_remove != nullptr)
 	{
-		GameObject* item = childs[i];
-
-		if (item == to_remove)
+		for (uint i = 0; i < childs.size(); i++)
 		{
+			GameObject* item = childs[i];
 
-			childs.erase(childs.begin() + i);
-			item->CleanRemove();
-			RELEASE(item);
-			return true;
+			if (item == to_remove)
+			{
+
+				childs.erase(childs.begin() + i);
+				item->CleanRemove();
+				RELEASE(item);
+				return true;
+			}
 		}
 	}
 	return false;
@@ -459,10 +479,6 @@ void GameObject::CleanRemove()
 		RELEASE(item);
 
 	}
-	//if (parent == App->editor->GetRoot())
-	//{	
-	//	App->editor->RemoveGameObjectFromScene();
-	//}
 	parent = nullptr;
 }
 
@@ -495,8 +511,12 @@ bool GameObject::OnSave(JSON_Value* array) const
 		}
 
 		//add value into array
-		JSON_Array* my_array = json_value_get_array(array);
-		json_array_append_value(my_array, json_value_deep_copy(go_value));
+		if (array != nullptr)
+		{
+			JSON_Array* my_array = json_value_get_array(array);
+			json_array_append_value(my_array, json_value_deep_copy(go_value));
+		}
+
 	}
 
 	//call childs OnSave()

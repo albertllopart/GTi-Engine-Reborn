@@ -92,8 +92,11 @@ bool ComponentMesh::OnSave(JSON_Value* array, uint go_uid)
 	json_object_set_number(comp_object, "Type", type);
 
 	//add everything to the components array
-	JSON_Array* my_array = json_value_get_array(array);
-	json_array_append_value(my_array, comp_value);
+	if (array != nullptr)
+	{
+		JSON_Array* my_array = json_value_get_array(array);
+		json_array_append_value(my_array, comp_value);
+	}
 
 	return true;
 }

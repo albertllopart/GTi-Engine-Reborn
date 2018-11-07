@@ -15,7 +15,6 @@
 
 void AssimpCallback(const char* msg, char* userData)
 {
-	//LOG("%s", msg);
 	if (App != nullptr)
 	{
 		std::string log = msg;
@@ -54,16 +53,20 @@ bool ModuleImporter::CleanUp(JSON_Object* data)
 ComponentMesh* ModuleImporter::LoadMesh(const char* fullPath)
 {
 	ComponentMesh* mesh = new ComponentMesh;
-	
-	std::string temp = CleanFileName(fullPath);
-	importer->Load(temp.c_str(), mesh);
-	mesh->source = temp;
-
+	if (fullPath != nullptr)
+	{
+		std::string temp = CleanFileName(fullPath);
+		importer->Load(temp.c_str(), mesh);
+		mesh->source = temp;
+	}
 	return mesh;
 }
 
 bool ModuleImporter::ImportMesh(const char* fullPath)
 {
+	if (fullPath == nullptr)
+		return false;
+
 	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -117,7 +120,6 @@ ComponentMaterial* ModuleImporter::LoadMaterial(aiMaterial* drop)
 {
 	ComponentMaterial* mat = new ComponentMaterial();
 
-	//MATERIAL
 	if (drop != nullptr)
 	{
 		uint numTextures = drop->GetTextureCount(aiTextureType_DIFFUSE);

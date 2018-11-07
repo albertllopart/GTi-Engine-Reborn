@@ -33,20 +33,21 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 bool ModuleFileSystem::CreateNewDirectory(const char* name) const
 {
 	bool result = false;
-	
-	result = CreateDirectory(name, NULL);
-
-	if (result)
+	if (name != nullptr)
 	{
-		std::string add = ("Directory %s created", name);
-		App->imgui->AddConsoleLog(add);
-	}
-	else
-	{
-		std::string add = ("Couldn't create %s directory", name);
-		App->imgui->AddConsoleLog(add);
-	}
+		result = CreateDirectory(name, NULL);
 
+		if (result)
+		{
+			std::string add = ("Directory %s created", name);
+			App->imgui->AddConsoleLog(add);
+		}
+		else
+		{
+			std::string add = ("Couldn't create %s directory", name);
+			App->imgui->AddConsoleLog(add);
+		}
+	}
 	return result;
 }
 
@@ -88,11 +89,14 @@ bool ModuleFileSystem::SaveFile(std::string name, char* buffer, int buffer_size,
 bool ModuleFileSystem::SaveJSONintoOWN(JSON_Value * value, const char * name)
 {
 	std::string path;
-
-	path = SCENE_DIRECTORY;
-	path += "/";
-	path += name;
-	path += SCENE_EXTENSION;
+	
+	if (name != nullptr)
+	{
+		path = SCENE_DIRECTORY;
+		path += "/";
+		path += name;
+		path += SCENE_EXTENSION;
+	}
 
 	return json_serialize_to_file(value, path.c_str());
 }
