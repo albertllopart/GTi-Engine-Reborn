@@ -44,7 +44,6 @@ public:
 	float4x4 view_matrix = float4x4::zero;
 	float4x4 projection_matrix = float4x4::zero;
 
-	std::vector<GameObject*> elements_to_cull;
 };
 
 

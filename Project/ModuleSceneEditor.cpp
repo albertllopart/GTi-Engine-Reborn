@@ -168,6 +168,7 @@ std::vector<GameObject*> ModuleSceneEditor::GetAllGO()
 
 std::vector<GameObject*> ModuleSceneEditor::GetStaticGO()
 {
+	FillQuadtree();
 	return static_scene_go;
 }
 
