@@ -57,20 +57,6 @@ void QuadtreeNode::Insert(GameObject * gameObject)
 			}
 		}
 	}
-	//if (objects.size() == QUADTREE_MAX_SIZE)
-	//{
-	//	if (IsLeaf() && subdivisions < QUADTREE_MAX_SUBDIVISIONS)
-	//	{
-	//		Subdivide(); // subdivide in 4 
-	//	}
-	//	objects.push_back(gameObject);
-	//	DistributeObjects();
-	//}
-	//else
-	//{
-	//	objects.push_back(gameObject);
-	//}
-		
 }
 
 void QuadtreeNode::Remove(GameObject * to_remove)

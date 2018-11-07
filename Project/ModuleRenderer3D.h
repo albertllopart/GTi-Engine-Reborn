@@ -44,6 +44,7 @@ public:
 	void SetWireFrame();
 
 	void SetCamera(ComponentCamera * cam);
+	void SetMainCamera(ComponentCamera * cam);
 
 public:
 
@@ -61,6 +62,7 @@ public:
 	bool show_normals = false;
 
 	ComponentCamera* camera = nullptr;
+	ComponentCamera* active_camera = nullptr;
 };
 
 #endif

@@ -60,8 +60,6 @@ private:
 	GameObject* selected_go = nullptr;
 	GameObject* root = nullptr;
 
-	//float quad_size = 100.0f;
-
 	std::vector<GameObject*>scene_go;
 	std::vector<GameObject*>static_scene_go;
 };

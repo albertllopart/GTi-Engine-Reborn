@@ -30,7 +30,10 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	DrawDebug();
+	if (my_go->visible)
+	{
+		DrawDebug();
+	}
 }
 
 void ComponentCamera::SetPos(float3 pos)
@@ -40,29 +43,8 @@ void ComponentCamera::SetPos(float3 pos)
 
 void ComponentCamera::OnEditor()
 {
-	//if (ImGui::TreeNodeEx(name.c_str()))
-	//{
-	//	ImGui::Text("Position:");
-	//	ImGui::DragFloat("X", &frustum.pos.x, -0.5f, 0.5f);
-	//	ImGui::DragFloat("Y", &frustum.pos.y, -0.5f, 0.5f);
-	//	ImGui::DragFloat("Z", &frustum.pos.z, -0.5f, 0.5f);
 
-	//	ImGui::DragFloat3("Frustum up", frustum.up.ptr(), -0.5f, 0.5f);
-	//	ImGui::DragFloat3("Frustum front", frustum.front.ptr(), -0.5f, 0.5f);
-
-
-
-	//	ImGui::Text("FOV:");
-	//	if (ImGui::InputFloat("Vertical fov", &fov, 0.5f, 115, 3))
-	//	{
-	//		SetFov();
-	//	}
-	//	ImGui::Checkbox("Active", &active);
-	//	ImGui::TreePop();
-	//}
 }
-
-
 
 void ComponentCamera::SetAspectRatio(float x, float y)
 {
@@ -99,7 +81,10 @@ void ComponentCamera::ShowInspectorWindow()
 		}
 		if (node_open)
 		{
-			ImGui::Checkbox("Enable Culling##show_bb", &culling);
+			if (ImGui::Checkbox("Enable Culling##show_bb", &culling))
+			{
+				App->renderer3D->SetMainCamera(this);
+			}
 
 			
 			if (ImGui::Checkbox("Set Render Camera##show_bb", &main_camera))
@@ -184,7 +169,6 @@ void ComponentCamera::Culling() const
 		{
 			items[i]->visible = false;
 		}
-
 
 		App->editor->quadtree.CollectIntersections((std::vector<GameObject*>)elements_to_cull, frustum); //preguntar ricard
 

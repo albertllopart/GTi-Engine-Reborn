@@ -158,6 +158,11 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	// Light 0 on cam pos
 	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	if (active_camera != nullptr)
+	{
+		FrustumCulling();
+	}
+	
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
@@ -228,52 +233,54 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::FrustumCulling() const
 {
-	std::vector<GameObject*> objects;
-	//App->editor->quadtree.CollectIntersections(objects, camera->frustum);
+	active_camera->Culling();
 }
 
 void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
-	glPushMatrix();
-	glMultMatrixf((float*)&to_draw->GetMyGo()->GetTransMatrix());
-
-	if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
+	if (to_draw->GetMyGo()->visible)
 	{
-		ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
-		glBindTexture(GL_TEXTURE_2D, temp->GetID());
-	}
-	
+		glPushMatrix();
+		glMultMatrixf((float*)&to_draw->GetMyGo()->GetTransMatrix());
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_vertex);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_texcoord);
-	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->id_index);
-
-	glDrawElements(GL_TRIANGLES, to_draw->mesh->num_index, GL_UNSIGNED_INT, NULL);
-
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (show_normals)//draw normals
-	{
-		for (int i = 0; i < to_draw->mesh->num_vertex; i += 3)
+		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
-			pLine line(to_draw->mesh->vertex[i], to_draw->mesh->vertex[i + 1], to_draw->mesh->vertex[i + 2], to_draw->mesh->normals[i] + to_draw->mesh->vertex[i], to_draw->mesh->normals[i + 1] + to_draw->mesh->vertex[i + 1], to_draw->mesh->normals[i + 2] + to_draw->mesh->vertex[i + 2]);
-			line.Render();
+			ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
+			glBindTexture(GL_TEXTURE_2D, temp->GetID());
 		}
-	}
 
-	glPopMatrix();
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_vertex);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_texcoord);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->id_index);
+
+		glDrawElements(GL_TRIANGLES, to_draw->mesh->num_index, GL_UNSIGNED_INT, NULL);
+
+
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (show_normals)//draw normals
+		{
+			for (int i = 0; i < to_draw->mesh->num_vertex; i += 3)
+			{
+				pLine line(to_draw->mesh->vertex[i], to_draw->mesh->vertex[i + 1], to_draw->mesh->vertex[i + 2], to_draw->mesh->normals[i] + to_draw->mesh->vertex[i], to_draw->mesh->normals[i + 1] + to_draw->mesh->vertex[i + 1], to_draw->mesh->normals[i + 2] + to_draw->mesh->vertex[i + 2]);
+				line.Render();
+			}
+		}
+
+		glPopMatrix();
+	}
 }
 
 void ModuleRenderer3D::Draw(GameObject* to_draw)
@@ -289,15 +296,6 @@ void ModuleRenderer3D::Draw(GameObject* to_draw)
 			{
 				local_mesh = (ComponentMesh*)components[i];
 			}
-			//if (components[i]->GetType() == COMPONENT_MATERIAL)
-			//{
-			//	local_mat = (ComponentMaterial*)components[i];
-			//}
-			//if (local_mesh != nullptr && local_mat !=nullptr)
-			//{
-			//	Draw(local_mesh, local_mat);
-			//}
-			//else if(local_mesh != nullptr)
 			{
 				Draw(local_mesh);
 			}
@@ -418,4 +416,9 @@ void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
 	{
 		camera = App->camera->SetCamera(cam);
 	}
+}
+
+void ModuleRenderer3D::SetMainCamera(ComponentCamera* cam) //Main camera gets affected by culling
+{
+	active_camera = cam;
 }
