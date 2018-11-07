@@ -3,6 +3,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "Glew/include/glew.h"
+#include "MousePicking.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -19,6 +20,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	CalculateViewMatrix();
 	camera = new ComponentCamera();
+	mouse_picker = new MousePicking();
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -48,14 +50,14 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		picking = camera->GetFrustum().UnProjectLineSegment(App->input->GetMouseX(), App->input->GetMouseY());
+		picking = mouse_picker->RayfromMouse(App->input->GetMouseX(), App->input->GetMouseY());
 	}
 
 	glBegin(GL_LINES);
 	glLineWidth(2.0f);
 	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
 	glVertex2f(picking.a.x, picking.a.y);
-	glVertex2f(picking.b.x, picking.a.y);
+	glVertex2f(picking.b.x, picking.b.y);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glEnd();

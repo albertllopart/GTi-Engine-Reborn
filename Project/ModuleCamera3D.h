@@ -7,6 +7,8 @@
 #include "MathGeoLib/Math/float4x4.h"
 #include "MathGeoLib/Geometry/LineSegment.h"
 
+class MousePicking;
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -39,7 +41,9 @@ private:
 	math::float4x4 ViewMatrix, ViewMatrixInverse;
 	bool free_move = false;
 	ComponentCamera* camera = nullptr;
-	LineSegment picking;
+	math::LineSegment picking;
+
+	MousePicking* mouse_picker = nullptr;
 };
 
 #endif
