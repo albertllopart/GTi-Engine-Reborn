@@ -27,7 +27,6 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_Object* node)
 {
-	camera = App->camera->GetCamera();
 
 	LOG("Creating 3D Renderer context");
 	App->imgui->AddConsoleLog("Creating 3D Renderer context");
@@ -135,7 +134,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	}
 
 	// Projection matrix for
-	OnResize(App->window->width, App->window->height);
+	//OnResize(App->window->width, App->window->height);
 
 	return ret;
 }
@@ -148,22 +147,22 @@ bool ModuleRenderer3D::Start()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+	ComponentCamera* cam = App->camera->GetCamera();
+
+	if (cam->projection_changed == true)
+	{
+		RefreshProjection();
+		cam->projection_changed = false;
+	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-
-	if (camera->update_mat == true)
-	{
-		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf((GLfloat*)camera->GetOpenGLProjectionMatrix());
-		camera->update_mat = false;
-	}
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(camera->GetOpenGLViewMatrix());
 
 	// Light 0 on cam pos
-	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//lights[0].SetPos(camera->frustum.pos.x, camera->frustum.pos.y, camera->frustum.pos.z);
 	/*if (camera != nullptr)
 	{
 		FrustumCulling();
@@ -185,12 +184,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->editor->Draw();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf((GLfloat*)camera->GetOpenGLProjectionMatrix());
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(camera->GetOpenGLViewMatrix());
 
 	App->imgui->Draw();
 
@@ -286,13 +279,13 @@ void ModuleRenderer3D::Draw(GameObject* to_draw)
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
-	App->camera->camera->SetAspectRatio(width, height);
+	App->camera->camera->SetAspectRatio(width / height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	// GEOLIB
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	glLoadMatrixf(App->camera->camera->GetOpenGLProjectionMatrix());
+	//// GEOLIB
+	//ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	glLoadMatrixf((GLfloat*)(App->camera->camera->GetOpenGLProjectionMatrix().ptr()));
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -409,7 +402,9 @@ void ModuleRenderer3D::RefreshProjection()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glLoadMatrixf((GLfloat*)cam->GetOpenGLProjectionMatrix());
+
+	math::float4x4 test = cam->GetOpenGLProjectionMatrix();
+	glLoadMatrixf((GLfloat*)(cam->GetOpenGLProjectionMatrix().ptr()));
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

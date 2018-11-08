@@ -10,26 +10,20 @@ ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 {
 	name = "Camera";
 
-	frustum.nearPlaneDistance = 0.2f;
-	frustum.farPlaneDistance = 10000.0f;
-
 	frustum.type = PerspectiveFrustum;
-	frustum.front = { 0, 0, 1 };
-	frustum.up = { 0, 1, 0 };
 
-	frustum.pos = { 5, 5, -5 };
-	frustum.verticalFov = 1.0f;
-	SetAspectRatio(16.f, 9.f);
+	frustum.pos = float3::zero;
+	frustum.front = float3::unitZ;
+	frustum.up = float3::unitY;
 
-	frustum.horizontalFov = atan(GetAspectRatio()*tan(frustum.verticalFov / 2)) * 2;
+	frustum.nearPlaneDistance = 0.1f;
+	frustum.farPlaneDistance = 1000.0f;
 
-	UpdateMatrix();
+	frustum.verticalFov = DEGTORAD * 60.0f;
+	SetAspectRatio(1.3f);
 
-	if (my_go != nullptr)
-	{
-		OnUpdateMatrix(my_go->GetTransMatrix());
-	}
-
+	projection_changed = true;
+	math::float4x4 a = frustum.ProjectionMatrix();
 	active = false;
 }
 
@@ -56,9 +50,11 @@ void ComponentCamera::OnEditor()
 
 }
 
-void ComponentCamera::SetAspectRatio(float x, float y)
+void ComponentCamera::SetAspectRatio(float ratio)
 {
-	aspect_ratio = x / y;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ratio);
+	projection_changed = true;
+	aspect_ratio = ratio;
 }
 
 float ComponentCamera::GetAspectRatio() const
@@ -225,15 +221,15 @@ float* ComponentCamera::GetOpenGLViewMatrix()
 	m = frustum.ViewMatrix();
 	m.Transpose();
 
-	return (float*)m.v;
+	return (float*)m.ptr();
 }
 
-float* ComponentCamera::GetOpenGLProjectionMatrix()
+math::float4x4 ComponentCamera::GetOpenGLProjectionMatrix()
 {
 	static float4x4 m;
 
 	m = frustum.ProjectionMatrix();
 	m.Transpose();
 
-	return (float*)m.v;
+	return m;
 }

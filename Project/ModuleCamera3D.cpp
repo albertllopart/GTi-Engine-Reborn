@@ -8,7 +8,7 @@
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	camera = new ComponentCamera();
+	
 	picking = LineSegment(float3::zero, float3::unitY);
 	mouse_picker = new MousePicking();
 }
@@ -20,14 +20,19 @@ ModuleCamera3D::~ModuleCamera3D()
 
 bool ModuleCamera3D::Init(JSON_Object* node)
 {
+	camera = new ComponentCamera();
+	camera->frustum.pos.y += 2.0f;
 	return true;
 }
 // -----------------------------------------------------------------
 bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
+
 	App->imgui->consoleLogs.push_back("Setting up the camera");
 	bool ret = true;
+
+	App->renderer3D->camera = camera;
 
 	return ret;
 }

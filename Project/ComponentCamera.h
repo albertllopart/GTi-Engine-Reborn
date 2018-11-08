@@ -20,12 +20,12 @@ public:
 	float* GetProjectionMatrix()const;
 	Frustum GetFrustum() const;
 	float* GetOpenGLViewMatrix();
-	float* GetOpenGLProjectionMatrix();
+	math::float4x4 GetOpenGLProjectionMatrix();
 	float GetAspectRatio() const;
 
 	//setters
 	void SetPos(float3 pos);
-	void SetAspectRatio(float x, float y);
+	void SetAspectRatio(float ratio);
 	void SetFov();
 	void SetVerticalFOV(float value);
 	
@@ -38,19 +38,16 @@ public:
 
 	void Look(const float3& position);
 
-public:
-
 	bool update_mat = false;
 	Frustum frustum;
+	bool projection_changed = false;
 
 private:
 
-	float fov;
-	float aspect_ratio;
+	float fov = 0.0f;
+	float aspect_ratio = 0.0f;
 	bool culling = false;
 	bool main_camera = false;
-
-	bool projection_changed = false;
 
 	GameObject* scene_go = nullptr;
 
