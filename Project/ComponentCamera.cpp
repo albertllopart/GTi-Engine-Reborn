@@ -71,7 +71,7 @@ void ComponentCamera::SetFov()
 void ComponentCamera::SetVerticalFOV(float value)
 {
 	frustum.verticalFov = value;
-	frustum.horizontalFov = 2 * Atan(Tan(value * 0.5f) * (aspect_ratio));
+	frustum.horizontalFov = 2 * atanf(tanf(value * 0.5f) * (aspect_ratio));
 }
 
 void ComponentCamera::ShowInspectorWindow()
@@ -131,9 +131,9 @@ void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
 {
 	if (this != nullptr)
 	{
-		frustum.SetPos(matrix.TranslatePart());
-		frustum.SetFront(matrix.WorldZ().Normalized());
-		frustum.SetUp(matrix.WorldY().Normalized());
+		frustum.pos = matrix.TranslatePart();
+		frustum.front = matrix.WorldZ().Normalized();
+		frustum.up = matrix.WorldY().Normalized();
 		UpdateMatrix();
 	}
 }

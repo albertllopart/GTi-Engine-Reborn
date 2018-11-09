@@ -245,8 +245,8 @@ vec UpdateSimplex(vec *s, int &n)
 		vec d03 = s[3] - s[0];
 		vec tri013Normal = Cross(d01, d03); // Normal of triangle 0->1->3 pointing outwards from the simplex.
 		vec tri023Normal = Cross(d03, d02); // Normal of triangle 0->2->3 pointing outwards from the simplex.
-		assert(Dot(tri013Normal, d02) <= 0.f);
-		assert(Dot(tri023Normal, d01) <= 0.f);
+//		assert(Dot(tri013Normal, d02) <= 0.f);
+//		assert(Dot(tri023Normal, d01) <= 0.f);
 
 		vec e03_1 = Cross(tri013Normal, d03); // The normal of edge 0->3 on triangle 013.
 		vec e03_2 = Cross(d03, tri023Normal); // The normal of edge 0->3 on triangle 023.
@@ -267,7 +267,7 @@ vec UpdateSimplex(vec *s, int &n)
 		vec d12 = s[2] - s[1];
 		vec d13 = s[3] - s[1];
 		vec tri123Normal = Cross(d12, d13);
-		assert(Dot(tri123Normal, -d02) <= 0.f);
+//		assert(Dot(tri123Normal, -d02) <= 0.f);
 		vec e13_0 = Cross(d13, tri013Normal);
 		vec e13_2 = Cross(tri123Normal, d13);
 		float inE13_0 = Dot(e13_0, s[3]);

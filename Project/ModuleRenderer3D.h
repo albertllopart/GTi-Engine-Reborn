@@ -35,8 +35,6 @@ public:
 	void Draw(GameObject* toDraw);
 	void OnResize(int width, int height);
 
-	float4x4 perspective(float fovy, float aspect, float n, float f);
-
 	void SetDepthTest();
 	void SetCullFace();
 	void SetLighting();

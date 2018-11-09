@@ -15,6 +15,7 @@
 
 /** @file Clock.h
 	@brief The Clock class. Supplies timing facilities. */
+
 #define WIN32
 
 #ifdef WIN32
