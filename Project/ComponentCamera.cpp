@@ -23,7 +23,7 @@ ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 	SetAspectRatio(1.3f);
 
 	projection_changed = true;
-	math::float4x4 a = frustum.ProjectionMatrix();
+	
 	active = false;
 }
 

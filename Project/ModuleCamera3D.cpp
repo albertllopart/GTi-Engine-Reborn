@@ -49,19 +49,23 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_picker!= nullptr)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && mouse_picker!= nullptr)
 	{
 		picking = mouse_picker->RayfromMouse(App->input->GetMouseX(), App->input->GetMouseY());
+		App->editor->SetSelected(mouse_picker->PickFromRay());
 	}
 
 	glBegin(GL_LINES);
 	glLineWidth(2.0f);
 	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
-	glVertex2f(picking.a.x, picking.a.y);
-	glVertex2f(picking.b.x, picking.b.y);
+	
+	glVertex3fv((GLfloat*)&picking.a);
+	glVertex3fv((GLfloat*)&picking.b);
+
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glEnd();
+	glLineWidth(1.0f);
 
 	//end of ray
 

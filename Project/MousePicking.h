@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include "MathGeoLib/Geometry/LineSegment.h"
 
+class GameObject;
+
 class MousePicking
 {
 public:
@@ -12,10 +14,12 @@ public:
 	~MousePicking();
 
 	LineSegment RayfromMouse(int x, int y);
+	GameObject* PickFromRay() const;
 	void UpdateScreenSize();
 
 public:
 
+	LineSegment my_ray;
 	uint screenWidth = 0;
 	uint screenHeight = 0;
 };
