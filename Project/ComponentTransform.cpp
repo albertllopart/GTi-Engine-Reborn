@@ -1,5 +1,7 @@
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
 #include "ImGui/imgui.h"
+#include "ImGuizmo/ImGuizmo.h"
 #include "Application.h"
 #include "JSONConfig.h"
 
@@ -207,4 +209,46 @@ bool ComponentTransform::OnLoad(JSONConfig data)
 	TransformCamera();
 
 	return true;
+}
+
+void ComponentTransform::ShowGizmo(ComponentCamera & camera)
+{
+	ImGuizmo::Enable(true);
+	if (my_go->is_static)
+	{
+		ImGuizmo::Enable(false);
+	}
+
+	static ImGuizmo::OPERATION currentOperation(ImGuizmo::TRANSLATE);
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		currentOperation = ImGuizmo::TRANSLATE;
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		currentOperation = ImGuizmo::ROTATE;
+
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		currentOperation = ImGuizmo::SCALE;
+	}
+
+	float* projMatrixg = camera.GetFrustum().ViewProjMatrix().Transposed().ptr();
+	float* transMatrix = global_trans_matrix.Transposed().ptr();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+
+	ImGuizmo::Manipulate(float4x4::identity.ptr(), projMatrixg, currentOperation, ImGuizmo::WORLD, transMatrix);
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RALT) == KEY_IDLE && !ImGui::GetIO().WantCaptureKeyboard)
+	{
+		if (ImGuizmo::IsUsing())
+		{
+			ImGuizmo::DecomposeMatrixToComponents(transMatrix, (float*)pos.ptr(), (float*)rot_euler.ptr(), (float*)scale.ptr());
+			global_trans_matrix.Transpose();
+			ImGuizmo::RecomposeMatrixFromComponents((float*)pos.ptr(), (float*)rot_euler.ptr(), (float*)scale.ptr(), global_trans_matrix.ptr());
+			global_trans_matrix.Transpose();
+		}
+	}
 }

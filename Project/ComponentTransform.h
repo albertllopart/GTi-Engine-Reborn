@@ -6,6 +6,7 @@
 #include "MathGeoLib/Math/Quat.h"
 #include "MathGeoLib/Math/float4x4.h"
 
+class ComponentCamera;
 class ComponentTransform : public Component
 {
 public:
@@ -28,6 +29,8 @@ public:
 
 	bool OnSave(JSON_Value* array, uint go_uid);
 	bool OnLoad(JSONConfig data);
+
+	void ShowGizmo(ComponentCamera & camera);
 
 private:
 

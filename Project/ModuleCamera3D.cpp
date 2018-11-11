@@ -4,6 +4,8 @@
 #include "ModuleInput.h"
 #include "Glew/include/glew.h"
 #include "MousePicking.h"
+#include "ImGuizmo/ImGuizmo.h"
+#include "ComponentTransform.h"
 #include "parson/parson.h"
 #include "ImGui/imgui.h"
 
@@ -90,6 +92,20 @@ update_status ModuleCamera3D::Update(float dt)
 			Orbit(dx, dy);
 	}
 
+	if (App->editor->GetSelected() != nullptr)
+	{
+		if (ImGuizmo::IsUsing() == false)
+		{
+			ComponentMesh* mesh = (ComponentMesh*)App->editor->GetSelected()->FindComponent(COMPONENT_MESH);
+			if (mesh != nullptr)
+			{
+				AABB box = *mesh->GetMyGo()->bbox;
+				ComponentTransform* temp = (ComponentTransform*)App->editor->GetSelected()->FindComponent(COMPONENT_TRANSFORM);
+				box.TransformAsAABB(temp->GetGlobalMatrix());
+				LookAt(float3(box.CenterPoint().x, box.CenterPoint().y, box.CenterPoint().z));
+			}
+		}
+	}
 	//math::float3 newPos(0.0f, 0.0f, 0.0f);
 	//float speed = 1.0f * dt;
 	//

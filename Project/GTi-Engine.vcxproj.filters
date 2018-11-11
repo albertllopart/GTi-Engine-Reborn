@@ -46,6 +46,9 @@
     <Filter Include="Sources\Modules\EngineWindows">
       <UniqueIdentifier>{3ca9c0c5-4d83-4a19-9711-4631a5a859df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\ImGuizmos">
+      <UniqueIdentifier>{e4bbd14a-1a71-4906-be6f-e51dcd37f1e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -390,6 +393,9 @@
     <ClInclude Include="ModuleTimeManager.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuizmo\ImGuizmo.h">
+      <Filter>Sources\ImGuizmos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -601,6 +607,9 @@
     </ClCompile>
     <ClCompile Include="ModuleTimeManager.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
+      <Filter>Sources\ImGuizmos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

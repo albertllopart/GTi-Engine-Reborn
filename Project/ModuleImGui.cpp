@@ -7,6 +7,7 @@
 #include "ModuleWindow.h"
 #include "GameObject.h"
 #include "ModuleSceneEditor.h"
+#include "ImGuizmo/ImGuizmo.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -38,7 +39,7 @@ bool ModuleImGui::Start()
 	AddConsoleLog("Starting glew & ImGui");
 
 	ImGui_ImplSdlGL3_Init(App->window->GetWindowPtr());
-	
+	//ImGuizmo::BeginFrame();
 	ImGui::GetStyle().WindowRounding = 0.0f;
 
 	return true;
