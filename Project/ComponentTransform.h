@@ -17,6 +17,7 @@ public:
 	void SetTransform(float3 scale, Quat rotation, float3 position);
 	void OnEditor();
 	void ShowInspectorWindow();
+	void Update();
 
 	void UpdatePosition(float3 pos);
 	void UpdateRotation(float3 rot);

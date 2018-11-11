@@ -208,7 +208,7 @@ void Quadtree::Remove(GameObject * to_remove)
 
 void Quadtree::Insert(GameObject * gameObject)
 {
-	if (root != nullptr)
+	if (root != nullptr && gameObject->bbox!=nullptr)
 	{
 		if (gameObject->bbox->IsFinite())
 		{

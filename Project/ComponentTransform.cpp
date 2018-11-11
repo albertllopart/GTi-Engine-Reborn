@@ -69,6 +69,14 @@ void ComponentTransform::ShowInspectorWindow()
 	
 }
 
+void ComponentTransform::Update()
+{
+	if (my_go == App->editor->GetSelected())
+	{
+		ShowGizmo(*App->camera->GetCamera());
+	}
+}
+
 void ComponentTransform::UpdateScale(float3 scale)
 {
 	this->scale = scale;
@@ -227,7 +235,6 @@ void ComponentTransform::ShowGizmo(ComponentCamera & camera)
 	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
 		currentOperation = ImGuizmo::ROTATE;
-
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
@@ -251,4 +258,5 @@ void ComponentTransform::ShowGizmo(ComponentCamera & camera)
 			global_trans_matrix.Transpose();
 		}
 	}
+	UpdateMatrix();
 }

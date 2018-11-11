@@ -185,11 +185,14 @@ void GameObject::ShowInspectorWindow()
 		{
 			ImGui::Checkbox("Active", &active);
 			ImGui::SameLine();
-			char namedit[50];
-			strcpy_s(namedit,50, name.c_str());
-			if (ImGui::InputText("##GOname", namedit, 50, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+			if (this != nullptr)
 			{
-				name = std::string(namedit).c_str();
+				char namedit[50];
+				strcpy_s(namedit, 50, name.c_str());
+				if (ImGui::InputText("##GOname", namedit, 50, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					name = std::string(namedit).c_str();
+				}
 			}
 			//ImGui::Text(name.c_str());	
 			ImGui::Checkbox("", &is_static);
