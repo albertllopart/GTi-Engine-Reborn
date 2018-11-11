@@ -291,9 +291,6 @@
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h">
       <Filter>Sources\MathGeoLib\Random LCG</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\Algorithm\GJK.h">
-      <Filter>Sources\MathGeoLib\Random LCG</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\Algorithm\SAT.h">
       <Filter>Sources\MathGeoLib\Random LCG</Filter>
     </ClInclude>
@@ -531,9 +528,6 @@
       <Filter>Sources\PCG</Filter>
     </ClCompile>
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp">
-      <Filter>Sources\MathGeoLib\Random LCG</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\Algorithm\GJK.cpp">
       <Filter>Sources\MathGeoLib\Random LCG</Filter>
     </ClCompile>
     <ClCompile Include="ModuleRNG.cpp">

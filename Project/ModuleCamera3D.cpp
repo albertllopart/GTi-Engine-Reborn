@@ -51,6 +51,7 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && mouse_picker!= nullptr)
 	{
+		App->editor->FillQuadtree();
 		picking = mouse_picker->RayfromMouse(App->input->GetMouseX(), App->input->GetMouseY());
 		App->editor->SetSelected(mouse_picker->PickFromRay());
 	}
