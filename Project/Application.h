@@ -49,7 +49,7 @@ private:
 
 	uint frames = 0;
 	int fps_counter;
-
+	float startTime;
 	float dt;
 	float lastFPS;
 	float lastMs;

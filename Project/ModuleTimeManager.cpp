@@ -38,10 +38,6 @@ bool ModuleTimeManager::CleanUp()
 
 update_status ModuleTimeManager::PostUpdate(float dt)
 {
-	//if (!ImGui::Begin("Time Manager"))
-	//{
-	//	ImGui::End();
-	//}
 	if (ImGui::Begin("Time Status"))
 	{
 		if (ImGui::Button("Play"))
@@ -52,7 +48,14 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 		ImGui::SameLine();
 		if (ImGui::Button("Pause"))
 		{
-			PauseGame(!game_paused);
+			if (game_paused)
+			{
+				PlayGame(!in_game);
+			}
+			else
+			{
+				PauseGame(!game_paused);
+			}
 		}
 		ImGui::SameLine();
 		if (play_frame == true)
@@ -96,8 +99,7 @@ void ModuleTimeManager::PlayGame(bool play)
 		time.Start();
 		time.Stop();
 		App->editor->SetSelected(nullptr);
-		//uncomment once we have Assets folder
-		//App->editor->LoadScene("Assets/Scenes/MainScene.GTIscene");
+		App->editor->LoadScene("Library/Scenes/MainScene.GTIscene");
 	}
 }
 

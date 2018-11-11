@@ -106,6 +106,9 @@ bool Application::Init()
 	
 	frame_time.Start();
 	
+	//time manager
+	time->StartRealTime();
+
 	return ret;
 }
 
@@ -139,6 +142,12 @@ void Application::FinishUpdate()
 		SDL_Delay(capped_ms - lastMs);
 		//LOG("We waited for %d milliseconds", capped_ms - lastMs);
 	}
+
+	dt = (float)ms_time.Read() / 1000.0f - startTime;
+	lastFPS = 1.0f / dt;
+	lastMs = (float)ms_time.Read();
+	//Time Manager
+	time->SetFrameCount(1);	
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
