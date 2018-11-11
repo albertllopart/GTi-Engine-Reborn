@@ -46,6 +46,7 @@ public:
 	void SetParent(GameObject* new_parent);
 	Component* FindComponent(COMPONENT_TYPE type) const;
 	float4x4 GetTransMatrix()const;
+	float4x4 GetGlobalMatrix() const;
 
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;

@@ -53,7 +53,7 @@ GameObject* MousePicking::PickFromRay() const
 	for (int i = 0; i < collided.size(); i++)
 	{
 		LineSegment local_ray = my_ray;
-		local_ray.Transform(collided[i]->GetTransMatrix().Inverted());
+		local_ray.Transform(collided[i]->GetGlobalMatrix().Inverted());
 
 		ComponentMesh* mesh = (ComponentMesh*)collided[i]->FindComponent(COMPONENT_MESH);
 

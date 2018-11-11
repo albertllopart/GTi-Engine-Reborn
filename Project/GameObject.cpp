@@ -392,6 +392,20 @@ float4x4 GameObject::GetTransMatrix()const
 	return float4x4::zero;
 }
 
+float4x4 GameObject::GetGlobalMatrix() const
+{
+	float4x4 ret = float4x4::identity;
+
+	ComponentTransform* my_trans = (ComponentTransform*)FindComponent(COMPONENT_TRANSFORM);
+
+	if (my_trans != nullptr)
+	{
+		ret = my_trans->GetGlobalMatrix();
+	}
+
+	return ret;
+}
+
 std::vector<GameObject*> GameObject::GetChilds() const
 {
 	return childs;
