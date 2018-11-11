@@ -39,7 +39,6 @@ bool ModuleImGui::Start()
 	AddConsoleLog("Starting glew & ImGui");
 
 	ImGui_ImplSdlGL3_Init(App->window->GetWindowPtr());
-	//ImGuizmo::BeginFrame();
 	ImGui::GetStyle().WindowRounding = 0.0f;
 
 	return true;
@@ -48,6 +47,7 @@ bool ModuleImGui::Start()
 update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
+	ImGuizmo::BeginFrame();
 	return(UPDATE_CONTINUE);
 }
 

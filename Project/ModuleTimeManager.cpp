@@ -99,7 +99,7 @@ void ModuleTimeManager::PlayGame(bool play)
 		time.Start();
 		time.Stop();
 		App->editor->SetSelected(nullptr);
-		App->editor->LoadScene("Library/Scenes/MainScene.GTIscene");
+		//App->editor->LoadScene("MainScene"); WIP
 	}
 }
 
