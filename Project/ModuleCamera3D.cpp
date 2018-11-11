@@ -5,6 +5,7 @@
 #include "Glew/include/glew.h"
 #include "MousePicking.h"
 #include "parson/parson.h"
+#include "ImGui/imgui.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -49,11 +50,14 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && mouse_picker!= nullptr)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_picker!= nullptr)
 	{
-		App->editor->FillQuadtree();
-		picking = mouse_picker->RayfromMouse(App->input->GetMouseX(), App->input->GetMouseY());
-		App->editor->SetSelected(mouse_picker->PickFromRay());
+		if (ImGui::GetIO().WantCaptureMouse == false)
+		{
+			App->editor->FillQuadtree();
+			picking = mouse_picker->RayfromMouse(App->input->GetMouseX(), App->input->GetMouseY());
+			App->editor->SetSelected(mouse_picker->PickFromRay());
+		}
 	}
 
 	glBegin(GL_LINES);
@@ -69,8 +73,6 @@ update_status ModuleCamera3D::Update(float dt)
 	glLineWidth(1.0f);
 
 	//end of ray
-
-	Frustum* frustum = &camera->frustum;
 
 	Move(dt);
 

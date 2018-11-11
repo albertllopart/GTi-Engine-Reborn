@@ -126,6 +126,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				{
 					LOG("%s dropped on window.", file_dir);
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
+
 					App->import->ImportMesh(file_dir.c_str());
 					std::string clean = App->import->CleanFileName(file_dir.c_str());
 					if (App->editor->GetSelected() != nullptr)
