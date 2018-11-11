@@ -15,6 +15,7 @@
 #include "ModuleTextures.h"
 #include "ModuleFileSystem.h"
 #include "ModuleEngineWindows.h"
+#include "ModuleTimeManager.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -35,6 +36,7 @@ public:
 	ModuleTextures* textures;
 	ModuleFileSystem* filesystem;
 	ModuleEngineWindows* e_windows;
+	ModuleTimeManager* time;
 
 private:
 

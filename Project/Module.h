@@ -1,6 +1,7 @@
 #ifndef __MODULE__
 #define __MODULE__
 
+#include "Globals.h"
 #include "parson/parson.h"
 
 class Application;

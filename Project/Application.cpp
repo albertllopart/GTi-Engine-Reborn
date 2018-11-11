@@ -23,6 +23,7 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	e_windows = new ModuleEngineWindows(this);
 	filesystem = new ModuleFileSystem(this);
+	time = new ModuleTimeManager(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -38,6 +39,7 @@ Application::Application()
 	AddModule(editor);
 	AddModule(textures);
 	AddModule(import);
+	AddModule(time);
 	AddModule(filesystem);
 
 	// Renderer last!
