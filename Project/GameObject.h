@@ -59,6 +59,7 @@ public:
 	bool RemoveGameObject(GameObject * to_remove);
 	void CleanRemove();
 	AABB* GetBBox();
+	ComponentTransform* GetTransform();
 	//save
 	bool OnSave(JSON_Value* array) const;
 	bool OnLoad(const JSONConfig data);

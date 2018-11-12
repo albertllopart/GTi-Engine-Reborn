@@ -32,14 +32,15 @@ bool ModuleSceneEditor::CleanUp(JSON_Object* data)
 
 bool ModuleSceneEditor::Start()
 {
-	/*App->camera->Move(float3(0.0, 10.0, 0.0));
-	App->camera->LookAt(float3(0.0, 0.0, 0.0));*/
-
 	root = new GameObject();
 	root->SetName("Scene 1");
-	//quadtree.Boundaries(AABB(float3(-quad_size, -quad_size, -quad_size), float3(quad_size, quad_size, quad_size)));//boundariese of 100 for testing
-
-
+	//Creating default main camera
+	root->AddChild(new GameObject());
+	root->childs[0]->name = "Main Camera";
+	root->childs[0]->AddComponent(COMPONENT_TRANSFORM);
+	root->childs[0]->AddComponent(COMPONENT_CAMERA);
+	root->childs[0]->GetTransform()->SetPosition(float3(0, 0, 5));
+	//
 	return true;
 }
 

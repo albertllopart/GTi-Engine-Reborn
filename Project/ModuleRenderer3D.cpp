@@ -278,6 +278,10 @@ void ModuleRenderer3D::Draw(GameObject* to_draw)
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
+	if (height == 0)
+	{
+		return;
+	}
 	glViewport(0, 0, width, height);
 	App->camera->camera->SetAspectRatio(width / height);
 

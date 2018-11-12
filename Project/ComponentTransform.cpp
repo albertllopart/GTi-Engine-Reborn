@@ -153,6 +153,11 @@ float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
 	return global_trans_matrix_transposed;
 }
 
+float3 ComponentTransform::GetPosition() const
+{
+	return pos;
+}
+
 bool ComponentTransform::OnSave(JSON_Value* array, uint go_uid)
 {
 	GenerateUID();
@@ -217,6 +222,11 @@ bool ComponentTransform::OnLoad(JSONConfig data)
 	TransformCamera();
 
 	return true;
+}
+
+void ComponentTransform::SetPosition(float3 pos)
+{
+	this->pos = pos;
 }
 
 void ComponentTransform::ShowGizmo(ComponentCamera & camera)

@@ -17,7 +17,7 @@ ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 	frustum.up = float3::unitY;
 
 	frustum.nearPlaneDistance = 0.1f;
-	frustum.farPlaneDistance = 1000.0f;
+	frustum.farPlaneDistance = 70.0f;
 
 	frustum.verticalFov = DEGTORAD * 60.0f;
 	SetAspectRatio(1.3f);

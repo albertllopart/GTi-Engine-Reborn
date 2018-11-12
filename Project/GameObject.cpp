@@ -359,6 +359,15 @@ AABB * GameObject::GetBBox()
 	return nullptr;
 }
 
+ComponentTransform * GameObject::GetTransform()
+{
+	for (int i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->GetType() == COMPONENT_TRANSFORM)
+			return (ComponentTransform*) components[i];
+	}
+}
+
 GameObject * GameObject::GetParent() const
 {
 	return parent;

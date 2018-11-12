@@ -28,9 +28,12 @@ public:
 	float4x4 GetGlobalMatrix()const;
 	float4x4 GetTransposedGlobalMatrix()const;
 
+	float3 GetPosition()const;
+
 	bool OnSave(JSON_Value* array, uint go_uid);
 	bool OnLoad(JSONConfig data);
 
+	void SetPosition(float3 pos);
 	void ShowGizmo(ComponentCamera & camera);
 
 private:
