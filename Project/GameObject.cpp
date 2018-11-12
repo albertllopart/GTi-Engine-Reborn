@@ -472,6 +472,7 @@ bool GameObject::RemoveGameObject(GameObject * to_remove)
 				childs.erase(childs.begin() + i);
 				item->CleanRemove();
 				RELEASE(item);
+				item = nullptr;
 				return true;
 			}
 		}
@@ -491,6 +492,7 @@ void GameObject::CleanRemove()
 		Component* item = components[i];
 		item->CleanUp();
 		RELEASE(item);
+		item = nullptr;
 	}
 
 	for (uint i = 0; i < childs.size(); i++)
@@ -499,7 +501,7 @@ void GameObject::CleanRemove()
 
 		item->want_delete = true;
 		RELEASE(item);
-
+		item = nullptr;
 	}
 	parent = nullptr;
 }

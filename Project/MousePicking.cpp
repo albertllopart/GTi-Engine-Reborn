@@ -39,7 +39,7 @@ GameObject* MousePicking::PickFromRay() const
 	float nearest_distance = 10000.0f;
 
 	//nearest selected GameObject
-	GameObject* ret = nullptr;
+	GameObject* ret = App->editor->GetSelected();
 
 	//gameObject vector
 	std::vector<GameObject*> collided;

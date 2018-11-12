@@ -370,7 +370,7 @@ void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
 	}
 	else
 	{
-		camera = App->camera->SetCamera(cam);
+		camera = cam;
 	}
 }
 
