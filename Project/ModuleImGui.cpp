@@ -243,12 +243,20 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 				if (ImGui::SliderInt("Width", &App->window->width, 1, 1920))
 				{
 					if (App->window->resizable)
+					{
 						App->window->ResizeWindow(App->window->width, App->window->height);
+						App->camera->camera->SetAspectRatio(App->window->width / App->window->height);
+						App->renderer3D->OnResize(App->window->width, App->window->height);
+					}
 				}
 				if (ImGui::SliderInt("Height", &App->window->height, 1, 1080))
 				{
 					if (App->window->resizable)
+					{
 						App->window->ResizeWindow(App->window->width, App->window->height);
+						App->camera->camera->SetAspectRatio(App->window->width / App->window->height);
+						App->renderer3D->OnResize(App->window->width, App->window->height);
+					}
 				}
 
 				if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))

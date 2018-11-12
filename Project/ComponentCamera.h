@@ -44,7 +44,7 @@ public:
 
 private:
 
-	float fov = 0.0f;
+	float fov = 60.0f;
 	float aspect_ratio = 0.0f;
 	bool culling = false;
 	bool main_camera = false;
