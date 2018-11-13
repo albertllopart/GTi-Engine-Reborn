@@ -129,13 +129,6 @@ update_status ModuleInput::PreUpdate(float dt)
 
 					App->import->ImportMesh(file_dir.c_str());
 					std::string clean = App->import->CleanFileName(file_dir.c_str());
-					if (App->editor->GetSelected() != nullptr)
-					{
-						LOG("%s cleaned.", clean);
-						ComponentMesh* new_mesh = App->import->LoadMesh(clean.c_str());
-						App->editor->GetSelected()->AddComponent(new_mesh);
-						App->editor->GetSelected()->UpdateBBox();
-					}
 				}
 				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
 				{

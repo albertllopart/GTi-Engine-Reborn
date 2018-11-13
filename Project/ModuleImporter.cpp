@@ -74,8 +74,27 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
-			std::string name = CleanFileName(fullPath);
+			uint uid = App->rng->Random32();
+			std::string name = std::to_string(uid);
 			importer->Import(scene->mMeshes[i], name);
+
+			if (App->editor->GetSelected() != nullptr)
+			{
+				ComponentMesh* new_mesh = App->import->LoadMesh(name.c_str());
+
+				if (App->editor->GetSelected()->FindComponent(COMPONENT_MESH) == nullptr)
+				{
+					App->editor->GetSelected()->AddComponent(new_mesh);
+					App->editor->GetSelected()->UpdateBBox();
+				}
+				else
+				{
+					GameObject* newObject = new GameObject(App->editor->GetSelected());
+					newObject->AddComponent(COMPONENT_TRANSFORM);
+					newObject->AddComponent(new_mesh);
+					App->editor->GetSelected()->AddChild(newObject);
+				}
+			}
 		}
 
 		aiReleaseImport(scene);
