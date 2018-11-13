@@ -24,6 +24,7 @@ public:
 	void LookAt(const float3 & position);
 	void Move(float dt);
 	void Orbit(float dx, float dy);
+	void Rotate(float dx, float dy);
 	
 	void Zoom(float zoom);
 	void CameraRotation()const;
