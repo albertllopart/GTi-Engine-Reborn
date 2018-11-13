@@ -190,9 +190,9 @@ void ImGui::StyleColorsDark(ImGuiStyle* dst)
 	colors[ImGuiCol_ScrollbarGrab]			= ImVec4(0.40f, 0.40f, 0.80f, 0.30f);
 	colors[ImGuiCol_ScrollbarGrabHovered]	= ImVec4(0.40f, 0.40f, 0.80f, 0.40f);
 	colors[ImGuiCol_ScrollbarGrabActive]	= ImVec4(0.80f, 0.50f, 0.50f, 0.40f);
-	colors[ImGuiCol_Button]					= ImVec4(0.67f, 0.20f, 0.40f, 0.60f);
-	colors[ImGuiCol_ButtonHovered]			= ImVec4(0.67f, 0.30f, 0.40f, 1.00f);
-	colors[ImGuiCol_ButtonActive]			= ImVec4(0.80f, 0.50f, 0.50f, 1.00f);
+	colors[ImGuiCol_Button]					= ImVec4(0.50f, 0.30f, 0.80f, 0.45f);
+	colors[ImGuiCol_ButtonHovered]			= ImVec4(0.70f, 0.30f, 0.90f, 0.65f);
+	colors[ImGuiCol_ButtonActive]			= ImVec4(0.80f, 0.20f, 0.90f, 1.00f);
 	colors[ImGuiCol_Header]					= ImVec4(0.40f, 0.40f, 0.90f, 0.45f);
 	colors[ImGuiCol_HeaderHovered]			= ImVec4(0.45f, 0.45f, 0.90f, 0.80f);
 	colors[ImGuiCol_HeaderActive]			= ImVec4(0.53f, 0.53f, 0.87f, 0.80f);
