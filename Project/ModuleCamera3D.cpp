@@ -88,8 +88,12 @@ update_status ModuleCamera3D::Update(float dt)
 		float dx = (float)-motion_x * 1.0f * dt;
 		float dy = (float)-motion_y * 1.0f * dt;
 
-		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT )
+		{
+			ImGuizmo::Enable(false);
 			Orbit(dx, dy);
+
+		}
 	}
 
 	//if (App->editor->GetSelected() != nullptr)
