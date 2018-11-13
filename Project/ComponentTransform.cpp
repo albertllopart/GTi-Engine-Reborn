@@ -117,11 +117,6 @@ void ComponentTransform::UpdateMatrix()
 
 		global_trans_matrix_transposed = global_trans_matrix.Transposed();
 
-
-		//for (uint i = 0; i < my_go->components.size(); i++)
-		//{
-		//	my_go->components[i]->OnUpdateMatrix(global_trans_matrix);
-		//}
 		for (uint i = 0; i < my_go->childs.size(); i++)
 		{
 			my_go->childs[i]->UpdateMatrix();

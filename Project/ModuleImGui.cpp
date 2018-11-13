@@ -2,7 +2,8 @@
 #include "Application.h"
 #include "ModuleImGui.h"
 #include "ImGui\imgui.h"
-#include "ImGui\imgui_impl_sdl_gl3.h"
+#include "ImGui\imgui_impl_sdl.h"
+#include "Imgui/imgui_impl_opengl3.h"
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
 #include "GameObject.h"
@@ -38,16 +39,28 @@ bool ModuleImGui::Start()
 	LOG("Starting glew & ImGui");
 	AddConsoleLog("Starting glew & ImGui");
 
-	ImGui_ImplSdlGL3_Init(App->window->GetWindowPtr());
+	//IMGUI
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; 
+	io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+	io.IniFilename = nullptr;
+
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
+	ImGui_ImplOpenGL3_Init();
 	ImGui::GetStyle().WindowRounding = 0.0f;
+	//
 
 	return true;
 }
 
 update_status ModuleImGui::PreUpdate(float dt)
 {
-	ImGui_ImplSdlGL3_NewFrame(App->window->GetWindowPtr());
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame(App->window->window);
+	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
+
 	return(UPDATE_CONTINUE);
 }
 
@@ -167,7 +180,7 @@ bool ModuleImGui::CleanUp()
 {
 	LOG("Unloading ImGui Module");
 	AddConsoleLog("Unloading ImGui Module");
-	ImGui_ImplSdlGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
 	return true;
 }
 
@@ -479,6 +492,7 @@ void ModuleImGui::AboutWindow()
 void ModuleImGui::Draw()const
 {
 	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 std::vector<float> ModuleImGui::GetFramerateVec() const

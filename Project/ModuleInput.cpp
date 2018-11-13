@@ -5,7 +5,9 @@
 #include "parson/parson.h"
 #include "ModuleSceneEditor.h"
 #include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_sdl_gl3.h"
+#include "ImGui/imgui_impl_sdl.h"
+#include "ImGui/imgui_impl_opengl3.h"
+
 
 #define MAX_KEYS 300
 
@@ -99,7 +101,7 @@ update_status ModuleInput::PreUpdate(float dt)
 	while(SDL_PollEvent(&e))
 	{
 
-		ImGui_ImplSdlGL3_ProcessEvent(&e);
+		ImGui_ImplSDL2_ProcessEvent(&e);
 
 		switch(e.type)
 		{

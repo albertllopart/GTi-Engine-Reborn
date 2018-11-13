@@ -24,7 +24,7 @@ bool E_Hierarchy::Draw()
 	}
 
 	ImGuiWindowFlags flags = 0;
-	flags |= ImGuiWindowFlags_ShowBorders;
+	//flags |= ImGuiWindowFlags_ShowBorders;
 	flags |= ImGuiWindowFlags_NoResize;
 	flags |= ImGuiWindowFlags_NoCollapse;
 	flags |= ImGuiWindowFlags_HorizontalScrollbar;

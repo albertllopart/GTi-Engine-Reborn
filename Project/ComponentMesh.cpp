@@ -36,7 +36,7 @@ void ComponentMesh::OnEditor()
 
 void ComponentMesh::ShowInspectorWindow()
 {
-	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen ;
 	bool node_open = ImGui::TreeNodeEx(name.c_str(), flags);
 	if (ImGui::BeginPopupContextItem("go_options"))
 	{

@@ -81,7 +81,6 @@ update_status ModuleSceneEditor::PostUpdate(float dt)
 
 void ModuleSceneEditor::Draw()
 {
-
 	pPlane p(0, 0, 0, 100);
 	p.color = White;
 	p.Render();

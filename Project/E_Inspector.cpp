@@ -21,7 +21,7 @@ E_Inspector::~E_Inspector()
 bool E_Inspector::Draw()
 {
 	ImGuiWindowFlags flags = 0;
-	flags |= ImGuiWindowFlags_ShowBorders;
+	//flags |= ImGuiWindowFlags_ShowBorders;
 	flags |= ImGuiWindowFlags_NoResize;
 	flags |= ImGuiWindowFlags_NoCollapse;
 
