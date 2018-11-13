@@ -91,8 +91,13 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 		{
 			ImGuizmo::Enable(false);
-			Orbit(dx, dy);
 
+			if (App->editor->GetSelected() != nullptr && App->editor->GetSelected() != App->editor->GetRoot())
+				reference = App->editor->GetSelected()->GetTransform()->GetPosition();
+			else
+				reference = float3::zero;
+
+			Orbit(dx, dy);
 		}
 	}
 
