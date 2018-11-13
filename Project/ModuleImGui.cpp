@@ -86,11 +86,11 @@ update_status ModuleImGui::Update(float dt)
 			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
-				App->editor->LoadScene("null");
+				App->editor->LoadScene("lastScene");
 			}
 			if (ImGui::MenuItem("Save Scene"))
 			{
-				App->editor->SaveScene("random");
+				App->editor->SaveScene("lastScene");
 			}
 			if (ImGui::MenuItem("Quit (Alt + F4)"))
 			{

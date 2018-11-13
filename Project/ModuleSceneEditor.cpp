@@ -253,7 +253,11 @@ bool ModuleSceneEditor::LoadScene(const char* name)
 {
 	JSONConfig config;
 
-	if (!config.ParseFile("scene.testing"))
+	std::string path = "Library/Scenes/";
+	path += name;
+	path += ".GTIscene";
+
+	if (!config.ParseFile(path.c_str()))
 		return false;
 
 	config = config.SetFocus("Scene");

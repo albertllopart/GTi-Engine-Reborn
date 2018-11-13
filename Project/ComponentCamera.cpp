@@ -5,6 +5,7 @@
 #include "MathGeoLib/Geometry/LineSegment.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "JSONConfig.h"
 
 ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 {
@@ -232,4 +233,42 @@ math::float4x4 ComponentCamera::GetOpenGLProjectionMatrix()
 	m.Transpose();
 
 	return m;
+}
+
+bool ComponentCamera::OnSave(JSON_Value* array, uint go_uid)
+{
+	GenerateUID();
+	//create new child
+	JSON_Value* comp_value = json_value_init_object();
+
+	//target the new child
+	JSON_Object* comp_object = json_value_get_object(comp_value);
+
+	//copy values
+	json_object_set_string(comp_object, "Name", name.c_str());
+	json_object_set_number(comp_object, "UID", uid);
+	json_object_set_number(comp_object, "GameObject", go_uid);
+
+	json_object_set_number(comp_object, "nearPlaneDistance", frustum.nearPlaneDistance);
+	json_object_set_number(comp_object, "farPlaneDistance", frustum.farPlaneDistance);
+	json_object_set_number(comp_object, "verticalFov", frustum.verticalFov);
+	json_object_set_number(comp_object, "horizontalFov", frustum.horizontalFov);
+	json_object_set_boolean(comp_object, "MainCamera", main_camera);
+	json_object_set_boolean(comp_object, "Culling", culling);
+
+	json_object_set_number(comp_object, "Type", type);
+
+	//add everything to the components array
+	if (array != nullptr)
+	{
+		JSON_Array* my_array = json_value_get_array(array);
+		json_array_append_value(my_array, comp_value);
+	}
+
+	return true;
+}
+
+bool ComponentCamera::OnLoad(JSONConfig data)
+{
+	return true;
 }

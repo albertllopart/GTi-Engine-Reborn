@@ -163,11 +163,17 @@ update_status ModuleInput::PreUpdate(float dt)
 						App->editor->CreateNewGameObject(file_dir.c_str());
 					}
 				}
-				else if(file_dir.find(".dds") != std::string::npos)
+				else if (file_dir.find(".dds") != std::string::npos)
 				{
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
 					std::string file_name = App->import->CleanFileName(file_dir.c_str());
 					App->editor->GetSelected()->AddComponent(App->editor->LoadComponentMaterial(file_name.c_str()));
+				}
+				else if (file_dir.find(".GTIscene") != std::string::npos)
+				{
+					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
+					std::string file_name = App->import->CleanFileName(file_dir.c_str());
+					App->editor->LoadScene(file_name.c_str());
 				}
 
 				break;

@@ -38,6 +38,9 @@ public:
 
 	void Look(const float3& position);
 
+	bool OnSave(JSON_Value* array, uint go_uid);
+	bool OnLoad(JSONConfig data);
+
 	bool update_mat = false;
 	Frustum frustum;
 	bool projection_changed = false;
