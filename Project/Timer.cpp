@@ -23,6 +23,7 @@ void Timer::Stop()
 {
 	running = false;
 	stopped_at = SDL_GetTicks();
+	pausedTimeStart = SDL_GetTicks();
 }
 
 void Timer::Continue()

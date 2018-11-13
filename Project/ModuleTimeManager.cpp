@@ -48,11 +48,7 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 		ImGui::SameLine();
 		if (ImGui::Button("Pause"))
 		{
-			if (game_paused)
-			{
-				PlayGame(!in_game);
-			}
-			else
+			if (in_game)
 			{
 				PauseGame(!game_paused);
 			}
@@ -71,13 +67,13 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 		ImGui::Text("Game Time Clock: %.2f", GetTime());
 		ImGui::Text("Real Time Clock: %.2f", GetRealTime());
 
-		if (in_game == true)
+		if (in_game)
 		{
 			ImGui::Text("Runing!");
 		}
-		if (in_game == false)
+		if (!in_game)
 		{
-			ImGui::Text("Paused!");
+			ImGui::Text("Not Playing!");
 		}
 	}
 	ImGui::End();
@@ -105,8 +101,6 @@ void ModuleTimeManager::PlayGame(bool play)
 
 void ModuleTimeManager::PauseGame(bool pause)
 {
-	game_paused = pause;
-
 	if (pause == true)
 	{
 		time.Stop();
@@ -115,6 +109,7 @@ void ModuleTimeManager::PauseGame(bool pause)
 	{
 		time.Continue();
 	}
+	game_paused = pause;
 }
 
 void ModuleTimeManager::PlayOneFrame()
