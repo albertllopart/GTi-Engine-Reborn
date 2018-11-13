@@ -38,8 +38,12 @@ GameObject* MousePicking::PickFromRay() const
 	//set far plane as first distance check
 	float nearest_distance = 10000.0f;
 
+	
 	//nearest selected GameObject
 	GameObject* ret = App->editor->GetSelected();
+	//Exception for cameras! they do not have a bounding box :(
+	//if (App->editor->GetSelected()->IsCamera())
+	//	ret = App->editor->GetSelected();
 
 	//gameObject vector
 	std::vector<GameObject*> collided;

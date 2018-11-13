@@ -597,3 +597,13 @@ bool GameObject::OnLoad(const JSONConfig data)
 
 	return true;
 }
+
+bool GameObject::IsCamera()
+{
+	for (int i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->GetType() == COMPONENT_CAMERA)  //taking in account that a gameobject with a componentcamera are cameras, (just for now!) will probably need to be rewritten later
+			return true;
+	}
+	return false;
+}
