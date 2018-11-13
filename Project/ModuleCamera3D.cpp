@@ -52,7 +52,7 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_picker!= nullptr)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_picker!= nullptr && !ImGui::IsMouseHoveringAnyWindow())
 	{
 		if (ImGui::GetIO().WantCaptureMouse == false)
 		{
@@ -88,7 +88,7 @@ update_status ModuleCamera3D::Update(float dt)
 		float dx = (float)-motion_x * 1.0f * dt;
 		float dy = (float)-motion_y * 1.0f * dt;
 
-		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT )
+		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && !ImGui::IsMouseHoveringAnyWindow())
 		{
 			ImGuizmo::Enable(false);
 			Orbit(dx, dy);
