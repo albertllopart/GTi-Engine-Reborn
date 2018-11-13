@@ -25,6 +25,7 @@ public:
 	void SetBrightness(float value);
 	void SetBorderless(bool borderless);
 	void SetFullDesktop(bool fullDesktop);
+	void UpdateWindowParameters();
 
 	void Save(JSON_Object* node) const;
 	void Load(JSON_Object* node);

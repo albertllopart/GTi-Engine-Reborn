@@ -245,8 +245,6 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 					if (App->window->resizable)
 					{
 						App->window->ResizeWindow(App->window->width, App->window->height);
-						App->camera->camera->SetAspectRatio(App->window->width / App->window->height);
-						App->renderer3D->OnResize(App->window->width, App->window->height);
 					}
 				}
 				if (ImGui::SliderInt("Height", &App->window->height, 1, 1080))
@@ -254,8 +252,6 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 					if (App->window->resizable)
 					{
 						App->window->ResizeWindow(App->window->width, App->window->height);
-						App->camera->camera->SetAspectRatio(App->window->width / App->window->height);
-						App->renderer3D->OnResize(App->window->width, App->window->height);
 					}
 				}
 

@@ -20,7 +20,7 @@ ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 	frustum.farPlaneDistance = 70.0f;
 
 	frustum.verticalFov = DEGTORAD * fov;
-	SetAspectRatio(App->window->width / App->window->height);
+	SetAspectRatio(1.3f);
 
 	projection_changed = true;
 	

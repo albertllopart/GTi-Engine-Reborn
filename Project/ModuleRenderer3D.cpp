@@ -283,7 +283,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 		return;
 	}
 	glViewport(0, 0, width, height);
-	App->camera->camera->SetAspectRatio(width / height);
+	App->camera->camera->SetAspectRatio((float)width / (float)height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

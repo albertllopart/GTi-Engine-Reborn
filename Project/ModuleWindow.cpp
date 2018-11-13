@@ -137,7 +137,14 @@ void ModuleWindow::ResizeWindow(int width, int height)
 {
 	this->width = width;
 	this->height = height;
+
+	UpdateWindowParameters();
+}
+
+void ModuleWindow::UpdateWindowParameters()
+{
 	SDL_SetWindowSize(window, width, height);
+	App->renderer3D->OnResize(width, height);
 }
 
 void ModuleWindow::SetBrightness(float value)
