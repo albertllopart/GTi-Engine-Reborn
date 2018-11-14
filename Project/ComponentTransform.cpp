@@ -108,7 +108,7 @@ void ComponentTransform::UpdateMatrix()
 
 		if (my_go->GetParent() != nullptr && my_go->GetParent() != App->editor->GetRoot())
 		{
-			global_trans_matrix = my_go->GetParent()->GetTransMatrix() * trans_matrix;
+			global_trans_matrix = my_go->GetParent()->GetGlobalMatrix() * trans_matrix;
 		}
 		else
 		{
