@@ -45,6 +45,7 @@ public:
 	std::vector<GameObject*> GetAllGO();
 	std::vector<GameObject*> GetStaticGO();
 	void RemoveGameObjectFromScene();
+	void DeleteScene();
 	//Quadtree
 	void GenQuadtree();
 	void FillQuadtree();

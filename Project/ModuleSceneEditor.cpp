@@ -190,6 +190,17 @@ void ModuleSceneEditor::RemoveGameObjectFromScene()
 	}
 }
 
+void ModuleSceneEditor::DeleteScene()
+{
+	std::vector<GameObject*> to_delete = GetAllGO();
+
+	for (int i = 0; i < to_delete.size(); i++)
+	{
+		if (to_delete[i] != root)
+			to_delete[i]->SetToDelete();
+	}
+}
+
 void ModuleSceneEditor::GenQuadtree()
 {
 	const float3 pivot(0.0f, 5.0f, 0.0f);
@@ -259,6 +270,9 @@ bool ModuleSceneEditor::LoadScene(const char* name)
 
 	if (!config.ParseFile(path.c_str()))
 		return false;
+
+	//delete scene
+	DeleteScene();
 
 	config = config.SetFocus("Scene");
 	root->uid = config.GetInt("UID");
