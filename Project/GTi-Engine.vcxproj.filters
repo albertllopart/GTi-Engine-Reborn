@@ -49,6 +49,9 @@
     <Filter Include="Sources\ImGuizmos">
       <UniqueIdentifier>{e4bbd14a-1a71-4906-be6f-e51dcd37f1e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Resources">
+      <UniqueIdentifier>{fd0db38d-5049-4578-8e70-7831caa04b18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -399,6 +402,9 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>Sources\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -619,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Sources\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
