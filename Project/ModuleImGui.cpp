@@ -87,6 +87,7 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Load Scene"))
 			{
 				App->editor->LoadScene("lastScene");
+				//ShellExecute(NULL, "open", "C:/", NULL, NULL, SW_SHOWDEFAULT);
 			}
 			if (ImGui::MenuItem("Save Scene"))
 			{

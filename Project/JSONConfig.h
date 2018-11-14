@@ -30,6 +30,7 @@ public:
 	//getters
 
 	int GetInt(const char* name) const;
+	float GetFloat(const char* name) const;
 	bool GetBool(const char* name) const;
 	const char* GetString(const char* name)const;
 

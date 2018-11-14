@@ -59,6 +59,13 @@ int JSONConfig::GetInt(const char * name) const
 	return (int)json_value_get_number(value);
 }
 
+float JSONConfig::GetFloat(const char * name) const
+{
+	JSON_Value* value = json_object_get_value(object, name);
+	
+	return (float)json_value_get_number(value);
+}
+
 bool JSONConfig::GetBool(const char * name) const
 {
 	JSON_Value* value = json_object_get_value(object, name);

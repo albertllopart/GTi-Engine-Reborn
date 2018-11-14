@@ -196,19 +196,19 @@ bool ComponentTransform::OnLoad(JSONConfig data)
 	uid = data.GetInt("UID");
 
 	float3 position = float3::zero;
-	position.x = data.GetInt("pos.x");
-	position.y = data.GetInt("pos.y");
-	position.z = data.GetInt("pos.z");
+	position.x = data.GetFloat("pos.x");
+	position.y = data.GetFloat("pos.y");
+	position.z = data.GetFloat("pos.z");
 
 	float3 rotation = float3::zero;
-	rotation.x = data.GetInt("rot.x");
-	rotation.y = data.GetInt("rot.y");
-	rotation.z = data.GetInt("rot.z");
+	rotation.x = data.GetFloat("rot.x");
+	rotation.y = data.GetFloat("rot.y");
+	rotation.z = data.GetFloat("rot.z");
 
 	float3 scale_l = float3::zero;
-	scale_l.x = data.GetInt("scale.x");
-	scale_l.y = data.GetInt("scale.y");
-	scale_l.z = data.GetInt("scale.z");
+	scale_l.x = data.GetFloat("scale.x");
+	scale_l.y = data.GetFloat("scale.y");
+	scale_l.z = data.GetFloat("scale.z");
 
 	UpdatePosition(position);
 	UpdateRotation(rotation);

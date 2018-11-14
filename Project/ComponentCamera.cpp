@@ -270,5 +270,14 @@ bool ComponentCamera::OnSave(JSON_Value* array, uint go_uid)
 
 bool ComponentCamera::OnLoad(JSONConfig data)
 {
+	uid = data.GetInt("UID");
+
+	frustum.nearPlaneDistance = data.GetFloat("nearPlaneDistance");
+	frustum.farPlaneDistance = data.GetFloat("farPlaneDistance");
+	frustum.verticalFov = data.GetFloat("verticalFov");
+	frustum.horizontalFov = data.GetFloat("horizontalFov");
+	main_camera = data.GetBool("MainCamera");
+	culling = data.GetBool("Culling");
+
 	return true;
 }
