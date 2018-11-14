@@ -78,9 +78,10 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 			std::string name = std::to_string(uid);
 			importer->Import(scene->mMeshes[i], name);
 
+			ComponentMesh* new_mesh = App->import->LoadMesh(name.c_str());
 			if (App->editor->GetSelected() != nullptr)
 			{
-				ComponentMesh* new_mesh = App->import->LoadMesh(name.c_str());
+				
 
 				if (App->editor->GetSelected()->FindComponent(COMPONENT_MESH) == nullptr)
 				{
@@ -89,11 +90,20 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 				}
 				else
 				{
-					GameObject* newObject = new GameObject(App->editor->GetSelected());
-					newObject->AddComponent(COMPONENT_TRANSFORM);
-					newObject->AddComponent(new_mesh);
-					App->editor->GetSelected()->AddChild(newObject);
+					GameObject* new_go = new GameObject(App->editor->GetSelected());
+					new_go->AddComponent(COMPONENT_TRANSFORM);
+					new_go->AddComponent(new_mesh);
+					App->editor->GetSelected()->AddChild(new_go);
 				}
+			}
+			else
+			{
+				GameObject* new_go = new GameObject(App->editor->GetRoot());
+				App->editor->GetRoot()->AddChild(new_go);
+				new_go->AddComponent(COMPONENT_TRANSFORM);
+				new_go->AddComponent(new_mesh);
+				new_go->UpdateBBox();
+				App->editor->SetSelected(new_go);
 			}
 		}
 
