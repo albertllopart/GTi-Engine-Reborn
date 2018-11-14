@@ -19,7 +19,7 @@ public:
 	float* GetViewMatrix()const;
 	float* GetProjectionMatrix()const;
 	Frustum GetFrustum() const;
-	float* GetOpenGLViewMatrix();
+	math::float4x4 GetOpenGLViewMatrix();
 	math::float4x4 GetOpenGLProjectionMatrix();
 	float GetAspectRatio() const;
 

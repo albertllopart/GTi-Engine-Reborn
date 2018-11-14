@@ -5,6 +5,8 @@
 #include "Primitive.h"
 #include "Quadtree.h"
 
+#include "ImGuizmo/ImGuizmo.h"
+
 #include <list>
 
 class GameObject;
@@ -54,8 +56,12 @@ public:
 	bool LoadScene(const char* name);
 
 public:
+
 	Quadtree quadtree;
 	bool quadtree_draw = false;
+
+	ImGuizmo::OPERATION currentOperation = ImGuizmo::OPERATION::TRANSLATE;
+
 private:
 
 	GameObject* selected_go = nullptr;

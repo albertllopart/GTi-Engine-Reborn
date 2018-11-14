@@ -159,7 +159,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 	
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(camera->GetOpenGLViewMatrix());
+	glLoadMatrixf(camera->GetOpenGLViewMatrix().ptr());
 
 	// Light 0 on cam pos
 	//lights[0].SetPos(camera->frustum.pos.x, camera->frustum.pos.y, camera->frustum.pos.z);
@@ -213,7 +213,8 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 	if (to_draw->GetMyGo()->visible)
 	{
 		glPushMatrix();
-		glMultMatrixf((float*)&to_draw->GetMyGo()->GetTransMatrix());
+		math::float4x4 matrix = to_draw->GetMyGo()->GetGlobalMatrix();
+		glMultMatrixf(matrix.Transposed().ptr());
 
 		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{

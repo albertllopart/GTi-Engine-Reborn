@@ -215,14 +215,14 @@ void ComponentCamera::Look(const float3& position)
 	frustum.up = matrix.MulDir(frustum.up).Normalized();
 }
 
-float* ComponentCamera::GetOpenGLViewMatrix()
+math::float4x4 ComponentCamera::GetOpenGLViewMatrix()
 {
 	static float4x4 m;
 
 	m = frustum.ViewMatrix();
 	m.Transpose();
 
-	return (float*)m.ptr();
+	return m;
 }
 
 math::float4x4 ComponentCamera::GetOpenGLProjectionMatrix()

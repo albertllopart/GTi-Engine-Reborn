@@ -232,36 +232,36 @@ void ComponentTransform::ShowGizmo(ComponentCamera & camera)
 		ImGuizmo::Enable(false);
 	}
 
-	static ImGuizmo::OPERATION currentOperation(ImGuizmo::TRANSLATE);
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
-		currentOperation = ImGuizmo::TRANSLATE;
+		App->editor->currentOperation = ImGuizmo::TRANSLATE;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
-		currentOperation = ImGuizmo::ROTATE;
+		App->editor->currentOperation = ImGuizmo::ROTATE;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-		currentOperation = ImGuizmo::SCALE;
+		App->editor->currentOperation = ImGuizmo::SCALE;
 	}
 
-	float* projMatrixg = camera.GetFrustum().ViewProjMatrix().Transposed().ptr();
-	float* transMatrix = global_trans_matrix.Transposed().ptr();
-
+	float4x4 viewMatrix = camera.GetOpenGLViewMatrix();
+	float4x4 projMatrix = camera.GetOpenGLProjectionMatrix();
+	float4x4 transMatrix = my_go->GetGlobalMatrix().Transposed();
+	
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
-	ImGuizmo::Manipulate(float4x4::identity.ptr(), projMatrixg, currentOperation, ImGuizmo::WORLD, transMatrix);
+	ImGuizmo::Manipulate(viewMatrix.ptr(), projMatrix.ptr(), App->editor->currentOperation, ImGuizmo::MODE::LOCAL, transMatrix.ptr());
+
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RALT) == KEY_IDLE && !ImGui::GetIO().WantCaptureKeyboard)
 	{
 		if (ImGuizmo::IsUsing())
 		{
-			ImGuizmo::DecomposeMatrixToComponents(transMatrix, (float*)pos.ptr(), (float*)rot_euler.ptr(), (float*)scale.ptr());
-			global_trans_matrix.Transpose();
-			ImGuizmo::RecomposeMatrixFromComponents((float*)pos.ptr(), (float*)rot_euler.ptr(), (float*)scale.ptr(), global_trans_matrix.ptr());
-			global_trans_matrix.Transpose();
+			transMatrix.Transpose();
+			transMatrix.Decompose(pos, rot_quat, scale);
+			rot_euler = rot_quat.ToEulerXYZ() * RADTODEG;
+			UpdateMatrix();
 		}
 	}
-	UpdateMatrix();
 }
