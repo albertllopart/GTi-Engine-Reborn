@@ -218,7 +218,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
 			ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
-			glBindTexture(GL_TEXTURE_2D, temp->GetID());
+
+			if (to_draw->mesh->id_texcoord != 0)
+				glBindTexture(GL_TEXTURE_2D, temp->GetID());
 		}
 
 
@@ -226,9 +228,12 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_texcoord);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		if (to_draw->mesh->id_texcoord != 0)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->id_texcoord);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		}
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->id_index);
 
