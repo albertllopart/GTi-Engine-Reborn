@@ -201,7 +201,17 @@ void GameObject::ShowInspectorWindow()
 				}
 			}
 			//ImGui::Text(name.c_str());	
-			ImGui::Checkbox("", &is_static);
+			if (ImGui::Checkbox("", &is_static))
+			{
+				if (is_static)
+				{
+					App->editor->quadtree.Insert(this);
+				}
+				for (int i = 0; i < childs.size(); ++i)
+				{
+					childs[i]->is_static = is_static;
+				}
+			}
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.25f, 1.00f, 1.00f, 1.00f), "Static");
 		}

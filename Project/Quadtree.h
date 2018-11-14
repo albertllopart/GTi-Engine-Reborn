@@ -1,7 +1,7 @@
 #ifndef __QUADTREE__
 #define __QUADTREE__
 
-#define QUADTREE_MAX_SIZE 1
+#define QUADTREE_MAX_SIZE 5
 #define QUADTREE_MAX_SUBDIVISIONS 5
 
 #include "MathGeoLib/Geometry/AABB.h"
