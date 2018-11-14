@@ -183,7 +183,13 @@ void GameObject::ShowInspectorWindow()
 
 		if (ImGui::BeginChild(ImGui::GetID("Inspector"), ImVec2(ImGui::GetWindowWidth(), 500)))
 		{
-			ImGui::Checkbox("Active", &active);
+			if (ImGui::Checkbox("Active", &active))
+			{
+				for(int i = 0; i<childs.size(); ++i)
+				{
+					childs[i]->active = active;
+				}
+			}
 			ImGui::SameLine();
 			if (this != nullptr)
 			{
@@ -216,12 +222,20 @@ void GameObject::AddComponent(Component* to_add)
 	{
 		components.push_back(to_add);
 		to_add->SetMyGo(this);
+		//code for bakerhouse example (same texture for parent & child)
+		if (childs.size() > 0 && to_add->GetType() == COMPONENT_MATERIAL)
+		{
+			for (int i = 0; i < childs.size(); ++i)
+			{
+				childs[i]->components.push_back(to_add);
+				to_add->SetMyGo(childs[i]);
+			}
+		}
 	}
 	else
 	{
 		LOG("Failed to add Component!");
 	}
-
 }
 
 Component* GameObject::AddComponent(COMPONENT_TYPE component)
