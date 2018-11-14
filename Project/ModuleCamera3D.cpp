@@ -25,6 +25,7 @@ bool ModuleCamera3D::Init(JSON_Object* node)
 {
 	camera = new ComponentCamera();
 	camera->frustum.pos.y += 2.0f;
+	camera->frustum.farPlaneDistance += 1000.f;
 	return true;
 }
 // -----------------------------------------------------------------
