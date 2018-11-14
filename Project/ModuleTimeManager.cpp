@@ -62,23 +62,46 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 		{
 			PlayOneFrame();
 		}
+		ImGui::SameLine();
+		if (show_info)
+		{
+			if (ImGui::Button("-"))
+			{
+				show_info = !show_info;
+			}
+		}
+		else
+		{
+			if (ImGui::Button("+"))
+			{
+				show_info = !show_info;
+			}
+		}
 
-		ImGui::Text("Total Frames: %i", GetFrameCount());
-		ImGui::Text("Game Time Clock: %.2f", GetTime());
-		ImGui::Text("Real Time Clock: %.2f", GetRealTime());
 
+		if (show_info)
+		{
+			ShowInfo();
+		}
 		if (in_game)
 		{
-			ImGui::Text("Runing!");
+			ImGui::TextColored(ImVec4(0.2f, 0.9f, 0.2f, .8f), "Playing");
 		}
 		if (!in_game)
 		{
-			ImGui::Text("Not Playing!");
+			ImGui::TextColored(ImVec4(0.9f, 0.2f, 0.2f, 0.8f), "Not Playing");
 		}
 	}
 	ImGui::End();
 
 	return UPDATE_CONTINUE;
+}
+
+void ModuleTimeManager::ShowInfo()
+{
+	ImGui::Text("Total Frames: %i", GetFrameCount());
+	ImGui::Text("Game Time Clock: %.2f", GetTime());
+	ImGui::Text("Real Time Clock: %.2f", GetRealTime());
 }
 
 void ModuleTimeManager::PlayGame(bool play)

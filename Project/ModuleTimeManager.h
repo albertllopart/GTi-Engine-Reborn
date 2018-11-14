@@ -17,6 +17,8 @@ public:
 
 	update_status PostUpdate(float dt);
 
+	void ShowInfo();
+
 	void PlayGame(bool play);
 	void PauseGame(bool pause);
 	void PlayOneFrame();
@@ -46,6 +48,7 @@ private:
 	Timer real_time_since_start;
 	float real_dtime_since_start;
 
+	bool show_info = false;
 	bool play_frame;
 	bool game_paused;
 	bool in_game;
