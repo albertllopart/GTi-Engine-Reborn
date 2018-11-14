@@ -77,7 +77,11 @@ update_status ModuleCamera3D::Update(float dt)
 
 	//end of ray
 
-	Move(dt);
+	if (ImGui::GetIO().WantCaptureKeyboard == false)
+	{
+		Move(dt);
+	}
+
 
 	// Check motion for lookat / Orbit cameras
 	int motion_x, motion_y;

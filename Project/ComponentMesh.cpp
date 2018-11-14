@@ -53,7 +53,7 @@ void ComponentMesh::ShowInspectorWindow()
 		int num_vertices = (mesh == nullptr) ? 0 : mesh->num_vertex;
 		int num_indices = (mesh == nullptr) ? 0 : mesh->num_index;
 
-		ImGui::Text("Name:");
+		ImGui::Text("Source:");
 		ImGui::SameLine();
 		if (mesh != nullptr)
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", source.c_str());

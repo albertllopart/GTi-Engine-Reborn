@@ -205,7 +205,13 @@ void GameObject::ShowInspectorWindow()
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.25f, 1.00f, 1.00f, 1.00f), "Static");
 		}
-		ImGui::Checkbox("BoundingBox", &show_bbox);
+		if (ImGui::Checkbox("BoundingBox", &show_bbox))
+		{
+			for (int i = 0; i < childs.size(); ++i)
+			{
+				childs[i]->show_bbox = show_bbox;
+			}
+		}
 		for (uint i = 0; i < components.size(); i++)
 		{
 			ImGui::Separator();
