@@ -57,7 +57,7 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		if (ImGui::GetIO().WantCaptureMouse == false)
 		{
-			App->editor->FillQuadtree();
+			//App->editor->FillQuadtree();
 			picking = mouse_picker->RayfromMouse(App->input->GetMouseX(), App->input->GetMouseY());
 			App->editor->SetSelected(mouse_picker->PickFromRay());
 		}
