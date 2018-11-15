@@ -24,6 +24,7 @@ Application::Application()
 	e_windows = new ModuleEngineWindows(this);
 	filesystem = new ModuleFileSystem(this);
 	time = new ModuleTimeManager(this);
+	resource = new ModuleResourceManager(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -41,6 +42,7 @@ Application::Application()
 	AddModule(import);
 	AddModule(time);
 	AddModule(filesystem);
+	AddModule(resource);
 
 	// Renderer last!
 	AddModule(renderer3D);

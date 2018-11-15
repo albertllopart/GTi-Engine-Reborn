@@ -1,6 +1,6 @@
 #include "ResourceMesh.h"
 
-ResourceMesh::ResourceMesh()
+ResourceMesh::ResourceMesh(uint uid) : Resource (uid, RESOURCE_MESH)
 {
 }
 

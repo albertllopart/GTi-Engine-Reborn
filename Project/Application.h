@@ -16,6 +16,7 @@
 #include "ModuleFileSystem.h"
 #include "ModuleEngineWindows.h"
 #include "ModuleTimeManager.h"
+#include "ModuleResourceManager.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -37,6 +38,7 @@ public:
 	ModuleFileSystem* filesystem;
 	ModuleEngineWindows* e_windows;
 	ModuleTimeManager* time;
+	ModuleResourceManager* resource;
 
 private:
 

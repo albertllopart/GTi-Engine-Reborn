@@ -1,12 +1,13 @@
 #include "Application.h"
 #include "ComponentMesh.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 #include "ImGui/imgui.h"
 #include "JSONConfig.h"
 
 ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
 {
-	mesh = new Mesh;
+	mesh = (ResourceMesh*)App->resource->CreateResource(RESOURCE_MESH);
 	name = "ComponentMesh";
 	source = "None";
 }
@@ -50,8 +51,8 @@ void ComponentMesh::ShowInspectorWindow()
 
 	if (node_open)
 	{
-		int num_vertices = (mesh == nullptr) ? 0 : mesh->num_vertex;
-		int num_indices = (mesh == nullptr) ? 0 : mesh->num_index;
+		int num_vertices = (mesh == nullptr) ? 0 : mesh->mesh->num_vertex;
+		int num_indices = (mesh == nullptr) ? 0 : mesh->mesh->num_index;
 
 		ImGui::Text("Source:");
 		ImGui::SameLine();
@@ -72,7 +73,7 @@ void ComponentMesh::ShowInspectorWindow()
 
 float3 ComponentMesh::GetCenter() const
 {
-	return mesh->bbox.Centroid();
+	return mesh->mesh->bbox.Centroid();
 }
 
 bool ComponentMesh::OnSave(JSON_Value* array, uint go_uid)

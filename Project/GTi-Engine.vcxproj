@@ -192,6 +192,7 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceMaterial.h" />
     <ClInclude Include="ResourceMesh.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="Timer.h" />
@@ -270,6 +271,7 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceMaterial.cpp" />
     <ClCompile Include="ResourceMesh.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="Timer.cpp" />

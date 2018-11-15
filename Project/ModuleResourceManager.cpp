@@ -4,6 +4,8 @@
 #include "ModuleRNG.h"
 #include "ModuleTextures.h"
 #include "ModuleImporter.h"
+#include "ResourceMesh.h"
+#include "ResourceMaterial.h"
 
 
 
@@ -90,16 +92,17 @@ uint ModuleResourceManager::ImportFile(const char * file_path)
 Resource * ModuleResourceManager::CreateResource(ResourceType type, uint UID)
 {
 	Resource* ret = nullptr;
-	//uint UID = App->rng->Random32();
+	uint uid = App->rng->Random32();
+
 	switch (type)
 	{
 	case RESOURCE_NONE:
 		break;
 	case RESOURCE_MATERIAL:
-		//ret = new ResourceTexture(UID);
+		ret = new ResourceMaterial(uid);
 		break;
 	case RESOURCE_MESH:
-		//ret = new ResourceMesh(UID);
+		ret = new ResourceMesh(uid);
 		break;
 	default:
 		break;
@@ -108,7 +111,15 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint UID)
 	{
 		resources[UID] = ret;
 	}
-	return ret;
+	return (Resource*)ret;
+}
+
+const Resource * ModuleResourceManager::Get(uint UID) const
+{
+	std::map<uint, Resource*>::const_iterator it = resources.find(UID);
+	if (it != resources.end())
+		return it->second;
+	return nullptr;
 }
 
 void ModuleResourceManager::SearchResources()

@@ -4,6 +4,7 @@
 
 #include "Globals.h"
 #include <string>
+#include <map>
 
 enum ResourceType
 {
@@ -16,15 +17,23 @@ enum ResourceType
 class Resource
 {
 public:
-	Resource();
-	~Resource();
+	Resource(uint UID, ResourceType type);
+	virtual ~Resource();
 	
 	ResourceType GetType() const;
+	uint GetUID()const;
+	const char* GetFile() const;
+	const char* GetExportedFile() const;
+
+	bool IsLoaded()const;
+	void LoadInMemory();
+	void UnLoadInMemory();
+	uint CountReferences()const;
 
 	//virtual void    Save() const;
 	//virtual void    Load();
-
-private:
+	//virtual void	  LoadInMemory() = 0;
+protected:
 	std::string file;
 	std::string exported_file;
 
