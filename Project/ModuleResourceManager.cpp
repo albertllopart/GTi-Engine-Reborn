@@ -8,7 +8,7 @@
 
 
 
-ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled = true) : Module (app,start_enabled)
+ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled) : Module (app, start_enabled)
 {
 	name = "ModuleResourceManager";
 }
@@ -83,12 +83,14 @@ uint ModuleResourceManager::ImportFile(const char * file_path)
 	{
 		//CreateResource
 	}
+
+	return 0;
 }
 
 Resource * ModuleResourceManager::CreateResource(ResourceType type, uint UID)
 {
 	Resource* ret = nullptr;
-	uint UID = App->rng->Random32();
+	//uint UID = App->rng->Random32();
 	switch (type)
 	{
 	case RESOURCE_NONE:
