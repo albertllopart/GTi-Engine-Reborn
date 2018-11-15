@@ -239,14 +239,16 @@ void GameObject::AddComponent(Component* to_add)
 		components.push_back(to_add);
 		to_add->SetMyGo(this);
 		//code for bakerhouse example (same texture for parent & child)
-		if (childs.size() > 0 && to_add->GetType() == COMPONENT_MATERIAL)
+		/*if (childs.size() > 0 && to_add->GetType() == COMPONENT_MATERIAL)
 		{
 			for (int i = 0; i < childs.size(); ++i)
 			{
 				childs[i]->components.push_back(to_add);
 				to_add->SetMyGo(childs[i]);
 			}
-		}
+		}*/
+
+		//aquest codi d'aqui dalt fa petar el DeleteScene() perquè intenta eliminar un component que ja estat eliminat pel pare (crec)
 	}
 	else
 	{
@@ -529,9 +531,13 @@ void GameObject::CleanRemove()
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
-		item->CleanUp();
-		RELEASE(item);
-		item = nullptr;
+		
+		if (item != nullptr)
+		{
+			item->CleanUp();
+			RELEASE(item);
+			item = nullptr;
+		}
 	}
 
 	for (uint i = 0; i < childs.size(); i++)
@@ -646,4 +652,43 @@ bool GameObject::IsCamera()
 			return true;
 	}
 	return false;
+}
+
+bool GameObject::Delete()
+{
+	if (this != App->editor->GetRoot())
+	{
+		if (App->editor->GetSelected() == this)
+		{
+			App->editor->SetSelected(nullptr);
+		}
+
+		for (int i = 0; i < childs.size(); i++)
+		{
+			childs[i]->Delete();
+		}
+
+		for (int i = 0; i < components.size(); i++)
+		{
+			Component* item = components[i];
+			item->CleanUp();
+			RELEASE(item);
+			item = nullptr;
+
+			components.erase(components.begin() + i);
+		}
+
+		for (int i = 0; i < parent->childs.size(); i++)
+		{
+			if (parent->childs[i] == this)
+			{
+				parent->childs.erase(parent->childs.begin() + i);
+			}
+		}
+
+		parent = nullptr;
+		my_transform = nullptr;
+	}
+
+	return true;
 }

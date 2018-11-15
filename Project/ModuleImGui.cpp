@@ -93,6 +93,10 @@ update_status ModuleImGui::Update(float dt)
 			{
 				App->editor->SaveScene("lastScene");
 			}
+			if (ImGui::MenuItem("Delete Scene"))
+			{
+				App->editor->DeleteScene();
+			}
 			if (ImGui::MenuItem("Quit (Alt + F4)"))
 			{
 				return UPDATE_STOP;

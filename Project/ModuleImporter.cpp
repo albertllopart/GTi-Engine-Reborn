@@ -94,6 +94,7 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 					new_go->AddComponent(COMPONENT_TRANSFORM);
 					new_go->AddComponent(new_mesh);
 					App->editor->GetSelected()->AddChild(new_go);
+					new_go->UpdateBBox();
 				}
 			}
 			else

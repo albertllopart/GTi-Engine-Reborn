@@ -64,6 +64,7 @@ public:
 	bool OnSave(JSON_Value* array) const;
 	bool OnLoad(const JSONConfig data);
 	bool IsCamera();
+	bool Delete();
 	
 
 private:
