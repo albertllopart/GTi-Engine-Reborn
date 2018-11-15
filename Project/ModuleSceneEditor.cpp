@@ -287,6 +287,9 @@ bool ModuleSceneEditor::LoadScene(const char* name)
 
 		item->OnLoad(item_config);
 		item->SetParent(FindGObyUID(item_config.GetInt("Parent"), root));
+
+		item->UpdateMatrix();
+		item->UpdateBBox();
 	}
 	
 	return true;

@@ -69,5 +69,6 @@ private:
 
 	std::vector<GameObject*>scene_go;
 	std::vector<GameObject*>static_scene_go;
+	
 };
 #endif 

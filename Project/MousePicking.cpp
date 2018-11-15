@@ -49,7 +49,15 @@ GameObject* MousePicking::PickFromRay() const
 	std::vector<GameObject*> collided;
 	
 	//dynamic
-
+	std::vector<GameObject*> all_go = App->editor->GetAllGO();
+	for (int i = 0; i < all_go.size(); i++)
+	{
+		if (all_go[i]->is_static == false && all_go[i] != App->editor->GetRoot())
+		{
+			if (all_go[i]->FindComponent(COMPONENT_MESH) != nullptr)
+				collided.push_back(all_go[i]);
+		}
+	}
 	//static
 	App->editor->quadtree.CollectIntersections(collided, my_ray);
 
