@@ -38,7 +38,19 @@ bool ModuleTimeManager::CleanUp()
 
 update_status ModuleTimeManager::PostUpdate(float dt)
 {
-	if (ImGui::Begin("Time Status"))
+	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w/2.5f, 20), ImGuiCond_Always);
+
+	if(show_info)
+		ImGui::SetNextWindowSize(ImVec2(250, 120), ImGuiCond_Always);
+	else
+		ImGui::SetNextWindowSize(ImVec2(250, 70), ImGuiCond_Always);
+
+	ImGuiWindowFlags flags = 0;
+	flags |= ImGuiWindowFlags_NoResize;
+	flags |= ImGuiWindowFlags_NoScrollbar;
+	
+
+	if (ImGui::Begin("Time Status",NULL,flags))
 	{
 		if (ImGui::Button("Play"))
 		{
@@ -68,6 +80,7 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 			if (ImGui::Button("-"))
 			{
 				show_info = !show_info;
+				//ImGui::SetNextWindowSize(ImVec2(200, 300), ImGuiCond_Always);
 			}
 		}
 		else
@@ -75,6 +88,7 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 			if (ImGui::Button("+"))
 			{
 				show_info = !show_info;
+				//ImGui::SetNextWindowSize(ImVec2(200, 600), ImGuiCond_Always);
 			}
 		}
 

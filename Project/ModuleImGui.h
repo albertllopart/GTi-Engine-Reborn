@@ -21,6 +21,7 @@ public:
 	void AddConsoleLog(const char* add);
 	void AddConsoleLog(std::string add);
 	void PerformanceGraphCalc(float fps, float ms);
+	void ShowTextureImportOptions();
 	void AboutWindow();
 	void Draw()const;
 	bool Confirmation();
@@ -36,6 +37,8 @@ public:
 	bool show_mesh_info = false;
 	bool hierarchy = true;
 	bool confirmation = false;
+	//
+	bool text_import = false;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;

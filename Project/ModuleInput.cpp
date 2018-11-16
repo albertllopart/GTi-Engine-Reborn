@@ -138,6 +138,7 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
 
 					//get name
+					App->imgui->text_import = true;
 					std::string file_name = App->import->CleanFileName(file_dir.c_str());
 					App->textures->importer->Import(file_dir.c_str(), file_name);
 
