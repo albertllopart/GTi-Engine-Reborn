@@ -40,7 +40,7 @@ public:
 
 
 public:
-	Mesh* mesh = nullptr;
+	Mesh mesh;
 
 };
 

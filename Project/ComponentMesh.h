@@ -28,7 +28,7 @@ public:
 
 public:
 	std::string source;
-	ResourceMesh * mesh = nullptr;
+	ResourceMesh* mesh;
 };
 
 #endif//__COMPONENT_MESH__

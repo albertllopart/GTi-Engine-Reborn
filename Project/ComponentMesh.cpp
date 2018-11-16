@@ -51,8 +51,8 @@ void ComponentMesh::ShowInspectorWindow()
 
 	if (node_open)
 	{
-		int num_vertices = (mesh == nullptr) ? 0 : mesh->mesh->num_vertex;
-		int num_indices = (mesh == nullptr) ? 0 : mesh->mesh->num_index;
+		int num_vertices = (mesh == nullptr) ? 0 : mesh->mesh.num_vertex;
+		int num_indices = (mesh == nullptr) ? 0 : mesh->mesh.num_index;
 
 		ImGui::Text("Source:");
 		ImGui::SameLine();
@@ -73,7 +73,7 @@ void ComponentMesh::ShowInspectorWindow()
 
 float3 ComponentMesh::GetCenter() const
 {
-	return mesh->mesh->bbox.Centroid();
+	return mesh->mesh.bbox.Centroid();
 }
 
 bool ComponentMesh::OnSave(JSON_Value* array, uint go_uid)

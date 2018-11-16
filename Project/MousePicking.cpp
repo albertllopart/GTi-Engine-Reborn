@@ -69,15 +69,15 @@ GameObject* MousePicking::PickFromRay() const
 
 		ComponentMesh* mesh = (ComponentMesh*)collided[i]->FindComponent(COMPONENT_MESH);
 
-		for (int j = 0; j < mesh->mesh->mesh->num_index; j++)
+		for (int j = 0; j < mesh->mesh->mesh.num_index; j++)
 		{
 			Triangle triangle;
 
-			triangle.a = float3(mesh->mesh->mesh->vertex[j * 3], mesh->mesh->mesh->vertex[j * 3 + 1], mesh->mesh->mesh->vertex[j * 3 + 2]);
+			triangle.a = float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
 			j++;
-			triangle.b = float3(mesh->mesh->mesh->vertex[j * 3], mesh->mesh->mesh->vertex[j * 3 + 1], mesh->mesh->mesh->vertex[j * 3 + 2]);
+			triangle.b = float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
 			j++;
-			triangle.c = float3(mesh->mesh->mesh->vertex[j * 3], mesh->mesh->mesh->vertex[j * 3 + 1], mesh->mesh->mesh->vertex[j * 3 + 2]);
+			triangle.c = float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
 
 			float distance = 10000.0f;
 			float3 hit_point;
