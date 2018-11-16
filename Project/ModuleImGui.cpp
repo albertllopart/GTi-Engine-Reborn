@@ -68,6 +68,12 @@ update_status ModuleImGui::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	if (App->editor->want_to_load_scene)
+	{
+		App->editor->want_to_load_scene = false;
+		App->editor->LoadScene(App->editor->next_scene.c_str());
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 	{
 		AddConsoleLog("Shinny Mew2 appeared!");
@@ -86,7 +92,7 @@ update_status ModuleImGui::Update(float dt)
 			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
-				App->editor->LoadScene("lastScene");
+				App->editor->WantToLoadScene("lastScene");
 				//ShellExecute(NULL, "open", "C:/", NULL, NULL, SW_SHOWDEFAULT);
 			}
 			if (ImGui::MenuItem("Save Scene"))

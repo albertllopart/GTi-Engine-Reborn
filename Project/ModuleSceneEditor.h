@@ -54,6 +54,7 @@ public:
 	//save and load
 	bool SaveScene(const char* name) const;
 	bool LoadScene(const char* name);
+	void WantToLoadScene(const char* name);
 
 public:
 
@@ -61,6 +62,9 @@ public:
 	bool quadtree_draw = false;
 
 	ImGuizmo::OPERATION currentOperation = ImGuizmo::OPERATION::TRANSLATE;
+
+	bool want_to_load_scene = false;
+	std::string next_scene;
 
 private:
 

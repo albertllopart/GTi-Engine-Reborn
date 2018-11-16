@@ -32,12 +32,13 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
+	AddModule(editor);
 	AddModule(imgui);
 	AddModule(e_windows);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(rng);
-	AddModule(editor);
+	
 	AddModule(textures);
 	AddModule(import);
 	AddModule(time);

@@ -528,6 +528,14 @@ void GameObject::CleanRemove()
 		App->editor->SetSelected(nullptr);
 	}
 
+	for (int i = 0; i < App->editor->GetRoot()->childs.size(); i++)
+	{
+		if (App->editor->GetRoot()->childs[i] == this)
+		{
+			App->editor->GetRoot()->childs.erase(App->editor->GetRoot()->childs.begin() + i);
+		}
+	}
+
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -548,7 +556,9 @@ void GameObject::CleanRemove()
 		RELEASE(item);
 		item = nullptr;
 	}
+
 	parent = nullptr;
+	uid = 0;
 }
 
 

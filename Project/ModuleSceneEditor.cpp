@@ -51,6 +51,7 @@ update_status ModuleSceneEditor::PreUpdate(float dt)
 		root->PreUpdate();
 
 	}
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -59,8 +60,8 @@ update_status ModuleSceneEditor::Update(float dt)
 	if (root != nullptr)
 	{
 		root->Update();
-
 	}
+
 	if (quadtree_draw)
 	{
 		quadtree.root->DrawQuadtree();
@@ -272,9 +273,6 @@ bool ModuleSceneEditor::LoadScene(const char* name)
 	if (!config.ParseFile(path.c_str()))
 		return false;
 
-	//delete scene
-	DeleteScene();
-
 	config = config.SetFocus("Scene");
 	root->uid = config.GetInt("UID");
 
@@ -293,6 +291,14 @@ bool ModuleSceneEditor::LoadScene(const char* name)
 	}
 	
 	return true;
+}
+
+void ModuleSceneEditor::WantToLoadScene(const char* name)
+{
+	want_to_load_scene = true;
+	next_scene = name;
+
+	DeleteScene();
 }
 
 
