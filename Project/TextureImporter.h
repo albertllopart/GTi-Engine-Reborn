@@ -41,7 +41,6 @@ public:
 	uint Load(const char* file_name);
 	void SetCompression();
 	void SetWrapMode();
-	//void SetFileChars(const char * file_dir, std::string file_name);
 
 
 	//dropped texture
@@ -56,6 +55,7 @@ public:
 	int compression = 0;
 
 	bool mip_map = false;
+	float anisotropic = 0.0f;
 
 	Wrap_Mode wrap = Wrap_Mode::REPEAT;
 	int wrap_mode = 0;
