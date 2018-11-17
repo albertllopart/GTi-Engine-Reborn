@@ -45,7 +45,7 @@ public:
 	Frustum frustum;
 	bool projection_changed = false;
 
-private:
+public:
 
 	float fov = 60.0f;
 	float aspect_ratio = 0.0f;

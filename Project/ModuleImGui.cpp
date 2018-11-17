@@ -299,6 +299,33 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 
 			}
 
+			if (ImGui::CollapsingHeader("Camera"))
+			{
+				uint flags = ImGuiTreeNodeFlags_DefaultOpen; //| ImGuiTreeNodeFlags_CheckBox
+				bool node_open = true;
+
+				if (node_open)
+				{
+					ImGui::TextWrapped("Aspect ratio:");
+					ImGui::SameLine();
+					ImGui::Text("%.3f", App->camera->camera->aspect_ratio);
+
+					if(ImGui::DragFloat("Near Distance", &App->camera->camera->frustum.nearPlaneDistance, 0.5, 0.0, App->camera->camera->frustum.farPlaneDistance))
+						App->renderer3D->RefreshProjection();
+
+					if(ImGui::DragFloat("Far Distance", &App->camera->camera->frustum.farPlaneDistance, 0.5))
+						App->renderer3D->RefreshProjection();
+
+					if (ImGui::DragFloat("Field of View", &App->camera->camera->frustum.verticalFov, 0.5))
+					{
+						App->camera->camera->frustum.horizontalFov = atan(App->camera->camera->aspect_ratio*tan(App->camera->camera->frustum.verticalFov / 2)) * 2;
+						App->renderer3D->RefreshProjection();
+					}
+
+					App->camera->camera->UpdateMatrix();
+				}
+			}
+
 			if (ImGui::CollapsingHeader("Renderer"))
 			{
 				ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe);
