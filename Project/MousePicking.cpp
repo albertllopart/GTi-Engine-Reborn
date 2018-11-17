@@ -98,6 +98,6 @@ GameObject* MousePicking::PickFromRay() const
 
 void MousePicking::UpdateScreenSize()
 {
-	screenWidth = App->window->width;
-	screenHeight = App->window->height;
+	screenWidth = App->window->screen_surface->w;
+	screenHeight = App->window->screen_surface->h;
 }
