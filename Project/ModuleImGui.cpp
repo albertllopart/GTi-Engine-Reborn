@@ -186,7 +186,7 @@ update_status ModuleImGui::Update(float dt)
 	}
 	if (text_import)
 	{
-		ShowTextureImportOptions();
+		App->textures->importer->ShowTextureImportOptions();
 	}
 	return ret;
 }
@@ -422,15 +422,6 @@ void ModuleImGui::PerformanceGraphCalc(float fps, float ms)
 		FPSvec.push_back(fps);
 		MSvec.push_back(ms);
 	}
-}
-
-void ModuleImGui::ShowTextureImportOptions()
-{
-	ImGui::Begin("Texture import parameters", &text_import);
-
-
-
-	ImGui::End();
 }
 
 void ModuleImGui::AboutWindow()

@@ -21,7 +21,6 @@ public:
 	void AddConsoleLog(const char* add);
 	void AddConsoleLog(std::string add);
 	void PerformanceGraphCalc(float fps, float ms);
-	void ShowTextureImportOptions();
 	void AboutWindow();
 	void Draw()const;
 	bool Confirmation();

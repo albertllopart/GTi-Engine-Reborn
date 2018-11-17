@@ -27,8 +27,8 @@ void ComponentMaterial::OnEditor()
 			}
 			ImGui::EndPopup();
 		}
-		ImGui::Text(tex_name.c_str());
-		ImGui::Text("Texture ID: %i", tex_id);
+		//ImGui::Text(tex_name.c_str());
+		//ImGui::Text("Texture ID: %i", tex_id);
 		ImGui::TreePop();
 	}
 }

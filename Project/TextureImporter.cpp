@@ -4,6 +4,7 @@
 #include "Devil/include/il.h"
 #include "Devil/include/ilu.h"
 #include "Devil/include/ilut.h"
+#include "ImGui/imgui.h"
 
 #pragma comment (lib, "Devil/libx86/DevIL.lib" )
 #pragma comment (lib, "Devil/libx86/ILU.lib" ) 
@@ -36,7 +37,23 @@ bool TextureImporter::Import(const char* source_path, std::string output_file) c
 		ILuint size;
 		ILubyte* data;
 
-		ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);// To pick a specific DXT compression use
+		switch (dx_compression)
+		{
+			case NONE: ilSetInteger(IL_DXTC_FORMAT, IL_DXT5); break;
+			case DXT1: ilSetInteger(IL_DXTC_FORMAT, IL_DXT1); break;
+			case DXT2: ilSetInteger(IL_DXTC_FORMAT, IL_DXT2); break;
+			case DXT3: ilSetInteger(IL_DXTC_FORMAT, IL_DXT3); break;
+			case DXT4: ilSetInteger(IL_DXTC_FORMAT, IL_DXT4); break;
+			case DXT5: ilSetInteger(IL_DXTC_FORMAT, IL_DXT5); break;
+			case DXT_NO_COMP: ilSetInteger(IL_DXTC_FORMAT, IL_DXT_NO_COMP); break;
+			case KEEP_DXTC_DATA: ilSetInteger(IL_DXTC_FORMAT, IL_KEEP_DXTC_DATA); break;
+			case DXTC_DATA_FORMAT: ilSetInteger(IL_DXTC_FORMAT, IL_DXTC_DATA_FORMAT); break;
+			case DX3DC: ilSetInteger(IL_DXTC_FORMAT, IL_3DC); break;
+			case RXGB: ilSetInteger(IL_DXTC_FORMAT, IL_RXGB); break;
+			case ATI1N: ilSetInteger(IL_DXTC_FORMAT, IL_ATI1N); break;
+			default: ilSetInteger(IL_DXTC_FORMAT, IL_DXT5); 
+				App->imgui->AddConsoleLog("Setting default compression"); break;
+		}
 		size = ilSaveL(IL_DDS, NULL, 0);// Get the size of the data buffer
 
 		if (size > 0)
@@ -144,4 +161,123 @@ uint TextureImporter::Load(const char* file_name)
 	LOG("Texture creation successful.");
 
 	return textureID; // Return the GLuint to the texture so you can use it!
+}
+
+void TextureImporter::SetCompression()
+{
+	switch (compression)
+	{
+		case 0:	
+			dx_compression = DXT1;
+			break;
+		case 1:
+			dx_compression = DXT2; 
+			break;
+		case 2:
+			dx_compression = DXT3; 
+			break;
+		case 3:
+			dx_compression = DXT4; 
+			break;
+		case 4:
+			dx_compression = DXT5; 
+			break;
+		case 5:
+			dx_compression = DXT_NO_COMP;
+			break;
+		case 6:
+			dx_compression = KEEP_DXTC_DATA; 
+			break;
+		case 7:
+			dx_compression = DXTC_DATA_FORMAT; 
+			break;
+		case 8:
+			dx_compression = DX3DC; 
+			break;
+		case 9:
+			dx_compression = RXGB;
+			break;
+		case 10: 
+			dx_compression = ATI1N; 
+			break;
+		default: 
+			dx_compression = DXT_NO_COMP;
+			App->imgui->AddConsoleLog("No compression selected");
+	}
+}
+
+void TextureImporter::SetWrapMode()
+{
+	switch (wrap_mode)
+	{
+	case 0:
+		wrap = REPEAT;
+		break;
+	case 1:
+		wrap = MIRRORED_REPEAT;
+		break;
+	case 2:
+		wrap = CLAMP_TO_EDGE;
+		break;
+	case 3:
+		wrap = CLAMP_TO_BORDER;
+		break;
+	default:
+		wrap = REPEAT;
+		App->imgui->AddConsoleLog("Selected GL_REPEAT as default wrap mode");
+	}
+}
+
+//void TextureImporter::SetFileChars(const char * file_dir, std::string file_name)
+//{
+//	file_dir = file_dir;
+//	file_name = file_name.c_str();
+//}
+
+void TextureImporter::ShowTextureImportOptions()
+{
+	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w / 2.5f, 160), ImGuiCond_Always);
+	ImGuiWindowFlags flags = 0;
+	flags |= ImGuiWindowFlags_NoResize;
+	flags |= ImGuiWindowFlags_NoScrollbar;
+	ImGui::SetNextWindowSize(ImVec2(280, 220), ImGuiCond_Always);
+
+	ImGui::Begin("Texture import parameters",NULL,flags);
+	if (ImGui::CollapsingHeader("Import Settings"))
+	{
+		ImGui::Text("Compression:");
+		ImGui::SameLine();
+		const char* compresion_type[] = { "DXT1", "DXT2", "DXT3", "DXT4", "DXT5", "DXT_NO_COMP", "KEEP_DXTC_DATA", "DXTC_DATA_FORMAT", "THREE_DC", "RXGB", "ATI1N" };
+		if (ImGui::Combo("", &App->textures->importer->compression, compresion_type, IM_ARRAYSIZE(compresion_type)))
+		{
+			App->textures->importer->SetCompression();
+		}
+
+
+		ImGui::Checkbox("MipMapping", &App->textures->importer->mip_map);
+
+		ImGui::Text("Wrap mode:");
+		ImGui::SameLine();
+		const char* wrap_type[] = { "REPEAT", "MIRRORED_REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER" };
+		if (ImGui::Combo(" ", &App->textures->importer->wrap_mode, wrap_type, IM_ARRAYSIZE(wrap_type)))
+		{
+			App->textures->importer->SetWrapMode();
+		}
+	}
+	if (ImGui::Button("Import"))
+	{
+		to_import = true;
+	}
+	if (to_import)
+	{
+		Import(file_dir.c_str(), file_name);
+		if (App->editor->GetSelected() != nullptr)
+		{
+			ComponentMaterial* new_mat = App->editor->LoadComponentMaterial(file_name.c_str());
+			App->editor->GetSelected()->AddComponent(new_mat);
+		}
+		to_import = false;
+		App->imgui->text_import = false;
+	}
+	ImGui::End();
 }

@@ -138,15 +138,11 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
 
 					//get name
-					App->imgui->text_import = true;
+				
 					std::string file_name = App->import->CleanFileName(file_dir.c_str());
-					App->textures->importer->Import(file_dir.c_str(), file_name);
-
-					if (App->editor->GetSelected() != nullptr)
-					{
-						ComponentMaterial* new_mat = App->editor->LoadComponentMaterial(file_name.c_str());
-						App->editor->GetSelected()->AddComponent(new_mat);
-					}
+					App->textures->importer->file_dir = file_dir;
+					App->textures->importer->file_name = file_name;
+					App->imgui->text_import = true;
 				}
 
 				//export
