@@ -259,9 +259,26 @@ void ComponentTransform::ShowGizmo(ComponentCamera & camera)
 		if (ImGuizmo::IsUsing())
 		{
 			transMatrix.Transpose();
-			transMatrix.Decompose(pos, rot_quat, scale);
+
+			if (my_go->GetParent() == App->editor->GetRoot())
+			{
+				trans_matrix = transMatrix;
+			}
+			else
+			{
+				const ComponentTransform* transform = my_go->GetParent()->GetTransform();
+				trans_matrix = transform->GetGlobalMatrix().Inverted() * transMatrix;
+			}
+
+			trans_matrix.Decompose(pos, rot_quat, scale);
 			rot_euler = rot_quat.ToEulerXYZ() * RADTODEG;
-			UpdateMatrix();
+			needs_update = true;
 		}
+	}
+
+	if (needs_update)
+	{
+		UpdateMatrix();
+		needs_update = false;
 	}
 }

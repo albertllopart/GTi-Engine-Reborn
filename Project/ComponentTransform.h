@@ -48,6 +48,8 @@ private:
 	float3 scale = float3::one;
 	float3 rot_euler = float3::zero;
 	Quat rot_quat = Quat::identity;
+
+	bool needs_update = false;
 };
 
 #endif // __COMPONENT_TRANSFORM__
