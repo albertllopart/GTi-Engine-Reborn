@@ -38,6 +38,7 @@ public:
 	bool confirmation = false;
 	//
 	bool text_import = false;
+	bool mesh_import = false;
 
 	std::vector<float> FPSvec;
 	std::vector<float> MSvec;

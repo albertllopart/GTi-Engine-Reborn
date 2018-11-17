@@ -10,6 +10,7 @@
 #include "Glew/include/glew.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
+#include "ImGui/imgui.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -62,12 +63,57 @@ ComponentMesh* ModuleImporter::LoadMesh(const char* fullPath)
 	return mesh;
 }
 
+void ModuleImporter::ShowImportMeshParameters()
+{
+	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w / 2.5f, 500), ImGuiCond_Always);
+	ImGuiWindowFlags flags = 0;
+	flags |= ImGuiWindowFlags_NoResize;
+	flags |= ImGuiWindowFlags_NoScrollbar;
+	ImGui::SetNextWindowSize(ImVec2(300, 220), ImGuiCond_Always);
+	
+	ImGui::Begin("Mesh import parameters");
+	ImGui::Text("Process Preset:");
+	ImGui::SameLine();
+	const char* preset[] = { "Left handed", "Target realtime fast", "Target realtime quality", "Target realtime max quality"};
+	ImGui::Combo("", &aiPresset, preset, IM_ARRAYSIZE(preset));
+
+
+	if (ImGui::Button("Import"))
+	{
+		mesh_import = true;
+	}
+	if (mesh_import)
+	{
+		ImportMesh(import_path.c_str());
+		mesh_import = false;
+		App->imgui->mesh_import = false;
+	}
+	ImGui::End();
+
+}
+
 bool ModuleImporter::ImportMesh(const char* fullPath)
 {
 	if (fullPath == nullptr)
 		return false;
 
-	const aiScene* scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = nullptr;
+	switch (aiPresset)
+	{
+	case 0:
+		scene = aiImportFile(fullPath, aiProcess_ConvertToLeftHanded);
+		break;
+	case 1:
+		scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_Fast);
+		break;
+	case 2:
+		scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_Quality);
+		break;
+	case 3:
+		scene = aiImportFile(fullPath, aiProcessPreset_TargetRealtime_MaxQuality);
+		break;
+	}
+
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		aiNode* node = scene->mRootNode;

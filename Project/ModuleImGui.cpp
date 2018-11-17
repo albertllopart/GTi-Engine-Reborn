@@ -188,6 +188,10 @@ update_status ModuleImGui::Update(float dt)
 	{
 		App->textures->importer->ShowTextureImportOptions();
 	}
+	if (mesh_import)
+	{
+		App->import->ShowImportMeshParameters();
+	}
 	return ret;
 }
 

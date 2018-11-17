@@ -16,6 +16,14 @@ class ComponentMesh;
 class ComponentMaterial;
 class ComponentTransform;
 
+enum aiPostProcess
+{
+	convert_to_left_handed,
+	target_realtime_fast,
+	target_realtime_quality,
+	target_realtime_max_quality
+};
+
 class ModuleImporter : public Module
 {
 public:
@@ -32,6 +40,7 @@ public:
 	ComponentMaterial * LoadMaterial(aiMaterial * drop);
 
 	ComponentMesh* LoadMesh(const char* fullPath);
+	void ShowImportMeshParameters();
 	bool ImportMesh(const char* fullPath);
 
 	std::string CleanFileName(const char* fullPath) const;
@@ -40,8 +49,13 @@ public:
 private:
 
 public:
+	std::string import_path;
 
 	MeshImporter* importer;
+	
+	int aiPresset = 0;
+
+	bool mesh_import = false;
 };
 
 #endif //__ModuleImporter_H__
