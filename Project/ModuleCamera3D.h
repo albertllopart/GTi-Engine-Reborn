@@ -40,7 +40,7 @@ public:
 public:
 
 	ComponentCamera* camera = nullptr;
-
+	bool show_ray = false;
 private:
 
 	float3 reference = float3::zero;
