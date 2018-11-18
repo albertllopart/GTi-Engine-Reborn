@@ -331,7 +331,24 @@ void ModuleSceneEditor::WantToLoadScene(const char* name)
 	want_to_load_scene = true;
 	next_scene = name;
 
+	DeleteMainCamera();
+}
+
+void ModuleSceneEditor::WantToLoadSceneNoCamera()
+{
 	DeleteScene();
+	want_to_load_scene_no_camera = true;
+}
+
+void ModuleSceneEditor::DeleteMainCamera()
+{
+	GameObject* to_delete = root->childs[0];
+
+	if (to_delete->name == "Main Camera")
+	{
+		to_delete->SetToDelete();
+	}
+
 }
 
 

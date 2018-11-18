@@ -57,6 +57,8 @@ public:
 	bool SaveScene(const char* name) const;
 	bool LoadScene(const char* name);
 	void WantToLoadScene(const char* name);
+	void WantToLoadSceneNoCamera();
+	void DeleteMainCamera();
 
 public:
 
@@ -66,6 +68,7 @@ public:
 	ImGuizmo::OPERATION currentOperation = ImGuizmo::OPERATION::TRANSLATE;
 
 	bool want_to_load_scene = false;
+	bool want_to_load_scene_no_camera = false;
 	std::string next_scene;
 
 private:

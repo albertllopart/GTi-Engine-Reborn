@@ -68,10 +68,15 @@ update_status ModuleImGui::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	if (App->editor->want_to_load_scene)
+	if (App->editor->want_to_load_scene_no_camera)
+	{
+		App->editor->want_to_load_scene_no_camera = false;
+		App->editor->LoadScene(App->editor->next_scene.c_str());
+	}
+	else if (App->editor->want_to_load_scene)
 	{
 		App->editor->want_to_load_scene = false;
-		App->editor->LoadScene(App->editor->next_scene.c_str());
+		App->editor->WantToLoadSceneNoCamera();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)

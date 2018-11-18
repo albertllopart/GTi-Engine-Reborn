@@ -211,6 +211,7 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 			Import(nodeMesh, name.c_str());
 			ComponentMesh* cmesh = new ComponentMesh();
 			Load(name.c_str(), cmesh);
+			cmesh->source = name.c_str();
 			go->AddComponent(cmesh);
 			go->UpdateMatrix();
 			go->UpdateBBox();
