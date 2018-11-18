@@ -19,3 +19,9 @@ void ResourceMesh::LoadInMemory()
 	loaded++;
 }
 
+void ResourceMesh::UnLoadFromMemory()
+{
+
+}
+
+

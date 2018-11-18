@@ -31,8 +31,8 @@ public:
 	update_status PostUpdate(float dt);
 	update_status OnEditor();
 
+	void SetSelectedResource(const char * path);
 	void WantToLoad(const char* path);
-	void LoadWindow();
 	bool CleanUp();
 
 	LoadFile DetermineFileFromPath(const char * path);

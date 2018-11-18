@@ -470,7 +470,7 @@ void GameObject::SetName(const char * name)
 		LOG("Couldn't set GameObject name!");
 }
 
-void GameObject::AddChild(GameObject* child)
+GameObject* GameObject::AddChild(GameObject* child)
 {
 	if (child != nullptr)
 	{
@@ -479,6 +479,8 @@ void GameObject::AddChild(GameObject* child)
 	}
 	else
 		LOG("Couldn't add %s as a child!", child->name);
+
+	return child;
 }
 
 void GameObject::SetToDelete()
@@ -488,7 +490,10 @@ void GameObject::SetToDelete()
 
 void GameObject::UpdateMatrix() const
 {
-	my_transform->UpdateMatrix();
+	if (my_transform != nullptr)
+	{
+		my_transform->UpdateMatrix();
+	}
 }
 
 void GameObject::GetSceneGameObjects(std::vector<GameObject*>& scene_go) const

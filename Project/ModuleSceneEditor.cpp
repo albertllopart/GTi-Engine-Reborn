@@ -230,19 +230,34 @@ void ModuleSceneEditor::FillQuadtree()
 
 void ModuleSceneEditor::LoadGO(const char*path)
 {
-	uint resource_UID = App->resource->Find(path);
-	if (resource_UID != 0)
+	GameObject* setter = nullptr;
+	if (App->editor->GetSelected() != nullptr)
 	{
-		Resource* resource = App->resource->Get(resource_UID);
-
-		if (resource->GetType() == RESOURCE_MESH)
-		{
-			resource->LoadInMemory();
-		}
+		setter = App->editor->GetSelected()->AddChild(new GameObject());
 	}
-	//if (scene_go != nullptr)
-	//	scene_go->LinkComponents();
+	else 
+	{
+		setter = App->editor->GetRoot()->AddChild(new GameObject());
+	}
+	App->editor->SetSelected(setter);
+	App->import->import_path = path;
+	App->imgui->mesh_import = true;
+}
 
+void ModuleSceneEditor::LoadMat(const char* path)
+{
+	if (App->editor->GetSelected() == nullptr)
+	{
+		ImGui::Begin("SELECT A GAME OBJECT!");
+		return;
+	}
+	else
+	{
+		std::string file_name = App->import->CleanFileName(path);
+		App->textures->importer->file_dir = path;
+		App->textures->importer->file_name = file_name;
+		App->imgui->text_import = true;
+	}
 }
 
 bool ModuleSceneEditor::SaveScene(const char* name) const

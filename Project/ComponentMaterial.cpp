@@ -6,6 +6,7 @@
 ComponentMaterial::ComponentMaterial(): Component(COMPONENT_MATERIAL)
 {
 	name = "ComponentMaterial";
+	material = (ResourceMaterial*)App->resource->CreateResource(RESOURCE_MATERIAL);
 	tex_name = "None";
 }
 

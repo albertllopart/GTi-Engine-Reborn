@@ -52,6 +52,7 @@ public:
 	void GenQuadtree();
 	void FillQuadtree();
 	void LoadGO(const char * path);
+	void LoadMat(const char * path);
 	//save and load
 	bool SaveScene(const char* name) const;
 	bool LoadScene(const char* name);

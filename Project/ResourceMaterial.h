@@ -16,9 +16,10 @@ public:
 	uint GetTextureHeight()const;
 
 	void LoadInMemory();
-private:
-	texture texture;
 
+private:
+
+	texture texture;
 };
 
 

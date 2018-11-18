@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "Globals.h"
 
+class ResourceMaterial;
 class ComponentMaterial : public Component
 {
 public:
@@ -32,6 +33,9 @@ private:
 	std::string tex_name = "none";
 	uint tex_width = 0;
 	uint tex_height = 0;
+
+	ResourceMaterial* material = nullptr;
+
 };
 
 #endif //__COMPONENT_MATERIAL_

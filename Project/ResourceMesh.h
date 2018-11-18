@@ -38,6 +38,7 @@ public:
 	~ResourceMesh();
 
 	void LoadInMemory();
+	void UnLoadFromMemory();
 	//save
 	//load
 

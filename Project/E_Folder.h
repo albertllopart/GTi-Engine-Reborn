@@ -75,12 +75,11 @@ public:
 	void DrawFolders(Path* draw);
 	void DrawFolderInfo();
 	//bool LoadWindow(char**buffer);
-
+	std::string item_selected;
 private:
 
-
 	std::string show_folder;
-	std::string item_selected;
+	
 	bool delete_folder = false;
 	PathList path;
 };

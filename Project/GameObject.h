@@ -51,7 +51,7 @@ public:
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;
 	void SetName(const char* name);
-	void AddChild(GameObject * child);
+	GameObject* AddChild(GameObject * child);
 	void SetToDelete();
 	//void RefreshBBox()const;
 	void UpdateMatrix()const;

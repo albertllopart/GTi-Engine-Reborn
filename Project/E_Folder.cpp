@@ -44,7 +44,7 @@ bool E_Folder::Draw()
 	ImGui::EndChild();
 	if (ImGui::Button("Load"))
 	{
-		if (item_selected.c_str() != "")
+		if (_stricmp(item_selected.c_str(), "") != 0)
 		{
 			mom->WantToLoad(item_selected.c_str());
 		}
@@ -198,6 +198,7 @@ void E_Folder::DrawFolderInfo()
 		bool node_open = ImGui::TreeNodeEx((*it)->name.c_str(), tree_flags);
 		if (ImGui::IsItemClicked())
 		{
+			item_selected = (*it)->path;
 			if ((*it)->directory)
 			{
 				if (ImGui::IsMouseDoubleClicked(0))
@@ -207,8 +208,12 @@ void E_Folder::DrawFolderInfo()
 			}
 			else
 			{
-				item_selected = (*it)->path;
-				//mom->SetSelectedResource(item_selected.c_str());
+
+				if (ImGui::IsMouseClicked(0))
+				{
+					item_selected = (*it)->path;
+					mom->SetSelectedResource(item_selected.c_str());
+				}
 			}
 		}
 		ImGui::PushID((*it)->name.c_str());

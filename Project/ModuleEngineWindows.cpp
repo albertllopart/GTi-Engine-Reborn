@@ -55,6 +55,7 @@ update_status ModuleEngineWindows::PreUpdate(float dt)
 			App->editor->LoadGO(path_to_load.c_str());
 			break;
 		case LOAD_TEXTURE:
+			App->editor->LoadMat(path_to_load.c_str());
 			break;
 		case LOAD_SCENE:
 			App->editor->LoadScene(path_to_load.c_str());
@@ -101,6 +102,10 @@ update_status ModuleEngineWindows::OnEditor()
 	return UPDATE_CONTINUE;
 }
 
+void ModuleEngineWindows::SetSelectedResource(const char * path)
+{
+	e_folder->item_selected = path;
+}
 
 void ModuleEngineWindows::WantToLoad(const char * path)
 {
