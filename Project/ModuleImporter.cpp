@@ -118,13 +118,16 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 	{
 		aiNode* node = scene->mRootNode;
 
-		if (App->editor->GetSelected() != nullptr)
+		if (App->editor->GetSelected() != nullptr && App->editor->GetSelected() != App->editor->GetRoot())
 		{
 			importer->ImportNodes(scene, node, App->editor->GetSelected(), nullptr);
 		}
 		else
 		{
-			importer->ImportNodes(scene, node, App->editor->GetRoot(), nullptr);
+			GameObject* new_go = new GameObject();
+			new_go->SetParent(App->editor->GetRoot());
+			importer->ImportNodes(scene, node, new_go, nullptr);
+			App->editor->SetSelected(new_go);
 		}
 		aiReleaseImport(scene);
 		return true;
