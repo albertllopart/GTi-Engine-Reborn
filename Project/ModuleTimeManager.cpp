@@ -55,7 +55,6 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 		if (ImGui::Button("Play"))
 		{
 			PlayGame(!in_game);
-			//Change Main camera??
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Pause"))
@@ -126,13 +125,15 @@ void ModuleTimeManager::PlayGame(bool play)
 	{
 		time.Start();
 		App->editor->SaveScene("MainScene");
+		App->renderer3D->SetCamera(App->editor->main_camera);
 	}
 	if (play == false)
 	{
 		time.Start();
 		time.Stop();
 		App->editor->SetSelected(nullptr);
-		//App->editor->LoadScene("MainScene"); WIP
+		App->renderer3D->SetCamera(App->camera->camera);
+		App->editor->WantToLoadScene("MainScene");
 	}
 }
 

@@ -133,7 +133,8 @@ void E_Folder::DrawFolders(Path * draw)
 		show_folder = draw->path;
 	}
 	//Asset protection	
-	if (draw->parent != nullptr) {
+	if (draw->parent != nullptr) 
+	{
 
 		ImGui::PushID(draw->name.c_str());
 		if (ImGui::BeginPopupContextItem("go_options"))

@@ -38,9 +38,11 @@ bool ModuleSceneEditor::Start()
 	root->AddChild(new GameObject());
 	root->childs[0]->name = "Main Camera";
 	root->childs[0]->AddComponent(COMPONENT_TRANSFORM);
-	root->childs[0]->AddComponent(COMPONENT_CAMERA);
-	root->childs[0]->GetTransform()->SetPosition(float3(0, 0, -5));
-	//
+	main_camera = (ComponentCamera*)root->childs[0]->AddComponent(COMPONENT_CAMERA);
+	root->childs[0]->GetTransform()->SetPosition(float3(0, 10, -5));
+	root->childs[0]->GetTransform()->rot_quat = Quat(0.238533720, 0, 0, 0.971135378);
+	root->childs[0]->GetTransform()->UpdateMatrix();
+
 	return true;
 }
 

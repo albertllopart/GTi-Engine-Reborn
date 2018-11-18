@@ -70,7 +70,7 @@ public:
 	bool want_to_load_scene = false;
 	bool want_to_load_scene_no_camera = false;
 	std::string next_scene;
-
+	ComponentCamera* main_camera = nullptr;
 private:
 
 	GameObject* selected_go = nullptr;
