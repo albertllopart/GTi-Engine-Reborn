@@ -149,6 +149,8 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 	{
 		go = (GameObject*)parent;
 		go->SetName(name.c_str());
+		go->RemoveComponent(COMPONENT_TRANSFORM, 0);
+		go->my_transform = nullptr;
 	}
 	else if (transform != nullptr)
 	{
@@ -172,19 +174,22 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 	float3 scale = { sca.x, sca.y, sca.z };
 	Quat quaternion = { quat.x, quat.y, quat.z, quat.w };
 
-	if (transform != nullptr)
+	if (!isTransform)
 	{
-		go->AddComponent(COMPONENT_TRANSFORM);
-		go->my_transform->SetPosition(transform->my_transform->GetPosition() + position);
-		go->my_transform->rot_quat = transform->my_transform->rot_quat * quaternion;
-		go->my_transform->scale = { transform->my_transform->scale.x * scale.x, transform->my_transform->scale.y * scale.y, transform->my_transform->scale.z * scale.z };
-	}
-	else
-	{
-		go->AddComponent(COMPONENT_TRANSFORM);
-		go->my_transform->SetPosition(position);
-		go->my_transform->rot_quat = quaternion;
-		go->my_transform->scale = scale;
+		if (transform != nullptr)
+		{
+			go->AddComponent(COMPONENT_TRANSFORM);
+			go->my_transform->SetPosition(transform->my_transform->GetPosition() + position);
+			go->my_transform->rot_quat = transform->my_transform->rot_quat * quaternion;
+			go->my_transform->scale = { transform->my_transform->scale.x * scale.x, transform->my_transform->scale.y * scale.y, transform->my_transform->scale.z * scale.z };
+		}
+		else
+		{
+			go->AddComponent(COMPONENT_TRANSFORM);
+			go->my_transform->SetPosition(position);
+			go->my_transform->rot_quat = quaternion;
+			go->my_transform->scale = scale;
+		}
 	}
 
 	if (!isTransform && node->mNumMeshes > 0)
