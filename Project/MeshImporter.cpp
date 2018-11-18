@@ -23,7 +23,7 @@ MeshImporter::~MeshImporter()
 
 }
 
-bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
+bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)const
 {
 	ComponentMesh* c_mesh = new ComponentMesh();
 
@@ -137,7 +137,7 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 	return true;
 }
 
-bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const GameObject* parent, const GameObject* transform)
+bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const GameObject* parent, const GameObject* transform)const
 {
 	std::string name = node->mName.data;
 
@@ -234,7 +234,7 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 	return true;
 }
 
-bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
+bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 {
 	char* buffer;
 	uint size;
