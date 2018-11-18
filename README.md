@@ -47,7 +47,8 @@ mug.fbx and its texture by Dmytro Rohovyi (https://sketchfab.com/models/5ffab639
 
 ## Guizmos
 Using ImGuizmos for transformation helper. (https://github.com/CedricGuillemet/ImGuizmo)
-Using W,E,R shorcuts transform posision, rotate or scale.
+
+Using W,E,R shorcuts transform position, rotate or scale.
 
 ## License
 
