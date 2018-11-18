@@ -128,10 +128,6 @@ update_status ModuleImGui::Update(float dt)
 			{
 				config_menu = !config_menu;
 			}
-			if (ImGui::MenuItem("Show RayCast"))
-			{
-				App->camera->show_ray = !App->camera->show_ray;
-			}
 			if (ImGui::BeginMenu("Mesh Parameters", false)) // Disabled
 			{
 				IM_ASSERT(0);
@@ -340,6 +336,7 @@ void ModuleImGui::ShowConfigurationMenu(bool* opened)
 						App->camera->camera->frustum.horizontalFov = atan(App->camera->camera->aspect_ratio*tan(App->camera->camera->frustum.verticalFov / 2)) * 2;
 						App->renderer3D->RefreshProjection();
 					}
+					ImGui::Checkbox("Show Raycast", &App->camera->show_ray);
 
 					App->camera->camera->UpdateMatrix();
 				}
