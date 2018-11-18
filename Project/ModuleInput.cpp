@@ -124,7 +124,8 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:      //drop case
 				file_dir = e.drop.file;
 				// directory of the file
-				if (file_dir.find(".fbx") != std::string::npos || file_dir.find(".obj") != std::string::npos || file_dir.find(".FBX") != std::string::npos || file_dir.find(".OBJ") != std::string::npos)
+				if (file_dir.find(".fbx") != std::string::npos || file_dir.find(".obj") != std::string::npos || file_dir.find(".FBX") != std::string::npos || file_dir.find(".OBJ") != std::string::npos
+					|| file_dir.find(".DAE") != std::string::npos || file_dir.find(".max") != std::string::npos || file_dir.find(".mtl") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
@@ -135,7 +136,8 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->import->import_path = file_dir;
 					App->imgui->mesh_import = true;
 				}
-				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos)
+				else if (file_dir.find(".png") != std::string::npos || file_dir.find(".dds") != std::string::npos || file_dir.find(".DDS") != std::string::npos || file_dir.find(".PNG") != std::string::npos
+					|| file_dir.find(".tga") != std::string::npos)
 				{
 					LOG("%s dropped on window.", file_dir);
 					App->imgui->AddConsoleLog(("%s dropped on window", file_dir));
