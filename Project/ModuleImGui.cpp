@@ -92,7 +92,7 @@ update_status ModuleImGui::Update(float dt)
 			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
-				App->editor->WantToLoadScene("lastScene");
+				confirmation = true;
 				//ShellExecute(NULL, "open", "C:/", NULL, NULL, SW_SHOWDEFAULT);
 			}
 			if (ImGui::MenuItem("Save Scene"))
@@ -182,6 +182,7 @@ update_status ModuleImGui::Update(float dt)
 	}
 	if (confirmation)
 	{
+		ImGui::OpenPopup("Load Scene");
 		Confirmation();
 	}
 	if (text_import)
@@ -207,22 +208,27 @@ bool ModuleImGui::Confirmation()
 {
 	bool ret = false;
 
-	if (confirmation)
+	if (ImGui::BeginPopupModal("Load Scene", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		ImGui::Begin("Are you sure?", &confirmation);
+		ImGui::Text("You are going to load last saved Scene. This is");
+		ImGui::Text("going to erase all unsaved changes in the current");
+		ImGui::Text("Scene.Are you sure ? ");
+		ImGui::Separator();
 
-		if (ImGui::Button("YES", ImVec2(50, 20)))
+		if (ImGui::Button("Yes", ImVec2(100, 0)))
 		{
-			ret = true;
+			ImGui::CloseCurrentPopup();
+			App->editor->WantToLoadScene("lastScene");
 			confirmation = false;
 		}
+		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
-		if (ImGui::Button("NO", ImVec2(50, 20)))
+		if (ImGui::Button("No", ImVec2(100, 0)))
 		{
-			ret = false;
+			ImGui::CloseCurrentPopup();
 			confirmation = false;
 		}
-		ImGui::End();
+		ImGui::EndPopup();
 	}
 
 	return ret;
