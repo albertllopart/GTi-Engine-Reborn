@@ -499,6 +499,12 @@ void ModuleImGui::AboutWindow()
 			}
 			ImGui::SameLine(160); ImGui::Text("%s", ImGui::GetVersion());
 
+			if (ImGui::Button("ImGuizmo"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/CedricGuillemet/ImGuizmo", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::SameLine(160); ImGui::Text("%s", ImGui::GetVersion());
+
 			if (ImGui::Button("OpenGL"))
 			{
 				ShellExecuteA(NULL, "open", "https://www.opengl.org/", NULL, NULL, SW_SHOWNORMAL);
