@@ -46,7 +46,7 @@ building.fbx and its texture by Denis Loginovskiy (https://sketchfab.com/models/
 mug.fbx and its texture by Dmytro Rohovyi (https://sketchfab.com/models/5ffab639d69d46e4a7c535adb097dbca)
 
 ## Guizmos
-Using ImGuizmos for transformation helper.
+Using ImGuizmos for transformation helper. (https://github.com/CedricGuillemet/ImGuizmo)
 Using W,E,R shorcuts transform posision, rotate or scale.
 
 ## License
