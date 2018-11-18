@@ -36,18 +36,17 @@ public:
 	void SetPosition(float3 pos);
 	void ShowGizmo(ComponentCamera & camera);
 
-private:
-
-	float4x4 trans_matrix = float4x4::identity;
-	float4x4 global_trans_matrix = float4x4::identity;
-	float4x4 global_trans_matrix_transposed = float4x4::identity;
-
-
 	float3 pos = float3::zero;
 	float3 new_pos = float3::zero;
 	float3 scale = float3::one;
 	float3 rot_euler = float3::zero;
 	Quat rot_quat = Quat::identity;
+
+private:
+
+	float4x4 trans_matrix = float4x4::identity;
+	float4x4 global_trans_matrix = float4x4::identity;
+	float4x4 global_trans_matrix_transposed = float4x4::identity;
 
 	bool needs_update = false;
 };

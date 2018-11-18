@@ -118,40 +118,9 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 	{
 		aiNode* node = scene->mRootNode;
 
-		for (int i = 0; i < scene->mNumMeshes; i++)
+		if (App->editor->GetSelected() != nullptr)
 		{
-			uint uid = App->rng->Random32();
-			std::string name = std::to_string(uid);
-			importer->Import(scene->mMeshes[i], name);
-
-			ComponentMesh* new_mesh = App->import->LoadMesh(name.c_str());
-			if (App->editor->GetSelected() != nullptr)
-			{
-				
-
-				if (App->editor->GetSelected()->FindComponent(COMPONENT_MESH) == nullptr)
-				{
-					App->editor->GetSelected()->AddComponent(new_mesh);
-					App->editor->GetSelected()->UpdateBBox();
-				}
-				else
-				{
-					GameObject* new_go = new GameObject(App->editor->GetSelected());
-					new_go->AddComponent(COMPONENT_TRANSFORM);
-					new_go->AddComponent(new_mesh);
-					App->editor->GetSelected()->AddChild(new_go);
-					new_go->UpdateBBox();
-				}
-			}
-			else
-			{
-				GameObject* new_go = new GameObject(App->editor->GetRoot());
-				App->editor->GetRoot()->AddChild(new_go);
-				new_go->AddComponent(COMPONENT_TRANSFORM);
-				new_go->AddComponent(new_mesh);
-				new_go->UpdateBBox();
-				App->editor->SetSelected(new_go);
-			}
+			importer->ImportNodes(scene, node, App->editor->GetSelected(), nullptr);
 		}
 
 		aiReleaseImport(scene);

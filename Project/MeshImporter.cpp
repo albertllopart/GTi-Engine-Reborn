@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Importer.h"
 #include "MeshImporter.h"
+#include "ComponentTransform.h"
 
 #include "ModuleFileSystem.h"
 
@@ -136,6 +137,93 @@ bool MeshImporter::Import(const aiMesh* aimesh, std::string output_file)
 	return true;
 }
 
+bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const GameObject* parent, const GameObject* transform)
+{
+	std::string name = node->mName.data;
+
+	bool isTransform = CheckIfTransform(name);
+
+	GameObject* go = nullptr;
+
+	if (node == scene->mRootNode)
+	{
+		go = (GameObject*)parent;
+		go->SetName(name.c_str());
+	}
+	else if (transform != nullptr)
+	{
+		go = (GameObject*)transform;
+		go->SetName(name.c_str());
+	}
+	else
+	{
+		go = new GameObject();
+		go->SetParent((GameObject*)parent);
+		go->SetName(name.c_str());
+	}
+
+	//transform
+	aiVector3D pos;
+	aiVector3D sca;
+	aiQuaternion quat;
+	node->mTransformation.Decompose(sca, quat, pos);
+
+	float3 position = { pos.x, pos.y, pos.z };
+	float3 scale = { sca.x, sca.y, sca.z };
+	Quat quaternion = { quat.x, quat.y, quat.z, quat.w };
+
+	if (transform != nullptr)
+	{
+		go->AddComponent(COMPONENT_TRANSFORM);
+		go->my_transform->SetPosition(transform->my_transform->GetPosition() + position);
+		go->my_transform->rot_quat = transform->my_transform->rot_quat * quaternion;
+		go->my_transform->scale = { transform->my_transform->scale.x * scale.x, transform->my_transform->scale.y * scale.y, transform->my_transform->scale.z * scale.z };
+	}
+	else
+	{
+		go->AddComponent(COMPONENT_TRANSFORM);
+		go->my_transform->SetPosition(position);
+		go->my_transform->rot_quat = quaternion;
+		go->my_transform->scale = scale;
+	}
+
+	if (!isTransform && node->mNumMeshes > 0)
+	{
+		aiMesh* nodeMesh = scene->mMeshes[node->mMeshes[0]];
+
+		bool broken = false;
+		for (uint i = 0; i < nodeMesh->mNumFaces; i++)
+		{
+			if (nodeMesh->mFaces[i].mNumIndices != 3)
+				broken = true;
+		}
+
+		if (!broken)
+		{
+			Import(nodeMesh, name.c_str());
+			ComponentMesh* cmesh = new ComponentMesh();
+			Load(name.c_str(), cmesh);
+			go->AddComponent(cmesh);
+			go->UpdateMatrix();
+			go->UpdateBBox();
+		}
+	}
+
+	for (int i = 0; i < node->mNumChildren; i++)
+	{
+		if (isTransform)
+		{
+			ImportNodes(scene, node->mChildren[i], parent, go);
+		}
+		else
+		{
+			ImportNodes(scene, node->mChildren[i], go, nullptr);
+		}
+	}
+
+	return true;
+}
+
 bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
 {
 	char* buffer;
@@ -214,4 +302,10 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)
 	RELEASE_ARRAY(buffer);
 
 	return result;
+}
+
+bool MeshImporter::CheckIfTransform(std::string name) const
+{
+	bool ret = (name.find("Rotation") != std::string::npos || name.find("Translation") != std::string::npos || name.find("Scaling") != std::string::npos);
+	return ret;
 }

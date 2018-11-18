@@ -70,9 +70,10 @@ public:
 private:
 	
 	GameObject* parent = nullptr;
-	ComponentTransform* my_transform = nullptr;
 
 public:
+
+	ComponentTransform* my_transform = nullptr;
 
 	uint uid = 0;
 	std::string name;
