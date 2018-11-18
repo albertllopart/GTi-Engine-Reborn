@@ -2,6 +2,7 @@
 #include "E_Windows.h"
 #include "E_Hierarchy.h"
 #include "E_Inspector.h"
+#include "E_Folder.h"
 
 ModuleEngineWindows::ModuleEngineWindows(Application * app, bool start_enabled):Module(app, start_enabled)
 {
@@ -10,6 +11,8 @@ ModuleEngineWindows::ModuleEngineWindows(Application * app, bool start_enabled):
 	e_windows.push_back(e_hierarchy);
 	e_inspector = new E_Inspector(this);
 	e_windows.push_back(e_inspector);
+	e_folder = new E_Folder(this);
+	e_windows.push_back(e_folder);
 }
 
 ModuleEngineWindows::~ModuleEngineWindows()
@@ -54,6 +57,14 @@ update_status ModuleEngineWindows::OnEditor()
 	return UPDATE_CONTINUE;
 }
 
+void ModuleEngineWindows::WantToLoad(const char * path)
+{
+	want_to_load = true;
+	next_load = DetermineFileFromPath(path);
+	path_to_load = path;
+
+}
+
 bool ModuleEngineWindows::CleanUp()
 {
 	bool ret = true;
@@ -64,4 +75,42 @@ bool ModuleEngineWindows::CleanUp()
 	RELEASE(e_hierarchy);
 	e_windows.clear();
 	return ret;
+}
+
+//void ModuleEngineWindows::SetSelectedResource(const char * path)
+//{
+//	uint uid = App->resource->Find(path);
+//	if (uid != 0)
+//	{
+//		e_inspector->SetSelectedResource(App->resource->Get(uid));
+//	}
+//}
+
+LoadFile ModuleEngineWindows::DetermineFileFromPath(const char * path)
+{
+
+	std::string extension_check = path;
+	std::size_t found = extension_check.find_last_of('.');
+	std::string extension = extension_check.substr(found + 1);
+	if (_stricmp(extension.c_str(), "png") == 0
+		|| _stricmp(extension.c_str(), "jpg") == 0
+		|| _stricmp(extension.c_str(), "dds") == 0
+		|| _stricmp(extension.c_str(), "tga") == 0)
+	{
+		return LOAD_TEXTURE;
+	}
+	else if (_stricmp(extension.c_str(), "obj") == 0
+		|| _stricmp(extension.c_str(), "fbx") == 0)
+	{
+		return LOAD_MESH;
+
+	}
+	else if (_stricmp(extension.c_str(), "json") == 0)
+	{
+		return LOAD_SCENE;
+	}
+	else
+	{
+		return LOAD_NONE;
+	}
 }

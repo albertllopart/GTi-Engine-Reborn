@@ -25,6 +25,8 @@ public:
 	const char* GetFile() const;
 	const char* GetExportedFile() const;
 
+	bool GetDelete() const;
+
 	bool IsLoaded()const;
 	void LoadInMemory();
 	void UnLoadInMemory();
@@ -41,6 +43,7 @@ protected:
 
 	uint loaded = 0;
 	uint UID = 0;
+	bool to_delete = false;
 };
 
 #endif // !__RESOURCE__

@@ -30,6 +30,8 @@ private:
 	void RemoveResources();
 	ResourceType GetResourceFromFile(const char* file_path)const;
 
+	uint Find(const char * asset_file) const;
+
 	//SaveMeta
 	//LoadMeta
 private:

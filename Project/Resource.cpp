@@ -29,6 +29,11 @@ const char * Resource::GetExportedFile() const
 	return exported_file.c_str();
 }
 
+bool Resource::GetDelete() const
+{
+	return to_delete;
+}
+
 bool Resource::IsLoaded() const
 {
 	return loaded == 0;

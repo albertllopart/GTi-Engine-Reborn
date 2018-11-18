@@ -414,6 +414,9 @@
     <ClInclude Include="ResourceMaterial.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="E_Folder.h">
+      <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -646,6 +649,9 @@
     </ClCompile>
     <ClCompile Include="ResourceMaterial.cpp">
       <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="E_Folder.cpp">
+      <Filter>Sources\Modules\EngineWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

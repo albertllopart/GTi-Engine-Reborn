@@ -6,7 +6,7 @@
 #include "ModuleImporter.h"
 #include "ResourceMesh.h"
 #include "ResourceMaterial.h"
-
+#include <experimental\filesystem>
 
 
 
@@ -155,4 +155,22 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file) const
 		return RESOURCE_NONE;
 	}
 	//scene?¿
+}
+
+uint ModuleResourceManager::Find(const char * asset_file) const
+{
+	std::map<uint, Resource*>::const_iterator it = resources.begin();
+	for (; it != resources.end(); it++)
+	{
+
+		if (it->second->GetDelete()) {
+			continue;
+		}
+		if (std::experimental::filesystem::equivalent(it->second->GetFile(), asset_file))
+		{
+			//if time of creation
+			return it->second->GetUID();
+		}
+	}
+	return 0;
 }
