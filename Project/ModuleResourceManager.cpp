@@ -114,7 +114,7 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint UID)
 	return (Resource*)ret;
 }
 
-const Resource * ModuleResourceManager::Get(uint UID) const
+Resource * ModuleResourceManager::Get(uint UID) const
 {
 	std::map<uint, Resource*>::const_iterator it = resources.find(UID);
 	if (it != resources.end())

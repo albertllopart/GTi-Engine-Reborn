@@ -228,6 +228,23 @@ void ModuleSceneEditor::FillQuadtree()
 	}
 }
 
+void ModuleSceneEditor::LoadGO(const char*path)
+{
+	uint resource_UID = App->resource->Find(path);
+	if (resource_UID != 0)
+	{
+		Resource* resource = App->resource->Get(resource_UID);
+
+		if (resource->GetType() == RESOURCE_MESH)
+		{
+			resource->LoadInMemory();
+		}
+	}
+	//if (scene_go != nullptr)
+	//	scene_go->LinkComponents();
+
+}
+
 bool ModuleSceneEditor::SaveScene(const char* name) const
 {
 	std::string log = "Saving Scene: ";

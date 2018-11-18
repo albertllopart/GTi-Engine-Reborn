@@ -43,9 +43,14 @@ private:
 	E_Inspector* e_inspector = nullptr;
 	E_Folder* e_folder = nullptr;
 
+	bool want_to_save = false;
+	std::string path_to_save;
 	bool want_to_load = false;
-	LoadFile next_load = LOAD_NONE;
 	std::string path_to_load;
+	bool want_to_update = false;
+
+	float time_update = 0.0f;
+	LoadFile next_load = LOAD_NONE;
 };
 
 

@@ -4,6 +4,8 @@
 #include "E_Inspector.h"
 #include "E_Folder.h"
 
+#define UPDATE_FOLDER_TIME 2.0f
+
 ModuleEngineWindows::ModuleEngineWindows(Application * app, bool start_enabled):Module(app, start_enabled)
 {
 	name = "Engine Windows";
@@ -26,6 +28,43 @@ bool ModuleEngineWindows::Start()
 
 update_status ModuleEngineWindows::PreUpdate(float dt)
 {
+	time_update += dt;
+	e_folder->DeleteFolders();
+
+	if (want_to_update || time_update > UPDATE_FOLDER_TIME)
+	{
+		e_folder->UpdateFiles();
+		time_update = 0.0f;
+		want_to_update = false;
+	}
+	if (want_to_save)
+	{
+		App->editor->SaveScene(path_to_save.c_str());
+		want_to_update = true;
+		want_to_save = false;
+	}
+
+	if (want_to_load)
+	{
+		switch (next_load)
+		{
+		case LOAD_NONE:
+			break;
+		case LOAD_MESH:
+			App->editor->LoadGO(path_to_load.c_str());
+			break;
+		case LOAD_TEXTURE:
+			break;
+		case LOAD_SCENE:
+			App->editor->LoadScene(path_to_load.c_str());
+			break;
+		default:
+			break;
+		}
+		want_to_load = false;
+		next_load = LOAD_NONE;
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -76,15 +115,6 @@ bool ModuleEngineWindows::CleanUp()
 	e_windows.clear();
 	return ret;
 }
-
-//void ModuleEngineWindows::SetSelectedResource(const char * path)
-//{
-//	uint uid = App->resource->Find(path);
-//	if (uid != 0)
-//	{
-//		e_inspector->SetSelectedResource(App->resource->Get(uid));
-//	}
-//}
 
 LoadFile ModuleEngineWindows::DetermineFileFromPath(const char * path)
 {

@@ -23,14 +23,15 @@ public:
 	uint ResourceWindow(ResourceType type);
 	uint ImportFile(const char* file_path);
 	Resource* CreateResource(ResourceType type, uint UID = 0);
-	const Resource* Get(uint UID)const;
+	Resource* Get(uint UID)const;
+	uint Find(const char * asset_file) const;
 
 private:
 	void SearchResources();
 	void RemoveResources();
 	ResourceType GetResourceFromFile(const char* file_path)const;
 
-	uint Find(const char * asset_file) const;
+	
 
 	//SaveMeta
 	//LoadMeta

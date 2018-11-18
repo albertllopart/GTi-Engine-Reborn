@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ImGui/imgui.h"
 
+#include <experimental\filesystem>
 
 E_Folder::E_Folder(ModuleEngineWindows * my_editor):E_Windows(my_editor)
 {
@@ -27,16 +28,16 @@ bool E_Folder::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(SDL_GetWindowSurface(App->window->window)->w, 230), ImGuiCond_Always);
 
-	if (!ImGui::Begin("Folders", &active, window_flags))
+	if (!ImGui::Begin("Folders", NULL, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.
 		ImGui::End();
 	}
 
 	ImGui::Columns(2);
-	std::list<Path*>::const_iterator it = path.list.begin();
-	if(it!= path.list.end())
+	for(std::list<Path*>::const_iterator it = path.list.begin(); it != path.list.end(); ++it)
 		DrawFolders((*it));
+
 	ImGui::NextColumn();
 	ImGui::BeginChild("FolderInfo", ImVec2(0, ImGui::GetWindowHeight() - 80), true);
 	DrawFolderInfo();
