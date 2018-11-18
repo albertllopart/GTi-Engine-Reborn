@@ -33,6 +33,7 @@ This engine uses C++ language.
 - SDL 2.0.8
 - MathGeoLib 1.3
 - ImGui 1.52
+- ImGuizmo 
 - OpenGL 4.6
 - Glew 2.1.0
 - DevIl 178
@@ -40,14 +41,15 @@ This engine uses C++ language.
 - Parson
 - PCG 0.94
 
-## Innovation
-
-An image of the texture gets shown in configuration showing the last texture loaded
-
 ## Assets
 
 building.fbx and its texture by Denis Loginovskiy (https://sketchfab.com/models/b7b355993e4142a3bdf689986c45b23d)
 mug.fbx and its texture by Dmytro Rohovyi (https://sketchfab.com/models/5ffab639d69d46e4a7c535adb097dbca)
+
+## Guizmos
+Using ImGuizmos for transformation helper. (https://github.com/CedricGuillemet/ImGuizmo)
+
+Using W,E,R shorcuts transform position, rotate or scale.
 
 ## License
 
