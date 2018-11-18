@@ -33,6 +33,7 @@ This engine uses C++ language.
 - SDL 2.0.8
 - MathGeoLib 1.3
 - ImGui 1.52
+- ImGuizmo 
 - OpenGL 4.6
 - Glew 2.1.0
 - DevIl 178
