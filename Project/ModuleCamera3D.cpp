@@ -63,20 +63,18 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 
-	if (show_ray)
-	{
-		glBegin(GL_LINES);
-		glLineWidth(2.0f);
-		glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+	glBegin(GL_LINES);
+	glLineWidth(2.0f);
+	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
 
-		glVertex3fv((GLfloat*)&picking.a);
-		glVertex3fv((GLfloat*)&picking.b);
+	glVertex3fv((GLfloat*)&picking.a);
+	glVertex3fv((GLfloat*)&picking.b);
 
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-		glEnd();
-		glLineWidth(1.0f);
-	}
+	glEnd();
+	glLineWidth(1.0f);
+
 	//end of ray
 
 	if (ImGui::GetIO().WantCaptureKeyboard == false)

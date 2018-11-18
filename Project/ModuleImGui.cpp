@@ -128,10 +128,6 @@ update_status ModuleImGui::Update(float dt)
 			{
 				config_menu = !config_menu;
 			}
-			if (ImGui::MenuItem("Show RayCast"))
-			{
-				App->camera->show_ray = !App->camera->show_ray;
-			}
 			if (ImGui::BeginMenu("Mesh Parameters", false)) // Disabled
 			{
 				IM_ASSERT(0);
