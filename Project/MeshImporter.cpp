@@ -149,8 +149,11 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 	{
 		go = (GameObject*)parent;
 		go->SetName(name.c_str());
-		go->RemoveComponent(COMPONENT_TRANSFORM, 0);
-		go->my_transform = nullptr;
+		if (go->my_transform != nullptr)
+		{
+			go->RemoveComponent(COMPONENT_TRANSFORM, 0);
+			go->my_transform = nullptr;
+		}
 	}
 	else if (transform != nullptr)
 	{
@@ -211,6 +214,7 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 			go->AddComponent(cmesh);
 			go->UpdateMatrix();
 			go->UpdateBBox();
+			App->camera->CenterToMesh(cmesh);
 		}
 	}
 

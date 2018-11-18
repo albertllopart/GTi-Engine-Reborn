@@ -268,6 +268,7 @@ Component* GameObject::AddComponent(COMPONENT_TYPE component)
 			to_add = new ComponentMesh();
 			components.push_back(to_add);
 			to_add->SetMyGo(this);
+			App->camera->CenterToMesh((ComponentMesh*)to_add);
 			break;
 
 		case COMPONENT_TRANSFORM:

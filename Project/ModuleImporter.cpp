@@ -122,7 +122,10 @@ bool ModuleImporter::ImportMesh(const char* fullPath)
 		{
 			importer->ImportNodes(scene, node, App->editor->GetSelected(), nullptr);
 		}
-
+		else
+		{
+			importer->ImportNodes(scene, node, App->editor->GetRoot(), nullptr);
+		}
 		aiReleaseImport(scene);
 		return true;
 	}

@@ -35,6 +35,7 @@ public:
 
 	float3 GetPosition()const;
 	void SetPosition(float3 pos);
+	void CenterToMesh(ComponentMesh * mesh);
 
 public:
 

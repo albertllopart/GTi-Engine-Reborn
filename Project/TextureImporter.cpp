@@ -309,6 +309,10 @@ void TextureImporter::ShowTextureImportOptions()
 		{
 			ComponentMaterial* new_mat = App->editor->LoadComponentMaterial(file_name.c_str());
 			App->editor->GetSelected()->AddComponent(new_mat);
+			if (new_mat->GetMyGo()->GetParent()->childs.size() > 1)
+			{
+
+			}
 		}
 		to_import = false;
 		App->imgui->text_import = false;

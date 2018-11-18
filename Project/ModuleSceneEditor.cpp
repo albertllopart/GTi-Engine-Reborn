@@ -39,7 +39,7 @@ bool ModuleSceneEditor::Start()
 	root->childs[0]->name = "Main Camera";
 	root->childs[0]->AddComponent(COMPONENT_TRANSFORM);
 	root->childs[0]->AddComponent(COMPONENT_CAMERA);
-	root->childs[0]->GetTransform()->SetPosition(float3(0, 0, 5));
+	root->childs[0]->GetTransform()->SetPosition(float3(0, 0, -5));
 	//
 	return true;
 }
@@ -249,6 +249,7 @@ void ModuleSceneEditor::LoadMat(const char* path)
 	if (App->editor->GetSelected() == nullptr)
 	{
 		ImGui::Begin("SELECT A GAME OBJECT!");
+		ImGui::End();
 		return;
 	}
 	else

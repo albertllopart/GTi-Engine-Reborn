@@ -1,4 +1,4 @@
-#include "Globals.h"
+	#include "Globals.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
@@ -253,4 +253,16 @@ void ModuleCamera3D::SetPosition(float3 pos)
 	float3 difference = pos - camera->frustum.pos;
 	camera->frustum.pos = pos;
 	reference += difference;
+}
+
+void ModuleCamera3D::CenterToMesh(ComponentMesh * mesh)
+{
+	if (mesh != nullptr)
+	{
+		float3 temp = mesh->mesh->mesh.bbox.Centroid();
+		float3 size = mesh->mesh->mesh.bbox.Size() * 0.5f;
+		SetPosition(float3(temp.x + size.x, temp.y + size.y, temp.z + 5.0f + size.z));
+		reference = float3(temp.x + size.x, temp.y + size.y, temp.z + size.z);
+		LookAt(float3(temp.x, temp.y, temp.z));
+	}
 }
