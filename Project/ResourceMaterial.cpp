@@ -23,3 +23,12 @@ uint ResourceMaterial::GetTextureHeight() const
 {
 	return texture.height;
 }
+
+void ResourceMaterial::LoadInMemory()
+{
+	if (IsLoaded())
+	{
+		//Load(); TODO
+	}
+	loaded++;
+}

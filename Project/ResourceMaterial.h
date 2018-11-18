@@ -15,6 +15,7 @@ public:
 	uint GetTextureWidth()const;
 	uint GetTextureHeight()const;
 
+	void LoadInMemory();
 private:
 	texture texture;
 

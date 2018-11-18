@@ -32,8 +32,8 @@ public:
 	update_status OnEditor();
 
 	void WantToLoad(const char* path);
+	void LoadWindow();
 	bool CleanUp();
-	//void SetSelectedResource(const char * path);
 
 	LoadFile DetermineFileFromPath(const char * path);
 
@@ -42,6 +42,8 @@ private:
 	E_Hierarchy* e_hierarchy = nullptr;
 	E_Inspector* e_inspector = nullptr;
 	E_Folder* e_folder = nullptr;
+
+	//bool load_window = false;
 
 	bool want_to_save = false;
 	std::string path_to_save;

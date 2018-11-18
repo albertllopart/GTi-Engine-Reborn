@@ -28,13 +28,13 @@ public:
 	bool GetDelete() const;
 
 	bool IsLoaded()const;
-	void LoadInMemory();
 	void UnLoadInMemory();
 	uint CountReferences()const;
 
+	virtual void LoadInMemory() = 0;
 	//virtual void    Save() const;
 	//virtual void    Load();
-	//virtual void	  LoadInMemory() = 0;
+
 protected:
 	std::string file;
 	std::string exported_file;

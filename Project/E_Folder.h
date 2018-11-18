@@ -74,7 +74,7 @@ public:
 	void FillFiles(std::vector<std::string>& files, file_type especific = FILE_NONE);
 	void DrawFolders(Path* draw);
 	void DrawFolderInfo();
-	bool LoadWindow(char**buffer);
+	//bool LoadWindow(char**buffer);
 
 private:
 

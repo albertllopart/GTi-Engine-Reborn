@@ -3,6 +3,7 @@
 #include "E_Hierarchy.h"
 #include "E_Inspector.h"
 #include "E_Folder.h"
+#include "ImGui/imgui.h"
 
 #define UPDATE_FOLDER_TIME 2.0f
 
@@ -70,6 +71,10 @@ update_status ModuleEngineWindows::PreUpdate(float dt)
 
 update_status ModuleEngineWindows::Update(float dt)
 {
+	//if (load_window)
+	//{
+	//	LoadWindow();
+	//}
 	return UPDATE_CONTINUE;
 }
 
@@ -96,6 +101,7 @@ update_status ModuleEngineWindows::OnEditor()
 	return UPDATE_CONTINUE;
 }
 
+
 void ModuleEngineWindows::WantToLoad(const char * path)
 {
 	want_to_load = true;
@@ -103,6 +109,22 @@ void ModuleEngineWindows::WantToLoad(const char * path)
 	path_to_load = path;
 
 }
+
+//void ModuleEngineWindows::LoadWindow()
+//{
+//	char* buffer = nullptr;
+//
+//	if (e_folder->LoadWindow(&buffer))
+//	{
+//		load_window = false;
+//		if (buffer != nullptr)
+//		{
+//			WantToLoad(buffer);
+//			RELEASE_ARRAY(buffer);
+//		}
+//	}
+//
+//}
 
 bool ModuleEngineWindows::CleanUp()
 {

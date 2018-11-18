@@ -37,7 +37,9 @@ public:
 	ResourceMesh(uint uid);
 	~ResourceMesh();
 
-
+	void LoadInMemory();
+	//save
+	//load
 
 public:
 	Mesh mesh;

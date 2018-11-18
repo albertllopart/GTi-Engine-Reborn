@@ -112,54 +112,6 @@ void E_Folder::FillFiles(std::vector<std::string>& files, file_type especific)
 	path.FillFiles(files, especific);
 }
 
-bool E_Folder::LoadWindow(char ** buffer)
-{
-	ImGui::OpenPopup("Load Window");
-	static std::string selected;
-	bool ret = false;
-	if (ImGui::BeginPopupModal("Load Window", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-	{
-
-		for (std::list<Path*>::const_iterator it = path.list.begin(); it != path.list.end(); it++)
-		{
-			if ((*it)->type != FILE_JSON)
-			{
-				continue;
-			}
-			ImGuiWindowFlags tree_flags = 0;
-			if (selected.compare((*it)->path) == 0)
-			{
-				tree_flags |= ImGuiTreeNodeFlags_Selected;
-			}
-			ImGui::TreeNodeEx((*it)->path.c_str(), tree_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-			if (ImGui::IsItemClicked())
-			{
-				selected = ((*it)->path);
-
-			}
-		}
-	}
-
-	ImGui::Separator();
-
-	if (ImGui::Button("Select##mesh_select", ImVec2(120, 0)))
-	{
-		*buffer = new char[selected.length() + 1];
-		strcpy_s(*buffer, selected.length() + 1, selected.c_str());
-		ImGui::CloseCurrentPopup();
-		ret = true;
-
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Cancel", ImVec2(120, 0)))
-	{
-		ImGui::CloseCurrentPopup();
-		ret = true;
-	}
-	ImGui::EndPopup();
-	return ret;
-}
-
 void E_Folder::DrawFolders(Path * draw)
 {
 	if (path.list.empty())
