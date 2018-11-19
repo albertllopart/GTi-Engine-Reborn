@@ -25,8 +25,13 @@ public:
 
 	bool OnSave(JSON_Value* array, uint go_uid);
 	bool OnLoad(JSONConfig data);
+	bool IsAlphaTest()const;
+	float GetAlphaValue()const;
 
 private:
+
+	bool alpha_test = false;
+	float alpha_value = 0.0f;
 
 	uint tex_id = 0;
 

@@ -94,6 +94,12 @@ void ComponentMaterial::ShowInspectorWindow()
 		ImGui::SameLine();
 		ImGui::Image((ImTextureID)tex_id, ImVec2(128, 128));
 
+		ImGui::Checkbox("Alpha test", &alpha_test);
+		
+		if (alpha_test)
+		{
+			ImGui::SliderFloat("alpha value", &alpha_value, 0.0f, 1.0f, "%.2f");
+		}
 		ImGui::TreePop();
 	}
 }
@@ -141,4 +147,14 @@ bool ComponentMaterial::OnLoad(JSONConfig data)
 	}
 
 	return true;
+}
+
+bool ComponentMaterial::IsAlphaTest() const
+{
+	return alpha_test;
+}
+
+float ComponentMaterial::GetAlphaValue() const
+{
+	return alpha_value;
 }

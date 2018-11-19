@@ -220,8 +220,11 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		{
 			ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
 
-			if (to_draw->mesh->mesh.id_texcoord != 0)
+			if (to_draw->mesh->mesh.id_texcoord != 0 && temp->IsAlphaTest())
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, temp->GetAlphaValue());
 				glBindTexture(GL_TEXTURE_2D, temp->GetID());
+				glDisable(GL_ALPHA_TEST);
 		}
 
 
