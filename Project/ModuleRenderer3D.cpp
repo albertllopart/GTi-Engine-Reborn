@@ -224,7 +224,6 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, temp->GetAlphaValue());
 				glBindTexture(GL_TEXTURE_2D, temp->GetID());
-				glDisable(GL_ALPHA_TEST);
 		}
 
 
@@ -249,6 +248,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisable(GL_ALPHA_TEST);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		if (show_normals)//draw normals
