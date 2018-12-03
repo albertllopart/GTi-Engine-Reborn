@@ -52,6 +52,9 @@
     <Filter Include="Sources\Resources">
       <UniqueIdentifier>{fd0db38d-5049-4578-8e70-7831caa04b18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Shaders">
+      <UniqueIdentifier>{4d974f27-5432-491b-a401-e576a9857d26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -417,6 +420,9 @@
     <ClInclude Include="E_Folder.h">
       <Filter>Sources\Modules\EngineWindows</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderProgramManager.h">
+      <Filter>Sources\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -652,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="E_Folder.cpp">
       <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProgramManager.cpp">
+      <Filter>Sources\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
