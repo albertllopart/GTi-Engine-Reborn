@@ -65,9 +65,37 @@ bool ShaderProgramManager::CreateShaderProgram()
 	else
 	{
 		ShaderProgram* new_program = new ShaderProgram();
-		new_program->id = programid;
+		new_program->id_shader_prog = programid;
 		programs.push_back(new_program);
 	}
 
 	return success;
+}
+
+//--------------------------------------------------------------------------------------------------------
+
+bool ShaderProgram::CreateProgram()
+{
+	id_shader_prog = glCreateProgram();
+	if (id_shader_prog == 0)
+	{
+		App->imgui->AddConsoleLog("Failed creating ShaderProgram");
+		return false;
+	}
+
+	/*
+	glAttachShader(id_shader_prog, vertexShader);
+	glAttachShader(id_shader_prog, fragmentShader);
+	glLinkProgram(id_shader_prog);
+	glGetProgramiv(id_shader_prog, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(id_shader_prog, 512, NULL, infoLog);
+		LOG("Shader link error: %s", infoLog);
+	}
+	*/
+}
+bool ShaderProgram::UseProgram()
+{
+	//ONLY ONCE COMPILED
+	glUseProgram(id_shader_prog);
 }

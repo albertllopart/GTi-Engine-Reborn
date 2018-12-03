@@ -47,12 +47,10 @@ class ShaderProgram
 {
 public:
 
-	GLuint id = 0;
+	bool CreateProgram();
+	bool UseProgram();
 
-	bool UseProgram()
-	{
-		glUseProgram(id);
-	}
+	GLuint id_shader_prog = 0;
 };
 
 #endif
