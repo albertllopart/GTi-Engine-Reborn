@@ -18,6 +18,7 @@
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	name = "Render";
+	shaders_manager = new ShaderProgramManager();
 }
 
 // Destructor
@@ -223,6 +224,11 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			if (to_draw->mesh->mesh.id_texcoord != 0 && temp->IsAlphaTest())
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, temp->GetAlphaValue());
+				// SHADER
+
+				temp->GetShader()->UseProgram();
+
+
 				glBindTexture(GL_TEXTURE_2D, temp->GetID());
 		}
 

@@ -13,6 +13,7 @@
 #include "ComponentMesh.h"
 #include "GameObject.h"
 #include "ComponentCamera.h"
+#include "ShaderProgramManager.h"
 
 #define MAX_LIGHTS 8
 
@@ -62,6 +63,7 @@ public:
 	bool show_normals = false;
 
 	ComponentCamera* camera = nullptr;
+	ShaderProgramManager* shaders_manager = nullptr;
 };
 
 #endif

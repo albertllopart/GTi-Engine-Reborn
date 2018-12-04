@@ -5,6 +5,7 @@
 #include "Globals.h"
 
 class ResourceMaterial;
+class ShaderProgram;
 class ComponentMaterial : public Component
 {
 public:
@@ -14,9 +15,6 @@ public:
 	void OnEditor();
 	void LoadTexture(const char* path);
 
-	//void OnSave(); TODO WORK ON SAVE LOAD (G.O. & Components)
-	//void OnLoad();
-	
 	uint GetID()const;
 	void SetID(uint id);
 	void SetTextureName(const char* new_name);
@@ -27,6 +25,7 @@ public:
 	bool OnLoad(JSONConfig data);
 	bool IsAlphaTest()const;
 	float GetAlphaValue()const;
+	ShaderProgram* GetShader() const;
 
 private:
 
@@ -40,7 +39,7 @@ private:
 	uint tex_height = 0;
 
 	ResourceMaterial* material = nullptr;
-
+	ShaderProgram* shader = nullptr;
 };
 
 #endif //__COMPONENT_MATERIAL_

@@ -45,13 +45,18 @@ bool ShaderProgramManager::UnloadShaderObject(ShaderObject* object)
 	return true;
 }
 
-bool ShaderProgramManager::CreateShaderProgram()
+ShaderProgram* ShaderProgramManager::CreateShaderProgram()
 {
 	GLuint programid = glCreateProgram();
 	
 	for (int i = 0; i < objects.size(); i++)
 	{
 		glAttachShader(programid, objects[i]->id);
+	}
+	
+	for (int i = 0; i < objects.size(); i++)
+	{
+		RELEASE(objects[i]);
 	}
 
 	glLinkProgram(programid);
@@ -60,42 +65,35 @@ bool ShaderProgramManager::CreateShaderProgram()
 	if (!success) {
 		char infoLog[512];
 		glGetProgramInfoLog(programid, 512, NULL, infoLog);
-		LOG("Shader link error: %s", infoLog);
+		App->imgui->AddConsoleLog(("Shader link error: %s", infoLog));
 	}
 	else
 	{
 		ShaderProgram* new_program = new ShaderProgram();
 		new_program->id_shader_prog = programid;
 		programs.push_back(new_program);
+		return new_program;
 	}
+	return nullptr;
+}
 
-	return success;
+ShaderProgram* ShaderProgramManager::CreateDefaultShaderProgram()
+{
+	ShaderObject* default_vertex = new ShaderObject(shader_type::GTI_VERTEX_SHADER);
+	default_vertex->data = (GLchar*)def_vertex_shader;
+	LoadShaderObject(default_vertex);
+	ShaderObject* default_fragment = new ShaderObject(shader_type::GTI_FRAGMENT_SHADER);
+	default_vertex->data = (GLchar*)def_frag_shader;
+	LoadShaderObject(default_fragment);
+
+	return CreateShaderProgram();
 }
 
 //--------------------------------------------------------------------------------------------------------
 
-bool ShaderProgram::CreateProgram()
-{
-	id_shader_prog = glCreateProgram();
-	if (id_shader_prog == 0)
-	{
-		App->imgui->AddConsoleLog("Failed creating ShaderProgram");
-		return false;
-	}
-
-	/*
-	glAttachShader(id_shader_prog, vertexShader);
-	glAttachShader(id_shader_prog, fragmentShader);
-	glLinkProgram(id_shader_prog);
-	glGetProgramiv(id_shader_prog, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(id_shader_prog, 512, NULL, infoLog);
-		LOG("Shader link error: %s", infoLog);
-	}
-	*/
-}
 bool ShaderProgram::UseProgram()
 {
 	//ONLY ONCE COMPILED
 	glUseProgram(id_shader_prog);
+	return true;
 }

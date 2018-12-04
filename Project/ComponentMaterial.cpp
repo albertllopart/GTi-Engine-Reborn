@@ -7,6 +7,7 @@ ComponentMaterial::ComponentMaterial(): Component(COMPONENT_MATERIAL)
 {
 	name = "ComponentMaterial";
 	material = (ResourceMaterial*)App->resource->CreateResource(RESOURCE_MATERIAL);
+	shader = App->renderer3D->shaders_manager->CreateDefaultShaderProgram();
 	tex_name = "None";
 }
 
@@ -157,4 +158,9 @@ bool ComponentMaterial::IsAlphaTest() const
 float ComponentMaterial::GetAlphaValue() const
 {
 	return alpha_value;
+}
+
+ShaderProgram * ComponentMaterial::GetShader() const
+{
+	return shader;
 }
