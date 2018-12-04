@@ -306,16 +306,16 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		}
 
 		//shaders
-		mesh->mesh->mesh.vertex_info = new float[((mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2)];
-		float3 white = float3(1.0, 1.0, 1.0);
+		//mesh->mesh->mesh.vertex_info = new float[((mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2)];
+		//float3 white = float3(1.0, 1.0, 1.0);
 
-		for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
-		{
-			memcpy(&mesh->mesh->mesh.vertex_info[i * 3], &mesh->mesh->mesh.vertex[i * 3], sizeof(float));
-			memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 3], &mesh->mesh->mesh.normals[i * 3], sizeof(float));
-			memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 6], &white, sizeof(float));
-			memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 8], &mesh->mesh->mesh.texCoords[i * 2], sizeof(float));
-		}
+		//for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
+		//{
+		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3], &mesh->mesh->mesh.vertex[i * 3], sizeof(float));
+		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 3], &mesh->mesh->mesh.normals[i * 3], sizeof(float));
+		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 6], &white, sizeof(float));
+		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 8], &mesh->mesh->mesh.texCoords[i * 2], sizeof(float));
+		//}
 	}
 
 	mesh->mesh->mesh.bbox.SetNegativeInfinity();
