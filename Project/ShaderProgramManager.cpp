@@ -4,7 +4,7 @@
 
 ShaderProgramManager::ShaderProgramManager()
 {
-
+	
 }
 
 ShaderProgramManager::~ShaderProgramManager()
@@ -57,6 +57,7 @@ ShaderProgram* ShaderProgramManager::CreateShaderProgram()
 	for (int i = 0; i < objects.size(); i++)
 	{
 		RELEASE(objects[i]);
+		objects.erase(objects.begin() + i--);//mirar això urgentment
 	}
 
 	glLinkProgram(programid);
@@ -83,7 +84,7 @@ ShaderProgram* ShaderProgramManager::CreateDefaultShaderProgram()
 	default_vertex->data = (GLchar*)def_vertex_shader;
 	LoadShaderObject(default_vertex);
 	ShaderObject* default_fragment = new ShaderObject(shader_type::GTI_FRAGMENT_SHADER);
-	default_vertex->data = (GLchar*)def_frag_shader;
+	default_fragment->data = (GLchar*)def_frag_shader;
 	LoadShaderObject(default_fragment);
 
 	return CreateShaderProgram();

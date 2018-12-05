@@ -308,7 +308,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		//shaders
 		mesh->mesh->mesh.vertex_info = new float[((mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2)];
 		float* cursor = mesh->mesh->mesh.vertex_info;
-		float3 white = float3(1.0, 1.0, 1.0);
+		float3 white = float3(1.0f, 1.0f, 1.0f);
 
 		for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
 		{
@@ -333,6 +333,12 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 				cursor += 2;
 			}
 		}
+
+		uint buffer_size = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
+
+		glGenBuffers(1, (GLuint*) &(mesh->mesh->mesh.id_vertex_info));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->mesh.id_vertex_info);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * buffer_size, &mesh->mesh->mesh.vertex_info[0], GL_STATIC_DRAW);
 	}
 
 	mesh->mesh->mesh.bbox.SetNegativeInfinity();

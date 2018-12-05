@@ -30,6 +30,7 @@ struct Mesh
 	float* texCoords = nullptr;
 
 	//shader float
+	uint id_vertex_info = 0;
 	float* vertex_info = nullptr;
 };
 

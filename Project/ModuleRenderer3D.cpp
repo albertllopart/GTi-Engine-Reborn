@@ -19,6 +19,7 @@ ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Modul
 {
 	name = "Render";
 	shaders_manager = new ShaderProgramManager();
+	
 }
 
 // Destructor
@@ -137,6 +138,10 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	// Projection matrix for
 	OnResize(App->window->width, App->window->height);
 
+
+	//default shader
+	shaders_manager->CreateDefaultShaderProgram();
+
 	return ret;
 }
 
@@ -213,9 +218,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	if (to_draw->GetMyGo()->visible)
 	{
-		glPushMatrix();
+		/*glPushMatrix();
 		math::float4x4 matrix = to_draw->GetMyGo()->GetGlobalMatrix();
-		glMultMatrixf(matrix.Transposed().ptr());
+		glMultMatrixf(matrix.Transposed().ptr());*/
 
 		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
@@ -231,9 +236,22 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 				glBindTexture(GL_TEXTURE_2D, temp->GetID());
 		}
+		else
+		{
+			GLint projLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "projection");
+			glUniformMatrix4fv(projLoc, 1, GL_TRUE, camera->frustum.ViewProjMatrix().ptr());
+
+			GLint viewLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "view");
+			glUniformMatrix4fv(projLoc, 1, GL_TRUE, camera->frustum.ViewMatrix().ptr());
+
+			GLint modelLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "model_matrix");
+			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, to_draw->GetMyGo()->GetGlobalMatrix().ptr());
+
+			shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
+		}
 
 
-		glEnableClientState(GL_VERTEX_ARRAY);
+		/*glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
@@ -244,11 +262,23 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 		}
 
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);*/
+
+		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex_info);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(8 * sizeof(GLfloat)));
+
+		glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);
-
 		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
-
-
+		
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -256,6 +286,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisable(GL_ALPHA_TEST);
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glUseProgram(NULL);
 
 		if (show_normals)//draw normals
 		{
