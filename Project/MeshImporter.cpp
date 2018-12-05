@@ -306,16 +306,33 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		}
 
 		//shaders
-		//mesh->mesh->mesh.vertex_info = new float[((mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2)];
-		//float3 white = float3(1.0, 1.0, 1.0);
+		mesh->mesh->mesh.vertex_info = new float[((mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2)];
+		float* cursor = mesh->mesh->mesh.vertex_info;
+		float3 white = float3(1.0, 1.0, 1.0);
 
-		//for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
-		//{
-		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3], &mesh->mesh->mesh.vertex[i * 3], sizeof(float));
-		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 3], &mesh->mesh->mesh.normals[i * 3], sizeof(float));
-		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 6], &white, sizeof(float));
-		//	memcpy(&mesh->mesh->mesh.vertex_info[i * 3 + 8], &mesh->mesh->mesh.texCoords[i * 2], sizeof(float));
-		//}
+		for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
+		{
+			if (mesh->mesh->mesh.vertex != nullptr)
+			{
+				memcpy(cursor, &mesh->mesh->mesh.vertex[i * 3], sizeof(float) * 3);
+				cursor += 3;
+			}
+			
+			if (mesh->mesh->mesh.normals != nullptr)
+			{
+				memcpy(cursor, &mesh->mesh->mesh.normals[i * 3], sizeof(float) * 3);
+				cursor += 3;
+			}
+			
+			memcpy(cursor, &white, sizeof(float) * 3);
+			cursor += 3;
+
+			if (mesh->mesh->mesh.texCoords != nullptr)
+			{
+				memcpy(cursor, &mesh->mesh->mesh.texCoords[i * 2], sizeof(float) * 2);
+				cursor += 2;
+			}
+		}
 	}
 
 	mesh->mesh->mesh.bbox.SetNegativeInfinity();
