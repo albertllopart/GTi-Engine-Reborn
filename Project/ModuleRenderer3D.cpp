@@ -219,9 +219,6 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	if (to_draw->GetMyGo()->visible)
 	{
-		/*glPushMatrix();
-		math::float4x4 matrix = to_draw->GetMyGo()->GetGlobalMatrix();
-		glMultMatrixf(matrix.Transposed().ptr());*/
 
 		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
@@ -239,16 +236,18 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		}
 		else
 		{
+
+			shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
+
 			GLint projLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "projection");
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, camera->GetViewMatrix());
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, camera->GetOpenGLViewMatrix().ptr());
 
 			GLint viewLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "view");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix().ptr());
 
 			GLint modelLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "model_matrix");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, camera->frustum.ProjectionMatrix().Transposed().ptr()); //to_draw->GetMyGo()->GetGlobalMatrix().ptr()
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, camera->GetOpenGLProjectionMatrix().ptr()); //to_draw->GetMyGo()->GetGlobalMatrix().ptr()
 
-			shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
 		}
 
 
@@ -265,7 +264,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);*/
 
-		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex_info);
+		glBindVertexArray(to_draw->mesh->mesh.id_vertex_info);
+
+		//glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex_info);
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)0);
@@ -277,14 +278,13 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(8 * sizeof(GLfloat)));
 
 		glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);
 		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
 		
-
+		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
+
 		glDisable(GL_ALPHA_TEST);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(NULL);
@@ -298,7 +298,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			}
 		}
 
-		glPopMatrix();
+
 	}
 }
 
