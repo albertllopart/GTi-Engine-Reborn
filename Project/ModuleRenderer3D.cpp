@@ -242,7 +242,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glUniformMatrix4fv(projLoc, 1, GL_TRUE, camera->frustum.ViewProjMatrix().ptr());
 
 			GLint viewLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "view");
-			glUniformMatrix4fv(projLoc, 1, GL_TRUE, camera->frustum.ViewMatrix().ptr());
+			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, camera->frustum.ViewMatrix().ptr());
 
 			GLint modelLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "model_matrix");
 			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, to_draw->GetMyGo()->GetGlobalMatrix().ptr());
