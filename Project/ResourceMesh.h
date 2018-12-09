@@ -35,10 +35,13 @@ struct Mesh
 	void CreateIBO();
 	void CreateVAO();
 
-	float* vertex_info = nullptr;
+	uint size_of_VBO = 0;
+
+	char* vertex_info = nullptr;
+	uint id_vertex_info = 0;
+
 	uint vertex_num = 0;
 
-	float* index_info = nullptr;
 	uint index_num = 0;
 
 	GLuint VBO = 0;

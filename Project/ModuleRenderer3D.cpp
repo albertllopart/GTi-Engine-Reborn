@@ -233,6 +233,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 
 				glBindTexture(GL_TEXTURE_2D, temp->GetID());
+				//glUniform1i(glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog), 
 		}
 		else
 		{
