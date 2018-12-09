@@ -257,7 +257,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.index_num, GL_UNSIGNED_INT, NULL);
 		
 		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisable(GL_ALPHA_TEST);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(NULL);

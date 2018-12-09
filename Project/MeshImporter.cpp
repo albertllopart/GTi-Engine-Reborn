@@ -308,7 +308,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		//shaders
 		mesh->mesh->mesh.size_of_VBO = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
 		mesh->mesh->mesh.vertex_info = new char[mesh->mesh->mesh.size_of_VBO * sizeof(float)];
-		char* cursor = mesh->mesh->mesh.vertex_info;
+		float* cursor = mesh->mesh->mesh.vertex_info;
 		float3 white = float3(1.0f, 1.0f, 1.0f);
 
 		for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
@@ -335,7 +335,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 			}
 		}
 
-		uint buffer_size = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
+		//uint buffer_size = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
 
 		/*glGenBuffers(1, (GLuint*) &(mesh->mesh->mesh.id_vertex_info));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->mesh.id_vertex_info);
