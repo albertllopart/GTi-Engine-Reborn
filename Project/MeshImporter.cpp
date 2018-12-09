@@ -307,7 +307,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 
 		//shaders
 		mesh->mesh->mesh.size_of_VBO = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
-		mesh->mesh->mesh.vertex_info = new char[mesh->mesh->mesh.size_of_VBO * sizeof(float)];
+		mesh->mesh->mesh.vertex_info = new float[mesh->mesh->mesh.size_of_VBO ];
 		float* cursor = mesh->mesh->mesh.vertex_info;
 		float3 white = float3(1.0f, 1.0f, 1.0f);
 
@@ -316,22 +316,22 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 			if (mesh->mesh->mesh.vertex != nullptr)
 			{
 				memcpy(cursor, &mesh->mesh->mesh.vertex[i * 3], sizeof(float) * 3);
-				cursor += 3 * sizeof(float);
+				cursor += 3 ;
 			}
 			
 			if (mesh->mesh->mesh.normals != nullptr)
 			{
 				memcpy(cursor, &mesh->mesh->mesh.normals[i * 3], sizeof(float) * 3);
-				cursor += 3 * sizeof(float);
+				cursor += 3 ;
 			}
 			
 			memcpy(cursor, &white, sizeof(float) * 3);
-			cursor += 3 * sizeof(float);
+			cursor += 3 ;
 
 			if (mesh->mesh->mesh.texCoords != nullptr)
 			{
 				memcpy(cursor, &mesh->mesh->mesh.texCoords[i * 2], sizeof(float) * 2);
-				cursor += 2 * sizeof(float);
+				cursor += 2 ;
 			}
 		}
 
