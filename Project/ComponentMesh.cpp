@@ -8,6 +8,7 @@
 ComponentMesh::ComponentMesh(): Component(COMPONENT_MESH)
 {
 	mesh = (ResourceMesh*)App->resource->CreateResource(RESOURCE_MESH);
+	mesh->LoadInMemory();
 	name = "ComponentMesh";
 	source = "None";
 }
@@ -115,7 +116,3 @@ bool ComponentMesh::OnLoad(JSONConfig data)
 	return true;
 }
 
-Mesh::Mesh()
-{
-	//bbox = new AABB();
-}

@@ -250,41 +250,13 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 		}
 
+		glBindVertexArray(to_draw->mesh->mesh.VAO);
 
-		/*glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-		if (to_draw->mesh->mesh.id_texcoord != 0)
-		{
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_texcoord);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-		}
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);*/
-
-		glBindVertexArray(to_draw->mesh->mesh.id_vertex_info);
-
-		//glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex_info);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(8 * sizeof(GLfloat)));
-
-		glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);
-		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.IBO);
+		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.index_num, GL_UNSIGNED_INT, NULL);
 		
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 		glDisable(GL_ALPHA_TEST);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(NULL);
@@ -297,8 +269,6 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 				line.Render();
 			}
 		}
-
-
 	}
 }
 

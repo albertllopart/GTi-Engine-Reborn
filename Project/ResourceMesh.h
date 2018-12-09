@@ -3,6 +3,7 @@
 
 #include "Resource.h"
 #include "MathGeoLib\Geometry\AABB.h"
+#include "Glew/include/glew.h"
 
 struct Mesh
 {
@@ -29,9 +30,20 @@ struct Mesh
 	uint id_texcoord = 0; 
 	float* texCoords = nullptr;
 
-	//shader float
-	uint id_vertex_info = 0;
+	//shader
+	void CreateVBO();
+	void CreateIBO();
+	void CreateVAO();
+
 	float* vertex_info = nullptr;
+	uint vertex_num = 0;
+
+	float* index_info = nullptr;
+	uint index_num = 0;
+
+	GLuint VBO = 0;
+	GLuint IBO = 0;
+	GLuint VAO = 0;
 };
 
 
