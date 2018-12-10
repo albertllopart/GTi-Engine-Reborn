@@ -250,7 +250,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, camera->GetOpenGLProjectionMatrix().ptr()); //to_draw->GetMyGo()->GetGlobalMatrix().ptr()
 
 		}
-
+		float test = to_draw->mesh->mesh.vertex_info[17];
 		glBindVertexArray(to_draw->mesh->mesh.VAO);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.IBO);

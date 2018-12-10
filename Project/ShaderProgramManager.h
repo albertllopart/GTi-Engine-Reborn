@@ -30,8 +30,9 @@ public:
 	const GLchar* def_vertex_shader =
 		"#version 330 core \n"
 		"layout(location = 0) in vec3 position;\n"
-		"layout(location = 1) in vec3 color;\n"
-		"layout(location = 2) in vec2 texCoord;\n"
+		"layout(location = 1) in vec3 normal;\n"
+		"layout(location = 2) in vec3 color;\n"
+		"layout(location = 3) in vec2 texCoord;\n"
 		"out vec3 ourColor;\n"
 		"out vec2 TexCoord;\n"
 		"uniform mat4 model_matrix;\n"
