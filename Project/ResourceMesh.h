@@ -40,10 +40,6 @@ struct Mesh
 	float* vertex_info = nullptr;
 	uint id_vertex_info = 0;
 
-	uint vertex_num = 0;
-
-	uint index_num = 0;
-
 	GLuint VBO = 0;
 	GLuint IBO = 0;
 	GLuint VAO = 0;

@@ -237,24 +237,99 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		}
 		else
 		{
+			const GLchar* def_vertex_shader =
+				"#version 330 core\n"
+				"\n"
+				"layout (location = 0) in vec3 position;\n"
+				"layout (location = 1) in vec4 normals;\n"
+				"layout (location = 2) in vec4 color;\n"
+				"layout (location = 3) in vec2 texCoord;\n"
+				"\n"
+				"uniform mat4 model_matrix;\n"
+				"uniform mat4 view_matrix;\n"
+				"uniform mat4 proj_matrix;\n"
+				"\n"
+				"out vec4 ourColor;\n"
+				"out vec2 ourTexCoord;\n"
+				"\n"
+				"void main()\n"
+				"{\n"
+				"    ourTexCoord = texCoord;\n"
+				"    ourColor = color;\n"
+				"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
+				"}\n";
 
-			shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
+				GLuint object1 = glCreateShader(GL_VERTEX_SHADER);
+				glShaderSource(object1, 1, &def_vertex_shader, NULL);
+				glCompileShader(object1);
+				int success;
+				glGetShaderiv(object1, GL_COMPILE_STATUS, &success);
+				if (success == GL_FALSE)
+				{
+					char infoLog[512];
+					glGetShaderInfoLog(object1, 512, NULL, infoLog);
+					App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
+				}
 
-			GLint projLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "projection");
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, camera->GetOpenGLViewMatrix().ptr());
+				const GLchar* def_frag_shader =
+					"#version 330 core\n"
+					"\n"
+					"in vec4 ourColor;\n" 
+					"in vec2 ourTexCoord;\n" 
+					"out vec4 FragColor;\n" 
+					"\n"
+					"uniform sampler2D ourTexture_0;\n" 
+					"\n" 
+					"void main()\n" 
+					"{\n" 
+					"     FragColor = texture(ourTexture_0, ourTexCoord);\n" 
+					"}\n";
 
-			GLint viewLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "view");
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix().ptr());
+				GLuint object2 = glCreateShader(GL_FRAGMENT_SHADER);
+				glShaderSource(object2, 1, &def_frag_shader, NULL);
+				glCompileShader(object2);
+				success;
+				glGetShaderiv(object2, GL_COMPILE_STATUS, &success);
+				if (success == GL_FALSE)
+				{
+					char infoLog[512];
+					glGetShaderInfoLog(object2, 512, NULL, infoLog);
+					App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
+				}
 
-			GLint modelLoc = glGetUniformLocation(shaders_manager->programs.begin()._Ptr->_Myval->id_shader_prog, "model_matrix");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, camera->GetOpenGLProjectionMatrix().ptr()); //to_draw->GetMyGo()->GetGlobalMatrix().ptr()
+				GLuint program = glCreateProgram();
+				glAttachShader(program, object1);
+				glAttachShader(program, object2);
+
+				glLinkProgram(program);
+				success;
+				glGetProgramiv(program, GL_LINK_STATUS, &success);
+				if (!success) {
+					char infoLog[512];
+					glGetProgramInfoLog(program, 512, NULL, infoLog);
+					App->imgui->AddConsoleLog(("Shader link error: %s", infoLog));
+				}
+			
+
+			glUseProgram(program);
+			//shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
+
+			GLint projLoc = glGetUniformLocation(program, "projection");
+			math::float4x4 matriiix = camera->GetOpenGLProjectionMatrix();
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, matriiix.ptr());
+			math::float4x4 matriiiix = camera->GetOpenGLViewMatrix();
+			GLint viewLoc = glGetUniformLocation(program, "view");
+			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, matriiiix.ptr());
+			math::float4x4 matriiiiix = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
+			GLint modelLoc = glGetUniformLocation(program, "model_matrix");
+			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, matriiiiix.ptr()); //to_draw->GetMyGo()->GetGlobalMatrix().ptr()
 
 		}
 		float test = to_draw->mesh->mesh.vertex_info[17];
 		glBindVertexArray(to_draw->mesh->mesh.VAO);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.IBO);
-		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.index_num, GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
 		
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

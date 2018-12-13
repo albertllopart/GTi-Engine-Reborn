@@ -48,12 +48,12 @@ public:
 	const GLchar* def_frag_shader =
 		"#version 330 core \n"
 		"in vec3 ourColor;\n"
-		"in vec2 TexCoord;\n"
+		"in vec2 texCoord;\n"
 		"out vec4 color;\n"
 		"uniform sampler2D ourTexture;\n"
 		"void main()\n"
 		"{\n"
-		"color = texture(ourTexture, TexCoord);\n"
+		"color = texture(ourTexture, texCoord);\n"
 		"}\n";
 };
 
