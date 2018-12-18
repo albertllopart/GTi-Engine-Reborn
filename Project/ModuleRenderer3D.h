@@ -33,6 +33,7 @@ public:
 	void FrustumCulling() const;
 	//void Draw(Mesh* toDraw);
 	void Draw(ComponentMesh * to_draw);
+	void ShowNormals(ComponentMesh * to_draw);
 	void Draw(GameObject* toDraw);
 	void OnResize(int width, int height);
 

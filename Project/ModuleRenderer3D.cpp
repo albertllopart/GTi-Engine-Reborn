@@ -343,13 +343,18 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(NULL);
 
-		if (show_normals)//draw normals
+		ShowNormals(to_draw);
+	}
+}
+
+void ModuleRenderer3D::ShowNormals(ComponentMesh * to_draw)
+{
+	if (show_normals)//draw normals
+	{
+		for (int i = 0; i < to_draw->mesh->mesh.num_vertex; i += 3)
 		{
-			for (int i = 0; i < to_draw->mesh->mesh.num_vertex; i += 3)
-			{
-				pLine line(to_draw->mesh->mesh.vertex[i], to_draw->mesh->mesh.vertex[i + 1], to_draw->mesh->mesh.vertex[i + 2], to_draw->mesh->mesh.normals[i] + to_draw->mesh->mesh.vertex[i], to_draw->mesh->mesh.normals[i + 1] + to_draw->mesh->mesh.vertex[i + 1], to_draw->mesh->mesh.normals[i + 2] + to_draw->mesh->mesh.vertex[i + 2]);
-				line.Render();
-			}
+			pLine line(to_draw->mesh->mesh.vertex[i], to_draw->mesh->mesh.vertex[i + 1], to_draw->mesh->mesh.vertex[i + 2], to_draw->mesh->mesh.normals[i] + to_draw->mesh->mesh.vertex[i], to_draw->mesh->mesh.normals[i + 1] + to_draw->mesh->mesh.vertex[i + 1], to_draw->mesh->mesh.normals[i + 2] + to_draw->mesh->mesh.vertex[i + 2]);
+			line.Render();
 		}
 	}
 }

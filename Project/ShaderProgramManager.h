@@ -5,8 +5,36 @@
 #include <list>
 #include <vector>
 
-class ShaderObject;
-class ShaderProgram;
+enum shader_type
+{
+	GTI_FRAGMENT_SHADER,
+	GTI_VERTEX_SHADER
+};
+
+class ShaderObject
+{
+public:
+	ShaderObject(shader_type type)
+	{
+		this->type = type;
+	}
+	~ShaderObject() {};
+
+public:
+
+	shader_type type;
+	GLuint id = 0;
+	GLchar* data = nullptr;
+};
+
+class ShaderProgram
+{
+public:
+
+	bool UseProgram();
+
+	GLuint id_shader_prog = 0;
+};
 
 class ShaderProgramManager
 {
@@ -26,6 +54,7 @@ public:
 
 	std::vector<ShaderObject*> objects;
 	std::list<ShaderProgram*> programs;
+	ShaderProgram default_shader;
 
 	const GLchar* def_vertex_shader =
 		"#version 330 core \n"
@@ -57,36 +86,7 @@ public:
 		"}\n";
 };
 
-enum shader_type
-{
-	GTI_FRAGMENT_SHADER,
-	GTI_VERTEX_SHADER
-};
 
-class ShaderObject
-{
-public:
-	ShaderObject(shader_type type)
-	{
-		this->type = type;
-	}
-	~ShaderObject() {};
-
-public:
-
-	shader_type type;
-	GLuint id = 0;
-	GLchar* data = nullptr;
-};
-
-class ShaderProgram
-{
-public:
-
-	bool UseProgram();
-
-	GLuint id_shader_prog = 0;
-};
 
 
 //DEFAULT SHADER OBJECT
