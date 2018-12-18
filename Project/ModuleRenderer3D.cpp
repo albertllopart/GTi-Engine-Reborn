@@ -168,6 +168,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(camera->GetOpenGLViewMatrix().ptr());
 
+	math::float4x4 test = camera->GetOpenGLProjectionMatrix();
+
 	// Light 0 on cam pos
 	//lights[0].SetPos(camera->frustum.pos.x, camera->frustum.pos.y, camera->frustum.pos.z);
 	/*if (camera != nullptr)
@@ -314,15 +316,19 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glUseProgram(program);
 			//shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
 
+			//ComponentCamera* cam = App->camera->GetCamera();
+
 			GLint projLoc = glGetUniformLocation(program, "projection");
-			math::float4x4 matriiix = camera->GetOpenGLProjectionMatrix();
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, matriiix.ptr());
-			math::float4x4 matriiiix = camera->GetOpenGLViewMatrix();
+			math::float4x4 projection = App->camera->GetCamera()->GetFrustum().ViewProjMatrix();
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, projection.ptr());
+
+			math::float4x4 view = App->camera->GetCamera()->frustum.ViewMatrix();
 			GLint viewLoc = glGetUniformLocation(program, "view");
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, matriiiix.ptr());
-			math::float4x4 matriiiiix = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
+			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view.ptr());
+
+			math::float4x4 model = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
 			GLint modelLoc = glGetUniformLocation(program, "model_matrix");
-			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, matriiiiix.ptr()); //to_draw->GetMyGo()->GetGlobalMatrix().ptr()
+			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, model.ptr());
 
 		}
 		float test = to_draw->mesh->mesh.vertex_info[17];
