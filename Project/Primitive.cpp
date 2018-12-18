@@ -9,7 +9,7 @@
 
 
 // ------------------------------------------------------------
-Primitive::Primitive() : transform(float4x4::identity), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
+Primitive::Primitive() : transform(math::float4x4::identity), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
 {}
 
 // ------------------------------------------------------------
@@ -88,15 +88,15 @@ void Primitive::SetPos(float x, float y, float z)
 {
 	// GEOLIB
 	//transform.translate(x, y, z);
-	transform = float4x4::Translate(x, y, z).ToFloat4x4() * transform;
+	transform = math::float4x4::Translate(x, y, z).ToFloat4x4() * transform;
 }
 
 // ------------------------------------------------------------
-void Primitive::SetRotation(float angle, const float3 &u)
+void Primitive::SetRotation(float angle, const math::float3 &u)
 {
 	// GEOLIB
 	//transform.rotate(angle, u);
-	transform = float4x4::RotateAxisAngle(u, angle) * transform;
+	transform = math::float4x4::RotateAxisAngle(u, angle) * transform;
 }
 
 // ------------------------------------------------------------
@@ -104,11 +104,11 @@ void Primitive::Scale(float x, float y, float z)
 {
 	// GEOLIB
 	//transform.scale(x, y, z);
-	transform = float4x4::Scale(x, y, z).ToFloat4x4() * transform;
+	transform = math::float4x4::Scale(x, y, z).ToFloat4x4() * transform;
 }
 
 // array CUBE ============================================
-pCube::pCube(float3 position,float3 size) : Primitive(), size(size.x, size.y, size.z)
+pCube::pCube(math::float3 position, math::float3 size) : Primitive(), size(size.x, size.y, size.z)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 
@@ -185,9 +185,9 @@ void pCube::InnerRender() const
 }
 
 //INDICES CUBE=============================
-pCube2::pCube2(float3 position, float3 size)
+pCube2::pCube2(math::float3 position, math::float3 size)
 {
-	float3 coord = size / 2;
+	math::float3 coord = size / 2;
 
 	GLfloat vertices[24] = {
 		-coord.x, -coord.y,  coord.z, //A 0

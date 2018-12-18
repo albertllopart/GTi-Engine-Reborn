@@ -37,7 +37,7 @@ public:
 	virtual void Disable();
 	virtual void OnEditor();
 	virtual void ShowInspectorWindow();
-	virtual void OnUpdateMatrix(const float4x4 mat);
+	virtual void OnUpdateMatrix(const math::float4x4 mat);
 
 	GameObject* GetMyGo()const;
 	bool IsActive() const;

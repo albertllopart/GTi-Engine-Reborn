@@ -13,13 +13,13 @@ public:
 	MousePicking();
 	~MousePicking();
 
-	LineSegment RayfromMouse(int x, int y);
+	math::LineSegment RayfromMouse(int x, int y);
 	GameObject* PickFromRay() const;
 	void UpdateScreenSize();
 
 public:
 
-	LineSegment my_ray;
+	math::LineSegment my_ray;
 	uint screenWidth = 0;
 	uint screenHeight = 0;
 };

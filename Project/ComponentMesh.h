@@ -21,7 +21,7 @@ public:
 
 	void OnEditor();
 	void ShowInspectorWindow();
-	float3 GetCenter() const;
+	math::float3 GetCenter() const;
 
 	bool OnSave(JSON_Value* array, uint go_uid);
 	bool OnLoad(JSONConfig data);

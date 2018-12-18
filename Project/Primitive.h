@@ -23,14 +23,14 @@ public:
 	virtual void	Render() const;
 	virtual void	InnerRender() const;
 	void			SetPos(float x, float y, float z);
-	void			SetRotation(float angle, const float3 &u);
+	void			SetRotation(float angle, const math::float3 &u);
 	void			Scale(float x, float y, float z);
 	PrimitiveTypes	GetType() const;
 
 public:
 	
 	Color color;
-	float4x4 transform;
+	math::float4x4 transform;
 	bool axis,wire;
 
 protected:
@@ -41,20 +41,20 @@ protected:
 class pCube : public Primitive
 {
 public :
-	pCube(float3 position, float3 size = float3(1.f, 1.f, 1.f));
+	pCube(math::float3 position, math::float3 size = math::float3(1.f, 1.f, 1.f));
 	void InnerRender() const;
 public:
-	float3 size;
+	math::float3 size;
 	uint my_id;
 };
 // ==============INDEX CUBE===========
 class pCube2 : public Primitive
 {
 public:
-	pCube2(float3 position, float3 size = float3(1.f,1.f,1.f));
+	pCube2(math::float3 position, math::float3 size = math::float3(1.f,1.f,1.f));
 	void InnerRender() const;
 public:
-	float3 size;
+	math::float3 size;
 	uint my_id;
 	//uint my_vertex;
 	uint my_indices;
@@ -91,8 +91,8 @@ public:
 	pLine(float oX, float oY, float oZ, float dX, float dY, float dZ);
 	void InnerRender() const;
 public:
-	float3 origin;
-	float3 destination;
+	math::float3 origin;
+	math::float3 destination;
 };
 
 // ============================================
@@ -103,6 +103,6 @@ public:
 	pPlane(float x, float y, float z, float d);
 	void InnerRender() const;
 public:
-	float3 normal;
+	math::float3 normal;
 	float constant;
 };

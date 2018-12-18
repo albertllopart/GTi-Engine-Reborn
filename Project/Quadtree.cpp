@@ -5,7 +5,7 @@
 #include "MathGeoLib/Geometry/LineSegment.h"
 #include "MathGeoLib/Geometry/AABB.h"
 
-QuadtreeNode::QuadtreeNode(const AABB bbox, QuadtreeNode* parent): bbox(bbox), parent(parent)
+QuadtreeNode::QuadtreeNode(const math::AABB bbox, QuadtreeNode* parent): bbox(bbox), parent(parent)
 {
 	for (uint i = 0; i < 4; ++i)
 	{
@@ -79,12 +79,12 @@ void QuadtreeNode::Remove(GameObject * to_remove)
 void QuadtreeNode::Subdivide()
 {
 	//dividing by 4 the box
-	float3 size = bbox.Size();
-	float3 new_size(size.x*0.5f, size.y, size.z*0.5f);
-	float3 center = bbox.CenterPoint();
-	float3 new_center;
+	math::float3 size = bbox.Size();
+	math::float3 new_size(size.x*0.5f, size.y, size.z*0.5f);
+	math::float3 center = bbox.CenterPoint();
+	math::float3 new_center;
 
-	AABB new_bbox;
+	math::AABB new_bbox;
 
 	//up left quad
 	new_center.Set(center.x - new_size.x * 0.5f, center.y, center.z - new_size.z * 0.5f);
@@ -186,7 +186,7 @@ Quadtree::~Quadtree()
 	Clear();
 }
 
-void Quadtree::Boundaries(AABB limits)
+void Quadtree::Boundaries(math::AABB limits)
 {
 	Clear();
 	root = new QuadtreeNode(limits);

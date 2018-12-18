@@ -160,9 +160,9 @@ ComponentTransform * ModuleImporter::LoadTransform(aiNode * node)
 	aiQuaternion rotate;
 	node->mTransformation.Decompose(scale, rotate, translation);
 
-	float3 pos(translation.x, translation.y, translation.z);
-	float3 sca(scale.x, scale.y, scale.z);
-	Quat rot(rotate.x, rotate.y, rotate.z, rotate.w);
+	math::float3 pos(translation.x, translation.y, translation.z);
+	math::float3 sca(scale.x, scale.y, scale.z);
+	math::Quat rot(rotate.x, rotate.y, rotate.z, rotate.w);
 
 	return new ComponentTransform(pos, sca, rot);
 }

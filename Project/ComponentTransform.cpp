@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "JSONConfig.h"
 
-ComponentTransform::ComponentTransform(float3 pos, float3 scale, Quat rot): Component(COMPONENT_TYPE::COMPONENT_TRANSFORM),pos(pos), new_pos(pos), scale(scale),rot_quat(rot)
+ComponentTransform::ComponentTransform(math::float3 pos, math::float3 scale, math::Quat rot): Component(COMPONENT_TYPE::COMPONENT_TRANSFORM),pos(pos), new_pos(pos), scale(scale),rot_quat(rot)
 {
 	name = "ComponentTransform";
 }
@@ -14,7 +14,7 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::SetTransform(float3 scale, Quat rotation, float3 position)
+void ComponentTransform::SetTransform(math::float3 scale, math::Quat rotation, math::float3 position)
 {
 	this->scale = scale;
 
@@ -50,7 +50,7 @@ void ComponentTransform::ShowInspectorWindow()
 	if (node_open)
 	{
 		rot_quat.ToEulerXYX();
-		float3 temp_rot = rot_euler;
+		math::float3 temp_rot = rot_euler;
 
 		if (ImGui::DragFloat3("Position##transform_position", &pos.x, 0.3f))
 		{
@@ -77,23 +77,23 @@ void ComponentTransform::Update()
 	}
 }
 
-void ComponentTransform::UpdateScale(float3 scale)
+void ComponentTransform::UpdateScale(math::float3 scale)
 {
 	this->scale = scale;
 	UpdateMatrix();
 }
 
-void ComponentTransform::UpdateRotation(float3 rot)
+void ComponentTransform::UpdateRotation(math::float3 rot)
 {
-	float3 delta = (rot - rot_euler) * DEGTORAD;
-	Quat rotation = Quat::FromEulerXYZ(delta.x, delta.y, delta.z);
+	math::float3 delta = (rot - rot_euler) * DEGTORAD;
+	math::Quat rotation = math::Quat::FromEulerXYZ(delta.x, delta.y, delta.z);
 
 	rot_quat = rot_quat * rotation;
 	rot_euler = rot;
 	UpdateMatrix();
 }
 
-void ComponentTransform::UpdatePosition(float3 pos)
+void ComponentTransform::UpdatePosition(math::float3 pos)
 {
 	this->pos = pos;
 	UpdateMatrix();
@@ -103,7 +103,7 @@ void ComponentTransform::UpdateMatrix()
 {
 	if (!my_go->is_static)
 	{
-		trans_matrix = float4x4::FromTRS(pos, rot_quat, scale);
+		trans_matrix = math::float4x4::FromTRS(pos, rot_quat, scale);
 
 
 		if (my_go->GetParent() != nullptr && my_go->GetParent() != App->editor->GetRoot())
@@ -138,17 +138,17 @@ void ComponentTransform::TransformCamera()
 	}
 }
 
-float4x4 ComponentTransform::GetGlobalMatrix()const
+math::float4x4 ComponentTransform::GetGlobalMatrix()const
 {
 	return global_trans_matrix;
 }
 
-float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
+math::float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
 {
 	return global_trans_matrix_transposed;
 }
 
-float3 ComponentTransform::GetPosition() const
+math::float3 ComponentTransform::GetPosition() const
 {
 	return pos;
 }
@@ -195,17 +195,17 @@ bool ComponentTransform::OnLoad(JSONConfig data)
 {
 	uid = data.GetInt("UID");
 
-	float3 position = float3::zero;
+	math::float3 position = math::float3::zero;
 	position.x = data.GetFloat("pos.x");
 	position.y = data.GetFloat("pos.y");
 	position.z = data.GetFloat("pos.z");
 
-	float3 rotation = float3::zero;
+	math::float3 rotation = math::float3::zero;
 	rotation.x = data.GetFloat("rot.x");
 	rotation.y = data.GetFloat("rot.y");
 	rotation.z = data.GetFloat("rot.z");
 
-	float3 scale_l = float3::zero;
+	math::float3 scale_l = math::float3::zero;
 	scale_l.x = data.GetFloat("scale.x");
 	scale_l.y = data.GetFloat("scale.y");
 	scale_l.z = data.GetFloat("scale.z");
@@ -219,7 +219,7 @@ bool ComponentTransform::OnLoad(JSONConfig data)
 	return true;
 }
 
-void ComponentTransform::SetPosition(float3 pos)
+void ComponentTransform::SetPosition(math::float3 pos)
 {
 	this->pos = pos;
 }
@@ -245,9 +245,9 @@ void ComponentTransform::ShowGizmo(ComponentCamera & camera)
 		App->editor->currentOperation = ImGuizmo::SCALE;
 	}
 
-	float4x4 viewMatrix = camera.GetOpenGLViewMatrix();
-	float4x4 projMatrix = camera.GetOpenGLProjectionMatrix();
-	float4x4 transMatrix = my_go->GetGlobalMatrix().Transposed();
+	math::float4x4 viewMatrix = camera.GetOpenGLViewMatrix();
+	math::float4x4 projMatrix = camera.GetOpenGLProjectionMatrix();
+	math::float4x4 transMatrix = my_go->GetGlobalMatrix().Transposed();
 	
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);

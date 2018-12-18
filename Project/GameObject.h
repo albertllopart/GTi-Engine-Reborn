@@ -40,13 +40,13 @@ public:
 	void UpdateBBox();
 	bool RemoveComponent(COMPONENT_TYPE type, int position);
 	void DrawBBox(ComponentMesh* c_mesh);
-	void DrawBBox(AABB * bboc);
+	void DrawBBox(math::AABB * bboc);
 
 	GameObject* GetParent() const;
 	void SetParent(GameObject* new_parent);
 	Component* FindComponent(COMPONENT_TYPE type) const;
-	float4x4 GetTransMatrix()const;
-	float4x4 GetGlobalMatrix() const;
+	math::float4x4 GetTransMatrix()const;
+	math::float4x4 GetGlobalMatrix() const;
 
 	std::vector<GameObject*> GetChilds() const;
 	std::vector<Component*> GetComponents() const;
@@ -58,7 +58,7 @@ public:
 	void GetSceneGameObjects(std::vector<GameObject*>& SceneGameObjects) const; //method for root, to get all gameobjects in scene
 	bool RemoveGameObject(GameObject * to_remove);
 	void CleanRemove();
-	AABB* GetBBox();
+	math::AABB* GetBBox();
 	ComponentTransform* GetTransform();
 	//save
 	bool OnSave(JSON_Value* array) const;
@@ -79,7 +79,7 @@ public:
 	std::string name;
 	std::vector<Component*> components;
 	std::vector<GameObject*> childs;
-	AABB* bbox = nullptr; //only if we have a mesh
+	math::AABB* bbox = nullptr; //only if we have a mesh
 
 	bool is_static = false; 
 	bool active = true;

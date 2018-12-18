@@ -39,8 +39,8 @@ bool ModuleSceneEditor::Start()
 	root->childs[0]->name = "Main Camera";
 	root->childs[0]->AddComponent(COMPONENT_TRANSFORM);
 	main_camera = (ComponentCamera*)root->childs[0]->AddComponent(COMPONENT_CAMERA);
-	root->childs[0]->GetTransform()->SetPosition(float3(0, 10, -5));
-	root->childs[0]->GetTransform()->rot_quat = Quat(0.238533720, 0, 0, 0.971135378);
+	root->childs[0]->GetTransform()->SetPosition(math::float3(0, 10, -5));
+	root->childs[0]->GetTransform()->rot_quat = math::Quat(0.238533720, 0, 0, 0.971135378);
 	root->childs[0]->GetTransform()->UpdateMatrix();
 
 	return true;
@@ -206,9 +206,9 @@ void ModuleSceneEditor::DeleteScene()
 
 void ModuleSceneEditor::GenQuadtree()
 {
-	const float3 pivot(0.0f, 5.0f, 0.0f);
-	const float3 size(100.0f, 10.0f, 100.0f);
-	AABB boundary;
+	const math::float3 pivot(0.0f, 5.0f, 0.0f);
+	const math::float3 size(100.0f, 10.0f, 100.0f);
+	math::AABB boundary;
 	boundary.SetFromCenterAndSize(pivot, size);
 
 	quadtree.Boundaries(boundary);

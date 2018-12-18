@@ -6,6 +6,7 @@
 
 #include "MathGeoLib/Geometry/AABB.h"
 #include <list>
+#include <vector>
 
 #include "Globals.h"
 
@@ -23,7 +24,7 @@ class QuadtreeNode
 {
 public:
 
-	QuadtreeNode(const AABB bbox, QuadtreeNode* parent = nullptr);
+	QuadtreeNode(const math::AABB bbox, QuadtreeNode* parent = nullptr);
 	virtual ~QuadtreeNode();
 
 	bool IsLeaf();
@@ -41,7 +42,7 @@ public:
 
 public:
 
-	AABB bbox;	
+	math::AABB bbox;
 	std::list<GameObject*> objects;	
 	QuadtreeNode* parent = nullptr; 
 	QuadtreeNode* childs[4]; // TODO try it with 8 (octree)
@@ -56,7 +57,7 @@ public:
 	Quadtree();
 	~Quadtree();
 
-	void Boundaries(AABB limits);
+	void Boundaries(math::AABB limits);
 	void Clear();
 
 	void Remove(GameObject* to_remove);

@@ -20,8 +20,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Look(const float3 &Position);
-	void LookAt(const float3 & position);
+	void Look(const math::float3 &Position);
+	void LookAt(const math::float3 & position);
 	void Move(float dt);
 	void Orbit(float dx, float dy);
 	void Rotate(float dx, float dy);
@@ -33,8 +33,8 @@ public:
 	ComponentCamera* GetCamera() const;
 	ComponentCamera* SetCamera(ComponentCamera* cam);
 
-	float3 GetPosition()const;
-	void SetPosition(float3 pos);
+	math::float3 GetPosition()const;
+	void SetPosition(math::float3 pos);
 	void CenterToMesh(ComponentMesh * mesh);
 
 public:
@@ -43,10 +43,10 @@ public:
 	bool show_ray = false;
 private:
 
-	float3 reference = float3::zero;
-	float3 new_pos = float3::zero;
+	math::float3 reference = math::float3::zero;
+	math::float3 new_pos = math::float3::zero;
 
-	LineSegment picking = LineSegment(float3::zero, float3::zero);
+	math::LineSegment picking = math::LineSegment(math::float3::zero, math::float3::zero);
 
 	MousePicking* mouse_picker = nullptr;
 };

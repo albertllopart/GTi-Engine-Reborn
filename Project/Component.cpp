@@ -67,7 +67,7 @@ void Component::ShowInspectorWindow()
 	
 }
 
-void Component::OnUpdateMatrix(const float4x4 mat)
+void Component::OnUpdateMatrix(const math::float4x4 mat)
 {
 }
 

@@ -10,6 +10,7 @@
 #include "Assimp\include\scene.h" 
 #include "Assimp\include\postprocess.h" 
 #include "Assimp\include\cfileio.h"
+#include "MathGeoLib/Math/float3.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -172,10 +173,10 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 	aiVector3D sca;
 	aiQuaternion quat;
 	node->mTransformation.Decompose(sca, quat, pos);
-
-	float3 position = { pos.x, pos.y, pos.z };
-	float3 scale = { sca.x, sca.y, sca.z };
-	Quat quaternion = { quat.x, quat.y, quat.z, quat.w };
+	
+	math::float3 position = { pos.x, pos.y, pos.z };
+	math::float3 scale = { sca.x, sca.y, sca.z };
+	math::Quat quaternion = { quat.x, quat.y, quat.z, quat.w };
 
 	if (!isTransform)
 	{
@@ -309,7 +310,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		mesh->mesh->mesh.size_of_VBO = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
 		mesh->mesh->mesh.vertex_info = new float[mesh->mesh->mesh.size_of_VBO ];
 		float* cursor = mesh->mesh->mesh.vertex_info;
-		float3 white = float3(1.0f, 1.0f, 1.0f);
+		math::float3 white = math::float3(1.0f, 1.0f, 1.0f);
 
 		for (int i = 0; i < mesh->mesh->mesh.num_vertex; ++i)
 		{
@@ -342,7 +343,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 	}
 
 	mesh->mesh->mesh.bbox.SetNegativeInfinity();
-	mesh->mesh->mesh.bbox.Enclose((float3*)mesh->mesh->mesh.vertex, mesh->mesh->mesh.num_vertex);
+	mesh->mesh->mesh.bbox.Enclose((math::float3*)mesh->mesh->mesh.vertex, mesh->mesh->mesh.num_vertex);
 
 	RELEASE_ARRAY(buffer);
 

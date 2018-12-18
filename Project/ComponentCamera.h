@@ -18,31 +18,31 @@ public:
 	//getters
 	float* GetViewMatrix()const;
 	float* GetProjectionMatrix()const;
-	Frustum GetFrustum() const;
+	math::Frustum GetFrustum() const;
 	math::float4x4 GetOpenGLViewMatrix();
 	math::float4x4 GetOpenGLProjectionMatrix();
 	float GetAspectRatio() const;
 
 	//setters
-	void SetPos(float3 pos);
+	void SetPos(math::float3 pos);
 	void SetAspectRatio(float ratio);
 	void SetFov();
 	void SetVerticalFOV(float value);
 	
 	void OnEditor();
 	void ShowInspectorWindow();
-	void OnUpdateMatrix(const float4x4 & matrix);
+	void OnUpdateMatrix(const math::float4x4 & matrix);
 	void UpdateMatrix();
 	void DrawDebug() const;
 	void Culling()const;
 
-	void Look(const float3& position);
+	void Look(const math::float3& position);
 
 	bool OnSave(JSON_Value* array, uint go_uid);
 	bool OnLoad(JSONConfig data);
 
 	bool update_mat = false;
-	Frustum frustum;
+	math::Frustum frustum;
 	bool projection_changed = false;
 
 public:
@@ -54,8 +54,8 @@ public:
 
 	GameObject* scene_go = nullptr;
 
-	float4x4 view_matrix = float4x4::zero;
-	float4x4 projection_matrix = float4x4::zero;
+	math::float4x4 view_matrix = math::float4x4::zero;
+	math::float4x4 projection_matrix = math::float4x4::zero;
 
 };
 

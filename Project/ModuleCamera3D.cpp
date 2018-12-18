@@ -12,7 +12,7 @@
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
-	picking = LineSegment(float3::zero, float3::unitY);
+	picking = math::LineSegment(math::float3::zero, math::float3::unitY);
 	mouse_picker = new MousePicking();
 }
 
@@ -102,7 +102,7 @@ update_status ModuleCamera3D::Update(float dt)
 			if (App->editor->GetSelected() != nullptr && App->editor->GetSelected() != App->editor->GetRoot())
 				reference = App->editor->GetSelected()->GetTransform()->GetPosition();
 			else
-				reference = float3::zero;
+				reference = math::float3::zero;
 
 			Orbit(dx, dy);
 		}
@@ -125,7 +125,7 @@ update_status ModuleCamera3D::Update(float dt)
 }
 
 // -----------------------------------------------------------------
-void ModuleCamera3D::Look(const float3& position)
+void ModuleCamera3D::Look(const math::float3& position)
 {
 	camera->Look(position);
 }
@@ -140,19 +140,19 @@ void ModuleCamera3D::Move(float dt)
 		speed = 2.0f * dt;
 	}
 
-	float3 right(camera->frustum.WorldRight());
-	float3 forward(camera->frustum.front);
+	math::float3 right(camera->frustum.WorldRight());
+	math::float3 forward(camera->frustum.front);
 
-	float3 movement(float3::zero);
+	math::float3 movement(math::float3::zero);
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) movement += forward;
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) movement -= forward;
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) movement -= right;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) movement += right;
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement += float3::unitY;
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) movement -= float3::unitY;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement += math::float3::unitY;
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) movement -= math::float3::unitY;
 
-	if (movement.Equals(float3::zero) == false)
+	if (movement.Equals(math::float3::zero) == false)
 	{
 		camera->frustum.Translate(movement * speed);
 	}
@@ -162,10 +162,10 @@ void ModuleCamera3D::Move(float dt)
 
 void ModuleCamera3D::Orbit(float dx, float dy)
 {
-	float3 point = camera->GetFrustum().pos - reference;
+	math::float3 point = camera->GetFrustum().pos - reference;
 
-	Quat quatx(camera->GetFrustum().WorldRight(), dy * 0.01f);
-	Quat quaty(camera->GetFrustum().up, dx * 0.01f);
+	math::Quat quatx(camera->GetFrustum().WorldRight(), dy * 0.01f);
+	math::Quat quaty(camera->GetFrustum().up, dx * 0.01f);
 
 	point = quatx.Transform(point);
 	point = quaty.Transform(point);
@@ -179,18 +179,18 @@ void ModuleCamera3D::Rotate(float dx, float dy)
 {
 	if (dx != 0.0f)
 	{
-		Quat quat_x = Quat::RotateY(0.3*dx*DEGTORAD);
+		math::Quat quat_x = math::Quat::RotateY(0.3*dx*DEGTORAD);
 		camera->frustum.front = quat_x.Transform(camera->frustum.front).Normalized();
 		camera->frustum.up = quat_x.Transform(camera->frustum.up).Normalized();
 	}
 
 	if (dy != 0.0f)
 	{
-		Quat quat_y = Quat::RotateAxisAngle(camera->frustum.WorldRight(), -0.3*dy * DEGTORAD);
+		math::Quat quat_y = math::Quat::RotateAxisAngle(camera->frustum.WorldRight(), -0.3*dy * DEGTORAD);
 		camera->frustum.up = quat_y.Transform(camera->frustum.up).Normalized();
 		camera->frustum.front = quat_y.Transform(camera->frustum.front).Normalized();
 
-		float3 new_axis = quat_y.Mul(camera->frustum.up).Normalized();
+		math::float3 new_axis = quat_y.Mul(camera->frustum.up).Normalized();
 
 		if (new_axis.y != 0)
 		{
@@ -199,7 +199,7 @@ void ModuleCamera3D::Rotate(float dx, float dy)
 		}
 	}
 
-	float3 distance = reference - camera->frustum.pos;
+	math::float3 distance = reference - camera->frustum.pos;
 	reference = camera->frustum.pos + (camera->frustum.front.Normalized() * distance.Length());
 	camera->UpdateMatrix();
 }
@@ -207,12 +207,12 @@ void ModuleCamera3D::Rotate(float dx, float dy)
 void ModuleCamera3D::Zoom(float zoom)
 {
 	float distance = reference.Distance(camera->frustum.pos);
-	float3 new_pos = camera->frustum.pos + camera->frustum.front * zoom * distance * 0.05f;
+	math::float3 new_pos = camera->frustum.pos + camera->frustum.front * zoom * distance * 0.05f;
 	camera->frustum.pos = new_pos;
 	camera->UpdateMatrix();
 }
 
-void ModuleCamera3D::LookAt(const float3& position)
+void ModuleCamera3D::LookAt(const math::float3& position)
 {
 	camera->Look(position);
 	reference = position;
@@ -245,14 +245,14 @@ ComponentCamera * ModuleCamera3D::SetCamera(ComponentCamera * cam)
 //}
 // -----------------------------------------------------------------
 
-float3 ModuleCamera3D::GetPosition() const
+math::float3 ModuleCamera3D::GetPosition() const
 {
 	return camera->GetFrustum().pos;
 }
 
-void ModuleCamera3D::SetPosition(float3 pos)
+void ModuleCamera3D::SetPosition(math::float3 pos)
 {
-	float3 difference = pos - camera->frustum.pos;
+	math::float3 difference = pos - camera->frustum.pos;
 	camera->frustum.pos = pos;
 	reference += difference;
 }
@@ -261,10 +261,10 @@ void ModuleCamera3D::CenterToMesh(ComponentMesh * mesh)
 {
 	if (mesh != nullptr)
 	{
-		float3 temp = mesh->mesh->mesh.bbox.Centroid();
-		float3 size = mesh->mesh->mesh.bbox.Size() * 0.5f;
-		SetPosition(float3(temp.x + size.x, temp.y + size.y, temp.z + 5.0f + size.z));
-		reference = float3(temp.x + size.x, temp.y + size.y, temp.z + size.z);
-		LookAt(float3(temp.x, temp.y, temp.z));
+		math::float3 temp = mesh->mesh->mesh.bbox.Centroid();
+		math::float3 size = mesh->mesh->mesh.bbox.Size() * 0.5f;
+		SetPosition(math::float3(temp.x + size.x, temp.y + size.y, temp.z + 5.0f + size.z));
+		reference = math::float3(temp.x + size.x, temp.y + size.y, temp.z + size.z);
+		LookAt(math::float3(temp.x, temp.y, temp.z));
 	}
 }

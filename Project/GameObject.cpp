@@ -309,9 +309,9 @@ void GameObject::UpdateBBox()
 			if (c_mesh->mesh != nullptr)
 			{
 				c_mesh->mesh->mesh.bbox.SetNegativeInfinity();
-				c_mesh->mesh->mesh.bbox.Enclose((float3*)c_mesh->mesh->mesh.vertex, c_mesh->mesh->mesh.num_vertex); //crash #2
+				c_mesh->mesh->mesh.bbox.Enclose((math::float3*)c_mesh->mesh->mesh.vertex, c_mesh->mesh->mesh.num_vertex); //crash #2
 				//we create the obb if we transform the gmaeobject
-				OBB obb;
+				math::OBB obb;
 				obb.SetFrom(c_mesh->mesh->mesh.bbox);
 				if (my_transform != nullptr)
 				{
@@ -339,7 +339,7 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 {
 	if (show_bbox && c_mesh != nullptr)
 	{
-		float3 bbox_vertex[8];
+		math::float3 bbox_vertex[8];
 		c_mesh->mesh->mesh.bbox.GetCornerPoints(bbox_vertex);
 		this->bbox = &c_mesh->mesh->mesh.bbox;
 
@@ -351,7 +351,7 @@ void GameObject::DrawBBox(ComponentMesh* c_mesh)
 	}
 }
 
-void GameObject::DrawBBox(AABB* bbox) //PREGUNTAR RICARD
+void GameObject::DrawBBox(math::AABB* bbox) //PREGUNTAR RICARD
 {
 	if (bbox != nullptr)
 	{
@@ -373,7 +373,7 @@ void GameObject::DrawBBox(AABB* bbox) //PREGUNTAR RICARD
 		LOG("Couldn't draw BoundingBox!!");
 }
 
-AABB * GameObject::GetBBox()
+math::AABB * GameObject::GetBBox()
 {
 	for (uint i = 0; i < components.size(); i++)
 	{
@@ -384,7 +384,7 @@ AABB * GameObject::GetBBox()
 			if (c_mesh->mesh != nullptr)
 			{
 				c_mesh->mesh->mesh.bbox.SetNegativeInfinity();
-				c_mesh->mesh->mesh.bbox.Enclose((float3*)c_mesh->mesh->mesh.vertex, c_mesh->mesh->mesh.num_vertex); //crash #2
+				c_mesh->mesh->mesh.bbox.Enclose((math::float3*)c_mesh->mesh->mesh.vertex, c_mesh->mesh->mesh.num_vertex); //crash #2
 				return &c_mesh->mesh->mesh.bbox;
 			}
 		}
@@ -428,18 +428,18 @@ Component * GameObject::FindComponent(COMPONENT_TYPE type) const
 	return nullptr;;
 }
 
-float4x4 GameObject::GetTransMatrix()const
+math::float4x4 GameObject::GetTransMatrix()const
 {
 	if (my_transform != nullptr)
 	{
 		return my_transform->GetTransposedGlobalMatrix();
 	}
-	return float4x4::zero;
+	return math::float4x4::zero;
 }
 
-float4x4 GameObject::GetGlobalMatrix() const
+math::float4x4 GameObject::GetGlobalMatrix() const
 {
-	float4x4 ret = float4x4::identity;
+	math::float4x4 ret = math::float4x4::identity;
 
 	ComponentTransform* my_trans = (ComponentTransform*)FindComponent(COMPONENT_TRANSFORM);
 

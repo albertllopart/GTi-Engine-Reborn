@@ -16,7 +16,7 @@ MousePicking::~MousePicking()
 
 }
 
-LineSegment MousePicking::RayfromMouse(int x, int y)
+math::LineSegment MousePicking::RayfromMouse(int x, int y)
 {
 	UpdateScreenSize();
 	/*numbers between 0.0 and 1.0 representing where the mouse
@@ -64,23 +64,23 @@ GameObject* MousePicking::PickFromRay() const
 	//check every mesh triangle
 	for (int i = 0; i < collided.size(); i++)
 	{
-		LineSegment local_ray = my_ray;
+		math::LineSegment local_ray = my_ray;
 		local_ray.Transform(collided[i]->GetGlobalMatrix().Inverted());
 
 		ComponentMesh* mesh = (ComponentMesh*)collided[i]->FindComponent(COMPONENT_MESH);
 
 		for (int j = 0; j < mesh->mesh->mesh.num_index; j++)
 		{
-			Triangle triangle;
+			math::Triangle triangle;
 
-			triangle.a = float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
+			triangle.a = math::float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
 			j++;
-			triangle.b = float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
+			triangle.b = math::float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
 			j++;
-			triangle.c = float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
+			triangle.c = math::float3(mesh->mesh->mesh.vertex[j * 3], mesh->mesh->mesh.vertex[j * 3 + 1], mesh->mesh->mesh.vertex[j * 3 + 2]);
 
 			float distance = 10000.0f;
-			float3 hit_point;
+			math::float3 hit_point;
 
 			if (local_ray.Intersects(triangle, &distance, &hit_point))
 			{

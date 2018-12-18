@@ -11,11 +11,11 @@ ComponentCamera::ComponentCamera():Component(COMPONENT_CAMERA)
 {
 	name = "Camera";
 
-	frustum.type = PerspectiveFrustum;
+	frustum.type = math::PerspectiveFrustum;
 
-	frustum.pos = float3::zero;
-	frustum.front = float3::unitZ;
-	frustum.up = float3::unitY;
+	frustum.pos = math::float3::zero;
+	frustum.front = math::float3::unitZ;
+	frustum.up = math::float3::unitY;
 
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 70.0f;
@@ -41,7 +41,7 @@ void ComponentCamera::Update()
 	}
 }
 
-void ComponentCamera::SetPos(float3 pos)
+void ComponentCamera::SetPos(math::float3 pos)
 {
 	frustum.pos = pos;
 }
@@ -128,7 +128,7 @@ void ComponentCamera::ShowInspectorWindow()
 		}
 }
 
-void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
+void ComponentCamera::OnUpdateMatrix(const math::float4x4 & matrix)
 {
 	if (this != nullptr)
 	{
@@ -200,16 +200,16 @@ float * ComponentCamera::GetViewMatrix() const
 	return (float*)view_matrix.v;
 }
 
-Frustum  ComponentCamera::GetFrustum() const
+math::Frustum  ComponentCamera::GetFrustum() const
 {
 	return frustum;
 }
 
-void ComponentCamera::Look(const float3& position)
+void ComponentCamera::Look(const math::float3& position)
 {
-	float3 dir = position - frustum.pos;
+	math::float3 dir = position - frustum.pos;
 
-	float3x3 matrix = float3x3::LookAt(frustum.front, dir.Normalized(), frustum.up, float3::unitY);
+	math::float3x3 matrix = math::float3x3::LookAt(frustum.front, dir.Normalized(), frustum.up, math::float3::unitY);
 
 	frustum.front = matrix.MulDir(frustum.front).Normalized();
 	frustum.up = matrix.MulDir(frustum.up).Normalized();
@@ -217,7 +217,7 @@ void ComponentCamera::Look(const float3& position)
 
 math::float4x4 ComponentCamera::GetOpenGLViewMatrix()
 {
-	static float4x4 m;
+	static math::float4x4 m;
 
 	m = frustum.ViewMatrix();
 	m.Transpose();
@@ -227,7 +227,7 @@ math::float4x4 ComponentCamera::GetOpenGLViewMatrix()
 
 math::float4x4 ComponentCamera::GetOpenGLProjectionMatrix()
 {
-	static float4x4 m;
+	static math::float4x4 m;
 
 	m = frustum.ProjectionMatrix();
 	m.Transpose();

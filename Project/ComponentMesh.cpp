@@ -72,7 +72,7 @@ void ComponentMesh::ShowInspectorWindow()
 	}
 }
 
-float3 ComponentMesh::GetCenter() const
+math::float3 ComponentMesh::GetCenter() const
 {
 	return mesh->mesh.bbox.Centroid();
 }
