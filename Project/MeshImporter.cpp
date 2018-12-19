@@ -346,7 +346,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		mesh->mesh->mesh.vertex_info = new char[size_buffer];
 		memset(mesh->mesh->mesh.vertex_info, 0, size_buffer);
 		char* cursor = mesh->mesh->mesh.vertex_info;
-		uint bytes = 0;
+		bytes = 0;
 
 		for (int i = 0; i < mesh->mesh->mesh.num_vertex; i++) {
 			

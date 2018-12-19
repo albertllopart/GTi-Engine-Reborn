@@ -45,6 +45,8 @@ public:
 	void SetWireFrame();
 	void RefreshProjection();
 
+	void UseTexture(uint shader_id = 0, uint i = 0, uint num = 0);
+
 	void SetCamera(ComponentCamera * cam);
 	void SetMainCamera(ComponentCamera * cam);
 
@@ -65,6 +67,9 @@ public:
 
 	ComponentCamera* camera = nullptr;
 	ShaderProgramManager* shaders_manager = nullptr;
+
+	//shaders
+	uint DefaultTexture;
 };
 
 #endif
