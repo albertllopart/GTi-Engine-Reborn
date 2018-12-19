@@ -221,7 +221,10 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	if (to_draw->GetMyGo()->visible)
 	{
-
+		if (to_draw->mesh->IsLoaded())
+		{
+			to_draw->mesh->LoadInMemory();
+		}
 		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
 			ComponentMaterial* temp = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
@@ -239,95 +242,95 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 		}
 		else
 		{
-			const GLchar* def_vertex_shader =
-				"#version 330 core\n"
-				"\n"
-				"layout (location = 0) in vec3 position;\n"
-				"layout (location = 1) in vec4 normals;\n"
-				"layout (location = 2) in vec4 color;\n"
-				"layout (location = 3) in vec2 texCoord;\n"
-				"\n"
-				"uniform mat4 model_matrix;\n"
-				"uniform mat4 view_matrix;\n"
-				"uniform mat4 proj_matrix;\n"
-				"\n"
-				"out vec4 ourColor;\n"
-				"out vec2 ourTexCoord;\n"
-				"\n"
-				"void main()\n"
-				"{\n"
-				"    ourTexCoord = texCoord;\n"
-				"    ourColor = color;\n"
-				"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
-				"}\n";
+			//const GLchar* def_vertex_shader =
+			//	"#version 330 core\n"
+			//	"\n"
+			//	"layout (location = 0) in vec3 position;\n"
+			//	"layout (location = 1) in vec4 normals;\n"
+			//	"layout (location = 2) in vec4 color;\n"
+			//	"layout (location = 3) in vec2 texCoord;\n"
+			//	"\n"
+			//	"uniform mat4 model_matrix;\n"
+			//	"uniform mat4 view_matrix;\n"
+			//	"uniform mat4 proj_matrix;\n"
+			//	"\n"
+			//	"out vec4 ourColor;\n"
+			//	"out vec2 ourTexCoord;\n"
+			//	"\n"
+			//	"void main()\n"
+			//	"{\n"
+			//	"    ourTexCoord = texCoord;\n"
+			//	"    ourColor = color;\n"
+			//	"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
+			//	"}\n";
 
-				GLuint object1 = glCreateShader(GL_VERTEX_SHADER);
-				glShaderSource(object1, 1, &def_vertex_shader, NULL);
-				glCompileShader(object1);
-				int success;
-				glGetShaderiv(object1, GL_COMPILE_STATUS, &success);
-				if (success == GL_FALSE)
-				{
-					char infoLog[512];
-					glGetShaderInfoLog(object1, 512, NULL, infoLog);
-					App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
-				}
+			//	GLuint object1 = glCreateShader(GL_VERTEX_SHADER);
+			//	glShaderSource(object1, 1, &def_vertex_shader, NULL);
+			//	glCompileShader(object1);
+			//	int success;
+			//	glGetShaderiv(object1, GL_COMPILE_STATUS, &success);
+			//	if (success == GL_FALSE)
+			//	{
+			//		char infoLog[512];
+			//		glGetShaderInfoLog(object1, 512, NULL, infoLog);
+			//		App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
+			//	}
 
-				const GLchar* def_frag_shader =
-					"#version 330 core\n"
-					"\n"
-					"in vec4 ourColor;\n" 
-					"in vec2 ourTexCoord;\n" 
-					"out vec4 FragColor;\n" 
-					"\n"
-					"uniform sampler2D ourTexture_0;\n" 
-					"\n" 
-					"void main()\n" 
-					"{\n" 
-					"     FragColor = texture(ourTexture_0, ourTexCoord);\n" 
-					"}\n";
+			//	const GLchar* def_frag_shader =
+			//		"#version 330 core\n"
+			//		"\n"
+			//		"in vec4 ourColor;\n" 
+			//		"in vec2 ourTexCoord;\n" 
+			//		"out vec4 FragColor;\n" 
+			//		"\n"
+			//		"uniform sampler2D ourTexture_0;\n" 
+			//		"\n" 
+			//		"void main()\n" 
+			//		"{\n" 
+			//		"     FragColor = vec4(1.0,1.0,1.0,1.0);\n" //texture(ourTexture_0, ourTexCoord)
+			//		"}\n";
 
-				GLuint object2 = glCreateShader(GL_FRAGMENT_SHADER);
-				glShaderSource(object2, 1, &def_frag_shader, NULL);
-				glCompileShader(object2);
-				success;
-				glGetShaderiv(object2, GL_COMPILE_STATUS, &success);
-				if (success == GL_FALSE)
-				{
-					char infoLog[512];
-					glGetShaderInfoLog(object2, 512, NULL, infoLog);
-					App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
-				}
+			//	GLuint object2 = glCreateShader(GL_FRAGMENT_SHADER);
+			//	glShaderSource(object2, 1, &def_frag_shader, NULL);
+			//	glCompileShader(object2);
+			//	success;
+			//	glGetShaderiv(object2, GL_COMPILE_STATUS, &success);
+			//	if (success == GL_FALSE)
+			//	{
+			//		char infoLog[512];
+			//		glGetShaderInfoLog(object2, 512, NULL, infoLog);
+			//		App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
+			//	}
 
-				GLuint program = glCreateProgram();
-				glAttachShader(program, object1);
-				glAttachShader(program, object2);
+			//	GLuint program = glCreateProgram();
+			//	glAttachShader(program, object1);
+			//	glAttachShader(program, object2);
 
-				glLinkProgram(program);
-				success;
-				glGetProgramiv(program, GL_LINK_STATUS, &success);
-				if (!success) {
-					char infoLog[512];
-					glGetProgramInfoLog(program, 512, NULL, infoLog);
-					App->imgui->AddConsoleLog(("Shader link error: %s", infoLog));
-				}
+			//	glLinkProgram(program);
+			//	success;
+			//	glGetProgramiv(program, GL_LINK_STATUS, &success);
+			//	if (!success) {
+			//		char infoLog[512];
+			//		glGetProgramInfoLog(program, 512, NULL, infoLog);
+			//		App->imgui->AddConsoleLog(("Shader link error: %s", infoLog));
+			//	}
 			
-
-			glUseProgram(program);
+			ShaderProgram shader = shaders_manager->default_shader;
+			shader.UseProgram();
 			//shaders_manager->programs.begin()._Ptr->_Myval->UseProgram();
 
 			//ComponentCamera* cam = App->camera->GetCamera();
 
-			GLint projLoc = glGetUniformLocation(program, "projection");
+			GLint projLoc = glGetUniformLocation(shader.id_shader_prog, "projection");
 			math::float4x4 projection = App->camera->GetCamera()->GetFrustum().ViewProjMatrix();
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, projection.ptr());
 
 			math::float4x4 view = App->camera->GetCamera()->frustum.ViewMatrix();
-			GLint viewLoc = glGetUniformLocation(program, "view");
+			GLint viewLoc = glGetUniformLocation(shader.id_shader_prog, "view");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view.ptr());
 
 			math::float4x4 model = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
-			GLint modelLoc = glGetUniformLocation(program, "model_matrix");
+			GLint modelLoc = glGetUniformLocation(shader.id_shader_prog, "model_matrix");
 			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, model.ptr());
 
 		}

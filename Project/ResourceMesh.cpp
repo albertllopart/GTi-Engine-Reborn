@@ -36,7 +36,7 @@ void Mesh::CreateVBO()
 {
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size_of_VBO, vertex_info, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size_of_VBO, vertex_info, GL_STATIC_DRAW);//SIZE OF VBO 0!!!!!!!!!!!
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -44,7 +44,7 @@ void Mesh::CreateIBO()
 {
 	glGenBuffers(1, &IBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * num_index, index, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * num_index, index, GL_STATIC_DRAW); //num index = 0!!!;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 

@@ -82,7 +82,7 @@ public:
 		"uniform sampler2D ourTexture;\n"
 		"void main()\n"
 		"{\n"
-		"color = texture(ourTexture, texCoord);\n"
+		"color =  vec4(1.0,1.0,1.0,1.0f);\n"//texture(ourTexture, texCoord)
 		"}\n";
 };
 
