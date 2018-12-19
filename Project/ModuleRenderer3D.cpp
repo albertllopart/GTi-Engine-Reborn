@@ -243,78 +243,80 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	if (to_draw->GetMyGo()->visible)
 	{
-		const GLchar* def_vertex_shader =
-			"#version 330 core\n"
-			"\n"
-			"layout (location = 0) in vec3 position;\n"
-			"layout (location = 1) in vec4 normals;\n"
-			"layout (location = 2) in vec4 color;\n"
-			"layout (location = 3) in vec2 texCoord;\n"
-			"\n"
-			"uniform mat4 model_matrix;\n"
-			"uniform mat4 view_matrix;\n"
-			"uniform mat4 proj_matrix;\n"
-			"\n"
-			"out vec4 ourColor;\n"
-			"out vec2 ourTexCoord;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"    ourTexCoord = texCoord;\n"
-			"    ourColor = color;\n"
-			"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
-			"}\n";
+		//const GLchar* def_vertex_shader =
+		//	"#version 330 core\n"
+		//	"\n"
+		//	"layout (location = 0) in vec3 position;\n"
+		//	"layout (location = 1) in vec4 normals;\n"
+		//	"layout (location = 2) in vec4 color;\n"
+		//	"layout (location = 3) in vec2 texCoord;\n"
+		//	"\n"
+		//	"uniform mat4 model_matrix;\n"
+		//	"uniform mat4 view_matrix;\n"
+		//	"uniform mat4 proj_matrix;\n"
+		//	"\n"
+		//	"out vec4 ourColor;\n"
+		//	"out vec2 ourTexCoord;\n"
+		//	"\n"
+		//	"void main()\n"
+		//	"{\n"
+		//	"    ourTexCoord = texCoord;\n"
+		//	"    ourColor = color;\n"
+		//	"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
+		//	"}\n";
 
-		GLuint object1 = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(object1, 1, &def_vertex_shader, NULL);
-		glCompileShader(object1);
-		int success;
-		glGetShaderiv(object1, GL_COMPILE_STATUS, &success);
-		if (success == GL_FALSE)
-		{
-			char infoLog[512];
-			glGetShaderInfoLog(object1, 512, NULL, infoLog);
-			App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
-		}
+		//GLuint object1 = glCreateShader(GL_VERTEX_SHADER);
+		//glShaderSource(object1, 1, &def_vertex_shader, NULL);
+		//glCompileShader(object1);
+		//int success;
+		//glGetShaderiv(object1, GL_COMPILE_STATUS, &success);
+		//if (success == GL_FALSE)
+		//{
+		//	char infoLog[512];
+		//	glGetShaderInfoLog(object1, 512, NULL, infoLog);
+		//	App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
+		//}
 
-		const GLchar* def_frag_shader =
-			"#version 330 core\n"
-			"\n"
-			"in vec4 ourColor;\n" 
-			"in vec2 ourTexCoord;\n" 
-			"out vec4 FragColor;\n" 
-			"\n"
-			"uniform sampler2D _texture;\n" 
-			"\n" 
-			"void main()\n" 
-			"{\n" 
-			"     FragColor = vec4(1.0,1.0,1.0,1.0);\n" //texture(ourTexture_0, ourTexCoord)
-			"}\n";
+		//const GLchar* def_frag_shader =
+		//	"#version 330 core\n"
+		//	"\n"
+		//	"in vec4 ourColor;\n" 
+		//	"in vec2 ourTexCoord;\n" 
+		//	"out vec4 FragColor;\n" 
+		//	"\n"
+		//	"uniform sampler2D _texture;\n" 
+		//	"\n" 
+		//	"void main()\n" 
+		//	"{\n" 
+		//	"     FragColor = vec4(1.0,1.0,1.0,1.0);\n" //texture(ourTexture_0, ourTexCoord)
+		//	"}\n";
 
-		GLuint object2 = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(object2, 1, &def_frag_shader, NULL);
-		glCompileShader(object2);
-		success;
-		glGetShaderiv(object2, GL_COMPILE_STATUS, &success);
-		if (success == GL_FALSE)
-		{
-			char infoLog[512];
-			glGetShaderInfoLog(object2, 512, NULL, infoLog);
-			App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
-		}
+		//GLuint object2 = glCreateShader(GL_FRAGMENT_SHADER);
+		//glShaderSource(object2, 1, &def_frag_shader, NULL);
+		//glCompileShader(object2);
+		//success;
+		//glGetShaderiv(object2, GL_COMPILE_STATUS, &success);
+		//if (success == GL_FALSE)
+		//{
+		//	char infoLog[512];
+		//	glGetShaderInfoLog(object2, 512, NULL, infoLog);
+		//	App->imgui->AddConsoleLog(("Shader compilation error : %s", infoLog));
+		//}
 
-		GLuint program = glCreateProgram();
-		glAttachShader(program, object1);
-		glAttachShader(program, object2);
+		//GLuint program = glCreateProgram();
+		//glAttachShader(program, object1);
+		//glAttachShader(program, object2);
 
-		glLinkProgram(program);
-		success;
-		glGetProgramiv(program, GL_LINK_STATUS, &success);
-		if (!success) {
-			char infoLog[512];
-			glGetProgramInfoLog(program, 512, NULL, infoLog);
-			App->imgui->AddConsoleLog(("Shader link error: %s", infoLog));
-		}
+		//glLinkProgram(program);
+		//success;
+		//glGetProgramiv(program, GL_LINK_STATUS, &success);
+		//if (!success) {
+		//	char infoLog[512];
+		//	glGetProgramInfoLog(program, 512, NULL, infoLog);
+		//	App->imgui->AddConsoleLog(("Shader link error: %s", infoLog));
+		//}
+		
+		//ShaderProgram* program = &shaders_manager->default_shader;
 
 		uint diffuse_id = DefaultTexture;
 		uint normal_map_id = 0;
@@ -328,13 +330,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			matrixfloat[0][3],matrixfloat[1][3],matrixfloat[2][3],matrixfloat[3][3]
 		};
 
-		glUseProgram(program);
-
-		GLenum error = glGetError();
-
-		if (error != GL_NO_ERROR) {
-			App->imgui->AddConsoleLog("Error binding program shader");
-		}
+		shaders_manager->default_shader.UseProgram();
 
 		uint offset = sizeof(float)* (3 + 3 + 4 + 2);
 		if (to_draw->mesh->mesh.texCoords == nullptr)
@@ -354,30 +350,30 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) * 3)); //normals, 12 bytes from start
 		}
 
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) *(3 + 3 + 2))); //color, 24 bytes from start
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) *(3 + 3))); //color, 24 bytes from start
 
 		if (to_draw->mesh->mesh.texCoords != nullptr) {
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) * (3 + 3))); //texcoords, 40 bytes from start
+			glEnableVertexAttribArray(3);
+			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) * (3 + 3 + 4))); //texcoords, 40 bytes from start
 		}
 
 		if (to_draw->mesh->mesh.id_index != NULL)
 		{
-			glActiveTexture(GL_TEXTURE0);
-			UseTexture(program, diffuse_id, 0);
+			/*glActiveTexture(GL_TEXTURE0);
+			UseTexture(shaders_manager->default_shader.id_shader_prog, diffuse_id, 0);
 			glActiveTexture(GL_TEXTURE1);
-			UseTexture(program, normal_map_id, 1);
+			UseTexture(shaders_manager->default_shader.id_shader_prog, normal_map_id, 1);*/
 
 
-			GLint view2Loc = glGetUniformLocation(program, "view_matrix");
+			GLint view2Loc = glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "view_matrix");
 			math::float4x4 temp = App->camera->camera->GetOpenGLViewMatrix();
-			glUniformMatrix4fv(view2Loc, 1, GL_TRUE, temp.Inverted().ptr());
+			glUniformMatrix4fv(view2Loc, 1, GL_TRUE, temp.ptr());
 
-			GLint modelLoc = glGetUniformLocation(program, "model_matrix");
+			GLint modelLoc = glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "model_matrix");
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, matrix);
 
-			GLint viewLoc = glGetUniformLocation(program, "proj_matrix");
+			GLint viewLoc = glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "proj_matrix");
 			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, App->camera->camera->GetOpenGLProjectionMatrix().ptr());
 
 
@@ -524,8 +520,6 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 		ShowNormals(to_draw);
 	}
-
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ModuleRenderer3D::UseTexture(uint shader_id, uint i, uint num)

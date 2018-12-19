@@ -43,6 +43,8 @@ public:
 	ShaderProgramManager();
 	~ShaderProgramManager();
 
+	bool Update(float dt);
+
 	bool LoadShaderObject(ShaderObject* object);
 	bool UnloadShaderObject(ShaderObject* object);
 
@@ -57,32 +59,36 @@ public:
 	ShaderProgram default_shader;
 
 	const GLchar* def_vertex_shader =
-		"#version 330 core \n"
-		"layout(location = 0) in vec3 position;\n"
-		"layout(location = 1) in vec3 normal;\n"
-		"layout(location = 2) in vec3 color;\n"
-		"layout(location = 3) in vec2 texCoord;\n"
-		"out vec3 ourColor;\n"
-		"out vec2 TexCoord;\n"
-		"uniform mat4 model_matrix;\n"
-		"uniform mat4 view;\n"
-		"uniform mat4 projection;\n"
-		"void main()\n"
-		"{\n"
-		"gl_Position = projection * view * model_matrix * vec4(position, 1.0f);\n"
-		"ourColor = color;\n"
-		"TexCoord = texCoord;\n"
-		"}\n";
+			"#version 330 core\n"
+			"\n"
+			"layout (location = 0) in vec3 position;\n"
+			"layout (location = 1) in vec3 normals;\n"
+			"layout (location = 2) in vec4 color;\n"
+			"layout (location = 3) in vec2 texCoord;\n"
+			"\n"
+			"uniform mat4 model_matrix;\n"
+			"uniform mat4 view_matrix;\n"
+			"uniform mat4 proj_matrix;\n"
+			"\n"
+			"out vec4 ourColor;\n"
+			"out vec2 ourTexCoord;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"    ourTexCoord = texCoord;\n"
+			"    ourColor = color;\n"
+			"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
+			"}\n";
 
 	const GLchar* def_frag_shader =
 		"#version 330 core \n"
 		"in vec3 ourColor;\n"
 		"in vec2 texCoord;\n"
 		"out vec4 color;\n"
-		"uniform sampler2D ourTexture;\n"
+		"uniform sampler2D _texture;\n"
 		"void main()\n"
 		"{\n"
-		"color =  vec4(1.0,1.0,1.0,1.0f);\n"//texture(ourTexture, texCoord)
+		//"color = vec4(1.0,1.0,1.0,1.0);\n"//texture(ourTexture, texCoord)
 		"}\n";
 };
 

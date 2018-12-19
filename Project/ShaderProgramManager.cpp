@@ -12,6 +12,11 @@ ShaderProgramManager::~ShaderProgramManager()
 
 }
 
+bool ShaderProgramManager::Update(float dt)
+{
+	return true;
+}
+
 bool ShaderProgramManager::LoadShaderObject(ShaderObject* object)
 {
 	if (object->type == GTI_FRAGMENT_SHADER)
@@ -97,5 +102,12 @@ bool ShaderProgram::UseProgram()
 {
 	//ONLY ONCE COMPILED
 	glUseProgram(id_shader_prog);
+
+	GLenum error = glGetError();
+
+	if (error != GL_NO_ERROR) {
+		LOG("Error binding shader! %s\n", gluErrorString(error));
+		App->imgui->AddConsoleLog("Error binding program shader");
+	}
 	return true;
 }

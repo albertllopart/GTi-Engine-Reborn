@@ -28,6 +28,9 @@ public:
 	math::float4x4 GetGlobalMatrix()const;
 	math::float4x4 GetTransposedGlobalMatrix()const;
 
+	const math::float4x4 GetMatrix() const;
+	const math::float4x4 GetMyMatrix() const;
+
 	math::float3 GetPosition()const;
 
 	bool OnSave(JSON_Value* array, uint go_uid);

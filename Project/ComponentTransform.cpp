@@ -140,7 +140,8 @@ void ComponentTransform::TransformCamera()
 
 math::float4x4 ComponentTransform::GetGlobalMatrix()const
 {
-	return global_trans_matrix;
+	static math::float4x4 matrix = global_trans_matrix;
+	return matrix;
 }
 
 math::float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
@@ -281,4 +282,22 @@ void ComponentTransform::ShowGizmo(ComponentCamera & camera)
 		UpdateMatrix();
 		needs_update = false;
 	}
+}
+
+const math::float4x4 ComponentTransform::GetMatrix() const
+{
+	if (my_go->GetParent() != nullptr && my_go->GetParent() != App->editor->GetRoot()) 
+	{
+		return my_go->GetParent()->GetTransform()->GetMatrix() * GetMyMatrix();
+	}
+	else 
+	{
+		return GetMyMatrix();
+	}
+}
+
+const math::float4x4 ComponentTransform::GetMyMatrix() const
+{
+	static math::float4x4 matrix = math::float4x4::FromTRS(pos, rot_quat, scale);
+	return matrix;
 }
