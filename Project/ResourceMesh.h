@@ -36,7 +36,7 @@ struct Mesh
 
 	uint size_of_VBO = 0;
 
-	float* vertex_info = nullptr;
+	char* vertex_info = nullptr;
 	uint id_vertex_info = 0;
 
 	GLuint VBO = 0;

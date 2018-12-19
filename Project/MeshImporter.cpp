@@ -307,7 +307,7 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 		}
 
 		//shaders
-		mesh->mesh->mesh.size_of_VBO = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
+		/*mesh->mesh->mesh.size_of_VBO = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
 		mesh->mesh->mesh.vertex_info = new float[mesh->mesh->mesh.size_of_VBO ];
 		float* cursor = mesh->mesh->mesh.vertex_info;
 		math::float3 white = math::float3(1.0f, 1.0f, 1.0f);
@@ -334,12 +334,51 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* mesh)const
 				memcpy(cursor, &mesh->mesh->mesh.texCoords[i * 2], sizeof(float) * 2);
 				cursor += 2 ;
 			}
+		}*/
+
+		uint size_buffer = mesh->mesh->mesh.num_vertex * 3 * sizeof(float) + mesh->mesh->mesh.num_vertex * 4 * sizeof(float);
+		if (mesh->mesh->mesh.normals != nullptr)
+			size_buffer += mesh->mesh->mesh.num_vertex * 3 * sizeof(float);
+		if (mesh->mesh->mesh.texCoords != nullptr)
+			size_buffer += mesh->mesh->mesh.num_vertex * 2 * sizeof(float);
+
+		//Position - Normals - Color - UVS
+		mesh->mesh->mesh.vertex_info = new char[size_buffer];
+		memset(mesh->mesh->mesh.vertex_info, 0, size_buffer);
+		char* cursor = mesh->mesh->mesh.vertex_info;
+		uint bytes = 0;
+
+		for (int i = 0; i < mesh->mesh->mesh.num_vertex; i++) {
+			
+			{
+				bytes = 3 * sizeof(float);
+				memcpy(cursor, &mesh->mesh->mesh.vertex[i * 3], bytes);
+				cursor += bytes;
+			}
+
+			if (mesh->mesh->mesh.normals != nullptr) {
+				bytes = 3 * sizeof(float);
+				memcpy(cursor, &mesh->mesh->mesh.normals[i * 3], bytes);
+				cursor += bytes;
+			}
+
+			{
+				float color[4] = { 1.0f,1.0f,1.0f,1.0f };
+				bytes = 4 * sizeof(float);
+				memcpy(cursor, &color[0], bytes);
+				cursor += bytes;
+			}
+
+			if (mesh->mesh->mesh.texCoords != nullptr) {
+				bytes = 2 * sizeof(float);
+				memcpy(cursor, &mesh->mesh->mesh.texCoords[i * 2], bytes);
+				cursor += bytes;
+			}
 		}
 
-		//uint buffer_size = (mesh->mesh->mesh.num_vertex * 3) * 3 + mesh->mesh->mesh.num_vertex * 2;
-		/*glGenBuffers(1, (GLuint*) &(mesh->mesh->mesh.id_vertex_info));
+		glGenBuffers(1, &mesh->mesh->mesh.id_vertex_info);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->mesh->mesh.id_vertex_info);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * buffer_size, &mesh->mesh->mesh.vertex_info[0], GL_STATIC_DRAW);*/
+		glBufferData(GL_ARRAY_BUFFER, size_buffer, mesh->mesh->mesh.vertex_info, GL_STATIC_DRAW);
 	}
 
 	mesh->mesh->mesh.bbox.SetNegativeInfinity();
