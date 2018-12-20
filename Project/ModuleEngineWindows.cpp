@@ -2,6 +2,7 @@
 #include "E_Windows.h"
 #include "E_Hierarchy.h"
 #include "E_Inspector.h"
+#include "E_TextEditor.h"
 #include "E_Folder.h"
 #include "ImGui/imgui.h"
 
@@ -16,6 +17,8 @@ ModuleEngineWindows::ModuleEngineWindows(Application * app, bool start_enabled):
 	e_windows.push_back(e_inspector);
 	e_folder = new E_Folder(this);
 	e_windows.push_back(e_folder);
+	e_text_editor = new E_TextEditor(this);
+	e_windows.push_back(e_text_editor);
 }
 
 ModuleEngineWindows::~ModuleEngineWindows()
@@ -142,6 +145,10 @@ bool ModuleEngineWindows::CleanUp()
 	e_windows.clear();
 	return ret;
 }
+
+E_TextEditor* ModuleEngineWindows::GetCodeEditor()//add const
+{
+	return e_text_editor;}
 
 LoadFile ModuleEngineWindows::DetermineFileFromPath(const char * path)
 {

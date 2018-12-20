@@ -7,6 +7,7 @@
 #include "Glew\include\glew.h"
 #include "ModuleWindow.h"
 #include "GameObject.h"
+#include "E_TextEditor.h"
 #include "ModuleSceneEditor.h"
 #include "ImGuizmo/ImGuizmo.h"
 #include "SDL/include/SDL_opengl.h"
@@ -117,9 +118,9 @@ update_status ModuleImGui::Update(float dt)
 		}
 		if (ImGui::BeginMenu("View"))
 		{
-			if (ImGui::BeginMenu("Hierarchy", false)) // Disabled
+			if (ImGui::MenuItem("CodeEdit")) 
 			{
-				IM_ASSERT(0);
+				App->e_windows->GetCodeEditor()->code_edit = !App->e_windows->GetCodeEditor()->code_edit;
 			}
 			if (ImGui::MenuItem("Console"))
 			{

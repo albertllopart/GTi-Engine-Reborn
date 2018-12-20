@@ -17,6 +17,7 @@ class E_Windows;
 class E_Hierarchy;
 class E_Inspector;
 class E_Folder;
+class E_TextEditor;
 
 class ModuleEngineWindows : public Module
 {
@@ -35,6 +36,7 @@ public:
 	void WantToLoad(const char* path);
 	bool CleanUp();
 
+	E_TextEditor* GetCodeEditor();
 	LoadFile DetermineFileFromPath(const char * path);
 
 private:
@@ -42,6 +44,7 @@ private:
 	E_Hierarchy* e_hierarchy = nullptr;
 	E_Inspector* e_inspector = nullptr;
 	E_Folder* e_folder = nullptr;
+	E_TextEditor* e_text_editor = nullptr;
 
 	//bool load_window = false;
 
