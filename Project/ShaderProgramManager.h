@@ -66,8 +66,8 @@ public:
 		"layout (location = 2) in vec4 color;\n"
 		"layout (location = 3) in vec2 texCoord;\n"
 		"\n"
-		"uniform mat4 model_matrix;\n"
 		"uniform mat4 view_matrix;\n"
+		"uniform mat4 model_matrix;\n"
 		"uniform mat4 proj_matrix;\n"
 		"\n"
 		"out vec4 ourColor;\n"
@@ -77,7 +77,7 @@ public:
 		"{\n"
 		"    ourTexCoord = texCoord;\n"
 		"    ourColor = color;\n"
-		"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);\n"
+		"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0);\n"
 		"}\n";
 
 	const GLchar* def_frag_shader =
@@ -85,13 +85,13 @@ public:
 		"\n"
 		"in vec4 ourColor;\n"
 		"in vec2 ourTexCoord;\n"
-		"out vec4 gl_FragColor;\n"
+		"out vec4 FragColor;\n"
 		"\n"
 		"uniform sampler2D ourTexture_0;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
+		"     FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
 		"}\n";
 };
 

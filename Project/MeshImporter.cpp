@@ -183,17 +183,14 @@ bool MeshImporter::ImportNodes(const aiScene* scene, const aiNode* node, const G
 		if (transform != nullptr)
 		{
 			go->AddComponent(COMPONENT_TRANSFORM);
-			go->my_transform->SetPosition(transform->my_transform->GetPosition() + position);
-			go->my_transform->rot_quat = transform->my_transform->rot_quat * quaternion;
-			go->my_transform->scale = { transform->my_transform->scale.x * scale.x, transform->my_transform->scale.y * scale.y, transform->my_transform->scale.z * scale.z };
+			go->my_transform->SetTransform({ transform->my_transform->scale.x * scale.x, transform->my_transform->scale.y * scale.y, transform->my_transform->scale.z * scale.z }, transform->my_transform->rot_quat * quaternion, transform->my_transform->GetPosition() + position);
 		}
 		else
 		{
 			go->AddComponent(COMPONENT_TRANSFORM);
-			go->my_transform->SetPosition(position);
-			go->my_transform->rot_quat = quaternion;
-			go->my_transform->scale = scale;
+			go->my_transform->SetTransform(scale, quaternion, position);
 		}
+
 	}
 
 	if (!isTransform && node->mNumMeshes > 0)

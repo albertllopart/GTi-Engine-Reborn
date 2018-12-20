@@ -163,7 +163,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 
 
 	//default shader
-	shaders_manager->CreateDefaultShaderProgram();
+	shaders_manager->default_shader = *shaders_manager->CreateDefaultShaderProgram();
 
 	return ret;
 }
@@ -285,28 +285,23 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 		if (to_draw->mesh->mesh.id_index != NULL)
 		{
-			/*glActiveTexture(GL_TEXTURE0);
-			UseTexture(shaders_manager->default_shader.id_shader_prog, diffuse_id, 0);
-			glActiveTexture(GL_TEXTURE1);
-			UseTexture(shaders_manager->default_shader.id_shader_prog, normal_map_id, 1);*/
-
-
 			GLint view2Loc = glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "view_matrix");
 			math::float4x4 temp = App->camera->camera->GetOpenGLViewMatrix();
-			glUniformMatrix4fv(view2Loc, 1, GL_TRUE, temp.ptr());
+			glUniformMatrix4fv(view2Loc, 1, GL_FALSE, temp.ptr());
 
 			GLint modelLoc = glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "model_matrix");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, to_draw->GetMyGo()->GetTransMatrix().ptr());
+			temp = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
+			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, temp.ptr());
 
 			GLint viewLoc = glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "proj_matrix");
-			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, App->camera->camera->GetOpenGLProjectionMatrix().ptr());
+			temp = App->renderer3D->camera->GetOpenGLProjectionMatrix();
+			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, temp.ptr());
 
 
 			if (to_draw->mesh->mesh.id_index != NULL)
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, to_draw->mesh->mesh.id_index);
 
 			glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
-			glPopMatrix();
 		}
 
 		glBindTexture(GL_TEXTURE_2D, 0);

@@ -140,8 +140,8 @@ void ComponentTransform::TransformCamera()
 
 math::float4x4 ComponentTransform::GetGlobalMatrix()const
 {
-	static math::float4x4 matrix = global_trans_matrix;
-	return matrix;
+
+	return global_trans_matrix;
 }
 
 math::float4x4 ComponentTransform::GetTransposedGlobalMatrix() const
