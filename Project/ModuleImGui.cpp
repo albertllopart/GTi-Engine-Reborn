@@ -72,6 +72,7 @@ update_status ModuleImGui::Update(float dt)
 	{
 		App->editor->want_to_load_scene_no_camera = false;
 		App->editor->LoadScene(App->editor->next_scene.c_str());
+
 	}
 	else if (App->editor->want_to_load_scene)
 	{
@@ -138,7 +139,10 @@ update_status ModuleImGui::Update(float dt)
 		{
 			if (ImGui::MenuItem("Create Empty"))
 			{
-				App->editor->GetSelected()->AddChild(new GameObject());
+				if (App->editor->GetSelected() != nullptr)
+					App->editor->GetSelected()->AddChild(new GameObject());
+				else
+					App->editor->GetRoot()->AddChild(new GameObject());
 			}
 			ImGui::EndMenu();
 		}
