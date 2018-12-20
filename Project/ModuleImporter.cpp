@@ -35,6 +35,9 @@ ModuleImporter::~ModuleImporter()
 bool ModuleImporter::Init(JSON_Object* data)
 {
 	importer = new MeshImporter(IMPORTER_MESH);
+	shader_importer = new ShaderImporter(IMPORTER_SHADER);
+
+	shader_importer->Load("shader", GTI_VERTEX_SHADER);
 
 	struct aiLogStream stream;
 	stream.callback = AssimpCallback;

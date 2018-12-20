@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Module.h"
 #include "MeshImporter.h"
+#include "ShaderImporter.h"
 
 struct aiScene;
 struct aiMesh;
@@ -52,6 +53,7 @@ public:
 	std::string import_path;
 
 	MeshImporter* importer;
+	ShaderImporter* shader_importer;
 	
 	int aiPresset = 0;
 

@@ -10,6 +10,7 @@ enum importer_type
 	IMPORTER_NONE,
 	IMPORTER_MATERIAL,
 	IMPORTER_MESH,
+	IMPORTER_SHADER,
 };
 
 class Importer

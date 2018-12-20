@@ -14,6 +14,8 @@
 #define ASSETS_FOLDER "Assets"
 #define ASSETS_MESHES_FOLDER "Assets/Meshes"
 #define ASSETS_TEXTURE_FOLDER "Assets/Textures"
+#define SHADER_DIRECTORY "Library/Shaders"
+#define SHADER_EXTENSION ".GTIshader"
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -36,6 +38,7 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 	CreateNewDirectory(ASSETS_FOLDER);
 	CreateNewDirectory(ASSETS_MESHES_FOLDER);
 	CreateNewDirectory(ASSETS_TEXTURE_FOLDER);
+	CreateNewDirectory(SHADER_DIRECTORY);
 	
 	return true;
 }
@@ -83,6 +86,16 @@ bool ModuleFileSystem::SaveFile(std::string name, char* buffer, int buffer_size,
 			path += "/";
 			path += name;
 			path += MATERIAL_EXTENSION;
+
+			break;
+		}
+
+		case FILE_SHADER:
+		{
+			path = SHADER_DIRECTORY;
+			path += "/";
+			path += name;
+			path += SHADER_EXTENSION;
 
 			break;
 		}
@@ -137,6 +150,16 @@ bool ModuleFileSystem::LoadFile(const char* name, char** buffer, uint& size, fil
 			path += "/";
 			path += name;
 			path += MATERIAL_EXTENSION;
+
+			break;
+		}
+
+		case FILE_SHADER:
+		{
+			path = SHADER_DIRECTORY;
+			path += "/";
+			path += name;
+			path += SHADER_EXTENSION;
 
 			break;
 		}

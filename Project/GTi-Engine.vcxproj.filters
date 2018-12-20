@@ -423,6 +423,9 @@
     <ClInclude Include="ShaderProgramManager.h">
       <Filter>Sources\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderImporter.h">
+      <Filter>Sources\Importer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -661,6 +664,9 @@
     </ClCompile>
     <ClCompile Include="ShaderProgramManager.cpp">
       <Filter>Sources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderImporter.cpp">
+      <Filter>Sources\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
