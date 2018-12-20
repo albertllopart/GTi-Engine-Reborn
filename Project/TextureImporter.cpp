@@ -158,20 +158,6 @@ uint TextureImporter::Load(const char* file_name)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);		
 
-		//if (mip_map)
-		//{
-		//	//glGenerateMipmap(GL_TEXTURE_2D);
-		//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		//	//GLfloat anisotropic_max;
-		//	//glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &anisotropic_max);
-		//	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropic_max);
-		//}
-		//else
-		//{	
-		//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//}
-
-
 		// Specify the texture specification
 		glTexImage2D(GL_TEXTURE_2D, 				// Type of texture
 			0,				// Pyramid level (for mip-mapping) - 0 is the top level

@@ -87,11 +87,11 @@ public:
 		"in vec2 ourTexCoord;\n"
 		"out vec4 FragColor;\n"
 		"\n"
-		"uniform sampler2D ourTexture_0;\n"
+		"uniform sampler2D ourTexture;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"     FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
+		"     FragColor = texture(ourTexture,ourTexCoord);\n"
 		"}\n";
 };
 

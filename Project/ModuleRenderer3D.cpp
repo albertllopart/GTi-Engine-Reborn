@@ -164,7 +164,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 
 	//default shader
 	shaders_manager->default_shader = *shaders_manager->CreateDefaultShaderProgram();
-
+	DefaultTexture = App->textures->importer->Load("white");
 	return ret;
 }
 
@@ -243,9 +243,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	if (to_draw->GetMyGo()->visible)
 	{
-		uint diffuse_id = DefaultTexture;
-		uint normal_map_id = 0;
-
+		
 		math::float4x4 matrixfloat = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
 		GLfloat matrix[16] =
 		{
@@ -265,6 +263,22 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
+		{
+			ComponentMaterial* text = (ComponentMaterial*)to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL);
+			if (to_draw->mesh->mesh.id_texcoord != 0 && text->IsAlphaTest())
+				glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, text->GetAlphaValue());
+			glBindTexture(GL_TEXTURE_2D, text->GetID());
+			glUniform1i(glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "ourTexture"), 0);
+		}
+		else
+		{
+			glBindTexture(GL_TEXTURE_2D, DefaultTexture);
+			glUniform1i(glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "ourTexture"), 0);
+		}
+
 
 		glBindBuffer(GL_ARRAY_BUFFER, to_draw->mesh->mesh.id_vertex_info);
 		glEnableVertexAttribArray(0);  
@@ -303,6 +317,8 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 			glDrawElements(GL_TRIANGLES, to_draw->mesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
 		}
+
+
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_TEXTURE_2D);
