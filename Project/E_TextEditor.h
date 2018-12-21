@@ -21,6 +21,8 @@ private:
 
 public:
 	bool code_edit = false;
+	bool is_vertex_shader = false;
+	std::string file_name;
 };
 
 #endif //__ENGINE_TEXT_EDITOR__

@@ -122,7 +122,44 @@ void ComponentMaterial::ShowInspectorWindow()
 			if (combo_type)
 			{
 				const char* items[] = { "VertexShader","FragmentShader" };
-				ImGui::Combo("Shaders type", &shaders_type, items, IM_ARRAYSIZE(items));
+				ImGui::Combo("Shader type", &shaders_type, items, IM_ARRAYSIZE(items));
+				if (shaders_type != 2)
+				{
+					ImGui::Text("Shader name:");
+					ImGui::SameLine();
+					char namedit[50];
+					strcpy_s(namedit, 50, "");
+					std::string shader_name;
+					if (ImGui::InputText("##SHADERname", namedit, 50, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+					{
+						shader_name = std::string(namedit).c_str();
+					}
+					if (shader_name != "")
+					{
+						switch (shaders_type)
+						{
+						case 0:
+							App->e_windows->GetCodeEditor()->is_vertex_shader = true;
+							if (namedit != NULL)
+								App->import->shader_importer->NewShaderFile(namedit, GTI_VERTEX_SHADER);
+							break;
+						case 1:
+							App->e_windows->GetCodeEditor()->is_vertex_shader = false;
+							if (namedit != NULL)
+								App->import->shader_importer->NewShaderFile(namedit, GTI_FRAGMENT_SHADER);
+							break;
+						default:
+							return;
+						}
+						App->e_windows->GetCodeEditor()->code_edit = true;
+						App->e_windows->GetCodeEditor()->file_name = shader_name;
+						App->e_windows->GetCodeEditor()->SetEditFile()
+					}
+					if (ImGui::Button("Open editor"))
+					{
+						App->e_windows->GetCodeEditor()->code_edit = !App->e_windows->GetCodeEditor()->code_edit;
+					}
+				}
 			}
 
 		}

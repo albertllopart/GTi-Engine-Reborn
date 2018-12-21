@@ -27,7 +27,7 @@ bool E_Inspector::Draw()
 
 	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w - 350, 20), ImGuiCond_Always);
 
-	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 240), ImGuiCond_Always);
 	ImGui::Begin("Inspector", NULL, flags);
 	ShowComponents();
 	ImGui::End();
