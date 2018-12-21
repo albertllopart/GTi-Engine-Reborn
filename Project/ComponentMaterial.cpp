@@ -153,7 +153,7 @@ void ComponentMaterial::ShowInspectorWindow()
 						}
 						App->e_windows->GetCodeEditor()->code_edit = true;
 						App->e_windows->GetCodeEditor()->file_name = shader_name;
-						App->e_windows->GetCodeEditor()->SetEditFile()
+						//App->e_windows->GetCodeEditor()->SetEditFile()
 					}
 					if (ImGui::Button("Open editor"))
 					{
