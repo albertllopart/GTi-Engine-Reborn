@@ -66,9 +66,10 @@ bool ShaderImporter::Load(const char * exported_file, shader_type type) const
 	return true;
 }
 
-bool ShaderImporter::NewShaderFile(const char * name, shader_type type) const
+std::string ShaderImporter::NewShaderFile(const char * name, shader_type type) const
 {
 	char* buffer;
+	std::string ret("error");
 
 	if (type == GTI_VERTEX_SHADER)
 	{
@@ -89,6 +90,8 @@ bool ShaderImporter::NewShaderFile(const char * name, shader_type type) const
 		uint size = size_calc.length();
 
 		App->filesystem->SaveFile(str_name, (char*)size_calc.c_str(), size, file_type::FILE_VERTEX_SHADER);
+
+		ret = size_calc;
 	}
 	else if (type == GTI_FRAGMENT_SHADER)
 	{
@@ -109,9 +112,11 @@ bool ShaderImporter::NewShaderFile(const char * name, shader_type type) const
 		uint size = size_calc.length();
 
 		App->filesystem->SaveFile(str_name, (char*)size_calc.c_str(), size, file_type::FILE_FRAG_SHADER);
+
+		ret = size_calc;
 	}
 
-	return true;
+	return ret;
 }
 
 
