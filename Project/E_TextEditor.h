@@ -3,7 +3,7 @@
 
 #include "E_Windows.h"
 #include "ImGuiColorTextEdit/TextEditor.h"
-#include "Glew/include/glew.h"
+
 
 class E_TextEditor : public E_Windows
 {
@@ -14,7 +14,7 @@ public:
 
 	bool Draw();
 	void CleanUp();
-	void SetEditFile(GLchar* code);
+	void SetEditFile(std::string code);
 
 private:
 	TextEditor text_editor;
@@ -23,4 +23,4 @@ public:
 	bool code_edit = false;
 };
 
-#endif __ENGINE_TEXT_EDITOR__
+#endif //__ENGINE_TEXT_EDITOR__

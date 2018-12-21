@@ -94,9 +94,11 @@
     <ClInclude Include="E_Folder.h" />
     <ClInclude Include="E_Hierarchy.h" />
     <ClInclude Include="E_Inspector.h" />
+    <ClInclude Include="E_TextEditor.h" />
     <ClInclude Include="E_Windows.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -211,8 +213,10 @@
     <ClCompile Include="E_Folder.cpp" />
     <ClCompile Include="E_Hierarchy.cpp" />
     <ClCompile Include="E_Inspector.cpp" />
+    <ClCompile Include="E_TextEditor.cpp" />
     <ClCompile Include="E_Windows.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />

@@ -35,8 +35,7 @@ void E_TextEditor::CleanUp()
 {
 }
 
-void E_TextEditor::SetEditFile(GLchar* code)
+void E_TextEditor::SetEditFile(std::string code)
 {
-	std::string string = code;
 	text_editor.SetText(code);
 }

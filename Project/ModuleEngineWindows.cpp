@@ -147,6 +147,11 @@ bool ModuleEngineWindows::CleanUp()
 }
 
 
+E_TextEditor * ModuleEngineWindows::GetCodeEditor()
+{
+	return e_text_editor;
+}
+
 LoadFile ModuleEngineWindows::DetermineFileFromPath(const char * path)
 {
 

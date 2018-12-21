@@ -426,6 +426,12 @@
     <ClInclude Include="ShaderImporter.h">
       <Filter>Sources\Importer</Filter>
     </ClInclude>
+    <ClInclude Include="E_TextEditor.h">
+      <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiColorTextEdit\TextEditor.h">
+      <Filter>Sources\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -667,6 +673,12 @@
     </ClCompile>
     <ClCompile Include="ShaderImporter.cpp">
       <Filter>Sources\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="E_TextEditor.cpp">
+      <Filter>Sources\Modules\EngineWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp">
+      <Filter>Sources\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
