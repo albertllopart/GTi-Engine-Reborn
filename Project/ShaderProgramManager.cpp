@@ -86,6 +86,7 @@ ShaderProgram* ShaderProgramManager::CreateShaderProgram()
 
 ShaderProgram* ShaderProgramManager::CreateDefaultShaderProgram()
 {
+	//default shader
 	ShaderObject* default_vertex = new ShaderObject(shader_type::GTI_VERTEX_SHADER);
 	default_vertex->data = (GLchar*)def_vertex_shader;
 	LoadShaderObject(default_vertex);
@@ -95,6 +96,9 @@ ShaderProgram* ShaderProgramManager::CreateDefaultShaderProgram()
 	LoadShaderObject(default_fragment);
 
 	return CreateShaderProgram();
+
+	//sample shader
+
 }
 
 //--------------------------------------------------------------------------------------------------------

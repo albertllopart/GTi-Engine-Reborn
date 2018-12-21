@@ -27,6 +27,10 @@ public:
 	float GetAlphaValue()const;
 	ShaderProgram* GetShader() const;
 
+	//shaders
+	bool sample_shader = false;
+	bool own_shader = false;
+
 private:
 
 	bool alpha_test = false;
@@ -42,8 +46,6 @@ private:
 
 	//shaders
 	ShaderProgram* shader = nullptr;
-	bool sample_shader = false;
-	bool own_shader = false;
 };
 
 #endif //__COMPONENT_MATERIAL_

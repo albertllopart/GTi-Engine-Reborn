@@ -253,8 +253,6 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			matrixfloat[0][3],matrixfloat[1][3],matrixfloat[2][3],matrixfloat[3][3]
 		};
 
-		shaders_manager->default_shader.UseProgram();
-
 		uint offset = sizeof(float)* (3 + 3 + 4 + 2);
 		if (to_draw->mesh->mesh.texCoords == nullptr)
 			offset -= sizeof(float) * 2;
@@ -272,9 +270,20 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glAlphaFunc(GL_GREATER, text->GetAlphaValue());
 			glBindTexture(GL_TEXTURE_2D, text->GetID());
 			glUniform1i(glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "ourTexture"), 0);
+
+			if (text->sample_shader)
+			{
+				//use sample program
+			}
+			else if (text->own_shader)
+			{
+				//use material own program (editable)
+			}
 		}
 		else
 		{
+			shaders_manager->default_shader.UseProgram();
+
 			glBindTexture(GL_TEXTURE_2D, DefaultTexture);
 			glUniform1i(glGetUniformLocation(shaders_manager->default_shader.id_shader_prog, "ourTexture"), 0);
 		}
