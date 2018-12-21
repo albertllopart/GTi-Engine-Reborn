@@ -15,7 +15,8 @@
 #define ASSETS_MESHES_FOLDER "Assets/Meshes"
 #define ASSETS_TEXTURE_FOLDER "Assets/Textures"
 #define SHADER_DIRECTORY "Library/Shaders"
-#define SHADER_EXTENSION ".GTIshader"
+#define VERTEX_SHADER_EXTENSION ".GTIvertexshader"
+#define FRAG_SHADER_EXTENSION ".GTIfragshader"
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -90,12 +91,22 @@ bool ModuleFileSystem::SaveFile(std::string name, char* buffer, int buffer_size,
 			break;
 		}
 
-		case FILE_SHADER:
+		case FILE_VERTEX_SHADER:
 		{
 			path = SHADER_DIRECTORY;
 			path += "/";
 			path += name;
-			path += SHADER_EXTENSION;
+			path += VERTEX_SHADER_EXTENSION;
+
+			break;
+		}
+
+		case FILE_FRAG_SHADER:
+		{
+			path = SHADER_DIRECTORY;
+			path += "/";
+			path += name;
+			path += FRAG_SHADER_EXTENSION;
 
 			break;
 		}
@@ -154,12 +165,22 @@ bool ModuleFileSystem::LoadFile(const char* name, char** buffer, uint& size, fil
 			break;
 		}
 
-		case FILE_SHADER:
+		case FILE_VERTEX_SHADER:
 		{
 			path = SHADER_DIRECTORY;
 			path += "/";
 			path += name;
-			path += SHADER_EXTENSION;
+			path += VERTEX_SHADER_EXTENSION;
+
+			break;
+		}
+
+		case FILE_FRAG_SHADER:
+		{
+			path = SHADER_DIRECTORY;
+			path += "/";
+			path += name;
+			path += FRAG_SHADER_EXTENSION;
 
 			break;
 		}

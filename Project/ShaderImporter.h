@@ -15,6 +15,7 @@ public:
 
 	bool Import(const char* source, std::string output_file) const;
 	bool Load(const char* exported_file, shader_type type) const;
+	bool NewShaderFile(const char* name, shader_type type) const;
 
 };
 
