@@ -33,24 +33,18 @@ bool ShaderImporter::Import(const char* source, std::string output_file) const
 	return true;
 }
 
-bool ShaderImporter::Load(const char * exported_file, shader_type type) const
+std::string ShaderImporter::Load(const char * exported_file, shader_type type) const
 {
-	uint id = 0;
-	ShaderObject* object;
-	bool result = false;
-
 	char* buffer;
 	uint size = 0;
 
 	if (type == GTI_VERTEX_SHADER)
 	{
-		object = new ShaderObject(GTI_VERTEX_SHADER);
-		result = App->filesystem->LoadFile(exported_file, &buffer, size, FILE_VERTEX_SHADER);
+		App->filesystem->LoadFile(exported_file, &buffer, size, FILE_VERTEX_SHADER);
 	}
 	else if (type == GTI_FRAGMENT_SHADER)
 	{
-		object = new ShaderObject(GTI_FRAGMENT_SHADER);
-		result = App->filesystem->LoadFile(exported_file, &buffer, size, FILE_FRAG_SHADER);
+		App->filesystem->LoadFile(exported_file, &buffer, size, FILE_FRAG_SHADER);
 	}
 
 	std::string clean(buffer);
@@ -58,12 +52,7 @@ bool ShaderImporter::Load(const char * exported_file, shader_type type) const
 	clean.erase(std::remove(clean.begin(), clean.end(), '\r'), clean.end());
 	clean.erase(std::remove(clean.begin(), clean.end(), 'ý'), clean.end());
 
-	if (result)
-	{
-		object->data = (GLchar*)clean.c_str();
-	}
-
-	return true;
+	return clean;
 }
 
 std::string ShaderImporter::NewShaderFile(const char * name, shader_type type) const
@@ -114,6 +103,33 @@ std::string ShaderImporter::NewShaderFile(const char * name, shader_type type) c
 		App->filesystem->SaveFile(str_name, (char*)size_calc.c_str(), size, file_type::FILE_FRAG_SHADER);
 
 		ret = size_calc;
+	}
+
+	return ret;
+}
+
+bool ShaderImporter::SaveShaderFile(const char * name, std::string buffer, shader_type type) const
+{
+	bool ret = false;
+
+	for (int i = 0; i < buffer.length(); i++)
+	{
+		if (buffer[i] == '\n')
+		{
+			buffer.insert(buffer.begin() + i, '\r');
+			i++;
+		}
+	}
+
+	uint size = buffer.length();
+
+	if (type == GTI_VERTEX_SHADER)
+	{
+		ret = App->filesystem->SaveFile(name, (char*)buffer.c_str(), size, file_type::FILE_VERTEX_SHADER);
+	}
+	else if (type == GTI_FRAGMENT_SHADER)
+	{
+		ret = App->filesystem->SaveFile(name, (char*)buffer.c_str(), size, file_type::FILE_FRAG_SHADER);
 	}
 
 	return ret;
