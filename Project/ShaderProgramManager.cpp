@@ -58,16 +58,17 @@ ShaderProgram* ShaderProgramManager::CreateShaderProgram()
 	{
 		glAttachShader(programid, objects[i]->id);
 	}
-	
+
+	glLinkProgram(programid);
+	int success;
+	glGetProgramiv(programid, GL_LINK_STATUS, &success);
+
 	for (int i = 0; i < objects.size(); i++)
 	{
 		RELEASE(objects[i]);
 		objects.erase(objects.begin() + i--);//mirar això urgentment
 	}
 
-	glLinkProgram(programid);
-	int success;
-	glGetProgramiv(programid, GL_LINK_STATUS, &success);
 	if (!success) {
 		char infoLog[512];
 		glGetProgramInfoLog(programid, 512, NULL, infoLog);
