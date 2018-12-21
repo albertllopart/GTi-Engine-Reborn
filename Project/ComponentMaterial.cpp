@@ -101,6 +101,25 @@ void ComponentMaterial::ShowInspectorWindow()
 		{
 			ImGui::SliderFloat("alpha value", &alpha_value, 0.0f, 1.0f, "%.2f");
 		}
+
+		ImGui::Checkbox("Sample Shader", &sample_shader);
+
+		if (sample_shader)
+		{
+			own_shader = false;
+		}
+
+		ImGui::Checkbox("Own Shader", &own_shader);
+
+		if (own_shader)
+		{
+			sample_shader = false;
+			if (ImGui::Button("Edit", ImVec2(100, 0)))
+			{
+				
+			}
+		}
+
 		ImGui::TreePop();
 	}
 }

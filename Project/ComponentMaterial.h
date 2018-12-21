@@ -39,7 +39,11 @@ private:
 	uint tex_height = 0;
 
 	ResourceMaterial* material = nullptr;
+
+	//shaders
 	ShaderProgram* shader = nullptr;
+	bool sample_shader = false;
+	bool own_shader = false;
 };
 
 #endif //__COMPONENT_MATERIAL_
