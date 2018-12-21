@@ -141,19 +141,18 @@ void ComponentMaterial::ShowInspectorWindow()
 						case 0:
 							App->e_windows->GetCodeEditor()->is_vertex_shader = true;
 							if (namedit != NULL)
-								App->import->shader_importer->NewShaderFile(namedit, GTI_VERTEX_SHADER);
+								App->e_windows->GetCodeEditor()->SetEditFile(App->import->shader_importer->NewShaderFile(namedit, GTI_VERTEX_SHADER));
 							break;
 						case 1:
 							App->e_windows->GetCodeEditor()->is_vertex_shader = false;
 							if (namedit != NULL)
-								App->import->shader_importer->NewShaderFile(namedit, GTI_FRAGMENT_SHADER);
+								App->e_windows->GetCodeEditor()->SetEditFile(App->import->shader_importer->NewShaderFile(namedit, GTI_FRAGMENT_SHADER));
 							break;
 						default:
 							return;
 						}
 						App->e_windows->GetCodeEditor()->code_edit = true;
 						App->e_windows->GetCodeEditor()->file_name = shader_name;
-						//App->e_windows->GetCodeEditor()->SetEditFile()
 					}
 					if (ImGui::Button("Open editor"))
 					{

@@ -74,10 +74,29 @@ bool E_TextEditor::Draw()
 			}
 			ImGui::EndMenuBar();
 		}
+
 		if (ImGui::Button("Save & Compile"))
 		{
-
+			ShaderObject* temp;
+			if (is_vertex_shader)
+			{
+				App->import->shader_importer->SaveShaderFile(file_name.c_str(), text_editor.GetText(), GTI_VERTEX_SHADER);
+				temp = new ShaderObject(shader_type::GTI_VERTEX_SHADER);
+				temp->data = (GLchar*)text_editor.GetText().c_str();
+			}
+			else
+			{
+				App->import->shader_importer->SaveShaderFile(file_name.c_str(), text_editor.GetText(), GTI_FRAGMENT_SHADER);
+				temp = new ShaderObject(shader_type::GTI_FRAGMENT_SHADER);
+				temp->data = (GLchar*)text_editor.GetText().c_str();
+			}
+			bool ret = App->renderer3D->shaders_manager->LoadShaderObject(temp);
+			if (!ret)
+			{
+				App->imgui->AddConsoleLog("SHADER CREATER WITH EDITOR NOT LOADED OR COMPILED CORRECTLY!!!");
+			}
 		}
+
 		text_editor.Render("Editor");
 		ImGui::End();
 	}
