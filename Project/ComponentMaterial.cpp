@@ -1,6 +1,7 @@
 #include "ComponentMaterial.h"
 #include "ImGui/imgui.h"
 #include "Application.h"
+#include "E_TextEditor.h"
 #include "JSONConfig.h"
 
 ComponentMaterial::ComponentMaterial(): Component(COMPONENT_MATERIAL)
@@ -116,8 +117,14 @@ void ComponentMaterial::ShowInspectorWindow()
 			sample_shader = false;
 			if (ImGui::Button("Edit", ImVec2(100, 0)))
 			{
-				
+				combo_type = !combo_type;
 			}
+			if (combo_type)
+			{
+				const char* items[] = { "VertexShader","FragmentShader" };
+				ImGui::Combo("Shaders type", &shaders_type, items, IM_ARRAYSIZE(items));
+			}
+
 		}
 
 		ImGui::TreePop();

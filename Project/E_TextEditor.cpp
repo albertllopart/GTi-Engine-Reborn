@@ -15,14 +15,9 @@ bool E_TextEditor::Draw()
 {
 	if (code_edit)
 	{
-		ImGuiWindowFlags flags = 0;
-		flags |= ImGuiWindowFlags_NoCollapse;
-
-
-		ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w - 850, 20), ImGuiCond_Always);
-
-		ImGui::SetNextWindowSize(ImVec2(440, SDL_GetWindowSurface(App->window->window)->h - 550), ImGuiCond_Always);
-		ImGui::Begin("Shaders Editor", NULL, NULL);
+		ImGui::SetNextWindowPos(ImVec2((SDL_GetWindowSurface(App->window->window)->w/2)-300, (SDL_GetWindowSurface(App->window->window)->h / 2)-300));
+		ImGui::SetNextWindowSize(ImVec2(600, SDL_GetWindowSurface(App->window->window)->h - 550), ImGuiCond_Always);
+		ImGui::Begin("Shaders Editor");
 
 		ImGui::End();
 	}

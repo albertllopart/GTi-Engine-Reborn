@@ -46,6 +46,8 @@ private:
 
 	//shaders
 	ShaderProgram* shader = nullptr;
+	bool combo_type = false;
+	int shaders_type = 2;
 };
 
 #endif //__COMPONENT_MATERIAL_
