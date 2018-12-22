@@ -70,6 +70,7 @@ public:
 
 	//shaders
 	uint DefaultTexture;
+	float shader_dt = 0;
 };
 
 #endif

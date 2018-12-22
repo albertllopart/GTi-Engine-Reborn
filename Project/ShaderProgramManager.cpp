@@ -65,9 +65,12 @@ ShaderProgram* ShaderProgramManager::CreateShaderProgram()
 
 	for (int i = 0; i < objects.size(); i++)
 	{
-		RELEASE(objects[i]);
-		objects.erase(objects.begin() + i--);//mirar això urgentment
+		//RELEASE(objects[i]);
+		//objects.erase(objects.begin() + i--);//mirar això urgentment
+		delete objects[i];
+		objects[i] = nullptr;
 	}
+	objects.clear();
 
 	if (!success) {
 		char infoLog[512];

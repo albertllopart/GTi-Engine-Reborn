@@ -163,7 +163,7 @@ void ComponentMaterial::ShowInspectorWindow()
 					{
 						if (ImGui::Button("Create Shader Program"))
 						{
-							App->e_windows->GetCodeEditor()->code_edit = !App->e_windows->GetCodeEditor()->code_edit;
+							shader = App->renderer3D->shaders_manager->CreateShaderProgram();
 						}
 					}
 				}
