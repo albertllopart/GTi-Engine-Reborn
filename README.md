@@ -21,13 +21,20 @@ Our drawing system is all made using shaders.
 
 If a mesh is loaded with no Material a default shader will be used to draw each triangle (white). If you add a component Material to the Game Object that contains the mesh you can choose to either use a Sample Shader (which consists in a cartoonish water inspired by The Legend Of Zelda: The Wind Waker) or to use your own shader. 
 
-If you want to use your own shader you can edit both Vertex and Shader documents by using the inspector. Simply select the type of shader object you wish to edit (Vertex or Fragment) and select edit. A text editor will pop up with a default shader GLSL code. Once you have saved and compiled both a Vertex and a Fragment Shader you can click on "Create Shader Program" to bind them into a program and start using it. 
+If you want to use your own shader you can edit both Vertex and Fragment documents by using the inspector. Simply select the type of shader object you wish to edit (Vertex or Fragment) and press INTRO. A text editor will pop up with a default shader GLSL code. (If you prefer a blank document just click the Open Editor button). Once you have saved and compiled both a Vertex and a Fragment Shader you can click on "Create Shader Program" to bind them into a program and start using it. 
 
 <img src="Web Images/shader_pipeline_1.PNG" alt="hi" class="inline"/>
 
 If you wish to edit a certain object which already exists in Library simply write the name of the file and the Text editor will contain your previously saved GLSL code.
 
-### Module Options
+### Module Configuration
+
+- Application: Here you can check Framerate or even adjust it. Also you can change the name of the App or Organization.
+- Window: Here you can set window brightness, width and height, as well as fullscreen, borderless or full desktop.
+- Camera: Here you can adjust camera frustom parameters and you can also decide to render the raycast that the engine uses in order to do the mouse picking.
+- Renderer: Here you can enable or disable many OpenGL rendering options such as Wireframe mode, Depth test, Cull face, Lighting, Color Material, 2D Textures, Show Normals or Show Quadtree.
+- Textures: Here you can check the textures that you have already loaded in memory.
+- Hardware: This section contains information about PC hardware and also some information about SDL, DeviL and GLSL versions.
 
 ## Camera
 
