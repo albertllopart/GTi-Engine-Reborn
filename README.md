@@ -23,6 +23,8 @@ If a mesh is loaded with no Material a default shader will be used to draw each 
 
 If you want to use your own shader you can edit both Vertex and Shader documents by using the inspector. Simply select the type of shader object you wish to edit (Vertex or Fragment) and select edit. A text editor will pop up with a default shader GLSL code. Once you have saved and compiled both a Vertex and a Fragment Shader you can click on "Create Shader Program" to bind them into a program and start using it. 
 
+<img src="Web Images/shader_pipeline_1.PNG" alt="hi" class="inline"/>
+
 If you wish to edit a certain object which already exists in Library simply write the name of the file and the Text editor will contain your previously saved GLSL code.
 
 ### Module Options
