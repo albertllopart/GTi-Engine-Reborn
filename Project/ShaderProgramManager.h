@@ -91,8 +91,8 @@ public:
 		"	 ourTime = ftime;\n"
 		"	 ourNormal = mat3(model_matrix) * normal;\n"
 		"	 vec3 pos = position;\n"
-		"	 pos.z = position.z + 0.8 * (sin(ftime + pos.x - pos.y) + 0.8 * sin(ftime + pos.x + pos.y));\n"
-		"	 ourPosition = position.z + 0.8 * (sin(time+pos.x-pos.y));\n"
+		"	 pos.z = position.z + 1.4 * (sin(ftime + pos.x - pos.y) + 0.8 * sin(ftime + pos.x + pos.y));\n"
+		"	 ourPosition = position.z + 0.8 * (sin(ftime+pos.x-pos.y));\n"
 		"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(pos, 1.0);\n"
 		"}\n";
 
@@ -110,9 +110,26 @@ public:
 		"\n"
 		"void main()\n"
 		"{\n"
-		"	  FragColor = vec4(0.0,0.0,1.0,1.0);\n"
+		"	 if(ourPosition > 0.6)\n"
+			 "{\n"
+		"	  FragColor = vec4(1.0,1.0,1.0,1.0);\n"
+			 "}\n"
+		"	 else \n"
+			"{\n"
+		"	  FragColor = vec4(ourPosition/4,ourPosition/2,1.0,1.0);\n"
+			"}\n"
+
 		"}\n";
 };
+
+/*		"	 else if(ourPosition > -0.3)\n"
+			"{\n"
+		"	  FragColor = vec4(0.2,0.4,1.0,1.0);\n"
+			"}\n"
+		"	 else if(ourPosition > -1)\n"
+			"{\n"
+		"	  FragColor = vec4(0.1,0.2,1.0,1.0);\n"
+			"}\n"*/
 
 
 
