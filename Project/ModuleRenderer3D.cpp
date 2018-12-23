@@ -176,7 +176,7 @@ bool ModuleRenderer3D::Start()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	shader_dt = dt;
+	shader_dt = App->time->GetRealTime();
 
 	ComponentCamera* cam = App->camera->GetCamera();
 

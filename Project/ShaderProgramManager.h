@@ -80,12 +80,20 @@ public:
 		"\n"
 		"out vec4 ourColor;\n"
 		"out vec2 ourTexCoord;\n"
+		"out float ourPosition;\n"
+		"out float ourTime;\n"
+		"out vec3 ourNormal;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
 		"    ourTexCoord = texCoord;\n"
 		"    ourColor = color;\n"
-		"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0);\n"
+		"	 ourTime = ftime;\n"
+		"	 ourNormal = mat3(model_matrix) * normal;\n"
+		"	 vec3 pos = position;\n"
+		"	 pos.z = position.z + 0.8 * (sin(ftime + pos.x - pos.y) + 0.8 * sin(ftime + pos.x + pos.y));\n"
+		"	 ourPosition = position.z + 0.8 * (sin(time+pos.x-pos.y));\n"
+		"    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(pos, 1.0);\n"
 		"}\n";
 
 	const GLchar* def_frag_shader =
@@ -93,13 +101,16 @@ public:
 		"\n"
 		"in vec4 ourColor;\n"
 		"in vec2 ourTexCoord;\n"
+		"in float ourPosition;\n"
+		"in float ourTime;\n"
+		"in vec3 ourNormal;\n"
 		"out vec4 FragColor;\n"
 		"\n"
 		"uniform sampler2D ourTexture;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"     FragColor = texture(ourTexture,ourTexCoord);\n"
+		"	  FragColor = vec4(0.0,0.0,1.0,1.0);\n"
 		"}\n";
 };
 
