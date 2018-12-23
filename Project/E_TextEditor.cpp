@@ -82,13 +82,13 @@ bool E_TextEditor::Draw()
 			{
 				App->import->shader_importer->SaveShaderFile(file_name.c_str(), text_editor.GetText(), GTI_VERTEX_SHADER);
 				temp = new ShaderObject(shader_type::GTI_VERTEX_SHADER);
-				temp->data = (GLchar*)text_editor.GetText().c_str();
+				temp->UpdateDate(text_editor.GetText().data(), text_editor.GetText().length());
 			}
 			else
 			{
 				App->import->shader_importer->SaveShaderFile(file_name.c_str(), text_editor.GetText(), GTI_FRAGMENT_SHADER);
 				temp = new ShaderObject(shader_type::GTI_FRAGMENT_SHADER);
-				temp->data = (GLchar*)text_editor.GetText().c_str();
+				temp->UpdateDate(text_editor.GetText().data(), text_editor.GetText().length());
 			}
 			bool ret = App->renderer3D->shaders_manager->LoadShaderObject(temp);
 			if (!ret)

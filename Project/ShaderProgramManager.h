@@ -1,6 +1,7 @@
 #ifndef SHADER_PROGRAM_MANAGER_H_
 #define SHADER_PROGRAM_MANAGER_H_
 
+#include "Globals.h"
 #include "Glew/include/glew.h"
 #include <list>
 #include <vector>
@@ -20,11 +21,17 @@ public:
 	}
 	~ShaderObject() {};
 
+	void UpdateDate(const char* code, int lenght)
+	{
+		RELEASE_ARRAY(data);
+		data = new char[lenght + 1];
+		strcpy_s(data, lenght + 1, code);
+	}
 public:
 
 	shader_type type;
 	GLuint id = 0;
-	GLchar* data = nullptr;
+	char* data = nullptr;
 };
 
 class ShaderProgram

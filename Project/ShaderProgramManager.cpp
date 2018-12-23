@@ -115,7 +115,7 @@ bool ShaderProgram::UseProgram()
 
 	if (error != GL_NO_ERROR) {
 		LOG("Error binding shader! %s\n", gluErrorString(error));
-		App->imgui->AddConsoleLog("Error binding program shader");
+		//App->imgui->AddConsoleLog("Error binding program shader");
 	}
 	return true;
 }

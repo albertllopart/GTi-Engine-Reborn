@@ -245,8 +245,6 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 {
 	if (to_draw->GetMyGo()->visible)
 	{
-		ShaderProgram* active_shader = nullptr;
-
 		math::float4x4 matrixfloat = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
 		GLfloat matrix[16] =
 		{
@@ -264,8 +262,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		active_shader = &shaders_manager->default_shader;
-		active_shader->UseProgram();
+
+		ShaderProgram* shader_active = &shaders_manager->default_shader;
+		shader_active->UseProgram();
 
 		if (to_draw->GetMyGo()->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
@@ -281,17 +280,17 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			}
 			else if (text->own_shader)
 			{
-				if (active_shader != nullptr)
-				{
-					active_shader = text->GetShader();
-					active_shader->UseProgram();
-				}
+				shader_active = text->GetShader();
+				if(shader_active!=nullptr)
+					shader_active->UseProgram();
 			}
-			if (active_shader != nullptr)
+
+			if (shader_active != nullptr)
 			{
-				glUniform1i(glGetUniformLocation(active_shader->id_shader_prog, "ourTexture"), 0);
-				glUniform1f(glGetUniformLocation(active_shader->id_shader_prog, "ftime"), shader_dt);
+				glUniform1i(glGetUniformLocation(shader_active->id_shader_prog, "ourTexture"), 0);
+				glUniform1f(glGetUniformLocation(shader_active->id_shader_prog, "ftime"), shader_dt);
 			}
+
 		}
 		else
 		{
@@ -317,17 +316,17 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) * (3 + 3 + 4))); //texcoords, 40 bytes from start
 		}
 
-		if (to_draw->mesh->mesh.id_index != NULL && active_shader != nullptr)
+		if (to_draw->mesh->mesh.id_index != NULL && shader_active != nullptr)
 		{
-			GLint view2Loc = glGetUniformLocation(active_shader->id_shader_prog, "view_matrix");
+			GLint view2Loc = glGetUniformLocation(shader_active->id_shader_prog, "view_matrix");
 			math::float4x4 temp = App->camera->camera->GetOpenGLViewMatrix();
 			glUniformMatrix4fv(view2Loc, 1, GL_FALSE, temp.ptr());
 
-			GLint modelLoc = glGetUniformLocation(active_shader->id_shader_prog, "model_matrix");
+			GLint modelLoc = glGetUniformLocation(shader_active->id_shader_prog, "model_matrix");
 			temp = to_draw->GetMyGo()->GetTransform()->GetGlobalMatrix();
 			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, temp.ptr());
 
-			GLint viewLoc = glGetUniformLocation(active_shader->id_shader_prog, "proj_matrix");
+			GLint viewLoc = glGetUniformLocation(shader_active->id_shader_prog, "proj_matrix");
 			temp = App->renderer3D->camera->GetOpenGLProjectionMatrix();
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, temp.ptr());
 
