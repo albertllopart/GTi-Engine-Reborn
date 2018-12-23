@@ -281,9 +281,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			}
 			else if (text->own_shader)
 			{
-				active_shader = text->GetShader();
 				if (active_shader != nullptr)
 				{
+					active_shader = text->GetShader();
 					active_shader->UseProgram();
 				}
 			}
@@ -317,7 +317,7 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, offset, BUFFER_OFFSET(sizeof(float) * (3 + 3 + 4))); //texcoords, 40 bytes from start
 		}
 
-		if (to_draw->mesh->mesh.id_index != NULL && active_shader->id_shader_prog)
+		if (to_draw->mesh->mesh.id_index != NULL && active_shader != nullptr)
 		{
 			GLint view2Loc = glGetUniformLocation(active_shader->id_shader_prog, "view_matrix");
 			math::float4x4 temp = App->camera->camera->GetOpenGLViewMatrix();
