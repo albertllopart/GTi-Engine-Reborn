@@ -82,6 +82,7 @@ ShaderProgram* ShaderProgramManager::CreateShaderProgram()
 		ShaderProgram* new_program = new ShaderProgram();
 		new_program->id_shader_prog = programid;
 		programs.push_back(new_program);
+		objects.clear();
 		return new_program;
 	}
 	return nullptr;

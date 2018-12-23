@@ -103,7 +103,7 @@ void ComponentMaterial::ShowInspectorWindow()
 			ImGui::SliderFloat("alpha value", &alpha_value, 0.0f, 1.0f, "%.2f");
 		}
 
-		ImGui::Checkbox("Sample Shader", &sample_shader);
+		ImGui::Checkbox("Water Shader", &sample_shader);
 
 		if (sample_shader)
 		{
@@ -141,12 +141,32 @@ void ComponentMaterial::ShowInspectorWindow()
 						case 0:
 							App->e_windows->GetCodeEditor()->is_vertex_shader = true;
 							if (namedit != NULL)
-								App->e_windows->GetCodeEditor()->SetEditFile(App->import->shader_importer->NewShaderFile(namedit, GTI_VERTEX_SHADER));
+							{
+								std::string checker = App->import->shader_importer->Load(namedit, GTI_VERTEX_SHADER);
+								if (checker == "null")
+								{
+									App->e_windows->GetCodeEditor()->SetEditFile(App->import->shader_importer->NewShaderFile(namedit, GTI_VERTEX_SHADER));
+								}
+								else 
+								{
+									App->e_windows->GetCodeEditor()->SetEditFile(checker);
+								}
+							}
 							break;
 						case 1:
 							App->e_windows->GetCodeEditor()->is_vertex_shader = false;
 							if (namedit != NULL)
-								App->e_windows->GetCodeEditor()->SetEditFile(App->import->shader_importer->NewShaderFile(namedit, GTI_FRAGMENT_SHADER));
+							{
+								std::string checker = App->import->shader_importer->Load(namedit, GTI_FRAGMENT_SHADER);
+								if (checker == "null")
+								{
+									App->e_windows->GetCodeEditor()->SetEditFile(App->import->shader_importer->NewShaderFile(namedit, GTI_FRAGMENT_SHADER));
+								}
+								else
+								{
+									App->e_windows->GetCodeEditor()->SetEditFile(checker);
+								}
+							}
 							break;
 						default:
 							return;
