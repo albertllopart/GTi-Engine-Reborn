@@ -60,6 +60,10 @@ If you want to use your own shader you can edit both Vertex and Fragment documen
 
 If you wish to edit a certain object which already exists in Library simply write the name of the file and the Text editor will contain your previously saved GLSL code.
 
+WARNING:
+
+plain.FBX only gets drawn if Left Handed import option is NOT SELECTED. Select any other import option instead.
+
 ### Module Configuration
 
 - Application: Here you can check Framerate or even adjust it. Also you can change the name of the App or Organization.
