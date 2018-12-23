@@ -38,21 +38,28 @@ std::string ShaderImporter::Load(const char * exported_file, shader_type type) c
 	char* buffer;
 	uint size = 0;
 
+	bool check = false;
+
 	if (type == GTI_VERTEX_SHADER)
 	{
-		App->filesystem->LoadFile(exported_file, &buffer, size, FILE_VERTEX_SHADER);
+		check = App->filesystem->LoadFile(exported_file, &buffer, size, FILE_VERTEX_SHADER);
 	}
 	else if (type == GTI_FRAGMENT_SHADER)
 	{
-		App->filesystem->LoadFile(exported_file, &buffer, size, FILE_FRAG_SHADER);
+		check = App->filesystem->LoadFile(exported_file, &buffer, size, FILE_FRAG_SHADER);
 	}
 
-	std::string clean(buffer);
+	if (check)
+	{
+		std::string clean(buffer);
 
-	clean.erase(std::remove(clean.begin(), clean.end(), '\r'), clean.end());
-	clean.erase(std::remove(clean.begin(), clean.end(), 'ý'), clean.end());
+		clean.erase(std::remove(clean.begin(), clean.end(), '\r'), clean.end());
+		clean.erase(std::remove(clean.begin(), clean.end(), 'ý'), clean.end());
 
-	return clean;
+		return clean;
+	}
+
+	return std::string("null");
 }
 
 std::string ShaderImporter::NewShaderFile(const char * name, shader_type type) const
