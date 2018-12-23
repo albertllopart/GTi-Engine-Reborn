@@ -99,9 +99,19 @@ ShaderProgram* ShaderProgramManager::CreateDefaultShaderProgram()
 	LoadShaderObject(default_fragment);
 
 	return CreateShaderProgram();
+}
 
-	//sample shader
+ShaderProgram * ShaderProgramManager::CreateWaterShaderProgram()
+{
+	ShaderObject* water_vertex = new ShaderObject(shader_type::GTI_VERTEX_SHADER);
+	water_vertex->data = (GLchar*)water_vertex_shader;
+	LoadShaderObject(water_vertex);
 
+	ShaderObject* water_fragment = new ShaderObject(shader_type::GTI_FRAGMENT_SHADER);
+	water_fragment->data = (GLchar*)water_frag_shader;
+	LoadShaderObject(water_fragment);
+
+	return CreateShaderProgram();
 }
 
 //--------------------------------------------------------------------------------------------------------

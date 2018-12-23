@@ -164,6 +164,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 
 	//default shader
 	shaders_manager->default_shader = *shaders_manager->CreateDefaultShaderProgram();
+	shaders_manager->water_shader = *shaders_manager->CreateWaterShaderProgram();
 	DefaultTexture = App->textures->importer->Load("white");
 	return ret;
 }
@@ -276,7 +277,9 @@ void ModuleRenderer3D::Draw(ComponentMesh* to_draw)
 
 			if (text->sample_shader)
 			{
-				//use sample program
+				shader_active = &shaders_manager->water_shader;
+				if (shader_active != nullptr)
+					shader_active->UseProgram();
 			}
 			else if (text->own_shader)
 			{
