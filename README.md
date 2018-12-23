@@ -3,7 +3,12 @@
 
 - Engine (https://github.com/albertllopart/GTi-Engine-Reborn) @github repository
 - Marc Fabian (https://github.com/xDragan) @github
+
+<img src="Web Images/marc.PNG" alt="hi" class="inline"/>
+
 - Albert Llopart (https://github.com/albertllopart) @github
+
+<img src="Web Images/albert.PNG" alt="hi" class="inline"/>
 
 This engine uses C++ language.
 
